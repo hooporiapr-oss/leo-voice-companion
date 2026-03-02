@@ -6,346 +6,104 @@
 <title>Leo Admin — POI Manager</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
 <style>
-  :root {
-    --dark: #0a0a0f;
-    --dark2: #12121c;
-    --gold: #FFD700;
-    --orange: #FF6B35;
-    --teal: #00D9A5;
-    --red: #ff4646;
-    --purple: #7B68EE;
-    --green: #32CD32;
-    --card-bg: rgba(18, 18, 28, 0.95);
-    --gradient: linear-gradient(135deg, var(--gold), var(--orange));
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-body: 'Outfit', sans-serif;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: var(--font-body);
-    background: var(--dark);
-    color: #fff;
-    height: 100vh;
-    display: flex;
-    overflow: hidden;
-  }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: 380px;
-    min-width: 380px;
-    background: var(--dark2);
-    border-right: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    z-index: 10;
-  }
-
-  .sidebar-header {
-    padding: 20px 20px 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .sidebar-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .sidebar-brand-icon {
-    width: 36px; height: 36px; border-radius: 10px;
-    background: var(--gradient);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display); font-size: 18px; color: var(--dark);
-  }
-  .sidebar-brand-text {
-    font-family: var(--font-display); font-size: 20px; letter-spacing: 2px;
-    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .sidebar-brand-sub { font-size: 10px; color: rgba(255,255,255,0.3); letter-spacing: 1px; }
-
-  .stats-row {
-    display: flex; gap: 10px;
-  }
-  .stat-box {
-    flex: 1; padding: 10px 12px; border-radius: 10px;
-    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
-    text-align: center;
-  }
-  .stat-num {
-    font-family: var(--font-display); font-size: 24px;
-    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .stat-label { font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 1px; text-transform: uppercase; }
-
-  /* ── FILTERS ── */
-  .filter-bar {
-    padding: 12px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    display: flex; gap: 6px; flex-wrap: wrap;
-  }
-  .filter-chip {
-    padding: 5px 12px; border-radius: 8px;
-    font-size: 11px; cursor: pointer;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: transparent; color: rgba(255,255,255,0.5);
-    transition: all 0.2s;
-  }
-  .filter-chip:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
-  .filter-chip.active { border-color: var(--gold); color: var(--gold); background: rgba(255,215,0,0.08); }
-
-  /* ── POI LIST ── */
-  .poi-list {
-    flex: 1; overflow-y: auto; padding: 12px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255,215,0,0.2) transparent;
-  }
-
-  .poi-card {
-    padding: 14px 16px; border-radius: 14px;
-    background: rgba(255,255,255,0.02);
-    border: 1px solid rgba(255,255,255,0.06);
-    margin-bottom: 8px; cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-  }
-  .poi-card:hover { border-color: rgba(255,215,0,0.2); background: rgba(255,255,255,0.04); }
-  .poi-card.selected { border-color: var(--gold); background: rgba(255,215,0,0.05); }
-  .poi-card.inactive { opacity: 0.4; }
-
-  .poi-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .poi-card-icon { font-size: 20px; }
-  .poi-card-name { font-weight: 600; font-size: 14px; flex: 1; }
-  .poi-card-type {
-    font-size: 9px; padding: 3px 8px; border-radius: 6px;
-    letter-spacing: 0.5px; text-transform: uppercase;
-  }
-  .poi-card-desc { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.4; }
-  .poi-card-coords {
-    font-size: 10px; color: rgba(255,255,255,0.2); margin-top: 6px;
-    font-family: monospace;
-  }
-  .poi-card-actions {
-    position: absolute; top: 12px; right: 12px;
-    display: flex; gap: 6px; opacity: 0; transition: opacity 0.2s;
-  }
-  .poi-card:hover .poi-card-actions { opacity: 1; }
-  .poi-action-btn {
-    width: 26px; height: 26px; border-radius: 6px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(255,255,255,0.05);
-    color: rgba(255,255,255,0.5); cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 12px; transition: all 0.2s;
-  }
-  .poi-action-btn:hover { border-color: var(--gold); color: var(--gold); }
-  .poi-action-btn.delete:hover { border-color: var(--red); color: var(--red); }
-
-  /* ── SIDEBAR FOOTER ── */
-  .sidebar-footer {
-    padding: 14px 20px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex; gap: 8px;
-  }
-  .btn {
-    flex: 1; padding: 10px; border-radius: 10px; border: none;
-    font-family: var(--font-display); font-size: 13px;
-    letter-spacing: 1.5px; cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-  }
-  .btn-primary {
-    background: var(--gradient); color: var(--dark);
-  }
-  .btn-primary:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(255,215,0,0.2); }
-  .btn-secondary {
-    background: transparent; color: rgba(255,255,255,0.5);
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-  .btn-export {
-    background: rgba(0,217,165,0.1); color: var(--teal);
-    border: 1px solid rgba(0,217,165,0.2);
-  }
-  .btn-export:hover { background: rgba(0,217,165,0.15); }
-
-  /* ── MAP AREA ── */
-  .map-area {
-    flex: 1; position: relative;
-  }
-  #adminMap { width: 100%; height: 100%; }
-  .leaflet-tile-pane { filter: saturate(0.35) brightness(0.5) contrast(1.1); }
-
-  /* ── MAP INSTRUCTIONS ── */
-  .map-instructions {
-    position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
-    z-index: 1000;
-    padding: 10px 20px; border-radius: 12px;
-    background: var(--card-bg); border: 1px solid rgba(255,215,0,0.15);
-    backdrop-filter: blur(10px);
-    font-size: 13px; color: rgba(255,255,255,0.7);
-    pointer-events: none;
-    transition: opacity 0.3s;
-  }
-  .map-instructions.hidden { opacity: 0; }
-  .map-instructions span { color: var(--gold); font-weight: 600; }
-
-  /* ── EDIT PANEL (right side overlay) ── */
-  .edit-panel {
-    position: absolute; top: 0; right: 0; bottom: 0;
-    width: 360px; z-index: 1000;
-    background: var(--dark2);
-    border-left: 1px solid rgba(255,255,255,0.06);
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-    display: flex; flex-direction: column;
-    overflow-y: auto;
-  }
-  .edit-panel.open { transform: translateX(0); }
-
-  .edit-header {
-    padding: 20px; display: flex; align-items: center; justify-content: space-between;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-  .edit-title {
-    font-family: var(--font-display); font-size: 20px; letter-spacing: 2px;
-    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .edit-close {
-    width: 32px; height: 32px; border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.1); background: transparent;
-    color: rgba(255,255,255,0.5); cursor: pointer; font-size: 16px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .edit-close:hover { border-color: var(--red); color: var(--red); }
-
-  .edit-body { padding: 20px; flex: 1; }
-
-  .field { margin-bottom: 16px; }
-  .field-label {
-    font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase;
-    color: rgba(255,255,255,0.3); margin-bottom: 6px;
-  }
-  .field-input {
-    width: 100%; padding: 10px 14px; border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.03);
-    color: #fff; font-family: var(--font-body); font-size: 13px;
-    outline: none; transition: border-color 0.3s;
-  }
-  .field-input:focus { border-color: var(--gold); }
-  .field-input::placeholder { color: rgba(255,255,255,0.2); }
-  textarea.field-input { min-height: 80px; resize: vertical; line-height: 1.5; }
-
-  .field-row { display: flex; gap: 10px; }
-  .field-row .field { flex: 1; }
-
-  .type-selector { display: flex; gap: 6px; flex-wrap: wrap; }
-  .type-option {
-    padding: 8px 14px; border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.1); background: transparent;
-    color: rgba(255,255,255,0.5); cursor: pointer; font-size: 12px;
-    transition: all 0.2s; display: flex; align-items: center; gap: 6px;
-  }
-  .type-option:hover { border-color: rgba(255,255,255,0.3); }
-  .type-option.selected { border-color: var(--gold); color: #fff; background: rgba(255,215,0,0.08); }
-
-  .toggle-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 10px 0;
-  }
-  .toggle-label { font-size: 13px; color: rgba(255,255,255,0.6); }
-  .toggle {
-    width: 44px; height: 24px; border-radius: 12px;
-    background: rgba(255,255,255,0.1); cursor: pointer;
-    position: relative; transition: background 0.3s;
-  }
-  .toggle.on { background: rgba(0,217,165,0.4); }
-  .toggle::after {
-    content: ''; position: absolute; top: 3px; left: 3px;
-    width: 18px; height: 18px; border-radius: 50%;
-    background: #fff; transition: transform 0.3s;
-  }
-  .toggle.on::after { transform: translateX(20px); }
-
-  .edit-footer {
-    padding: 16px 20px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex; gap: 8px;
-  }
-
-  /* ── CLICK MARKER ── */
-  .click-marker {
-    width: 24px; height: 24px; border-radius: 50%;
-    background: var(--gold); border: 3px solid #fff;
-    box-shadow: 0 0 20px rgba(255,215,0,0.6);
-    animation: click-pulse 1.5s infinite;
-  }
-  @keyframes click-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 0 0 rgba(255,215,0,0.4); }
-    50% { box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 0 16px rgba(255,215,0,0); }
-  }
-
-  /* ── POI MAP MARKERS ── */
-  .admin-poi-marker {
-    width: 30px; height: 30px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; border: 2px solid;
-    box-shadow: 0 0 10px rgba(0,0,0,0.4);
-    transition: transform 0.2s;
-  }
-  .admin-poi-marker:hover { transform: scale(1.2); }
-
-  /* ── TOAST ── */
-  .toast {
-    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-    z-index: 2000;
-    padding: 12px 24px; border-radius: 12px;
-    background: var(--card-bg); border: 1px solid rgba(0,217,165,0.3);
-    color: var(--teal); font-size: 13px;
-    opacity: 0; transition: opacity 0.3s;
-    pointer-events: none;
-  }
-  .toast.show { opacity: 1; }
-
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(255,215,0,0.15); border-radius: 4px; }
+  :root{--dark:#0a0a0f;--dark2:#12121c;--gold:#FFD700;--orange:#FF6B35;--teal:#00D9A5;--red:#ff4646;--purple:#7B68EE;--green:#32CD32;--card-bg:rgba(18,18,28,0.95);--gradient:linear-gradient(135deg,var(--gold),var(--orange));--font-display:'Bebas Neue',sans-serif;--font-body:'Outfit',sans-serif}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font-body);background:var(--dark);color:#fff;height:100vh;display:flex;overflow:hidden}
+  .sidebar{width:380px;min-width:380px;background:var(--dark2);border-right:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;height:100vh;z-index:10}
+  .sidebar-header{padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .sidebar-brand{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+  .sidebar-brand-icon{width:36px;height:36px;border-radius:10px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:18px;color:var(--dark)}
+  .sidebar-brand-text{font-family:var(--font-display);font-size:20px;letter-spacing:2px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sidebar-brand-sub{font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:1px}
+  .stats-row{display:flex;gap:10px}
+  .stat-box{flex:1;padding:10px 12px;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);text-align:center}
+  .stat-num{font-family:var(--font-display);font-size:24px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .stat-label{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:1px;text-transform:uppercase}
+  .filter-bar{padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;gap:6px;flex-wrap:wrap}
+  .filter-chip{padding:5px 12px;border-radius:8px;font-size:11px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.5);transition:all 0.2s}
+  .filter-chip:hover{border-color:rgba(255,255,255,0.3);color:#fff}
+  .filter-chip.active{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,0.08)}
+  .poi-list{flex:1;overflow-y:auto;padding:12px;scrollbar-width:thin;scrollbar-color:rgba(255,215,0,0.2) transparent}
+  .poi-card{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);margin-bottom:8px;cursor:pointer;transition:all 0.2s;position:relative}
+  .poi-card:hover{border-color:rgba(255,215,0,0.2);background:rgba(255,255,255,0.04)}
+  .poi-card.selected{border-color:var(--gold);background:rgba(255,215,0,0.05)}
+  .poi-card.inactive{opacity:0.4}
+  .poi-card-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .poi-card-icon{font-size:20px}
+  .poi-card-name{font-weight:600;font-size:14px;flex:1}
+  .poi-card-type{font-size:9px;padding:3px 8px;border-radius:6px;letter-spacing:0.5px;text-transform:uppercase}
+  .poi-card-desc{font-size:12px;color:rgba(255,255,255,0.4);line-height:1.4}
+  .poi-card-coords{font-size:10px;color:rgba(255,255,255,0.2);margin-top:6px;font-family:monospace}
+  .poi-card-actions{position:absolute;top:12px;right:12px;display:flex;gap:6px;opacity:0;transition:opacity 0.2s}
+  .poi-card:hover .poi-card-actions{opacity:1}
+  .poi-action-btn{width:26px;height:26px;border-radius:6px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;transition:all 0.2s}
+  .poi-action-btn:hover{border-color:var(--gold);color:var(--gold)}
+  .poi-action-btn.delete:hover{border-color:var(--red);color:var(--red)}
+  .sidebar-footer{padding:14px 20px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px}
+  .btn{flex:1;padding:10px;border-radius:10px;border:none;font-family:var(--font-display);font-size:13px;letter-spacing:1.5px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:6px}
+  .btn-primary{background:var(--gradient);color:var(--dark)}
+  .btn-primary:hover{transform:scale(1.02);box-shadow:0 0 20px rgba(255,215,0,0.2)}
+  .btn-secondary{background:transparent;color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.1)}
+  .btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+  .btn-export{background:rgba(0,217,165,0.1);color:var(--teal);border:1px solid rgba(0,217,165,0.2)}
+  .btn-export:hover{background:rgba(0,217,165,0.15)}
+  .map-area{flex:1;position:relative}
+  #adminMap{width:100%;height:100%}
+  .leaflet-tile-pane{filter:saturate(0.35) brightness(0.5) contrast(1.1)}
+  .map-instructions{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:1000;padding:10px 20px;border-radius:12px;background:var(--card-bg);border:1px solid rgba(255,215,0,0.15);backdrop-filter:blur(10px);font-size:13px;color:rgba(255,255,255,0.7);pointer-events:none;transition:opacity 0.3s}
+  .map-instructions.hidden{opacity:0}
+  .map-instructions span{color:var(--gold);font-weight:600}
+  .edit-panel{position:absolute;top:0;right:0;bottom:0;width:360px;z-index:1000;background:var(--dark2);border-left:1px solid rgba(255,255,255,0.06);transform:translateX(100%);transition:transform 0.3s ease;display:flex;flex-direction:column;overflow-y:auto}
+  .edit-panel.open{transform:translateX(0)}
+  .edit-header{padding:20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .edit-title{font-family:var(--font-display);font-size:20px;letter-spacing:2px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .edit-close{width:32px;height:32px;border-radius:8px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+  .edit-close:hover{border-color:var(--red);color:var(--red)}
+  .edit-body{padding:20px;flex:1}
+  .field{margin-bottom:16px}
+  .field-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px}
+  .field-input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.03);color:#fff;font-family:var(--font-body);font-size:13px;outline:none;transition:border-color 0.3s}
+  .field-input:focus{border-color:var(--gold)}
+  .field-input::placeholder{color:rgba(255,255,255,0.2)}
+  textarea.field-input{min-height:80px;resize:vertical;line-height:1.5}
+  .field-row{display:flex;gap:10px}
+  .field-row .field{flex:1}
+  .type-selector{display:flex;gap:6px;flex-wrap:wrap}
+  .type-option{padding:8px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.1);background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;font-size:12px;transition:all 0.2s;display:flex;align-items:center;gap:6px}
+  .type-option:hover{border-color:rgba(255,255,255,0.3)}
+  .type-option.selected{border-color:var(--gold);color:#fff;background:rgba(255,215,0,0.08)}
+  .toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0}
+  .toggle-label{font-size:13px;color:rgba(255,255,255,0.6)}
+  .toggle{width:44px;height:24px;border-radius:12px;background:rgba(255,255,255,0.1);cursor:pointer;position:relative;transition:background 0.3s}
+  .toggle.on{background:rgba(0,217,165,0.4)}
+  .toggle::after{content:'';position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform 0.3s}
+  .toggle.on::after{transform:translateX(20px)}
+  .edit-footer{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.06);display:flex;gap:8px}
+  .click-marker{width:24px;height:24px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 0 20px rgba(255,215,0,0.6);animation:click-pulse 1.5s infinite}
+  @keyframes click-pulse{0%,100%{box-shadow:0 0 20px rgba(255,215,0,0.6),0 0 0 0 rgba(255,215,0,0.4)}50%{box-shadow:0 0 20px rgba(255,215,0,0.6),0 0 0 16px rgba(255,215,0,0)}}
+  .admin-poi-marker{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid;box-shadow:0 0 10px rgba(0,0,0,0.4);transition:transform 0.2s}
+  .admin-poi-marker:hover{transform:scale(1.2)}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:2000;padding:12px 24px;border-radius:12px;background:var(--card-bg);border:1px solid rgba(0,217,165,0.3);color:var(--teal);font-size:13px;opacity:0;transition:opacity 0.3s;pointer-events:none}
+  .toast.show{opacity:1}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:rgba(255,215,0,0.15);border-radius:4px}
 </style>
 </head>
 <body>
-
-<!-- SIDEBAR -->
 <div class="sidebar">
   <div class="sidebar-header">
     <div class="sidebar-brand">
       <div class="sidebar-brand-icon">L</div>
-      <div>
-        <div class="sidebar-brand-text">LEO ADMIN</div>
-        <div class="sidebar-brand-sub">POI Manager — GoStar Digital</div>
-      </div>
+      <div><div class="sidebar-brand-text">LEO ADMIN</div><div class="sidebar-brand-sub">POI Manager — GoStar Digital</div></div>
     </div>
     <div class="stats-row">
-      <div class="stat-box">
-        <div class="stat-num" id="statTotal">0</div>
-        <div class="stat-label">Total POIs</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num" id="statActive">0</div>
-        <div class="stat-label">Active</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-num" id="statRegions">0</div>
-        <div class="stat-label">Regions</div>
-      </div>
+      <div class="stat-box"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Total POIs</div></div>
+      <div class="stat-box"><div class="stat-num" id="statActive">0</div><div class="stat-label">Active</div></div>
+      <div class="stat-box"><div class="stat-num" id="statRegions">0</div><div class="stat-label">Regions</div></div>
     </div>
   </div>
-
-  <div class="filter-bar" id="filterBar">
+  <div class="filter-bar">
     <div class="filter-chip active" data-filter="all" onclick="setFilter('all')">All</div>
     <div class="filter-chip" data-filter="culture" onclick="setFilter('culture')">🏰 Culture</div>
     <div class="filter-chip" data-filter="food" onclick="setFilter('food')">🍽️ Food</div>
@@ -354,38 +112,25 @@
     <div class="filter-chip" data-filter="family" onclick="setFilter('family')">👨‍👩‍👧‍👦 Family</div>
     <div class="filter-chip" data-filter="nature" onclick="setFilter('nature')">🌴 Nature</div>
   </div>
-
   <div class="poi-list" id="poiList"></div>
-
   <div class="sidebar-footer">
     <button class="btn btn-primary" onclick="startAddMode()">+ DROP PIN</button>
     <button class="btn btn-export" onclick="exportJSON()">↓ EXPORT</button>
     <button class="btn btn-secondary" onclick="importJSON()">↑ IMPORT</button>
   </div>
 </div>
-
-<!-- MAP -->
 <div class="map-area">
   <div id="adminMap"></div>
-  <div class="map-instructions" id="mapInstructions">
-    Click the map to <span>drop a pin</span> — or use the sidebar to manage POIs
-  </div>
-
-  <!-- EDIT PANEL -->
+  <div class="map-instructions" id="mapInstructions">Click the map to <span>drop a pin</span> — or use the sidebar</div>
   <div class="edit-panel" id="editPanel">
     <div class="edit-header">
       <div class="edit-title" id="editTitle">NEW PIN</div>
       <button class="edit-close" onclick="closeEdit()">✕</button>
     </div>
     <div class="edit-body">
-      <div class="field">
-        <div class="field-label">Name</div>
-        <input type="text" class="field-input" id="editName" placeholder="e.g. Castillo San Felipe del Morro" />
-      </div>
-
-      <div class="field">
-        <div class="field-label">Category</div>
-        <div class="type-selector" id="typeSelector">
+      <div class="field"><div class="field-label">Name</div><input type="text" class="field-input" id="editName" placeholder="e.g. Castillo San Felipe del Morro" /></div>
+      <div class="field"><div class="field-label">Category</div>
+        <div class="type-selector">
           <div class="type-option" data-type="culture" onclick="selectType('culture')">🏰 Culture</div>
           <div class="type-option" data-type="food" onclick="selectType('food')">🍽️ Food</div>
           <div class="type-option" data-type="safety" onclick="selectType('safety')">⚠️ Safety</div>
@@ -394,435 +139,164 @@
           <div class="type-option" data-type="nature" onclick="selectType('nature')">🌴 Nature</div>
         </div>
       </div>
-
-      <div class="field">
-        <div class="field-label">Custom Icon (emoji)</div>
-        <input type="text" class="field-input" id="editIcon" placeholder="🏰" style="width:80px;" />
-      </div>
-
+      <div class="field"><div class="field-label">Custom Icon (emoji)</div><input type="text" class="field-input" id="editIcon" placeholder="🏰" style="width:80px;" /></div>
       <div class="field-row">
-        <div class="field">
-          <div class="field-label">Latitude</div>
-          <input type="number" class="field-input" id="editLat" step="0.0001" placeholder="18.4655" />
-        </div>
-        <div class="field">
-          <div class="field-label">Longitude</div>
-          <input type="number" class="field-input" id="editLng" step="0.0001" placeholder="-66.1180" />
-        </div>
+        <div class="field"><div class="field-label">Latitude</div><input type="number" class="field-input" id="editLat" step="0.0001" placeholder="18.4655" /></div>
+        <div class="field"><div class="field-label">Longitude</div><input type="number" class="field-input" id="editLng" step="0.0001" placeholder="-66.1180" /></div>
       </div>
-
-      <div class="field">
-        <div class="field-label">Region</div>
+      <div class="field"><div class="field-label">Region</div>
         <select class="field-input" id="editRegion">
-          <option value="old-san-juan">Viejo San Juan</option>
-          <option value="santurce">Santurce</option>
-          <option value="condado">Condado / Miramar</option>
-          <option value="isla-verde">Isla Verde / Carolina</option>
-          <option value="hato-rey">Hato Rey / Milla de Oro</option>
-          <option value="custom">+ New Region</option>
+          <option value="old-san-juan">Viejo San Juan</option><option value="santurce">Santurce</option>
+          <option value="condado">Condado / Miramar</option><option value="isla-verde">Isla Verde / Carolina</option>
+          <option value="hato-rey">Hato Rey / Milla de Oro</option><option value="custom">+ New Region</option>
         </select>
       </div>
-
-      <div class="field">
-        <div class="field-label">Description (shown to users)</div>
-        <textarea class="field-input" id="editDesc" placeholder="Brief description the user sees..."></textarea>
-      </div>
-
-      <div class="field">
-        <div class="field-label">Leo Context (AI knowledge for this location)</div>
-        <textarea class="field-input" id="editContext" placeholder="Detailed info Leo uses when talking about this place. Include history, tips, safety warnings, hours, what makes it special..." style="min-height:120px;"></textarea>
-      </div>
-
-      <div class="field">
-        <div class="field-label">Tags (comma separated)</div>
-        <input type="text" class="field-input" id="editTags" placeholder="historic, unesco, family-friendly" />
-      </div>
-
-      <div class="toggle-row">
-        <span class="toggle-label">Active (Leo will talk about this)</span>
-        <div class="toggle on" id="editActive" onclick="toggleActive()"></div>
-      </div>
+      <div class="field"><div class="field-label">Description (shown to users)</div><textarea class="field-input" id="editDesc" placeholder="Brief description..."></textarea></div>
+      <div class="field"><div class="field-label">Leo Context (AI knowledge)</div><textarea class="field-input" id="editContext" placeholder="Detailed info Leo uses when talking about this place..." style="min-height:120px;"></textarea></div>
+      <div class="field"><div class="field-label">Tags (comma separated)</div><input type="text" class="field-input" id="editTags" placeholder="historic, unesco, family-friendly" /></div>
+      <div class="toggle-row"><span class="toggle-label">Active</span><div class="toggle on" id="editActive" onclick="toggleActive()"></div></div>
     </div>
-
     <div class="edit-footer">
       <button class="btn btn-primary" style="flex:2;" onclick="savePOI()">SAVE PIN</button>
       <button class="btn btn-secondary" onclick="closeEdit()">CANCEL</button>
     </div>
   </div>
 </div>
-
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<!-- HIDDEN FILE INPUT -->
 <input type="file" id="fileInput" accept=".json" style="display:none;" onchange="handleImport(event)" />
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
-// ═══════════════════════════════════════
-// LEO ADMIN — POI MANAGER
-// GoStar Digital LLC
-// ═══════════════════════════════════════
+var adminMap=null,poiData=[],mapMarkers={},clickMarker=null,currentFilter='all',editingId=null,selectedType='culture';
+var CC={culture:'#00D9A5',food:'#FFD700',safety:'#ff4646',event:'#FF6B35',family:'#7B68EE',nature:'#32CD32'};
+var CI={culture:'🏰',food:'🍽️',safety:'⚠️',event:'🎮',family:'👨‍👩‍👧‍👦',nature:'🌴'};
 
-let adminMap;
-let poiData = [];
-let mapMarkers = {};
-let clickMarker = null;
-let currentFilter = 'all';
-let editingId = null;
-let isAddMode = false;
-let selectedType = 'culture';
-
-const CATEGORY_COLORS = {
-  culture: '#00D9A5', food: '#FFD700', safety: '#ff4646',
-  event: '#FF6B35', family: '#7B68EE', nature: '#32CD32'
-};
-const CATEGORY_ICONS = {
-  culture: '🏰', food: '🍽️', safety: '⚠️',
-  event: '🎮', family: '👨‍👩‍👧‍👦', nature: '🌴'
-};
-
-// ── INIT ──
-function init() {
-  adminMap = L.map('adminMap', {
-    center: [18.4550, -66.0800],
-    zoom: 13,
-    zoomControl: true,
-    attributionControl: false
-  });
-
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    maxZoom: 19
-  }).addTo(adminMap);
-
-  adminMap.on('click', onMapClick);
-
-  // Load from localStorage if exists
-  const saved = localStorage.getItem('leo-poi-data');
-  if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      poiData = parsed.pois || parsed;
-    } catch(e) { poiData = []; }
-  } else {
-    // Load default data
-    loadDefaultData();
-  }
-
+function initAdmin(){
+  if(typeof L==='undefined'){document.getElementById('adminMap').innerHTML='<p style="padding:40px;text-align:center;color:#ff4646;">Leaflet failed to load. Refresh the page.</p>';return;}
+  adminMap=L.map('adminMap',{center:[18.4550,-66.0800],zoom:13,zoomControl:true,attributionControl:false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{maxZoom:19}).addTo(adminMap);
+  adminMap.on('click',onMapClick);
+  try{var s=localStorage.getItem('leo-poi-data');if(s){var p=JSON.parse(s);poiData=p.pois||p;if(!Array.isArray(poiData))poiData=[];}}catch(e){poiData=[];}
+  if(poiData.length===0)loadDefaults();
   renderAll();
 }
 
-function loadDefaultData() {
-  // Start with the built-in POIs
-  poiData = [
-    { id:'morro', name:'Castillo San Felipe del Morro', lat:18.4706, lng:-66.1239, region:'old-san-juan', type:'culture', icon:'🏰', desc:'Fortaleza del siglo XVI, Patrimonio de la UNESCO. Famosa por volar chiringas en su campo verde.', leoContext:'Historic fortress, 400+ years old, UNESCO World Heritage Site. People fly kites on the green field. Stunning sunset views over the Atlantic.', tags:['historic','fortress','unesco','kites'], active:true },
-    { id:'sanjuangate', name:'Puerta de San Juan', lat:18.4644, lng:-66.1198, region:'old-san-juan', type:'culture', icon:'🚪', desc:'Entrada histórica a la ciudad amurallada del siglo XVI.', leoContext:'One of the original gates into the walled city. Soldiers, merchants, and pirates passed through here.', tags:['historic','gate'], active:true },
-    { id:'fortaleza', name:'La Fortaleza', lat:18.4652, lng:-66.1186, region:'old-san-juan', type:'culture', icon:'🏛️', desc:'Mansión ejecutiva del Gobernador — la más antigua en uso continuo en las Américas.', leoContext:'Oldest executive mansion in continuous use in the Western Hemisphere. Famous colorful umbrella street outside.', tags:['historic','government','umbrellas'], active:true },
-    { id:'labomba', name:'La Bombonera', lat:18.4656, lng:-66.1167, region:'old-san-juan', type:'food', icon:'🍽️', desc:'Restaurante icónico desde 1902, famoso por sus mallorcas y café con leche.', leoContext:'Open since 1902. Famous mallorcas and strong café con leche. Cash preferred. Best for breakfast.', tags:['breakfast','mallorcas','coffee'], active:true },
-    { id:'pinones', name:'Piñones', lat:18.4419, lng:-65.9611, region:'isla-verde', type:'food', icon:'🍢', desc:'Kioskos con la mejor comida callejera boricua — alcapurrias, bacalaítos, piña coladas.', leoContext:'Beach-side food kioskos. Best alcapurrias and bacalaítos on the island. Weekends get packed. Bike trail nearby.', tags:['street-food','beach','alcapurrias'], active:true },
-    { id:'placita', name:'La Placita de Santurce', lat:18.4489, lng:-66.0594, region:'santurce', type:'food', icon:'🎶', desc:'Mercado de día, fiesta de noche. El corazón cultural de Santurce.', leoContext:'Daytime fresh market. Nighttime (Thu-Sat) biggest party scene in San Juan. Salsa, drinks, dancing in the streets.', tags:['nightlife','market','salsa'], active:true },
-    { id:'school1', name:'Zona Escolar - Calle del Cristo', lat:18.4648, lng:-66.1180, region:'old-san-juan', type:'safety', icon:'⚠️', desc:'Zona escolar activa. Velocidad máxima 15 MPH en horario escolar.', leoContext:'ACTIVE SCHOOL ZONE. Speed limit 15 MPH during school hours: 7-8:30AM, 2-3:30PM. Fines doubled. ViaSegura protocol.', tags:['school-zone','viasegura'], active:true },
-    { id:'intersection1', name:'Intersección PR-22/PR-5', lat:18.4283, lng:-66.1650, region:'hato-rey', type:'safety', icon:'🚨', desc:'Alto índice de accidentes. Precaución en horas pico.', leoContext:'HIGH ACCIDENT ZONE. Multiple merge lanes. Peak danger: 6-9AM, 4-7PM. Maintain safe distance. ViaSegura recommends no lane changes in merge zone.', tags:['high-accident','highway','viasegura'], active:true },
-    { id:'coliseo', name:'Coliseo de Puerto Rico', lat:18.4271, lng:-66.0612, region:'hato-rey', type:'event', icon:'🎮', desc:'El Choliseo — venue más grande de PR. Potencial sede GAMERGY 2026.', leoContext:'Largest venue in PR, 18,000+ capacity. Potential GAMERGY 2026 venue. BOS Esports training stations planned. Next to Distrito T-Mobile.', tags:['venue','gamergy','esports','bos-esports'], active:true },
-    { id:'centro', name:'Centro de Convenciones', lat:18.4500, lng:-66.0872, region:'condado', type:'event', icon:'🏟️', desc:'Espacio ideal para torneos de esports, expos de gaming y tech.', leoContext:'Convention center perfect for esports tournaments and gaming expos. Modern flexible space. Near hotels in Convention District.', tags:['convention','esports','expo'], active:true },
+function loadDefaults(){
+  poiData=[
+    {id:'morro',name:'Castillo San Felipe del Morro',lat:18.4706,lng:-66.1239,region:'old-san-juan',type:'culture',icon:'🏰',desc:'Fortaleza del siglo XVI, Patrimonio de la UNESCO.',leoContext:'Historic fortress, 400+ years old, UNESCO World Heritage. Kite flying on green field. Stunning sunsets.',tags:['historic','unesco'],active:true},
+    {id:'sanjuangate',name:'Puerta de San Juan',lat:18.4644,lng:-66.1198,region:'old-san-juan',type:'culture',icon:'🚪',desc:'Entrada histórica a la ciudad amurallada.',leoContext:'Original gate into the walled city. Soldiers, merchants, pirates passed through.',tags:['historic','gate'],active:true},
+    {id:'fortaleza',name:'La Fortaleza',lat:18.4652,lng:-66.1186,region:'old-san-juan',type:'culture',icon:'🏛️',desc:'Mansión ejecutiva del Gobernador.',leoContext:'Oldest executive mansion in continuous use. Famous umbrella street outside.',tags:['historic','government'],active:true},
+    {id:'labomba',name:'La Bombonera',lat:18.4656,lng:-66.1167,region:'old-san-juan',type:'food',icon:'🍽️',desc:'Restaurante icónico desde 1902.',leoContext:'Open since 1902. Famous mallorcas and café con leche. Cash preferred.',tags:['breakfast','mallorcas'],active:true},
+    {id:'placita',name:'La Placita de Santurce',lat:18.4489,lng:-66.0594,region:'santurce',type:'food',icon:'🎶',desc:'Mercado de día, fiesta de noche.',leoContext:'Daytime market. Nighttime (Thu-Sat) biggest party scene. Salsa, dancing.',tags:['nightlife','salsa'],active:true},
+    {id:'school1',name:'Zona Escolar - Calle del Cristo',lat:18.4648,lng:-66.1180,region:'old-san-juan',type:'safety',icon:'⚠️',desc:'Zona escolar activa. 15 MPH.',leoContext:'SCHOOL ZONE. 15 MPH during 7-8:30AM, 2-3:30PM. Fines doubled. ViaSegura.',tags:['school-zone','viasegura'],active:true},
+    {id:'intersection1',name:'Intersección PR-22/PR-5',lat:18.4283,lng:-66.1650,region:'hato-rey',type:'safety',icon:'🚨',desc:'Alto índice de accidentes.',leoContext:'HIGH ACCIDENT ZONE. Multiple merge lanes. Peak: 6-9AM, 4-7PM.',tags:['high-accident','viasegura'],active:true},
+    {id:'coliseo',name:'Coliseo de Puerto Rico',lat:18.4271,lng:-66.0612,region:'hato-rey',type:'event',icon:'🎮',desc:'El Choliseo — potencial GAMERGY 2026.',leoContext:'Largest venue in PR, 18K+ capacity. Potential GAMERGY 2026. BOS Esports planned.',tags:['venue','gamergy','esports'],active:true},
+    {id:'centro',name:'Centro de Convenciones',lat:18.4500,lng:-66.0872,region:'condado',type:'event',icon:'🏟️',desc:'Torneos de esports y expos.',leoContext:'Convention center for esports and gaming expos. Near hotels.',tags:['convention','esports'],active:true},
+    {id:'pinones',name:'Piñones',lat:18.4419,lng:-65.9611,region:'isla-verde',type:'food',icon:'🍢',desc:'Kioskos de comida callejera boricua.',leoContext:'Beach-side kioskos. Best alcapurrias and bacalaítos. Weekends packed.',tags:['street-food','beach'],active:true}
   ];
   saveToStorage();
 }
 
-// ── RENDER ──
-function renderAll() {
-  renderPoiList();
-  renderMapMarkers();
-  updateStats();
+function renderAll(){renderPoiList();renderMapMarkers();updateStats();}
+
+function renderPoiList(){
+  var list=document.getElementById('poiList');
+  var f=currentFilter==='all'?poiData:poiData.filter(function(p){return p.type===currentFilter;});
+  var h='';
+  for(var i=0;i<f.length;i++){var p=f[i];var c=CC[p.type]||'#fff';
+    h+='<div class="poi-card '+(p.active?'':'inactive')+' '+(editingId===p.id?'selected':'')+'" onclick="focusPOI(\''+p.id+'\')">'
+    +'<div class="poi-card-actions"><button class="poi-action-btn" onclick="event.stopPropagation();editPOI(\''+p.id+'\')" title="Edit">✎</button><button class="poi-action-btn delete" onclick="event.stopPropagation();deletePOI(\''+p.id+'\')" title="Delete">✕</button></div>'
+    +'<div class="poi-card-header"><span class="poi-card-icon">'+p.icon+'</span><span class="poi-card-name">'+p.name+'</span><span class="poi-card-type" style="color:'+c+';border:1px solid '+c+'33;background:'+c+'11;">'+p.type+'</span></div>'
+    +'<div class="poi-card-desc">'+p.desc+'</div>'
+    +'<div class="poi-card-coords">'+p.lat.toFixed(4)+', '+p.lng.toFixed(4)+' · '+(p.region||'')+'</div></div>';}
+  list.innerHTML=h;
 }
 
-function renderPoiList() {
-  const list = document.getElementById('poiList');
-  const filtered = currentFilter === 'all' ? poiData : poiData.filter(p => p.type === currentFilter);
-
-  list.innerHTML = filtered.map(poi => {
-    const color = CATEGORY_COLORS[poi.type] || '#fff';
-    return `<div class="poi-card ${poi.active ? '' : 'inactive'} ${editingId === poi.id ? 'selected' : ''}"
-                 onclick="focusPOI('${poi.id}')" id="card-${poi.id}">
-      <div class="poi-card-actions">
-        <button class="poi-action-btn" onclick="event.stopPropagation(); editPOI('${poi.id}')" title="Edit">✎</button>
-        <button class="poi-action-btn delete" onclick="event.stopPropagation(); deletePOI('${poi.id}')" title="Delete">✕</button>
-      </div>
-      <div class="poi-card-header">
-        <span class="poi-card-icon">${poi.icon}</span>
-        <span class="poi-card-name">${poi.name}</span>
-        <span class="poi-card-type" style="color:${color};border:1px solid ${color}33;background:${color}11;">${poi.type}</span>
-      </div>
-      <div class="poi-card-desc">${poi.desc}</div>
-      <div class="poi-card-coords">${poi.lat.toFixed(4)}, ${poi.lng.toFixed(4)} · ${poi.region}</div>
-    </div>`;
-  }).join('');
+function renderMapMarkers(){
+  var k=Object.keys(mapMarkers);for(var i=0;i<k.length;i++)adminMap.removeLayer(mapMarkers[k[i]]);mapMarkers={};
+  var f=currentFilter==='all'?poiData:poiData.filter(function(p){return p.type===currentFilter;});
+  for(var j=0;j<f.length;j++){var p=f[j];var c=CC[p.type]||'#fff';var op=p.active?'':'opacity:0.3;';
+    var m=L.marker([p.lat,p.lng],{icon:L.divIcon({className:'',html:'<div class="admin-poi-marker" style="background:'+c+'dd;border-color:'+c+';color:#fff;'+op+'">'+p.icon+'</div>',iconSize:[30,30],iconAnchor:[15,15]})}).addTo(adminMap);
+    (function(pp){m.on('click',function(){editPOI(pp.id);});})(p);
+    m.bindTooltip(p.name,{direction:'top',offset:[0,-18],opacity:0.9});mapMarkers[p.id]=m;}
 }
 
-function renderMapMarkers() {
-  // Clear existing
-  Object.values(mapMarkers).forEach(m => adminMap.removeLayer(m));
-  mapMarkers = {};
-
-  const filtered = currentFilter === 'all' ? poiData : poiData.filter(p => p.type === currentFilter);
-
-  filtered.forEach(poi => {
-    const color = CATEGORY_COLORS[poi.type] || '#fff';
-    const marker = L.marker([poi.lat, poi.lng], {
-      icon: L.divIcon({
-        className: '',
-        html: `<div class="admin-poi-marker" style="background:${color}dd;border-color:${color};color:#fff;${poi.active ? '' : 'opacity:0.3;'}">${poi.icon}</div>`,
-        iconSize: [30, 30], iconAnchor: [15, 15]
-      })
-    }).addTo(adminMap);
-
-    marker.on('click', () => editPOI(poi.id));
-    marker.bindTooltip(poi.name, {
-      className: '', direction: 'top', offset: [0, -18],
-      opacity: 0.9
-    });
-
-    mapMarkers[poi.id] = marker;
-  });
+function updateStats(){
+  document.getElementById('statTotal').textContent=poiData.length;
+  var a=0,r={};for(var i=0;i<poiData.length;i++){if(poiData[i].active)a++;if(poiData[i].region)r[poiData[i].region]=1;}
+  document.getElementById('statActive').textContent=a;document.getElementById('statRegions').textContent=Object.keys(r).length;
 }
 
-function updateStats() {
-  document.getElementById('statTotal').textContent = poiData.length;
-  document.getElementById('statActive').textContent = poiData.filter(p => p.active).length;
-  const regions = new Set(poiData.map(p => p.region));
-  document.getElementById('statRegions').textContent = regions.size;
+function setFilter(t){currentFilter=t;var c=document.querySelectorAll('.filter-chip');for(var i=0;i<c.length;i++)c[i].classList.remove('active');document.querySelector('.filter-chip[data-filter="'+t+'"]').classList.add('active');renderAll();}
+
+function onMapClick(e){
+  if(clickMarker)adminMap.removeLayer(clickMarker);
+  clickMarker=L.marker([e.latlng.lat,e.latlng.lng],{icon:L.divIcon({className:'',html:'<div class="click-marker"></div>',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(adminMap);
+  openEditPanel(null,e.latlng.lat,e.latlng.lng);
 }
 
-// ── FILTERS ──
-function setFilter(type) {
-  currentFilter = type;
-  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-  document.querySelector(`.filter-chip[data-filter="${type}"]`).classList.add('active');
-  renderAll();
-}
+function startAddMode(){var inst=document.getElementById('mapInstructions');inst.textContent='📍 Click anywhere on the map to place your pin';inst.classList.remove('hidden');setTimeout(function(){inst.classList.add('hidden');},4000);}
 
-// ── MAP CLICK — Drop Pin ──
-function onMapClick(e) {
-  const { lat, lng } = e.latlng;
-
-  // Place or move click marker
-  if (clickMarker) adminMap.removeLayer(clickMarker);
-  clickMarker = L.marker([lat, lng], {
-    icon: L.divIcon({
-      className: '', html: '<div class="click-marker"></div>',
-      iconSize: [24, 24], iconAnchor: [12, 12]
-    })
-  }).addTo(adminMap);
-
-  // Open edit panel with these coordinates
-  openEditPanel(null, lat, lng);
-}
-
-// ── ADD MODE ──
-function startAddMode() {
-  isAddMode = true;
-  document.getElementById('mapInstructions').textContent = '📍 Click anywhere on the map to place your pin';
-  document.getElementById('mapInstructions').classList.remove('hidden');
-  setTimeout(() => { document.getElementById('mapInstructions').classList.add('hidden'); }, 4000);
-}
-
-// ── EDIT PANEL ──
-function openEditPanel(poiId = null, lat = null, lng = null) {
-  const panel = document.getElementById('editPanel');
-  panel.classList.add('open');
-
-  if (poiId) {
-    // Editing existing
-    editingId = poiId;
-    const poi = poiData.find(p => p.id === poiId);
-    document.getElementById('editTitle').textContent = 'EDIT PIN';
-    document.getElementById('editName').value = poi.name;
-    document.getElementById('editIcon').value = poi.icon;
-    document.getElementById('editLat').value = poi.lat;
-    document.getElementById('editLng').value = poi.lng;
-    document.getElementById('editRegion').value = poi.region;
-    document.getElementById('editDesc').value = poi.desc;
-    document.getElementById('editContext').value = poi.leoContext || '';
-    document.getElementById('editTags').value = (poi.tags || []).join(', ');
-    document.getElementById('editActive').classList.toggle('on', poi.active);
-    selectType(poi.type);
-  } else {
-    // New pin
-    editingId = null;
-    document.getElementById('editTitle').textContent = 'NEW PIN';
-    document.getElementById('editName').value = '';
-    document.getElementById('editIcon').value = CATEGORY_ICONS[selectedType] || '📍';
-    document.getElementById('editLat').value = lat ? lat.toFixed(6) : '';
-    document.getElementById('editLng').value = lng ? lng.toFixed(6) : '';
-    document.getElementById('editRegion').value = 'old-san-juan';
-    document.getElementById('editDesc').value = '';
-    document.getElementById('editContext').value = '';
-    document.getElementById('editTags').value = '';
-    document.getElementById('editActive').classList.add('on');
-    selectType('culture');
-  }
-
+function openEditPanel(id,lat,lng){
+  document.getElementById('editPanel').classList.add('open');
+  if(id){editingId=id;var p=null;for(var i=0;i<poiData.length;i++){if(poiData[i].id===id){p=poiData[i];break;}}if(!p)return;
+    document.getElementById('editTitle').textContent='EDIT PIN';document.getElementById('editName').value=p.name;document.getElementById('editIcon').value=p.icon;
+    document.getElementById('editLat').value=p.lat;document.getElementById('editLng').value=p.lng;document.getElementById('editRegion').value=p.region||'old-san-juan';
+    document.getElementById('editDesc').value=p.desc||'';document.getElementById('editContext').value=p.leoContext||'';
+    document.getElementById('editTags').value=(p.tags||[]).join(', ');
+    var tg=document.getElementById('editActive');if(p.active){tg.classList.add('on');}else{tg.classList.remove('on');}selectType(p.type);
+  }else{editingId=null;document.getElementById('editTitle').textContent='NEW PIN';document.getElementById('editName').value='';
+    document.getElementById('editIcon').value=CI[selectedType]||'📍';document.getElementById('editLat').value=lat?lat.toFixed(6):'';
+    document.getElementById('editLng').value=lng?lng.toFixed(6):'';document.getElementById('editRegion').value='old-san-juan';
+    document.getElementById('editDesc').value='';document.getElementById('editContext').value='';document.getElementById('editTags').value='';
+    document.getElementById('editActive').classList.add('on');selectType('culture');}
   renderPoiList();
 }
 
-function closeEdit() {
-  document.getElementById('editPanel').classList.remove('open');
-  editingId = null;
-  if (clickMarker) { adminMap.removeLayer(clickMarker); clickMarker = null; }
-  renderPoiList();
+function closeEdit(){document.getElementById('editPanel').classList.remove('open');editingId=null;if(clickMarker){adminMap.removeLayer(clickMarker);clickMarker=null;}renderPoiList();}
+
+function selectType(t){selectedType=t;var o=document.querySelectorAll('.type-option');for(var i=0;i<o.length;i++)o[i].classList.remove('selected');var e=document.querySelector('.type-option[data-type="'+t+'"]');if(e)e.classList.add('selected');if(!editingId)document.getElementById('editIcon').value=CI[t]||'📍';}
+
+function toggleActive(){document.getElementById('editActive').classList.toggle('on');}
+
+function savePOI(){
+  var nm=document.getElementById('editName').value.trim(),la=parseFloat(document.getElementById('editLat').value),ln=parseFloat(document.getElementById('editLng').value);
+  if(!nm){showToast('Name required');return;}if(isNaN(la)||isNaN(ln)){showToast('Valid coordinates required');return;}
+  var ts=document.getElementById('editTags').value.split(',').map(function(t){return t.trim();}).filter(function(t){return t.length>0;});
+  var obj={id:editingId||genId(nm),name:nm,lat:la,lng:ln,region:document.getElementById('editRegion').value,type:selectedType,
+    icon:document.getElementById('editIcon').value||CI[selectedType],desc:document.getElementById('editDesc').value.trim(),
+    leoContext:document.getElementById('editContext').value.trim(),tags:ts,active:document.getElementById('editActive').classList.contains('on')};
+  if(editingId){for(var i=0;i<poiData.length;i++){if(poiData[i].id===editingId){poiData[i]=obj;break;}}showToast('Updated: '+nm);}
+  else{poiData.push(obj);showToast('Added: '+nm);}
+  saveToStorage();closeEdit();renderAll();
 }
 
-function selectType(type) {
-  selectedType = type;
-  document.querySelectorAll('.type-option').forEach(o => o.classList.remove('selected'));
-  const el = document.querySelector(`.type-option[data-type="${type}"]`);
-  if (el) el.classList.add('selected');
-  // Auto-update icon if creating new
-  if (!editingId) {
-    document.getElementById('editIcon').value = CATEGORY_ICONS[type] || '📍';
-  }
+function genId(n){return n.toLowerCase().replace(/[^a-z0-9]/g,'-').replace(/-+/g,'-').substring(0,30)+'-'+Date.now().toString(36);}
+function focusPOI(id){for(var i=0;i<poiData.length;i++){if(poiData[i].id===id){adminMap.flyTo([poiData[i].lat,poiData[i].lng],17,{duration:1});break;}}}
+function editPOI(id){for(var i=0;i<poiData.length;i++){if(poiData[i].id===id){adminMap.flyTo([poiData[i].lat,poiData[i].lng],17,{duration:1});openEditPanel(id);break;}}}
+function deletePOI(id){var nm='';for(var i=0;i<poiData.length;i++){if(poiData[i].id===id){nm=poiData[i].name;break;}}if(nm&&confirm('Delete "'+nm+'"?')){poiData=poiData.filter(function(p){return p.id!==id;});saveToStorage();closeEdit();renderAll();showToast('Deleted: '+nm);}}
+function saveToStorage(){try{localStorage.setItem('leo-poi-data',JSON.stringify({pois:poiData,updated:new Date().toISOString()}));}catch(e){}}
+
+function exportJSON(){
+  var d={version:'1.0.0',updated:new Date().toISOString(),exported_by:'Leo Admin — GoStar Digital',total_pois:poiData.length,pois:poiData};
+  var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});var u=URL.createObjectURL(b);
+  var a=document.createElement('a');a.href=u;a.download='leo-poi-data-'+new Date().toISOString().split('T')[0]+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);showToast('Exported '+poiData.length+' POIs');
 }
 
-function toggleActive() {
-  document.getElementById('editActive').classList.toggle('on');
+function importJSON(){document.getElementById('fileInput').click();}
+function handleImport(ev){
+  var file=ev.target.files[0];if(!file)return;
+  var r=new FileReader();r.onload=function(e){try{var d=JSON.parse(e.target.result);var im=d.pois||d;
+    if(Array.isArray(im)&&confirm('Import '+im.length+' POIs? Replaces current '+poiData.length+'.')){poiData=im;saveToStorage();renderAll();
+      if(poiData.length>0)adminMap.fitBounds(poiData.map(function(p){return[p.lat,p.lng];}));showToast('Imported '+im.length+' POIs');}
+    else if(!Array.isArray(im))showToast('Invalid format');}catch(er){showToast('Error reading file');}};
+  r.readAsText(file);ev.target.value='';
 }
 
-// ── SAVE POI ──
-function savePOI() {
-  const name = document.getElementById('editName').value.trim();
-  const lat = parseFloat(document.getElementById('editLat').value);
-  const lng = parseFloat(document.getElementById('editLng').value);
+function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
 
-  if (!name) { showToast('Name is required'); return; }
-  if (isNaN(lat) || isNaN(lng)) { showToast('Valid coordinates required'); return; }
-
-  const poiObj = {
-    id: editingId || generateId(name),
-    name: name,
-    lat: lat,
-    lng: lng,
-    region: document.getElementById('editRegion').value,
-    type: selectedType,
-    icon: document.getElementById('editIcon').value || CATEGORY_ICONS[selectedType],
-    desc: document.getElementById('editDesc').value.trim(),
-    leoContext: document.getElementById('editContext').value.trim(),
-    tags: document.getElementById('editTags').value.split(',').map(t => t.trim()).filter(Boolean),
-    active: document.getElementById('editActive').classList.contains('on')
-  };
-
-  if (editingId) {
-    const idx = poiData.findIndex(p => p.id === editingId);
-    if (idx !== -1) poiData[idx] = poiObj;
-    showToast(`Updated: ${name}`);
-  } else {
-    poiData.push(poiObj);
-    showToast(`Added: ${name}`);
-  }
-
-  saveToStorage();
-  closeEdit();
-  renderAll();
-}
-
-function generateId(name) {
-  return name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').substring(0, 30) + '-' + Date.now().toString(36);
-}
-
-// ── FOCUS / EDIT / DELETE ──
-function focusPOI(id) {
-  const poi = poiData.find(p => p.id === id);
-  if (poi) {
-    adminMap.flyTo([poi.lat, poi.lng], 17, { duration: 1 });
-  }
-}
-
-function editPOI(id) {
-  const poi = poiData.find(p => p.id === id);
-  if (poi) {
-    adminMap.flyTo([poi.lat, poi.lng], 17, { duration: 1 });
-    openEditPanel(id);
-  }
-}
-
-function deletePOI(id) {
-  const poi = poiData.find(p => p.id === id);
-  if (poi && confirm(`Delete "${poi.name}"?`)) {
-    poiData = poiData.filter(p => p.id !== id);
-    saveToStorage();
-    closeEdit();
-    renderAll();
-    showToast(`Deleted: ${poi.name}`);
-  }
-}
-
-// ── STORAGE ──
-function saveToStorage() {
-  localStorage.setItem('leo-poi-data', JSON.stringify({ pois: poiData, updated: new Date().toISOString() }));
-}
-
-// ── EXPORT ──
-function exportJSON() {
-  const exportData = {
-    version: '1.0.0',
-    updated: new Date().toISOString(),
-    exported_by: 'Leo Admin — GoStar Digital',
-    total_pois: poiData.length,
-    pois: poiData
-  };
-
-  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `leo-poi-data-${new Date().toISOString().split('T')[0]}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast(`Exported ${poiData.length} POIs`);
-}
-
-// ── IMPORT ──
-function importJSON() {
-  document.getElementById('fileInput').click();
-}
-
-function handleImport(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = (e) => {
-    try {
-      const data = JSON.parse(e.target.result);
-      const imported = data.pois || data;
-      if (Array.isArray(imported)) {
-        const confirmMsg = `Import ${imported.length} POIs? This will replace your current ${poiData.length} POIs.`;
-        if (confirm(confirmMsg)) {
-          poiData = imported;
-          saveToStorage();
-          renderAll();
-          adminMap.fitBounds(poiData.map(p => [p.lat, p.lng]));
-          showToast(`Imported ${imported.length} POIs`);
-        }
-      } else {
-        showToast('Invalid JSON format');
-      }
-    } catch(err) {
-      showToast('Error reading file');
-    }
-  };
-  reader.readAsText(file);
-  event.target.value = '';
-}
-
-// ── TOAST ──
-function showToast(msg) {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
-}
-
-// ── BOOT ──
-document.addEventListener('DOMContentLoaded', init);
+window.addEventListener('load',initAdmin);
 </script>
 </body>
 </html>
