@@ -1,0 +1,247 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-03-02",
+  "regions": {
+    "old-san-juan": {
+      "name": "Viejo San Juan",
+      "center": [18.4655, -66.1180],
+      "zoom": 16
+    },
+    "santurce": {
+      "name": "Santurce",
+      "center": [18.4489, -66.0594],
+      "zoom": 15
+    },
+    "condado": {
+      "name": "Condado / Miramar",
+      "center": [18.4560, -66.0700],
+      "zoom": 15
+    },
+    "isla-verde": {
+      "name": "Isla Verde / Carolina",
+      "center": [18.4419, -65.9611],
+      "zoom": 14
+    },
+    "hato-rey": {
+      "name": "Hato Rey / Milla de Oro",
+      "center": [18.4271, -66.0612],
+      "zoom": 15
+    }
+  },
+  "categories": {
+    "culture": {
+      "label": "Cultura & Historia",
+      "icon": "🏰",
+      "color": "#00D9A5"
+    },
+    "food": {
+      "label": "Comida & Bebida",
+      "icon": "🍽️",
+      "color": "#FFD700"
+    },
+    "safety": {
+      "label": "Seguridad Vial (ViaSegura)",
+      "icon": "⚠️",
+      "color": "#ff4646"
+    },
+    "event": {
+      "label": "Eventos & Gaming",
+      "icon": "🎮",
+      "color": "#FF6B35"
+    },
+    "family": {
+      "label": "Familia (Hey Bori)",
+      "icon": "👨‍👩‍👧‍👦",
+      "color": "#7B68EE"
+    },
+    "nature": {
+      "label": "Naturaleza & Playas",
+      "icon": "🌴",
+      "color": "#32CD32"
+    }
+  },
+  "pois": [
+    {
+      "id": "morro",
+      "name": "Castillo San Felipe del Morro",
+      "lat": 18.4706,
+      "lng": -66.1239,
+      "region": "old-san-juan",
+      "type": "culture",
+      "icon": "🏰",
+      "desc": "Fortaleza del siglo XVI, Patrimonio de la UNESCO. Famosa por volar chiringas en su campo verde.",
+      "leoContext": "Historic fortress, 400+ years old, UNESCO World Heritage Site. People fly kites on the green field. Stunning sunset views over the Atlantic. Free entry for National Park pass holders.",
+      "tags": ["historic", "fortress", "unesco", "kites", "sunset"],
+      "active": true
+    },
+    {
+      "id": "sanjuangate",
+      "name": "Puerta de San Juan",
+      "lat": 18.4644,
+      "lng": -66.1198,
+      "region": "old-san-juan",
+      "type": "culture",
+      "icon": "🚪",
+      "desc": "Entrada histórica a la ciudad amurallada del siglo XVI.",
+      "leoContext": "One of the original gates into the walled city. Soldiers, merchants, and even pirates passed through here. Still walkable today, connects to Paseo de la Princesa.",
+      "tags": ["historic", "gate", "walled-city"],
+      "active": true
+    },
+    {
+      "id": "fortaleza",
+      "name": "La Fortaleza",
+      "lat": 18.4652,
+      "lng": -66.1186,
+      "region": "old-san-juan",
+      "type": "culture",
+      "icon": "🏛️",
+      "desc": "Mansión ejecutiva del Gobernador — la más antigua en uso continuo en las Américas. Calle con sombrillas de colores.",
+      "leoContext": "Oldest executive mansion in continuous use in the Western Hemisphere. The governor still lives here. The street outside (Calle Fortaleza) is famous for its colorful hanging umbrellas — massive photo spot.",
+      "tags": ["historic", "government", "umbrellas", "photo-spot"],
+      "active": true
+    },
+    {
+      "id": "cristostreet",
+      "name": "Calle del Cristo",
+      "lat": 18.4638,
+      "lng": -66.1175,
+      "region": "old-san-juan",
+      "type": "culture",
+      "icon": "⛪",
+      "desc": "Calle adoquinada icónica con la Capilla del Cristo, tiendas y galerías de arte.",
+      "leoContext": "Iconic cobblestone street with blue adoquines. Home to Capilla del Cristo (Chapel of Christ) with its miracle legend. Art galleries, boutiques, and restaurants line both sides. One of the most photographed streets in PR.",
+      "tags": ["shopping", "art", "chapel", "cobblestone"],
+      "active": true
+    },
+    {
+      "id": "labomba",
+      "name": "La Bombonera",
+      "lat": 18.4656,
+      "lng": -66.1167,
+      "region": "old-san-juan",
+      "type": "food",
+      "icon": "🍽️",
+      "desc": "Restaurante icónico en el Viejo San Juan, famoso por sus mallorcas y café con leche desde 1902.",
+      "leoContext": "Open since 1902. Famous for mallorcas (sweet bread sandwiches) and strong café con leche. Locals and tourists both pack this place. Cash preferred. Best for breakfast and lunch.",
+      "tags": ["breakfast", "mallorcas", "coffee", "iconic"],
+      "active": true
+    },
+    {
+      "id": "pinones",
+      "name": "Piñones",
+      "lat": 18.4419,
+      "lng": -65.9611,
+      "region": "isla-verde",
+      "type": "food",
+      "icon": "🍢",
+      "desc": "Zona de kioskos con la mejor comida callejera boricua — alcapurrias, bacalaítos, piña coladas frente al mar.",
+      "leoContext": "Strip of food kioskos right on the beach. Best alcapurrias and bacalaítos on the island — fried fresh while you watch. Piña coladas served in actual pineapples. Weekend afternoons get packed. Bike trail nearby.",
+      "tags": ["street-food", "beach", "alcapurrias", "kioskos", "weekend"],
+      "active": true
+    },
+    {
+      "id": "placita",
+      "name": "La Placita de Santurce",
+      "lat": 18.4489,
+      "lng": -66.0594,
+      "region": "santurce",
+      "type": "food",
+      "icon": "🎶",
+      "desc": "Mercado de día con frutas y viandas frescas. De noche es la zona de rumba más famosa de San Juan.",
+      "leoContext": "Daytime: fresh fruit and produce market. Nighttime (Thu-Sat): transforms into San Juan's biggest party scene. Salsa music, drinks, dancing in the streets. Surrounded by restaurants and bars. The energy is unmatched.",
+      "tags": ["nightlife", "market", "salsa", "dancing", "party"],
+      "active": true
+    },
+    {
+      "id": "casita",
+      "name": "La Casita Blanca",
+      "lat": 18.4485,
+      "lng": -66.0605,
+      "region": "santurce",
+      "type": "food",
+      "icon": "🥘",
+      "desc": "Restaurante de comida criolla casera en Santurce. Mofongo, asopao, y platos del día como en casa de abuela.",
+      "leoContext": "Authentic home-style Puerto Rican cooking. Famous mofongo, asopao, and daily specials. Feels like eating at abuela's house. Cash only. Lines form at lunch — worth the wait. In the heart of Santurce.",
+      "tags": ["criolla", "mofongo", "local", "authentic", "lunch"],
+      "active": true
+    },
+    {
+      "id": "school1",
+      "name": "Zona Escolar - Calle del Cristo",
+      "lat": 18.4648,
+      "lng": -66.1180,
+      "region": "old-san-juan",
+      "type": "safety",
+      "icon": "⚠️",
+      "desc": "Zona escolar activa. Velocidad máxima 15 MPH en horario escolar (7-8:30AM, 2-3:30PM).",
+      "leoContext": "ACTIVE SCHOOL ZONE. Speed limit drops to 15 MPH during school hours: 7:00-8:30 AM and 2:00-3:30 PM on school days. Children crossing. Fines doubled in school zones. ViaSegura safety protocol applies.",
+      "tags": ["school-zone", "speed-limit", "children", "viasegura"],
+      "active": true
+    },
+    {
+      "id": "intersection1",
+      "name": "Intersección PR-22/PR-5",
+      "lat": 18.4283,
+      "lng": -66.1650,
+      "region": "hato-rey",
+      "type": "safety",
+      "icon": "🚨",
+      "desc": "Alto índice de accidentes. Precaución especial en horas pico (6-9AM, 4-7PM). Múltiples carriles de merge.",
+      "leoContext": "HIGH ACCIDENT ZONE. PR-22 and PR-5 interchange has one of the highest accident rates in the metro area. Multiple merge lanes create confusion. Peak danger hours: 6-9 AM and 4-7 PM. Maintain safe following distance. ViaSegura recommends avoiding lane changes in the merge zone.",
+      "tags": ["high-accident", "merge", "highway", "rush-hour", "viasegura"],
+      "active": true
+    },
+    {
+      "id": "tunnel1",
+      "name": "Túnel Minillas",
+      "lat": 18.4520,
+      "lng": -66.0780,
+      "region": "hato-rey",
+      "type": "safety",
+      "icon": "🚇",
+      "desc": "Túnel bajo el Parque Central. Enciende luces, mantén velocidad constante, no cambies de carril dentro.",
+      "leoContext": "TUNNEL SAFETY. Turn on headlights before entering. Maintain constant speed — do NOT brake suddenly. No lane changes inside the tunnel. Watch for merging traffic at both exits. ViaSegura protocol: lights on 100m before entry.",
+      "tags": ["tunnel", "headlights", "no-lane-change", "viasegura"],
+      "active": true
+    },
+    {
+      "id": "coliseo",
+      "name": "Coliseo de Puerto Rico",
+      "lat": 18.4271,
+      "lng": -66.0612,
+      "region": "hato-rey",
+      "type": "event",
+      "icon": "🎮",
+      "desc": "El Choliseo — venue más grande de PR. Sede potencial para GAMERGY 2026. Capacidad 18,000+.",
+      "leoContext": "El Choliseo — largest venue in Puerto Rico with 18,000+ capacity. Home to major concerts and events. Potential GAMERGY 2026 venue. BOS Esports neurocognitive training stations planned for the event. Located next to Distrito T-Mobile entertainment complex.",
+      "tags": ["venue", "gamergy", "esports", "bos-esports", "concerts"],
+      "active": true
+    },
+    {
+      "id": "centro",
+      "name": "Centro de Convenciones",
+      "lat": 18.4500,
+      "lng": -66.0872,
+      "region": "condado",
+      "type": "event",
+      "icon": "🏟️",
+      "desc": "Centro de Convenciones de PR — espacio ideal para torneos de esports, expos de gaming y tech.",
+      "leoContext": "Puerto Rico Convention Center. Perfect for esports tournaments, gaming expos, and tech conferences. Modern facility with flexible floor space. BOS Esports training stations could set up across the expo floor. Located in the Convention District near hotels.",
+      "tags": ["convention", "esports", "expo", "tournaments", "bos-esports"],
+      "active": true
+    },
+    {
+      "id": "distrito",
+      "name": "Distrito T-Mobile",
+      "lat": 18.4275,
+      "lng": -66.0618,
+      "region": "hato-rey",
+      "type": "event",
+      "icon": "🎪",
+      "desc": "Complejo de entretenimiento junto al Choliseo. Restaurantes, actividades, eventos.",
+      "leoContext": "Entertainment complex adjacent to El Choliseo. Restaurants, bars, activities, and event spaces. Ideal pre/post GAMERGY hangout spot. Regular live events and activations. Good for team meetups and casual gaming gatherings.",
+      "tags": ["entertainment", "restaurants", "gamergy", "hangout"],
+      "active": true
+    }
+  ]
+}
