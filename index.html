@@ -469,59 +469,64 @@ RESPONSE RULES:
 - Be opinionated about food — boricuas have strong food opinions`;
 
 // ══════════════════════════════════════
-// POINTS OF INTEREST DATABASE
+// POINTS OF INTEREST — DYNAMIC LOADER
 // ══════════════════════════════════════
-const POI_DB = [
-  // Old San Juan — Culture
-  { id: 'morro', name: 'Castillo San Felipe del Morro', lat: 18.4706, lng: -66.1239, type: 'culture', icon: '🏰',
-    desc: 'Fortaleza del siglo XVI, Patrimonio de la UNESCO. Famosa por volar chiringas en su campo verde.',
-    leoFallback: 'Mira, el Morro está cerquita. Esa fortaleza tiene más de 400 años defendiendo esta isla. Los atardeceres desde ahí arriba son brutales.' },
-  { id: 'sanjuangate', name: 'Puerta de San Juan', lat: 18.4644, lng: -66.1198, type: 'culture', icon: '🚪',
-    desc: 'Entrada histórica a la ciudad amurallada del siglo XVI.',
-    leoFallback: 'Oye, la Puerta de San Juan está aquí al lado. Por esa puerta entraron todos — soldados, mercaderes, hasta piratas.' },
-  { id: 'fortaleza', name: 'La Fortaleza', lat: 18.4652, lng: -66.1186, type: 'culture', icon: '🏛️',
-    desc: 'Mansión ejecutiva del Gobernador — la más antigua en uso continuo en las Américas. Calle con sombrillas de colores.',
-    leoFallback: 'Dime, ¿sabías que La Fortaleza es la mansión ejecutiva más antigua en uso en todo el hemisferio occidental? La calle de las sombrillas está brutal.' },
-  { id: 'cristostreet', name: 'Calle del Cristo', lat: 18.4638, lng: -66.1175, type: 'culture', icon: '⛪',
-    desc: 'Calle adoquinada icónica con la Capilla del Cristo, tiendas y galerías de arte.',
-    leoFallback: 'La Calle del Cristo es de las más bonitas del Viejo San Juan. Adoquines azules, galerías, y al final la Capilla del Cristo con su leyenda del milagro.' },
+let POI_DB = [];
 
-  // Food
-  { id: 'labomba', name: 'La Bombonera', lat: 18.4656, lng: -66.1167, type: 'food', icon: '🍽️',
-    desc: 'Restaurante icónico en el Viejo San Juan, famoso por sus mallorcas y café con leche desde 1902.',
-    leoFallback: 'Wepa, La Bombonera está cerquita. Lleva más de 100 años sirviendo las mejores mallorcas del viejo San Juan.' },
-  { id: 'pinones', name: 'Piñones', lat: 18.4419, lng: -65.9611, type: 'food', icon: '🍢',
-    desc: 'Zona de kioskos con la mejor comida callejera boricua — alcapurrias, bacalaítos, piña coladas frente al mar.',
-    leoFallback: 'Piñones es donde vas cuando quieres comer como boricua de verdad. Alcapurrias recién hechas y piña coladas mirando al mar.' },
-  { id: 'placita', name: 'La Placita de Santurce', lat: 18.4489, lng: -66.0594, type: 'food', icon: '🎶',
-    desc: 'Mercado de día con frutas y viandas frescas. De noche es la zona de rumba más famosa de San Juan.',
-    leoFallback: 'La Placita — de día es mercado, de noche es la rumba más famosa de San Juan. La energía ahí es otra cosa.' },
-  { id: 'casita', name: 'La Casita Blanca', lat: 18.4485, lng: -66.0605, type: 'food', icon: '🥘',
-    desc: 'Restaurante de comida criolla casera en Santurce. Mofongo, asopao, y platos del día como en casa de abuela.',
-    leoFallback: 'La Casita Blanca tiene la comida criolla más auténtica de Santurce. El mofongo de ahí te cambia la vida.' },
+async function loadPOIData() {
+  try {
+    // Try loading from external JSON file first
+    const response = await fetch('./poi-data.json');
+    if (response.ok) {
+      const data = await response.json();
+      const rawPois = data.pois || data;
+      POI_DB = rawPois.filter(p => p.active !== false).map(normalizePOI);
+      console.log(`Loaded ${POI_DB.length} POIs from poi-data.json`);
+      return;
+    }
+  } catch (e) {
+    console.log('No external poi-data.json found, checking localStorage...');
+  }
 
-  // Safety
-  { id: 'school1', name: 'Zona Escolar - Calle del Cristo', lat: 18.4648, lng: -66.1180, type: 'safety', icon: '⚠️',
-    desc: 'Zona escolar activa. Velocidad máxima 15 MPH en horario escolar (7-8:30AM, 2-3:30PM).',
-    leoFallback: 'Oye, zona escolar adelante. Baja la velocidad a 15 millas. ViaSegura tiene toda la información sobre zonas escolares seguras.' },
-  { id: 'intersection1', name: 'Intersección PR-22/PR-5', lat: 18.4283, lng: -66.1650, type: 'safety', icon: '🚨',
-    desc: 'Alto índice de accidentes. Precaución especial en horas pico (6-9AM, 4-7PM). Múltiples carriles de merge.',
-    leoFallback: 'Cuidado con esta intersección. PR-22 con PR-5 tiene historial de accidentes alto. Mantén distancia del carro de al frente.' },
-  { id: 'tunnel1', name: 'Túnel Minillas', lat: 18.4520, lng: -66.0780, type: 'safety', icon: '🚇',
-    desc: 'Túnel bajo el Parque Central. Enciende luces, mantén velocidad constante, no cambies de carril dentro.',
-    leoFallback: 'El Túnel Minillas — enciende las luces antes de entrar, mantén velocidad constante y no cambies de carril adentro.' },
+  try {
+    // Fallback: check localStorage (synced from admin panel)
+    const stored = localStorage.getItem('leo-poi-data');
+    if (stored) {
+      const data = JSON.parse(stored);
+      const rawPois = data.pois || data;
+      POI_DB = rawPois.filter(p => p.active !== false).map(normalizePOI);
+      console.log(`Loaded ${POI_DB.length} POIs from localStorage`);
+      return;
+    }
+  } catch (e) {
+    console.log('No localStorage data found, using built-in defaults...');
+  }
 
-  // Events / Gaming
-  { id: 'coliseo', name: 'Coliseo de Puerto Rico', lat: 18.4271, lng: -66.0612, type: 'event', icon: '🎮',
-    desc: 'El Choliseo — venue más grande de PR. Sede potencial para GAMERGY 2026. Capacidad 18,000+.',
-    leoFallback: 'El Choliseo — imagínate GAMERGY ahí con el público boricua. BOS Esports listo pa\' la competencia.' },
-  { id: 'centro', name: 'Centro de Convenciones', lat: 18.4500, lng: -66.0872, type: 'event', icon: '🏟️',
-    desc: 'Centro de Convenciones de PR — espacio ideal para torneos de esports, expos de gaming y tech.',
-    leoFallback: 'El Centro de Convenciones tiene todo el espacio para un evento grande de esports. Perfecto para BOS Esports.' },
-  { id: 'distrito', name: 'Distrito T-Mobile', lat: 18.4275, lng: -66.0618, type: 'event', icon: '🎪',
-    desc: 'Complejo de entretenimiento junto al Choliseo. Restaurantes, actividades, eventos — zona ideal para pre/post GAMERGY.',
-    leoFallback: 'El Distrito T-Mobile está pegado al Choliseo. Perfecto para antes o después de un evento de gaming — hay de todo ahí.' },
-];
+  // Final fallback: minimal built-in set
+  POI_DB = getDefaultPOIs();
+  console.log(`Loaded ${POI_DB.length} default POIs`);
+}
+
+// Normalize POI format — admin uses leoContext, legacy uses leoFallback
+function normalizePOI(poi) {
+  return {
+    ...poi,
+    leoContext: poi.leoContext || poi.leoFallback || poi.desc,
+    leoFallback: poi.leoFallback || poi.leoContext || poi.desc
+  };
+}
+
+function getDefaultPOIs() {
+  return [
+    { id:'morro', name:'Castillo San Felipe del Morro', lat:18.4706, lng:-66.1239, type:'culture', icon:'🏰', desc:'Fortaleza del siglo XVI, Patrimonio de la UNESCO.', leoContext:'Historic fortress, 400+ years old, UNESCO World Heritage Site. People fly kites on the green field. Stunning sunsets.', leoFallback:'Mira, el Morro está cerquita. Esa fortaleza tiene más de 400 años defendiendo esta isla.' },
+    { id:'sanjuangate', name:'Puerta de San Juan', lat:18.4644, lng:-66.1198, type:'culture', icon:'🚪', desc:'Entrada histórica a la ciudad amurallada del siglo XVI.', leoContext:'One of the original gates into the walled city. Soldiers, merchants, and pirates passed through here.', leoFallback:'Oye, la Puerta de San Juan está aquí al lado. Por esa puerta entraron todos.' },
+    { id:'fortaleza', name:'La Fortaleza', lat:18.4652, lng:-66.1186, type:'culture', icon:'🏛️', desc:'Mansión ejecutiva del Gobernador — la más antigua en las Américas.', leoContext:'Oldest executive mansion in continuous use in the Western Hemisphere. Famous colorful umbrella street outside.', leoFallback:'La Fortaleza es la mansión ejecutiva más antigua en uso. La calle de las sombrillas está brutal.' },
+    { id:'labomba', name:'La Bombonera', lat:18.4656, lng:-66.1167, type:'food', icon:'🍽️', desc:'Restaurante icónico desde 1902, mallorcas y café con leche.', leoContext:'Open since 1902. Famous mallorcas and café con leche. Cash preferred. Best for breakfast.', leoFallback:'Wepa, La Bombonera lleva más de 100 años sirviendo las mejores mallorcas.' },
+    { id:'placita', name:'La Placita de Santurce', lat:18.4489, lng:-66.0594, type:'food', icon:'🎶', desc:'Mercado de día, fiesta de noche.', leoContext:'Daytime fresh market. Nighttime (Thu-Sat) biggest party scene. Salsa, drinks, dancing in the streets.', leoFallback:'La Placita — de día es mercado, de noche es la rumba más famosa de San Juan.' },
+    { id:'school1', name:'Zona Escolar - Calle del Cristo', lat:18.4648, lng:-66.1180, type:'safety', icon:'⚠️', desc:'Zona escolar activa. Velocidad máxima 15 MPH.', leoContext:'ACTIVE SCHOOL ZONE. Speed limit 15 MPH during school hours: 7-8:30AM, 2-3:30PM. Fines doubled. ViaSegura protocol.', leoFallback:'Oye, zona escolar adelante. Baja la velocidad a 15 millas.' },
+    { id:'coliseo', name:'Coliseo de Puerto Rico', lat:18.4271, lng:-66.0612, type:'event', icon:'🎮', desc:'El Choliseo — potencial sede GAMERGY 2026.', leoContext:'Largest venue in PR, 18,000+ capacity. Potential GAMERGY 2026 venue. BOS Esports training stations planned.', leoFallback:'El Choliseo — imagínate GAMERGY ahí con el público boricua.' },
+  ];
+}
 
 // ══════════════════════════════════════
 // CLAUDE API INTEGRATION
@@ -605,7 +610,8 @@ function buildSpatialContext(nearbyPOIs) {
 
   const poiList = nearbyPOIs.slice(0, 8).map(poi => {
     const distMeters = Math.round(poi.dist * 111000);
-    return `- ${poi.icon} ${poi.name} (${poi.type}) — ${distMeters}m away: ${poi.desc}`;
+    const context = poi.leoContext || poi.desc;
+    return `- ${poi.icon} ${poi.name} (${poi.type}) — ${distMeters}m away: ${context}`;
   }).join('\n');
 
   return `[NEARBY POINTS OF INTEREST]:\n${poiList}`;
@@ -683,7 +689,7 @@ async function getProximityAlert(poi) {
           content: `[PROXIMITY ALERT — User just came within range of this location]
 Location: ${poi.name}
 Type: ${poi.type}
-Details: ${poi.desc}
+Details: ${poi.leoContext || poi.desc}
 User coordinates: ${userLat.toFixed(4)}, ${userLng.toFixed(4)}
 
 Give a natural, brief proximity announcement (1-2 sentences). Be specific about the place. If it's a safety zone, be urgent.`
@@ -1134,14 +1140,17 @@ async function processUserInput(text) {
 // START
 // ══════════════════════════════════════
 
-function startApp() {
+async function startApp() {
   document.getElementById('splash').classList.add('hidden');
   // Show API key modal
   showApiModal();
+
+  // Load POI data from JSON/localStorage before rendering map
+  await loadPOIData();
   initMap();
 
   setTimeout(() => {
-    addLeoMessage('Wepa, bienvenido. Soy Leo, tu guía por Puerto Rico. Estoy viendo tu ubicación y te voy a ir contando sobre todo lo que hay cerca. Habla conmigo o toca cualquier punto en el mapa. Vamos a explorar.');
+    addLeoMessage(`Wepa, bienvenido. Soy Leo, tu guía por Puerto Rico. Tengo ${POI_DB.length} puntos en mi mapa — te voy a ir contando sobre todo lo que hay cerca. Habla conmigo o toca cualquier punto. Vamos a explorar.`);
   }, 1000);
 }
 
