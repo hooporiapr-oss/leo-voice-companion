@@ -99,6 +99,12 @@ nav .container {
 
 .nav-logo span { color: var(--gold); }
 
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-links a {
   color: var(--text-dim);
@@ -109,6 +115,9 @@ nav .container {
   transition: color 0.3s;
 }
 .nav-links a:hover { color: var(--gold); }
+
+/* Hide mobile-only CTA on desktop */
+.mobile-menu-cta { display: none; }
 
 .btn-launch {
   display: inline-flex;
@@ -163,7 +172,6 @@ nav .container {
   border-radius: 50px;
   padding: 3px;
   gap: 0;
-  cursor: pointer;
   user-select: none;
 }
 
@@ -190,22 +198,37 @@ nav .container {
   color: var(--gold);
 }
 
-/* ═══ MOBILE NAV ═══ */
+/* ═══ HAMBURGER ═══ */
 .nav-toggle {
   display: none;
   background: none;
   border: none;
   cursor: pointer;
   padding: 8px;
+  width: 36px;
+  height: 36px;
+  position: relative;
+  z-index: 110;
 }
 
 .nav-toggle span {
   display: block;
-  width: 24px;
+  width: 22px;
   height: 2px;
   background: var(--gold);
-  margin: 6px 0;
+  margin: 5px auto;
   transition: all 0.3s;
+  border-radius: 2px;
+}
+
+.nav-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
 /* ═══ HERO ═══ */
@@ -780,26 +803,82 @@ footer {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 640px) {
-  .nav-links { display: none; }
-  .nav-links.open {
-    display: flex;
+@media (max-width: 768px) {
+  /* Hamburger visible */
+  .nav-toggle { display: block; }
+
+  /* Hide desktop CTA */
+  .desktop-cta { display: none; }
+
+  /* Nav links become slide-down panel */
+  .nav-links {
+    display: none;
     flex-direction: column;
     position: absolute;
     top: 100%;
     left: 0;
     right: 0;
-    background: rgba(10, 10, 15, 0.95);
-    backdrop-filter: blur(20px);
-    padding: 24px;
-    gap: 20px;
-    border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+    background: rgba(10, 10, 15, 0.97);
+    backdrop-filter: blur(24px);
+    padding: 28px 24px;
+    gap: 0;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
   }
-  .nav-toggle { display: block; }
-  .features-grid { grid-template-columns: 1fr; }
-  .hero-phone { width: 230px; height: 420px; }
-  .partner-box { padding: 48px 24px; }
-  section { padding: 72px 0; }
+
+  .nav-links.open { display: flex; }
+
+  .nav-links a {
+    font-size: 1.1rem;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 1.5px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.06);
+    color: var(--text);
+  }
+
+  .nav-links a:last-child { border-bottom: none; }
+
+  /* Show mobile CTA in menu */
+  .mobile-menu-cta {
+    display: flex !important;
+    margin-top: 8px;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Lang toggle + hamburger in top bar */
+  .nav-right { gap: 12px; }
+  .lang-toggle { order: 0; }
+  .nav-toggle { order: 1; }
+
+  /* Hero mobile */
+  .hero { padding: 100px 0 60px; min-height: auto; }
+  .hero h1 { font-size: 2.6rem; }
+  .hero p { font-size: 1rem; }
+  .hero-phone { width: 220px; height: 400px; }
+  .hero-badge { display: none; }
+  .hero-ctas { flex-direction: column; align-items: center; gap: 12px; }
+  .hero-ctas .btn-launch,
+  .hero-ctas .btn-outline { width: 100%; max-width: 280px; text-align: center; justify-content: center; }
+
+  /* Sections */
+  section { padding: 60px 0; }
+  .section-title { font-size: 2rem; }
+  .features-grid { grid-template-columns: 1fr; gap: 16px; }
+  .feature-card { padding: 28px 22px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .stat-number { font-size: 2rem; }
+  .use-case { padding: 28px 22px; flex-direction: column; }
+  .partner-box { padding: 40px 20px; }
+  .partner-ctas { flex-direction: column; align-items: center; gap: 12px; }
+  .partner-ctas .btn-launch,
+  .partner-ctas .btn-outline { width: 100%; max-width: 280px; text-align: center; justify-content: center; }
+
+  /* Phone voice bubble */
+  .phone-voice { padding: 10px 12px; bottom: 40px; left: 12px; right: 12px; }
+  .voice-text { font-size: 0.7rem; }
 }
 </style>
 </head>
@@ -813,21 +892,24 @@ footer {
 <nav id="nav">
   <div class="container">
     <a href="#" class="nav-logo">LA VOZ <span>PR</span></a>
-    <div class="nav-links" id="navLinks">
-      <a href="#features" data-i18n="nav_features">Features</a>
-      <a href="#how" data-i18n="nav_how">How It Works</a>
-      <a href="#use-cases" data-i18n="nav_cases">Use Cases</a>
-      <a href="#partner" data-i18n="nav_partner">Partner</a>
-      <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+    <div class="nav-right">
+      <div class="nav-links" id="navLinks">
+        <a href="#features" data-i18n="nav_features">Features</a>
+        <a href="#how" data-i18n="nav_how">How It Works</a>
+        <a href="#use-cases" data-i18n="nav_cases">Use Cases</a>
+        <a href="#partner" data-i18n="nav_partner">Partner</a>
+        <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+        <a href="app.html" class="btn-launch mobile-menu-cta" data-i18n="nav_launch">Launch Leo &#9656;</a>
+      </div>
       <div class="lang-toggle">
         <button class="lang-btn active" data-lang="en">EN</button>
         <button class="lang-btn" data-lang="es">ES</button>
       </div>
-      <a href="app.html" class="btn-launch" data-i18n="nav_launch">Launch Leo ▸</a>
+      <a href="app.html" class="btn-launch desktop-cta" data-i18n="nav_launch">Launch Leo &#9656;</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
   </div>
 </nav>
 
@@ -1044,7 +1126,7 @@ footer {
 </footer>
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 (function() {
   var translations = {
     en: {
@@ -1167,20 +1249,14 @@ footer {
     }
   };
 
-  var currentLang = 'en';
-
   function setLang(lang) {
-    currentLang = lang;
+    var t = translations[lang];
     var btns = document.querySelectorAll('.lang-btn');
     for (var i = 0; i < btns.length; i++) {
-      if (btns[i].getAttribute('data-lang') === lang) {
-        btns[i].classList.add('active');
-      } else {
-        btns[i].classList.remove('active');
-      }
+      if (btns[i].getAttribute('data-lang') === lang) { btns[i].classList.add('active'); }
+      else { btns[i].classList.remove('active'); }
     }
     document.documentElement.lang = lang;
-    var t = translations[lang];
     var els = document.querySelectorAll('[data-i18n]');
     for (var i = 0; i < els.length; i++) {
       var key = els[i].getAttribute('data-i18n');
@@ -1193,39 +1269,34 @@ footer {
     }
   }
 
-  // Delegated click on document body for lang buttons
   document.body.addEventListener('click', function(e) {
-    var btn = e.target;
-    if (!btn.classList.contains('lang-btn')) return;
-    e.preventDefault();
-    e.stopPropagation();
-    var lang = btn.getAttribute('data-lang');
-    if (lang) setLang(lang);
+    if (e.target.classList.contains('lang-btn')) {
+      e.preventDefault();
+      e.stopPropagation();
+      setLang(e.target.getAttribute('data-lang'));
+    }
   }, true);
 
-  // Nav scroll
   var nav = document.getElementById('nav');
   window.addEventListener('scroll', function() {
     if (window.scrollY > 40) { nav.classList.add('scrolled'); }
     else { nav.classList.remove('scrolled'); }
   });
 
-  // Mobile nav toggle
   var navToggle = document.getElementById('navToggle');
   var navLinks = document.getElementById('navLinks');
   navToggle.addEventListener('click', function() {
     navLinks.classList.toggle('open');
+    navToggle.classList.toggle('active');
   });
-
-  // Close mobile nav on anchor click only
   var navAnchors = navLinks.querySelectorAll('a');
   for (var i = 0; i < navAnchors.length; i++) {
     navAnchors[i].addEventListener('click', function() {
       navLinks.classList.remove('open');
+      navToggle.classList.remove('active');
     });
   }
 
-  // Scroll reveal
   var reveals = document.querySelectorAll('.reveal');
   var observer = new IntersectionObserver(function(entries) {
     for (var i = 0; i < entries.length; i++) {
@@ -1233,3 +1304,13 @@ footer {
         (function(target, delay) {
           setTimeout(function() { target.classList.add('visible'); }, delay);
         })(entries[i].target, i * 80);
+        observer.unobserve(entries[i].target);
+      }
+    }
+  }, { threshold: 0.15 });
+  for (var i = 0; i < reveals.length; i++) { observer.observe(reveals[i]); }
+})();
+</script>
+
+</body>
+</html>
