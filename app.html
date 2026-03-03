@@ -329,9 +329,87 @@
     50% { transform: scaleY(1.2); }
   }
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── SERVICE FALLBACK OVERLAY ── */
+  #service-fallback {
+    position: fixed; inset: 0; z-index: 5000;
+    display: none; align-items: center; justify-content: center;
+    background: var(--dark); opacity: 0; transition: opacity 0.4s ease;
+  }
+  #service-fallback.active { display: flex; opacity: 1; }
+  .fallback-container { text-align: center; max-width: 420px; padding: 40px 28px; }
+  .fallback-pulse {
+    width: 120px; height: 120px; margin: 0 auto 32px;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .fallback-pulse::before, .fallback-pulse::after {
+    content: ''; position: absolute; width: 100%; height: 100%;
+    border-radius: 50%; border: 2px solid rgba(255,215,0,0.15);
+    animation: fb-pulse 2.4s ease-out infinite;
+  }
+  .fallback-pulse::after { animation-delay: 1.2s; }
+  @keyframes fb-pulse { 0% { transform: scale(0.6); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
+  .fallback-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--gradient); display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2; box-shadow: 0 0 40px rgba(255,215,0,0.2);
+  }
+  .fallback-icon svg { width: 36px; height: 36px; fill: var(--dark); }
+  .fallback-title {
+    font-family: var(--font-display); font-size: 2rem; letter-spacing: 2px;
+    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 12px;
+  }
+  .fallback-message {
+    font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7);
+    margin-bottom: 32px; font-weight: 300;
+  }
+  .fallback-retry {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 36px; border: none; border-radius: 50px;
+    background: var(--gradient); color: var(--dark);
+    font-family: var(--font-body); font-size: 1rem; font-weight: 600;
+    cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 4px 24px rgba(255,215,0,0.25);
+  }
+  .fallback-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 32px rgba(255,215,0,0.35); }
+  .fallback-retry.checking { pointer-events: none; opacity: 0.8; }
+  .fallback-retry.checking .retry-icon { animation: fb-spin 1s linear infinite; }
+  @keyframes fb-spin { to { transform: rotate(360deg); } }
+  .retry-icon { width: 18px; height: 18px; display: flex; }
+  .fallback-status {
+    margin-top: 24px; font-size: 0.8rem; color: rgba(255,255,255,0.35); letter-spacing: 0.5px;
+  }
+  .fallback-status .fb-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle;
+  }
+  .fb-dot.down { background: #ff4646; box-shadow: 0 0 8px rgba(255,70,70,0.5); }
+  .fb-dot.checking { background: var(--gold); animation: blink 1s infinite; }
+  .fb-dot.up { background: var(--teal); box-shadow: 0 0 8px rgba(0,217,165,0.5); }
+  .fallback-contact { margin-top: 16px; font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+  .fallback-contact a { color: var(--gold); text-decoration: none; }
 </style>
 </head>
 <body>
+
+<!-- SERVICE FALLBACK OVERLAY -->
+<div id="service-fallback">
+  <div class="fallback-container">
+    <div class="fallback-pulse">
+      <div class="fallback-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+      </div>
+    </div>
+    <h2 class="fallback-title" id="fbTitle">Leo is Taking a Break</h2>
+    <p class="fallback-message" id="fbMessage">Our voice service is temporarily unavailable. This usually resolves in a few minutes — tap below to check again.</p>
+    <button class="fallback-retry" id="fbRetryBtn" onclick="retryConnection()">
+      <span class="retry-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg></span>
+      <span id="fbRetryText">Try Again</span>
+    </button>
+    <div class="fallback-status"><span class="fb-dot down" id="fbDot"></span><span id="fbStatusText">Service temporarily offline</span></div>
+    <div class="fallback-contact">Questions? <a href="mailto:contact@gostardigital.com">contact@gostardigital.com</a></div>
+  </div>
+</div>
 
 <!-- LOGIN MODAL -->
 <div class="api-modal" id="loginModal">
@@ -422,6 +500,83 @@ let conversationHistory = []; // UI history
 let aiMessages = [];          // Claude API message history
 let announcedPOIs = new Set();
 let isProcessing = false;
+
+// ══════════════════════════════════════
+// SERVICE FALLBACK SYSTEM
+// ══════════════════════════════════════
+let fallbackService = null;
+
+function showFallback(service) {
+  fallbackService = service;
+  const overlay = document.getElementById('service-fallback');
+  const msgs = {
+    claude: { en: { t: 'Leo is Taking a Break', m: 'Our AI service is temporarily unavailable. This usually resolves in a few minutes — tap below to check again.' }, es: { t: 'Leo Está Descansando', m: 'Nuestro servicio de inteligencia artificial no está disponible temporalmente. Esto usualmente se resuelve en unos minutos — toca abajo para verificar.' } },
+    elevenlabs: { en: { t: 'Voice Temporarily Offline', m: "Leo's voice service is taking a short break. Text responses may still work — tap below to check voice status." }, es: { t: 'Voz Temporalmente Fuera de Línea', m: 'El servicio de voz de Leo está tomando un descanso. Las respuestas de texto pueden seguir funcionando — toca abajo para verificar.' } },
+    both: { en: { t: 'Service Temporarily Unavailable', m: 'Leo is experiencing a temporary outage. Our team is on it — tap below to check if service has been restored.' }, es: { t: 'Servicio Temporalmente No Disponible', m: 'Leo está experimentando una interrupción temporal. Nuestro equipo está trabajando en ello — toca abajo para verificar.' } }
+  };
+  const lang = document.documentElement.lang === 'es' ? 'es' : 'en';
+  const msg = (msgs[service] || msgs.both)[lang];
+  document.getElementById('fbTitle').textContent = msg.t;
+  document.getElementById('fbMessage').textContent = msg.m;
+  document.getElementById('fbRetryText').textContent = lang === 'es' ? 'Intentar de Nuevo' : 'Try Again';
+  document.getElementById('fbStatusText').textContent = lang === 'es' ? 'Servicio temporalmente fuera de línea' : 'Service temporarily offline';
+  document.getElementById('fbDot').className = 'fb-dot down';
+  overlay.classList.add('active');
+}
+
+function hideFallback() {
+  const overlay = document.getElementById('service-fallback');
+  overlay.style.opacity = '0';
+  setTimeout(() => { overlay.classList.remove('active'); overlay.style.opacity = ''; }, 400);
+}
+
+async function retryConnection() {
+  const btn = document.getElementById('fbRetryBtn');
+  const dot = document.getElementById('fbDot');
+  const statusText = document.getElementById('fbStatusText');
+  const retryText = document.getElementById('fbRetryText');
+  const lang = document.documentElement.lang === 'es' ? 'es' : 'en';
+
+  btn.classList.add('checking');
+  dot.className = 'fb-dot checking';
+  statusText.textContent = lang === 'es' ? 'Verificando...' : 'Checking...';
+  retryText.textContent = lang === 'es' ? 'Verificando...' : 'Checking...';
+
+  try {
+    const response = await fetch(API_BASE + '/health', { method: 'GET', signal: AbortSignal.timeout(8000) });
+    const data = await response.json();
+    if (data.claude === 'ok' && data.elevenlabs === 'ok') {
+      dot.className = 'fb-dot up';
+      statusText.textContent = lang === 'es' ? '¡Servicio restaurado!' : 'Service restored!';
+      retryText.textContent = lang === 'es' ? '¡Conectado!' : 'Connected!';
+      setTimeout(() => hideFallback(), 1200);
+    } else {
+      dot.className = 'fb-dot down';
+      statusText.textContent = lang === 'es' ? 'Servicio aún no disponible' : 'Service still unavailable';
+      retryText.textContent = lang === 'es' ? 'Intentar de Nuevo' : 'Try Again';
+    }
+  } catch (err) {
+    dot.className = 'fb-dot down';
+    statusText.textContent = lang === 'es' ? 'No se pudo conectar' : 'Could not connect';
+    retryText.textContent = lang === 'es' ? 'Intentar de Nuevo' : 'Try Again';
+  }
+  btn.classList.remove('checking');
+}
+
+async function safeFetch(url, options, service) {
+  try {
+    const response = await fetch(url, { ...options, signal: AbortSignal.timeout(15000) });
+    if (!response.ok && (response.status === 502 || response.status === 503 || response.status === 504)) {
+      const errData = await response.json().catch(() => ({}));
+      showFallback(errData.downService || service || 'both');
+      return null;
+    }
+    return response;
+  } catch (err) {
+    showFallback(service || 'both');
+    return null;
+  }
+}
 
 // ══════════════════════════════════════
 // LEO'S SYSTEM PROMPT — His personality
@@ -551,7 +706,7 @@ ${spatialContext}
   }
 
   try {
-    const response = await fetch(API_BASE + '/api/chat', {
+    const response = await safeFetch(API_BASE + '/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -561,7 +716,12 @@ ${spatialContext}
         system: LEO_SYSTEM_PROMPT,
         messages: aiMessages
       })
-    });
+    }, 'claude');
+
+    if (!response) {
+      aiMessages.pop();
+      return getFallbackResponse(userMessage);
+    }
 
     if (!response.ok) {
       const errData = await response.json().catch(() => ({}));
@@ -590,7 +750,7 @@ ${spatialContext}
     return leoReply;
 
   } catch (err) {
-    console.error('Network error:', err);
+    console.error('Chat error:', err);
     aiMessages.pop();
     return getFallbackResponse(userMessage);
   }
@@ -665,7 +825,7 @@ async function getProximityAlert(poi) {
   }
 
   try {
-    const response = await fetch(API_BASE + '/api/chat', {
+    const response = await safeFetch(API_BASE + '/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -684,9 +844,9 @@ User coordinates: ${userLat.toFixed(4)}, ${userLng.toFixed(4)}
 Give a natural, brief proximity announcement (1-2 sentences). Be specific about the place. If it's a safety zone, be urgent.`
         }]
       })
-    });
+    }, 'claude');
 
-    if (!response.ok) return poi.leoFallback;
+    if (!response || !response.ok) return poi.leoFallback;
     const data = await response.json();
     return data.content[0]?.text || poi.leoFallback;
   } catch {
@@ -1030,7 +1190,7 @@ async function speakLeo(text) {
     currentAudio = null;
   }
 
-  if (VOICE_MODE && ELEVENLABS_API_KEY && ELEVENLABS_VOICE_ID) {
+  if (VOICE_MODE && AUTH_TOKEN) {
     await speakElevenLabs(text);
   } else {
     speakBrowserTTS(text);
@@ -1039,17 +1199,17 @@ async function speakLeo(text) {
 
 async function speakElevenLabs(text) {
   try {
-    const response = await fetch(API_BASE + '/api/speak', {
+    const response = await safeFetch(API_BASE + '/api/speak', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + AUTH_TOKEN
       },
       body: JSON.stringify({ text: text })
-    });
+    }, 'elevenlabs');
 
-    if (!response.ok) {
-      console.error('Voice error:', response.status);
+    if (!response || !response.ok) {
+      console.error('Voice error');
       speakBrowserTTS(text);
       return;
     }
