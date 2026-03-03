@@ -819,10 +819,10 @@ footer {
       <a href="#use-cases" data-i18n="nav_cases">Use Cases</a>
       <a href="#partner" data-i18n="nav_partner">Partner</a>
       <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
       </div>
-      <a href="#launch" class="btn-launch" data-i18n="nav_launch">Launch Leo ▸</a>
+      <a href="app.html" class="btn-launch" data-i18n="nav_launch">Launch Leo ▸</a>
     </div>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -839,7 +839,7 @@ footer {
         <h1 data-i18n-html="hero_title">MEET <span class="gradient-text">LEO</span><br>YOUR VOICE IN<br>PUERTO RICO</h1>
         <p data-i18n="hero_desc">Leo is a bilingual, location-aware AI companion that knows where you are, what's around you, and speaks your language. Navigate Puerto Rico with real-time voice guidance, cultural insights, and safety awareness.</p>
         <div class="hero-ctas">
-          <a href="#launch" class="btn-launch" data-i18n="hero_cta">Launch Leo ▸</a>
+          <a href="app.html" class="btn-launch" data-i18n="hero_cta">Launch Leo ▸</a>
           <a href="#features" class="btn-outline" data-i18n="hero_cta2">See Features</a>
         </div>
       </div>
@@ -1017,7 +1017,7 @@ footer {
       <div class="section-desc" data-i18n="part_desc">Whether you're a restaurant, event organizer, municipality, or tourism operator — Leo can guide visitors directly to you with voice, context, and location intelligence.</div>
       <div class="partner-ctas">
         <a href="mailto:contact@gostardigital.com" class="btn-launch" data-i18n="part_cta1">Get In Touch ▸</a>
-        <a href="#launch" class="btn-outline" data-i18n="part_cta2">Try The Demo</a>
+        <a href="app.html" class="btn-outline" data-i18n="part_cta2">Try The Demo</a>
       </div>
     </div>
   </div>
@@ -1041,183 +1041,203 @@ footer {
   </div>
 </footer>
 
+
 <script>
-// ═══ i18n TRANSLATION SYSTEM ═══
-const translations = {
-  en: {
-    nav_features: "Features",
-    nav_how: "How It Works",
-    nav_cases: "Use Cases",
-    nav_partner: "Partner",
-    nav_launch: "Launch Leo ▸",
-    hero_tag: "AI-Powered Voice Guide",
-    hero_title: 'MEET <span class="gradient-text">LEO</span><br>YOUR VOICE IN<br>PUERTO RICO',
-    hero_desc: "Leo is a bilingual, location-aware AI companion that knows where you are, what's around you, and speaks your language. Navigate Puerto Rico with real-time voice guidance, cultural insights, and safety awareness.",
-    hero_cta: "Launch Leo ▸",
-    hero_cta2: "See Features",
-    phone_voice: "Mira, you're 200 feet from La Bombonera — best mallorcas on the island. Want me to tell you the story behind it?",
-    stat_1: "Bilingual (EN/ES)",
-    stat_2: "Location-Aware",
-    stat_3: "Voice Available",
-    stat_4: "Scalable POIs",
-    feat_tag: "Platform Features",
-    feat_title: 'MORE THAN A CHATBOT.<br><span class="gradient-text">A LOCATION PLATFORM.</span>',
-    feat_desc: "Leo combines AI intelligence, real-time GPS, and deep Puerto Rican knowledge into one voice-first experience that no off-the-shelf tool can replicate.",
-    f1_title: "BILINGUAL VOICE AI",
-    f1_desc: "Leo speaks English and Spanish fluidly — with authentic Puerto Rican flavor. Powered by Claude AI and ElevenLabs voice synthesis.",
-    f2_title: "GPS INTELLIGENCE",
-    f2_desc: "Leo knows exactly where you are. Every response is spatially aware, referencing nearby landmarks, restaurants, and points of interest in real time.",
-    f3_title: "INTERACTIVE MAP",
-    f3_desc: "Live map with categorized pins — culture, food, safety, events, family, nature. Tap any pin and Leo tells you the story behind it.",
-    f4_title: "SAFETY AWARENESS",
-    f4_desc: "ViaSegura integration delivers road safety zones, school zones, and driving alerts. Leo keeps you informed and protected.",
-    f5_title: "ADMIN DASHBOARD",
-    f5_desc: "Visual pin management — drop, edit, and organize POIs on a map. Filter by category, toggle active/inactive, export data. No code needed.",
-    f6_title: "OFFLINE FALLBACK",
-    f6_desc: "If connectivity drops, Leo falls back to built-in knowledge for every POI. Your guide never goes silent.",
-    how_tag: "How It Works",
-    how_title: 'THREE STEPS. <span class="gradient-text">ONE VOICE.</span>',
-    how_desc: "Get started with Leo in seconds — no app download required.",
-    h1_title: "SCAN & ENTER",
-    h1_desc: "Scan the QR code or visit lavozpr.com. Enter your access code to unlock Leo.",
-    h2_title: "ALLOW LOCATION",
-    h2_desc: "Grant GPS access so Leo knows where you are. He'll immediately orient you to your surroundings.",
-    h3_title: "TALK TO LEO",
-    h3_desc: "Ask anything — directions, food recommendations, history, safety tips. Leo responds with voice and shows it on the map.",
-    uc_tag: "Use Cases",
-    uc_title: 'BUILT FOR <span class="gradient-text">EVERY AUDIENCE</span>',
-    uc_desc: "From cruise ship passengers to event organizers — Leo adapts to every context in Puerto Rico.",
-    uc1_title: "CRUISE TOURISM",
-    uc1_desc: "QR codes at terminals give passengers an instant bilingual guide to Old San Juan. Leo walks them through every landmark, restaurant, and hidden gem.",
-    uc2_title: "EVENTS & FESTIVALS",
-    uc2_desc: "GAMERGY, festivals, concerts — Leo navigates venue layouts, schedules, and nearby amenities. The perfect event companion.",
-    uc3_title: "RESTAURANTS & BUSINESSES",
-    uc3_desc: "Sponsored pins put your business on Leo's map. When visitors are nearby, Leo recommends you — with your story, menu, and context.",
-    uc4_title: "MUNICIPALITIES",
-    uc4_desc: "Partner with towns to provide guided cultural tours, safety zone coverage, and visitor services powered by Leo's intelligence.",
-    part_tag: "Partner With Us",
-    part_title: 'PUT YOUR BUSINESS<br><span class="gradient-text">ON LEO\'S MAP</span>',
-    part_desc: "Whether you're a restaurant, event organizer, municipality, or tourism operator — Leo can guide visitors directly to you with voice, context, and location intelligence.",
-    part_cta1: "Get In Touch ▸",
-    part_cta2: "Try The Demo",
-    foot_contact: "Contact"
-  },
-  es: {
-    nav_features: "Funciones",
-    nav_how: "Cómo Funciona",
-    nav_cases: "Usos",
-    nav_partner: "Alianzas",
-    nav_launch: "Activa a Leo ▸",
-    hero_tag: "Guía de Voz con IA",
-    hero_title: 'CONOCE A <span class="gradient-text">LEO</span><br>TU VOZ EN<br>PUERTO RICO',
-    hero_desc: "Leo es un compañero bilingüe con inteligencia artificial que sabe dónde estás, qué hay a tu alrededor y habla tu idioma. Navega Puerto Rico con guía por voz en tiempo real, cultura e información de seguridad.",
-    hero_cta: "Activa a Leo ▸",
-    hero_cta2: "Ver Funciones",
-    phone_voice: "Mira, estás a 200 pies de La Bombonera — las mejores mallorcas de la isla. ¿Quieres que te cuente la historia?",
-    stat_1: "Bilingüe (EN/ES)",
-    stat_2: "Con Ubicación GPS",
-    stat_3: "Voz Disponible",
-    stat_4: "POIs Escalables",
-    feat_tag: "Funciones de la Plataforma",
-    feat_title: 'MÁS QUE UN CHATBOT.<br><span class="gradient-text">UNA PLATAFORMA DE UBICACIÓN.</span>',
-    feat_desc: "Leo combina inteligencia artificial, GPS en tiempo real y conocimiento profundo de Puerto Rico en una experiencia de voz que ninguna herramienta genérica puede replicar.",
-    f1_title: "VOZ BILINGÜE CON IA",
-    f1_desc: "Leo habla inglés y español con fluidez — con sabor auténtico boricua. Impulsado por Claude AI y síntesis de voz ElevenLabs.",
-    f2_title: "INTELIGENCIA GPS",
-    f2_desc: "Leo sabe exactamente dónde estás. Cada respuesta es espacialmente consciente, referenciando lugares cercanos, restaurantes y puntos de interés en tiempo real.",
-    f3_title: "MAPA INTERACTIVO",
-    f3_desc: "Mapa en vivo con pins por categoría — cultura, comida, seguridad, eventos, familia, naturaleza. Toca cualquier pin y Leo te cuenta la historia.",
-    f4_title: "SEGURIDAD VIAL",
-    f4_desc: "La integración con ViaSegura ofrece zonas de seguridad vial, zonas escolares y alertas de manejo. Leo te mantiene informado y protegido.",
-    f5_title: "PANEL DE ADMINISTRACIÓN",
-    f5_desc: "Gestión visual de pins — coloca, edita y organiza POIs en el mapa. Filtra por categoría, activa o desactiva, exporta datos. Sin código.",
-    f6_title: "RESPALDO SIN CONEXIÓN",
-    f6_desc: "Si pierdes señal, Leo usa su conocimiento integrado para cada POI. Tu guía nunca se queda en silencio.",
-    how_tag: "Cómo Funciona",
-    how_title: 'TRES PASOS. <span class="gradient-text">UNA VOZ.</span>',
-    how_desc: "Empieza con Leo en segundos — no necesitas descargar nada.",
-    h1_title: "ESCANEA Y ENTRA",
-    h1_desc: "Escanea el código QR o visita lavozpr.com. Ingresa tu código de acceso para activar a Leo.",
-    h2_title: "PERMITE TU UBICACIÓN",
-    h2_desc: "Dale acceso al GPS para que Leo sepa dónde estás. Inmediatamente te orienta sobre tu entorno.",
-    h3_title: "HABLA CON LEO",
-    h3_desc: "Pregunta lo que quieras — direcciones, recomendaciones de comida, historia, seguridad. Leo responde con voz y lo muestra en el mapa.",
-    uc_tag: "Casos de Uso",
-    uc_title: 'DISEÑADO PARA <span class="gradient-text">TODA AUDIENCIA</span>',
-    uc_desc: "Desde pasajeros de crucero hasta organizadores de eventos — Leo se adapta a cada contexto en Puerto Rico.",
-    uc1_title: "TURISMO DE CRUCEROS",
-    uc1_desc: "Códigos QR en las terminales dan a los pasajeros un guía bilingüe instantáneo del Viejo San Juan. Leo los lleva por cada lugar, restaurante y joya escondida.",
-    uc2_title: "EVENTOS Y FESTIVALES",
-    uc2_desc: "GAMERGY, festivales, conciertos — Leo navega el layout del venue, horarios y servicios cercanos. El compañero perfecto para eventos.",
-    uc3_title: "RESTAURANTES Y NEGOCIOS",
-    uc3_desc: "Pins patrocinados ponen tu negocio en el mapa de Leo. Cuando los visitantes están cerca, Leo te recomienda — con tu historia, menú y contexto.",
-    uc4_title: "MUNICIPIOS",
-    uc4_desc: "Alianzas con pueblos para ofrecer tours culturales guiados, cobertura de zonas de seguridad y servicios al visitante impulsados por la inteligencia de Leo.",
-    part_tag: "Alianzas",
-    part_title: 'PON TU NEGOCIO<br><span class="gradient-text">EN EL MAPA DE LEO</span>',
-    part_desc: "Ya seas restaurante, organizador de eventos, municipio u operador turístico — Leo puede guiar visitantes directamente a ti con voz, contexto e inteligencia de ubicación.",
-    part_cta1: "Contáctanos ▸",
-    part_cta2: "Prueba El Demo",
-    foot_contact: "Contacto"
+(function() {
+  var translations = {
+    en: {
+      nav_features: "Features",
+      nav_how: "How It Works",
+      nav_cases: "Use Cases",
+      nav_partner: "Partner",
+      nav_launch: "Launch Leo \u25b8",
+      hero_tag: "AI-Powered Voice Guide",
+      hero_title: 'MEET <span class="gradient-text">LEO</span><br>YOUR VOICE IN<br>PUERTO RICO',
+      hero_desc: "Leo is a bilingual, location-aware AI companion that knows where you are, what's around you, and speaks your language. Navigate Puerto Rico with real-time voice guidance, cultural insights, and safety awareness.",
+      hero_cta: "Launch Leo \u25b8",
+      hero_cta2: "See Features",
+      phone_voice: "Mira, you're 200 feet from La Bombonera \u2014 best mallorcas on the island. Want me to tell you the story behind it?",
+      stat_1: "Bilingual (EN/ES)",
+      stat_2: "Location-Aware",
+      stat_3: "Voice Available",
+      stat_4: "Scalable POIs",
+      feat_tag: "Platform Features",
+      feat_title: 'MORE THAN A CHATBOT.<br><span class="gradient-text">A LOCATION PLATFORM.</span>',
+      feat_desc: "Leo combines AI intelligence, real-time GPS, and deep Puerto Rican knowledge into one voice-first experience that no off-the-shelf tool can replicate.",
+      f1_title: "BILINGUAL VOICE AI",
+      f1_desc: "Leo speaks English and Spanish fluidly \u2014 with authentic Puerto Rican flavor. Powered by Claude AI and ElevenLabs voice synthesis.",
+      f2_title: "GPS INTELLIGENCE",
+      f2_desc: "Leo knows exactly where you are. Every response is spatially aware, referencing nearby landmarks, restaurants, and points of interest in real time.",
+      f3_title: "INTERACTIVE MAP",
+      f3_desc: "Live map with categorized pins \u2014 culture, food, safety, events, family, nature. Tap any pin and Leo tells you the story behind it.",
+      f4_title: "SAFETY AWARENESS",
+      f4_desc: "ViaSegura integration delivers road safety zones, school zones, and driving alerts. Leo keeps you informed and protected.",
+      f5_title: "ADMIN DASHBOARD",
+      f5_desc: "Visual pin management \u2014 drop, edit, and organize POIs on a map. Filter by category, toggle active/inactive, export data. No code needed.",
+      f6_title: "OFFLINE FALLBACK",
+      f6_desc: "If connectivity drops, Leo falls back to built-in knowledge for every POI. Your guide never goes silent.",
+      how_tag: "How It Works",
+      how_title: 'THREE STEPS. <span class="gradient-text">ONE VOICE.</span>',
+      how_desc: "Get started with Leo in seconds \u2014 no app download required.",
+      h1_title: "SCAN & ENTER",
+      h1_desc: "Scan the QR code or visit lavozpr.com. Enter your access code to unlock Leo.",
+      h2_title: "ALLOW LOCATION",
+      h2_desc: "Grant GPS access so Leo knows where you are. He'll immediately orient you to your surroundings.",
+      h3_title: "TALK TO LEO",
+      h3_desc: "Ask anything \u2014 directions, food recommendations, history, safety tips. Leo responds with voice and shows it on the map.",
+      uc_tag: "Use Cases",
+      uc_title: 'BUILT FOR <span class="gradient-text">EVERY AUDIENCE</span>',
+      uc_desc: "From cruise ship passengers to event organizers \u2014 Leo adapts to every context in Puerto Rico.",
+      uc1_title: "CRUISE TOURISM",
+      uc1_desc: "QR codes at terminals give passengers an instant bilingual guide to Old San Juan. Leo walks them through every landmark, restaurant, and hidden gem.",
+      uc2_title: "EVENTS & FESTIVALS",
+      uc2_desc: "GAMERGY, festivals, concerts \u2014 Leo navigates venue layouts, schedules, and nearby amenities. The perfect event companion.",
+      uc3_title: "RESTAURANTS & BUSINESSES",
+      uc3_desc: "Sponsored pins put your business on Leo's map. When visitors are nearby, Leo recommends you \u2014 with your story, menu, and context.",
+      uc4_title: "MUNICIPALITIES",
+      uc4_desc: "Partner with towns to provide guided cultural tours, safety zone coverage, and visitor services powered by Leo's intelligence.",
+      part_tag: "Partner With Us",
+      part_title: 'PUT YOUR BUSINESS<br><span class="gradient-text">ON LEO\'S MAP</span>',
+      part_desc: "Whether you're a restaurant, event organizer, municipality, or tourism operator \u2014 Leo can guide visitors directly to you with voice, context, and location intelligence.",
+      part_cta1: "Get In Touch \u25b8",
+      part_cta2: "Try The Demo",
+      foot_contact: "Contact"
+    },
+    es: {
+      nav_features: "Funciones",
+      nav_how: "C\u00f3mo Funciona",
+      nav_cases: "Usos",
+      nav_partner: "Alianzas",
+      nav_launch: "Activa a Leo \u25b8",
+      hero_tag: "Gu\u00eda de Voz con IA",
+      hero_title: 'CONOCE A <span class="gradient-text">LEO</span><br>TU VOZ EN<br>PUERTO RICO',
+      hero_desc: "Leo es un compa\u00f1ero biling\u00fce con inteligencia artificial que sabe d\u00f3nde est\u00e1s, qu\u00e9 hay a tu alrededor y habla tu idioma. Navega Puerto Rico con gu\u00eda por voz en tiempo real, cultura e informaci\u00f3n de seguridad.",
+      hero_cta: "Activa a Leo \u25b8",
+      hero_cta2: "Ver Funciones",
+      phone_voice: "Mira, est\u00e1s a 200 pies de La Bombonera \u2014 las mejores mallorcas de la isla. \u00bfQuieres que te cuente la historia?",
+      stat_1: "Biling\u00fce (EN/ES)",
+      stat_2: "Con Ubicaci\u00f3n GPS",
+      stat_3: "Voz Disponible",
+      stat_4: "POIs Escalables",
+      feat_tag: "Funciones de la Plataforma",
+      feat_title: 'M\u00c1S QUE UN CHATBOT.<br><span class="gradient-text">UNA PLATAFORMA DE UBICACI\u00d3N.</span>',
+      feat_desc: "Leo combina inteligencia artificial, GPS en tiempo real y conocimiento profundo de Puerto Rico en una experiencia de voz que ninguna herramienta gen\u00e9rica puede replicar.",
+      f1_title: "VOZ BILING\u00dcE CON IA",
+      f1_desc: "Leo habla ingl\u00e9s y espa\u00f1ol con fluidez \u2014 con sabor aut\u00e9ntico boricua. Impulsado por Claude AI y s\u00edntesis de voz ElevenLabs.",
+      f2_title: "INTELIGENCIA GPS",
+      f2_desc: "Leo sabe exactamente d\u00f3nde est\u00e1s. Cada respuesta es espacialmente consciente, referenciando lugares cercanos, restaurantes y puntos de inter\u00e9s en tiempo real.",
+      f3_title: "MAPA INTERACTIVO",
+      f3_desc: "Mapa en vivo con pins por categor\u00eda \u2014 cultura, comida, seguridad, eventos, familia, naturaleza. Toca cualquier pin y Leo te cuenta la historia.",
+      f4_title: "SEGURIDAD VIAL",
+      f4_desc: "La integraci\u00f3n con ViaSegura ofrece zonas de seguridad vial, zonas escolares y alertas de manejo. Leo te mantiene informado y protegido.",
+      f5_title: "PANEL DE ADMINISTRACI\u00d3N",
+      f5_desc: "Gesti\u00f3n visual de pins \u2014 coloca, edita y organiza POIs en el mapa. Filtra por categor\u00eda, activa o desactiva, exporta datos. Sin c\u00f3digo.",
+      f6_title: "RESPALDO SIN CONEXI\u00d3N",
+      f6_desc: "Si pierdes se\u00f1al, Leo usa su conocimiento integrado para cada POI. Tu gu\u00eda nunca se queda en silencio.",
+      how_tag: "C\u00f3mo Funciona",
+      how_title: 'TRES PASOS. <span class="gradient-text">UNA VOZ.</span>',
+      how_desc: "Empieza con Leo en segundos \u2014 no necesitas descargar nada.",
+      h1_title: "ESCANEA Y ENTRA",
+      h1_desc: "Escanea el c\u00f3digo QR o visita lavozpr.com. Ingresa tu c\u00f3digo de acceso para activar a Leo.",
+      h2_title: "PERMITE TU UBICACI\u00d3N",
+      h2_desc: "Dale acceso al GPS para que Leo sepa d\u00f3nde est\u00e1s. Inmediatamente te orienta sobre tu entorno.",
+      h3_title: "HABLA CON LEO",
+      h3_desc: "Pregunta lo que quieras \u2014 direcciones, recomendaciones de comida, historia, seguridad. Leo responde con voz y lo muestra en el mapa.",
+      uc_tag: "Casos de Uso",
+      uc_title: 'DISE\u00d1ADO PARA <span class="gradient-text">TODA AUDIENCIA</span>',
+      uc_desc: "Desde pasajeros de crucero hasta organizadores de eventos \u2014 Leo se adapta a cada contexto en Puerto Rico.",
+      uc1_title: "TURISMO DE CRUCEROS",
+      uc1_desc: "C\u00f3digos QR en las terminales dan a los pasajeros un gu\u00eda biling\u00fce instant\u00e1neo del Viejo San Juan. Leo los lleva por cada lugar, restaurante y joya escondida.",
+      uc2_title: "EVENTOS Y FESTIVALES",
+      uc2_desc: "GAMERGY, festivales, conciertos \u2014 Leo navega el layout del venue, horarios y servicios cercanos. El compa\u00f1ero perfecto para eventos.",
+      uc3_title: "RESTAURANTES Y NEGOCIOS",
+      uc3_desc: "Pins patrocinados ponen tu negocio en el mapa de Leo. Cuando los visitantes est\u00e1n cerca, Leo te recomienda \u2014 con tu historia, men\u00fa y contexto.",
+      uc4_title: "MUNICIPIOS",
+      uc4_desc: "Alianzas con pueblos para ofrecer tours culturales guiados, cobertura de zonas de seguridad y servicios al visitante impulsados por la inteligencia de Leo.",
+      part_tag: "Alianzas",
+      part_title: 'PON TU NEGOCIO<br><span class="gradient-text">EN EL MAPA DE LEO</span>',
+      part_desc: "Ya seas restaurante, organizador de eventos, municipio u operador tur\u00edstico \u2014 Leo puede guiar visitantes directamente a ti con voz, contexto e inteligencia de ubicaci\u00f3n.",
+      part_cta1: "Cont\u00e1ctanos \u25b8",
+      part_cta2: "Prueba El Demo",
+      foot_contact: "Contacto"
+    }
+  };
+
+  var currentLang = 'en';
+
+  function setLang(lang) {
+    currentLang = lang;
+    var btns = document.querySelectorAll('.lang-btn');
+    for (var i = 0; i < btns.length; i++) {
+      if (btns[i].getAttribute('data-lang') === lang) {
+        btns[i].classList.add('active');
+      } else {
+        btns[i].classList.remove('active');
+      }
+    }
+    document.documentElement.lang = lang;
+    var t = translations[lang];
+    var els = document.querySelectorAll('[data-i18n]');
+    for (var i = 0; i < els.length; i++) {
+      var key = els[i].getAttribute('data-i18n');
+      if (t[key]) { els[i].textContent = t[key]; }
+    }
+    var htmlEls = document.querySelectorAll('[data-i18n-html]');
+    for (var i = 0; i < htmlEls.length; i++) {
+      var key = htmlEls[i].getAttribute('data-i18n-html');
+      if (t[key]) { htmlEls[i].innerHTML = t[key]; }
+    }
   }
-};
 
-let currentLang = 'en';
+  // Delegated click on document body for lang buttons
+  document.body.addEventListener('click', function(e) {
+    var btn = e.target;
+    if (!btn.classList.contains('lang-btn')) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var lang = btn.getAttribute('data-lang');
+    if (lang) setLang(lang);
+  }, true);
 
-function setLang(lang) {
-  currentLang = lang;
-  // Update toggle buttons
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
+  // Nav scroll
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 40) { nav.classList.add('scrolled'); }
+    else { nav.classList.remove('scrolled'); }
   });
-  // Update html lang attribute
-  document.documentElement.lang = lang;
-  // Update all text elements
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (translations[lang][key]) {
-      el.textContent = translations[lang][key];
+
+  // Mobile nav toggle
+  var navToggle = document.getElementById('navToggle');
+  var navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', function() {
+    navLinks.classList.toggle('open');
+  });
+
+  // Close mobile nav on anchor click only
+  var navAnchors = navLinks.querySelectorAll('a');
+  for (var i = 0; i < navAnchors.length; i++) {
+    navAnchors[i].addEventListener('click', function() {
+      navLinks.classList.remove('open');
+    });
+  }
+
+  // Scroll reveal
+  var reveals = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        (function(target, delay) {
+          setTimeout(function() { target.classList.add('visible'); }, delay);
+        })(entries[i].target, i * 80);
+        observer.unobserve(entries[i].target);
+      }
     }
-  });
-  // Update all HTML elements (titles with spans)
-  document.querySelectorAll('[data-i18n-html]').forEach(el => {
-    const key = el.getAttribute('data-i18n-html');
-    if (translations[lang][key]) {
-      el.innerHTML = translations[lang][key];
-    }
-  });
-}
+  }, { threshold: 0.15 });
 
-// Nav scroll effect
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-});
-
-// Mobile nav toggle
-const navToggle = document.getElementById('navToggle');
-const navLinks = document.getElementById('navLinks');
-navToggle.addEventListener('click', () => {
-  navLinks.classList.toggle('open');
-});
-
-// Close mobile nav on link click
-navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => navLinks.classList.remove('open'));
-});
-
-// Scroll reveal
-const reveals = document.querySelectorAll('.reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 80);
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.15 });
-
-reveals.forEach(el => observer.observe(el));
+  for (var i = 0; i < reveals.length; i++) {
+    observer.observe(reveals[i]);
+  }
+})();
 </script>
 
 </body>
