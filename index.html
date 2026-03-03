@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Voz PR — Your AI Voice Guide to Puerto Rico</title>
+<meta name="description" content="Leo is your bilingual, location-aware AI voice companion. Navigate Puerto Rico with real-time guidance, cultural insights, and safety awareness.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --dark: #0a0a0f;
+  --card-bg: rgba(18, 18, 28, 0.92);
+  --gold: #FFD700;
+  --orange: #FF6B35;
+  --teal: #00D9A5;
+  --red: #ff4646;
+  --purple: #7B68EE;
+  --green: #32CD32;
+  --text: #e8e8ec;
+  --text-dim: #8a8a9a;
+  --gradient: linear-gradient(135deg, #FFD700, #FF6B35);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══ BACKGROUND ATMOSPHERE ═══ */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-glow {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(160px);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-glow-1 { top: -200px; right: -100px; background: var(--gold); }
+.bg-glow-2 { bottom: -200px; left: -100px; background: var(--teal); }
+
+/* ═══ UTILITIES ═══ */
+.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+.gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.gold { color: var(--gold); }
+.teal { color: var(--teal); }
+
+/* ═══ NAV ═══ */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 18px 0;
+  transition: background 0.3s, backdrop-filter 0.3s;
+}
+
+nav.scrolled {
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+}
+
+nav .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  text-decoration: none;
+  color: var(--text);
+}
+
+.nav-logo span { color: var(--gold); }
+
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+
+.btn-launch {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: var(--gradient);
+  color: var(--dark);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 1.5px;
+  border-radius: 50px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-launch:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255, 215, 0, 0.25);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: transparent;
+  color: var(--gold);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 1.5px;
+  border-radius: 50px;
+  text-decoration: none;
+  border: 1.5px solid rgba(255, 215, 0, 0.4);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-outline:hover {
+  border-color: var(--gold);
+  background: rgba(255, 215, 0, 0.06);
+}
+
+/* ═══ LANG TOGGLE ═══ */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 215, 0, 0.06);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 50px;
+  padding: 3px;
+  gap: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.lang-btn {
+  padding: 5px 14px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  border: none;
+  border-radius: 50px;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.lang-btn.active {
+  background: var(--gradient);
+  color: var(--dark);
+}
+
+.lang-btn:hover:not(.active) {
+  color: var(--gold);
+}
+
+/* ═══ MOBILE NAV ═══ */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--gold);
+  margin: 6px 0;
+  transition: all 0.3s;
+}
+
+/* ═══ HERO ═══ */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 0 80px;
+  position: relative;
+}
+
+.hero-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(255, 215, 0, 0.08);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.hero-tag .pulse {
+  width: 8px;
+  height: 8px;
+  background: var(--teal);
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.4); }
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3.2rem, 7vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+  animation: fadeInUp 0.8s ease-out 0.1s both;
+}
+
+.hero p {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: var(--text-dim);
+  max-width: 480px;
+  margin-bottom: 36px;
+  animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+.hero-ctas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.8s ease-out 0.3s both;
+}
+
+/* Hero Visual — Map mockup */
+.hero-visual {
+  position: relative;
+  animation: fadeInUp 1s ease-out 0.4s both;
+}
+
+.hero-phone {
+  width: 320px;
+  height: 580px;
+  background: var(--card-bg);
+  border-radius: 36px;
+  border: 2px solid rgba(255, 215, 0, 0.12);
+  overflow: hidden;
+  margin: 0 auto;
+  position: relative;
+  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px rgba(255, 215, 0, 0.06);
+}
+
+.phone-notch {
+  width: 120px;
+  height: 28px;
+  background: var(--dark);
+  border-radius: 0 0 16px 16px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.phone-map {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+  opacity: 0.8;
+}
+
+.phone-map-lines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 217, 165, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 165, 0.08) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+.map-pin {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid var(--dark);
+  z-index: 2;
+}
+
+.map-pin::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  opacity: 0.3;
+  animation: ping 2s infinite;
+}
+
+@keyframes ping {
+  0% { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+.pin-gold { background: var(--gold); color: var(--gold); top: 35%; left: 30%; }
+.pin-teal { background: var(--teal); color: var(--teal); top: 50%; left: 55%; animation-delay: 0.5s; }
+.pin-orange { background: var(--orange); color: var(--orange); top: 25%; left: 65%; animation-delay: 1s; }
+.pin-red { background: var(--red); color: var(--red); top: 65%; left: 40%; animation-delay: 1.5s; }
+.pin-purple { background: var(--purple); color: var(--purple); top: 45%; left: 25%; animation-delay: 0.7s; }
+
+/* Voice bubble on phone */
+.phone-voice {
+  position: absolute;
+  bottom: 60px;
+  left: 20px;
+  right: 20px;
+  background: rgba(10, 10, 15, 0.9);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  border-radius: 16px;
+  padding: 14px 16px;
+  z-index: 3;
+}
+
+.voice-wave {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.voice-wave span {
+  width: 3px;
+  border-radius: 3px;
+  background: var(--gold);
+  animation: wave 1s ease-in-out infinite;
+}
+
+.voice-wave span:nth-child(1) { height: 8px; animation-delay: 0s; }
+.voice-wave span:nth-child(2) { height: 14px; animation-delay: 0.1s; }
+.voice-wave span:nth-child(3) { height: 20px; animation-delay: 0.2s; }
+.voice-wave span:nth-child(4) { height: 12px; animation-delay: 0.3s; }
+.voice-wave span:nth-child(5) { height: 18px; animation-delay: 0.15s; }
+.voice-wave span:nth-child(6) { height: 10px; animation-delay: 0.25s; }
+.voice-wave span:nth-child(7) { height: 16px; animation-delay: 0.05s; }
+
+@keyframes wave {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.4); }
+}
+
+.voice-text {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+.voice-text strong { color: var(--gold); }
+
+/* Floating badge */
+.hero-badge {
+  position: absolute;
+  top: 30px;
+  right: -20px;
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 217, 165, 0.2);
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: float 4s ease-in-out infinite;
+  z-index: 3;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.badge-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 217, 165, 0.12);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.badge-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-dim);
+}
+
+.badge-value {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.1rem;
+  color: var(--teal);
+  letter-spacing: 1px;
+}
+
+/* ═══ STATS BAR ═══ */
+.stats-bar {
+  padding: 40px 0;
+  border-top: 1px solid rgba(255, 215, 0, 0.06);
+  border-bottom: 1px solid rgba(255, 215, 0, 0.06);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+
+.stat-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.4rem;
+  letter-spacing: 2px;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.stat-label {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+/* ═══ SECTION STYLES ═══ */
+section { padding: 100px 0; }
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.section-tag::before {
+  content: '';
+  width: 24px;
+  height: 1.5px;
+  background: var(--gradient);
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.6rem);
+  letter-spacing: 1.5px;
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.section-desc {
+  font-size: 1.05rem;
+  color: var(--text-dim);
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+/* ═══ FEATURES ═══ */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.feature-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 215, 0, 0.06);
+  border-radius: 20px;
+  padding: 36px 28px;
+  transition: all 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 215, 0, 0.15);
+}
+
+.feature-card:hover::before { opacity: 1; }
+
+.feature-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.fi-gold { background: rgba(255, 215, 0, 0.1); }
+.fi-teal { background: rgba(0, 217, 165, 0.1); }
+.fi-orange { background: rgba(255, 107, 53, 0.1); }
+.fi-red { background: rgba(255, 70, 70, 0.1); }
+.fi-purple { background: rgba(123, 104, 238, 0.1); }
+.fi-green { background: rgba(50, 205, 50, 0.1); }
+
+.feature-card h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ═══ HOW IT WORKS ═══ */
+.how-section { background: rgba(18, 18, 28, 0.4); }
+
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 60px;
+  counter-reset: step;
+}
+
+.how-step {
+  position: relative;
+  padding-left: 0;
+  text-align: center;
+}
+
+.step-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 4rem;
+  line-height: 1;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  opacity: 0.3;
+  margin-bottom: 16px;
+}
+
+.how-step h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.how-step p {
+  font-size: 0.92rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* ═══ USE CASES ═══ */
+.use-cases-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  margin-top: 60px;
+}
+
+.use-case {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 215, 0, 0.06);
+  border-radius: 20px;
+  padding: 36px 32px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  transition: all 0.4s;
+}
+
+.use-case:hover {
+  border-color: rgba(255, 215, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.use-case-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  background: rgba(255, 215, 0, 0.08);
+}
+
+.use-case h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.use-case p {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+/* ═══ PARTNER CTA ═══ */
+.partner-section {
+  text-align: center;
+  position: relative;
+}
+
+.partner-box {
+  background: var(--card-bg);
+  border: 1px solid rgba(255, 215, 0, 0.1);
+  border-radius: 28px;
+  padding: 72px 48px;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.partner-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--gradient);
+}
+
+.partner-box .section-title { margin-bottom: 16px; }
+
+.partner-box .section-desc {
+  max-width: 500px;
+  margin: 0 auto 36px;
+}
+
+.partner-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+/* ═══ FOOTER ═══ */
+footer {
+  padding: 48px 0 32px;
+  border-top: 1px solid rgba(255, 215, 0, 0.06);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.3rem;
+  letter-spacing: 2px;
+}
+
+.footer-brand span { color: var(--gold); }
+
+.footer-company {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+.footer-links { display: flex; gap: 24px; }
+.footer-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.3s;
+}
+.footer-links a:hover { color: var(--gold); }
+
+/* ═══ ANIMATIONS ═══ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.7s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width: 960px) {
+  .hero-content { grid-template-columns: 1fr; text-align: center; }
+  .hero p { margin-left: auto; margin-right: auto; }
+  .hero-ctas { justify-content: center; }
+  .hero-visual { order: -1; }
+  .hero-phone { width: 260px; height: 480px; }
+  .hero-badge { right: 10px; top: 10px; }
+  .features-grid { grid-template-columns: 1fr 1fr; }
+  .how-steps { grid-template-columns: 1fr; gap: 32px; }
+  .use-cases-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .nav-links { display: none; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(10, 10, 15, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 24px;
+    gap: 20px;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.08);
+  }
+  .nav-toggle { display: block; }
+  .features-grid { grid-template-columns: 1fr; }
+  .hero-phone { width: 230px; height: 420px; }
+  .partner-box { padding: 48px 24px; }
+  section { padding: 72px 0; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="container">
+    <a href="#" class="nav-logo">LA VOZ <span>PR</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#how" data-i18n="nav_how">How It Works</a>
+      <a href="#use-cases" data-i18n="nav_cases">Use Cases</a>
+      <a href="#partner" data-i18n="nav_partner">Partner</a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+      </div>
+      <a href="#launch" class="btn-launch" data-i18n="nav_launch">Launch Leo ▸</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div>
+        <div class="hero-tag"><span class="pulse"></span> <span data-i18n="hero_tag">AI-Powered Voice Guide</span></div>
+        <h1 data-i18n-html="hero_title">MEET <span class="gradient-text">LEO</span><br>YOUR VOICE IN<br>PUERTO RICO</h1>
+        <p data-i18n="hero_desc">Leo is a bilingual, location-aware AI companion that knows where you are, what's around you, and speaks your language. Navigate Puerto Rico with real-time voice guidance, cultural insights, and safety awareness.</p>
+        <div class="hero-ctas">
+          <a href="#launch" class="btn-launch" data-i18n="hero_cta">Launch Leo ▸</a>
+          <a href="#features" class="btn-outline" data-i18n="hero_cta2">See Features</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-badge">
+          <div class="badge-icon">📍</div>
+          <div>
+            <div class="badge-label">GPS Active</div>
+            <div class="badge-value">Old San Juan</div>
+          </div>
+        </div>
+        <div class="hero-phone">
+          <div class="phone-notch"></div>
+          <div class="phone-map">
+            <div class="phone-map-lines"></div>
+            <div class="map-pin pin-gold"></div>
+            <div class="map-pin pin-teal"></div>
+            <div class="map-pin pin-orange"></div>
+            <div class="map-pin pin-red"></div>
+            <div class="map-pin pin-purple"></div>
+          </div>
+          <div class="phone-voice">
+            <div class="voice-wave">
+              <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="voice-text"><strong>Leo:</strong> <span data-i18n="phone_voice">Mira, you're 200 feet from La Bombonera — best mallorcas on the island. Want me to tell you the story behind it?</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="reveal">
+        <div class="stat-number">100%</div>
+        <div class="stat-label" data-i18n="stat_1">Bilingual (EN/ES)</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-number">GPS</div>
+        <div class="stat-label" data-i18n="stat_2">Location-Aware</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label" data-i18n="stat_3">Voice Available</div>
+      </div>
+      <div class="reveal">
+        <div class="stat-number">∞</div>
+        <div class="stat-label" data-i18n="stat_4">Scalable POIs</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FEATURES ═══ -->
+<section id="features">
+  <div class="container">
+    <div class="section-tag" data-i18n="feat_tag">Platform Features</div>
+    <div class="section-title" data-i18n-html="feat_title">MORE THAN A CHATBOT.<br><span class="gradient-text">A LOCATION PLATFORM.</span></div>
+    <div class="section-desc" data-i18n="feat_desc">Leo combines AI intelligence, real-time GPS, and deep Puerto Rican knowledge into one voice-first experience that no off-the-shelf tool can replicate.</div>
+
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon fi-gold">🗣️</div>
+        <h3 data-i18n="f1_title">BILINGUAL VOICE AI</h3>
+        <p data-i18n="f1_desc">Leo speaks English and Spanish fluidly — with authentic Puerto Rican flavor. Powered by Claude AI and ElevenLabs voice synthesis.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon fi-teal">📍</div>
+        <h3 data-i18n="f2_title">GPS INTELLIGENCE</h3>
+        <p data-i18n="f2_desc">Leo knows exactly where you are. Every response is spatially aware, referencing nearby landmarks, restaurants, and points of interest in real time.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon fi-orange">🗺️</div>
+        <h3 data-i18n="f3_title">INTERACTIVE MAP</h3>
+        <p data-i18n="f3_desc">Live map with categorized pins — culture, food, safety, events, family, nature. Tap any pin and Leo tells you the story behind it.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon fi-red">🛡️</div>
+        <h3 data-i18n="f4_title">SAFETY AWARENESS</h3>
+        <p data-i18n="f4_desc">ViaSegura integration delivers road safety zones, school zones, and driving alerts. Leo keeps you informed and protected.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon fi-purple">🎛️</div>
+        <h3 data-i18n="f5_title">ADMIN DASHBOARD</h3>
+        <p data-i18n="f5_desc">Visual pin management — drop, edit, and organize POIs on a map. Filter by category, toggle active/inactive, export data. No code needed.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon fi-green">⚡</div>
+        <h3 data-i18n="f6_title">OFFLINE FALLBACK</h3>
+        <p data-i18n="f6_desc">If connectivity drops, Leo falls back to built-in knowledge for every POI. Your guide never goes silent.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HOW IT WORKS ═══ -->
+<section id="how" class="how-section">
+  <div class="container">
+    <div style="text-align: center;">
+      <div class="section-tag" style="justify-content: center;" data-i18n="how_tag">How It Works</div>
+      <div class="section-title" data-i18n-html="how_title">THREE STEPS. <span class="gradient-text">ONE VOICE.</span></div>
+      <div class="section-desc" style="margin: 0 auto;" data-i18n="how_desc">Get started with Leo in seconds — no app download required.</div>
+    </div>
+
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="step-number">01</div>
+        <h3 data-i18n="h1_title">SCAN & ENTER</h3>
+        <p data-i18n="h1_desc">Scan the QR code or visit lavozpr.com. Enter your access code to unlock Leo.</p>
+      </div>
+      <div class="how-step reveal">
+        <div class="step-number">02</div>
+        <h3 data-i18n="h2_title">ALLOW LOCATION</h3>
+        <p data-i18n="h2_desc">Grant GPS access so Leo knows where you are. He'll immediately orient you to your surroundings.</p>
+      </div>
+      <div class="how-step reveal">
+        <div class="step-number">03</div>
+        <h3 data-i18n="h3_title">TALK TO LEO</h3>
+        <p data-i18n="h3_desc">Ask anything — directions, food recommendations, history, safety tips. Leo responds with voice and shows it on the map.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ USE CASES ═══ -->
+<section id="use-cases">
+  <div class="container">
+    <div class="section-tag" data-i18n="uc_tag">Use Cases</div>
+    <div class="section-title" data-i18n-html="uc_title">BUILT FOR <span class="gradient-text">EVERY AUDIENCE</span></div>
+    <div class="section-desc" data-i18n="uc_desc">From cruise ship passengers to event organizers — Leo adapts to every context in Puerto Rico.</div>
+
+    <div class="use-cases-grid">
+      <div class="use-case reveal">
+        <div class="use-case-icon">🚢</div>
+        <div>
+          <h3 data-i18n="uc1_title">CRUISE TOURISM</h3>
+          <p data-i18n="uc1_desc">QR codes at terminals give passengers an instant bilingual guide to Old San Juan. Leo walks them through every landmark, restaurant, and hidden gem.</p>
+        </div>
+      </div>
+      <div class="use-case reveal">
+        <div class="use-case-icon">🎮</div>
+        <div>
+          <h3 data-i18n="uc2_title">EVENTS & FESTIVALS</h3>
+          <p data-i18n="uc2_desc">GAMERGY, festivals, concerts — Leo navigates venue layouts, schedules, and nearby amenities. The perfect event companion.</p>
+        </div>
+      </div>
+      <div class="use-case reveal">
+        <div class="use-case-icon">🍽️</div>
+        <div>
+          <h3 data-i18n="uc3_title">RESTAURANTS & BUSINESSES</h3>
+          <p data-i18n="uc3_desc">Sponsored pins put your business on Leo's map. When visitors are nearby, Leo recommends you — with your story, menu, and context.</p>
+        </div>
+      </div>
+      <div class="use-case reveal">
+        <div class="use-case-icon">🏛️</div>
+        <div>
+          <h3 data-i18n="uc4_title">MUNICIPALITIES</h3>
+          <p data-i18n="uc4_desc">Partner with towns to provide guided cultural tours, safety zone coverage, and visitor services powered by Leo's intelligence.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PARTNER CTA ═══ -->
+<section id="partner" class="partner-section">
+  <div class="container">
+    <div class="partner-box reveal">
+      <div class="section-tag" style="justify-content: center;" data-i18n="part_tag">Partner With Us</div>
+      <div class="section-title" data-i18n-html="part_title">PUT YOUR BUSINESS<br><span class="gradient-text">ON LEO'S MAP</span></div>
+      <div class="section-desc" data-i18n="part_desc">Whether you're a restaurant, event organizer, municipality, or tourism operator — Leo can guide visitors directly to you with voice, context, and location intelligence.</div>
+      <div class="partner-ctas">
+        <a href="mailto:contact@gostardigital.com" class="btn-launch" data-i18n="part_cta1">Get In Touch ▸</a>
+        <a href="#launch" class="btn-outline" data-i18n="part_cta2">Try The Demo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div>
+        <div class="footer-brand">LA VOZ <span>PR</span></div>
+        <div class="footer-company">GoStar Digital LLC — San Juan, Puerto Rico</div>
+      </div>
+      <div class="footer-links">
+        <a href="#features" data-i18n="nav_features">Features</a>
+        <a href="#use-cases" data-i18n="nav_cases">Use Cases</a>
+        <a href="#partner" data-i18n="nav_partner">Partner</a>
+        <a href="mailto:contact@gostardigital.com" data-i18n="foot_contact">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ═══ i18n TRANSLATION SYSTEM ═══
+const translations = {
+  en: {
+    nav_features: "Features",
+    nav_how: "How It Works",
+    nav_cases: "Use Cases",
+    nav_partner: "Partner",
+    nav_launch: "Launch Leo ▸",
+    hero_tag: "AI-Powered Voice Guide",
+    hero_title: 'MEET <span class="gradient-text">LEO</span><br>YOUR VOICE IN<br>PUERTO RICO',
+    hero_desc: "Leo is a bilingual, location-aware AI companion that knows where you are, what's around you, and speaks your language. Navigate Puerto Rico with real-time voice guidance, cultural insights, and safety awareness.",
+    hero_cta: "Launch Leo ▸",
+    hero_cta2: "See Features",
+    phone_voice: "Mira, you're 200 feet from La Bombonera — best mallorcas on the island. Want me to tell you the story behind it?",
+    stat_1: "Bilingual (EN/ES)",
+    stat_2: "Location-Aware",
+    stat_3: "Voice Available",
+    stat_4: "Scalable POIs",
+    feat_tag: "Platform Features",
+    feat_title: 'MORE THAN A CHATBOT.<br><span class="gradient-text">A LOCATION PLATFORM.</span>',
+    feat_desc: "Leo combines AI intelligence, real-time GPS, and deep Puerto Rican knowledge into one voice-first experience that no off-the-shelf tool can replicate.",
+    f1_title: "BILINGUAL VOICE AI",
+    f1_desc: "Leo speaks English and Spanish fluidly — with authentic Puerto Rican flavor. Powered by Claude AI and ElevenLabs voice synthesis.",
+    f2_title: "GPS INTELLIGENCE",
+    f2_desc: "Leo knows exactly where you are. Every response is spatially aware, referencing nearby landmarks, restaurants, and points of interest in real time.",
+    f3_title: "INTERACTIVE MAP",
+    f3_desc: "Live map with categorized pins — culture, food, safety, events, family, nature. Tap any pin and Leo tells you the story behind it.",
+    f4_title: "SAFETY AWARENESS",
+    f4_desc: "ViaSegura integration delivers road safety zones, school zones, and driving alerts. Leo keeps you informed and protected.",
+    f5_title: "ADMIN DASHBOARD",
+    f5_desc: "Visual pin management — drop, edit, and organize POIs on a map. Filter by category, toggle active/inactive, export data. No code needed.",
+    f6_title: "OFFLINE FALLBACK",
+    f6_desc: "If connectivity drops, Leo falls back to built-in knowledge for every POI. Your guide never goes silent.",
+    how_tag: "How It Works",
+    how_title: 'THREE STEPS. <span class="gradient-text">ONE VOICE.</span>',
+    how_desc: "Get started with Leo in seconds — no app download required.",
+    h1_title: "SCAN & ENTER",
+    h1_desc: "Scan the QR code or visit lavozpr.com. Enter your access code to unlock Leo.",
+    h2_title: "ALLOW LOCATION",
+    h2_desc: "Grant GPS access so Leo knows where you are. He'll immediately orient you to your surroundings.",
+    h3_title: "TALK TO LEO",
+    h3_desc: "Ask anything — directions, food recommendations, history, safety tips. Leo responds with voice and shows it on the map.",
+    uc_tag: "Use Cases",
+    uc_title: 'BUILT FOR <span class="gradient-text">EVERY AUDIENCE</span>',
+    uc_desc: "From cruise ship passengers to event organizers — Leo adapts to every context in Puerto Rico.",
+    uc1_title: "CRUISE TOURISM",
+    uc1_desc: "QR codes at terminals give passengers an instant bilingual guide to Old San Juan. Leo walks them through every landmark, restaurant, and hidden gem.",
+    uc2_title: "EVENTS & FESTIVALS",
+    uc2_desc: "GAMERGY, festivals, concerts — Leo navigates venue layouts, schedules, and nearby amenities. The perfect event companion.",
+    uc3_title: "RESTAURANTS & BUSINESSES",
+    uc3_desc: "Sponsored pins put your business on Leo's map. When visitors are nearby, Leo recommends you — with your story, menu, and context.",
+    uc4_title: "MUNICIPALITIES",
+    uc4_desc: "Partner with towns to provide guided cultural tours, safety zone coverage, and visitor services powered by Leo's intelligence.",
+    part_tag: "Partner With Us",
+    part_title: 'PUT YOUR BUSINESS<br><span class="gradient-text">ON LEO\'S MAP</span>',
+    part_desc: "Whether you're a restaurant, event organizer, municipality, or tourism operator — Leo can guide visitors directly to you with voice, context, and location intelligence.",
+    part_cta1: "Get In Touch ▸",
+    part_cta2: "Try The Demo",
+    foot_contact: "Contact"
+  },
+  es: {
+    nav_features: "Funciones",
+    nav_how: "Cómo Funciona",
+    nav_cases: "Usos",
+    nav_partner: "Alianzas",
+    nav_launch: "Activa a Leo ▸",
+    hero_tag: "Guía de Voz con IA",
+    hero_title: 'CONOCE A <span class="gradient-text">LEO</span><br>TU VOZ EN<br>PUERTO RICO',
+    hero_desc: "Leo es un compañero bilingüe con inteligencia artificial que sabe dónde estás, qué hay a tu alrededor y habla tu idioma. Navega Puerto Rico con guía por voz en tiempo real, cultura e información de seguridad.",
+    hero_cta: "Activa a Leo ▸",
+    hero_cta2: "Ver Funciones",
+    phone_voice: "Mira, estás a 200 pies de La Bombonera — las mejores mallorcas de la isla. ¿Quieres que te cuente la historia?",
+    stat_1: "Bilingüe (EN/ES)",
+    stat_2: "Con Ubicación GPS",
+    stat_3: "Voz Disponible",
+    stat_4: "POIs Escalables",
+    feat_tag: "Funciones de la Plataforma",
+    feat_title: 'MÁS QUE UN CHATBOT.<br><span class="gradient-text">UNA PLATAFORMA DE UBICACIÓN.</span>',
+    feat_desc: "Leo combina inteligencia artificial, GPS en tiempo real y conocimiento profundo de Puerto Rico en una experiencia de voz que ninguna herramienta genérica puede replicar.",
+    f1_title: "VOZ BILINGÜE CON IA",
+    f1_desc: "Leo habla inglés y español con fluidez — con sabor auténtico boricua. Impulsado por Claude AI y síntesis de voz ElevenLabs.",
+    f2_title: "INTELIGENCIA GPS",
+    f2_desc: "Leo sabe exactamente dónde estás. Cada respuesta es espacialmente consciente, referenciando lugares cercanos, restaurantes y puntos de interés en tiempo real.",
+    f3_title: "MAPA INTERACTIVO",
+    f3_desc: "Mapa en vivo con pins por categoría — cultura, comida, seguridad, eventos, familia, naturaleza. Toca cualquier pin y Leo te cuenta la historia.",
+    f4_title: "SEGURIDAD VIAL",
+    f4_desc: "La integración con ViaSegura ofrece zonas de seguridad vial, zonas escolares y alertas de manejo. Leo te mantiene informado y protegido.",
+    f5_title: "PANEL DE ADMINISTRACIÓN",
+    f5_desc: "Gestión visual de pins — coloca, edita y organiza POIs en el mapa. Filtra por categoría, activa o desactiva, exporta datos. Sin código.",
+    f6_title: "RESPALDO SIN CONEXIÓN",
+    f6_desc: "Si pierdes señal, Leo usa su conocimiento integrado para cada POI. Tu guía nunca se queda en silencio.",
+    how_tag: "Cómo Funciona",
+    how_title: 'TRES PASOS. <span class="gradient-text">UNA VOZ.</span>',
+    how_desc: "Empieza con Leo en segundos — no necesitas descargar nada.",
+    h1_title: "ESCANEA Y ENTRA",
+    h1_desc: "Escanea el código QR o visita lavozpr.com. Ingresa tu código de acceso para activar a Leo.",
+    h2_title: "PERMITE TU UBICACIÓN",
+    h2_desc: "Dale acceso al GPS para que Leo sepa dónde estás. Inmediatamente te orienta sobre tu entorno.",
+    h3_title: "HABLA CON LEO",
+    h3_desc: "Pregunta lo que quieras — direcciones, recomendaciones de comida, historia, seguridad. Leo responde con voz y lo muestra en el mapa.",
+    uc_tag: "Casos de Uso",
+    uc_title: 'DISEÑADO PARA <span class="gradient-text">TODA AUDIENCIA</span>',
+    uc_desc: "Desde pasajeros de crucero hasta organizadores de eventos — Leo se adapta a cada contexto en Puerto Rico.",
+    uc1_title: "TURISMO DE CRUCEROS",
+    uc1_desc: "Códigos QR en las terminales dan a los pasajeros un guía bilingüe instantáneo del Viejo San Juan. Leo los lleva por cada lugar, restaurante y joya escondida.",
+    uc2_title: "EVENTOS Y FESTIVALES",
+    uc2_desc: "GAMERGY, festivales, conciertos — Leo navega el layout del venue, horarios y servicios cercanos. El compañero perfecto para eventos.",
+    uc3_title: "RESTAURANTES Y NEGOCIOS",
+    uc3_desc: "Pins patrocinados ponen tu negocio en el mapa de Leo. Cuando los visitantes están cerca, Leo te recomienda — con tu historia, menú y contexto.",
+    uc4_title: "MUNICIPIOS",
+    uc4_desc: "Alianzas con pueblos para ofrecer tours culturales guiados, cobertura de zonas de seguridad y servicios al visitante impulsados por la inteligencia de Leo.",
+    part_tag: "Alianzas",
+    part_title: 'PON TU NEGOCIO<br><span class="gradient-text">EN EL MAPA DE LEO</span>',
+    part_desc: "Ya seas restaurante, organizador de eventos, municipio u operador turístico — Leo puede guiar visitantes directamente a ti con voz, contexto e inteligencia de ubicación.",
+    part_cta1: "Contáctanos ▸",
+    part_cta2: "Prueba El Demo",
+    foot_contact: "Contacto"
+  }
+};
+
+let currentLang = 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  // Update toggle buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  // Update html lang attribute
+  document.documentElement.lang = lang;
+  // Update all text elements
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (translations[lang][key]) {
+      el.textContent = translations[lang][key];
+    }
+  });
+  // Update all HTML elements (titles with spans)
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    const key = el.getAttribute('data-i18n-html');
+    if (translations[lang][key]) {
+      el.innerHTML = translations[lang][key];
+    }
+  });
+}
+
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// Mobile nav toggle
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+
+// Close mobile nav on link click
+navLinks.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => navLinks.classList.remove('open'));
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+reveals.forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
