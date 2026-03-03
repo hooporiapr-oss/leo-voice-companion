@@ -46,7 +46,6 @@ body {
 .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
 .gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-/* ═══ NAV ═══ */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 0; transition: background 0.3s, backdrop-filter 0.3s; }
 nav.scrolled { background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,215,0,0.08); }
 nav .container { display: flex; align-items: center; justify-content: space-between; }
@@ -74,7 +73,6 @@ nav .container { display: flex; align-items: center; justify-content: space-betw
 .nav-toggle.active span:nth-child(2) { opacity: 0; }
 .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 
-/* ═══ HERO ═══ */
 .hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 0 80px; position: relative; }
 .hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
 .hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.15); border-radius: 50px; font-size: 0.82rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; animation: fadeInUp 0.8s ease-out; }
@@ -84,7 +82,6 @@ nav .container { display: flex; align-items: center; justify-content: space-betw
 .hero p { font-size: 1.15rem; line-height: 1.7; color: var(--text-dim); max-width: 480px; margin-bottom: 36px; animation: fadeInUp 0.8s ease-out 0.2s both; }
 .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; animation: fadeInUp 0.8s ease-out 0.3s both; }
 
-/* Hero Visual — Leo Mascot */
 .hero-visual { position: relative; animation: fadeInUp 1s ease-out 0.4s both; display: flex; flex-direction: column; align-items: center; }
 .leo-mascot-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
 .leo-glow { position: absolute; width: 340px; height: 340px; border-radius: 50%; background: radial-gradient(circle, rgba(255,215,0,0.18) 0%, rgba(255,107,53,0.08) 50%, transparent 70%); filter: blur(40px); animation: leo-breathe 4s ease-in-out infinite; z-index: 0; }
@@ -112,20 +109,17 @@ nav .container { display: flex; align-items: center; justify-content: space-betw
 .badge-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
 .badge-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; color: var(--teal); letter-spacing: 1px; }
 
-/* ═══ STATS ═══ */
 .stats-bar { padding: 40px 0; border-top: 1px solid rgba(255,215,0,0.06); border-bottom: 1px solid rgba(255,215,0,0.06); }
 .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; text-align: center; }
 .stat-number { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; letter-spacing: 2px; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 .stat-label { font-size: 0.82rem; color: var(--text-dim); letter-spacing: 0.5px; margin-top: 4px; }
 
-/* ═══ SECTIONS ═══ */
 section { padding: 100px 0; }
 .section-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
 .section-tag::before { content: ''; width: 24px; height: 1.5px; background: var(--gradient); }
 .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.2rem, 4.5vw, 3.6rem); letter-spacing: 1.5px; line-height: 1; margin-bottom: 20px; }
 .section-desc { font-size: 1.05rem; color: var(--text-dim); line-height: 1.7; max-width: 560px; }
 
-/* ═══ FEATURES ═══ */
 .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 60px; }
 .feature-card { background: var(--card-bg); border: 1px solid rgba(255,215,0,0.06); border-radius: 20px; padding: 36px 28px; transition: all 0.4s; position: relative; overflow: hidden; }
 .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient); opacity: 0; transition: opacity 0.4s; }
@@ -141,7 +135,6 @@ section { padding: 100px 0; }
 .feature-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 1px; margin-bottom: 10px; }
 .feature-card p { font-size: 0.92rem; color: var(--text-dim); line-height: 1.6; }
 
-/* ═══ HOW IT WORKS ═══ */
 .how-section { background: rgba(18,18,28,0.4); }
 .how-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 60px; }
 .how-step { text-align: center; }
@@ -149,7 +142,6 @@ section { padding: 100px 0; }
 .how-step h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 1px; margin-bottom: 10px; }
 .how-step p { font-size: 0.92rem; color: var(--text-dim); line-height: 1.6; max-width: 300px; margin: 0 auto; }
 
-/* ═══ USE CASES ═══ */
 .use-cases-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 60px; }
 .use-case { background: var(--card-bg); border: 1px solid rgba(255,215,0,0.06); border-radius: 20px; padding: 36px 32px; display: flex; gap: 20px; align-items: flex-start; transition: all 0.4s; }
 .use-case:hover { border-color: rgba(255,215,0,0.12); transform: translateY(-2px); }
@@ -157,7 +149,6 @@ section { padding: 100px 0; }
 .use-case h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 1px; margin-bottom: 6px; }
 .use-case p { font-size: 0.88rem; color: var(--text-dim); line-height: 1.6; }
 
-/* ═══ PARTNER ═══ */
 .partner-section { text-align: center; }
 .partner-box { background: var(--card-bg); border: 1px solid rgba(255,215,0,0.1); border-radius: 28px; padding: 72px 48px; max-width: 800px; margin: 0 auto; position: relative; overflow: hidden; }
 .partner-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient); }
@@ -165,7 +156,6 @@ section { padding: 100px 0; }
 .partner-box .section-desc { max-width: 500px; margin: 0 auto 36px; }
 .partner-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
 
-/* ═══ FOOTER BRANDING ═══ */
 .footer-branding { padding: 60px 0 0; text-align: center; position: relative; z-index: 1; }
 .footer-logo { width: 160px; height: auto; margin-bottom: 16px; filter: drop-shadow(0 4px 20px rgba(255,215,0,0.15)); }
 .footer-copyright { font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: var(--text-dim); letter-spacing: 0.3px; margin-bottom: 10px; }
@@ -174,7 +164,6 @@ section { padding: 100px 0; }
 .footer-legal a:hover { color: var(--gold); }
 .footer-legal-divider { color: rgba(255,215,0,0.2); font-size: 0.75rem; }
 
-/* ═══ FOOTER ═══ */
 footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margin-top: 40px; }
 .footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
 .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 2px; }
@@ -184,12 +173,10 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
 .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 0.85rem; transition: color 0.3s; }
 .footer-links a:hover { color: var(--gold); }
 
-/* ═══ ANIMATIONS ═══ */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease-out; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* ═══ RESPONSIVE ═══ */
 @media (max-width: 960px) {
   .hero-content { grid-template-columns: 1fr; text-align: center; }
   .hero p { margin-left: auto; margin-right: auto; }
@@ -289,7 +276,7 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
         </div>
         <div class="leo-mascot-wrap">
           <div class="leo-glow"></div>
-          <img src="leo.png" alt="GoStar — Tu Gu&#237;a Boricua" class="leo-mascot" />
+          <img src="lavozpr.png" alt="GoStar — La Voz de Puerto Rico" class="leo-mascot" />
         </div>
         <div class="leo-voice-bubble">
           <div class="voice-wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -360,7 +347,7 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
   <div class="container">
     <div class="partner-box reveal">
       <div class="section-tag" style="justify-content:center;" data-i18n="part_tag">Partner With Us</div>
-      <div class="section-title" data-i18n-html="part_title">PUT YOUR BUSINESS<br><span class="gradient-text">ON GOSTAR'S MAP</span></div>
+      <div class="section-title" data-i18n-html="part_title">PUT YOUR BUSINESS<br><span class="gradient-text">ON THE GOSTAR MAP</span></div>
       <div class="section-desc" data-i18n="part_desc">Whether you're a restaurant, event organizer, municipality, or tourism operator &#8212; GoStar can guide visitors directly to you with voice, context, and location intelligence.</div>
       <div class="partner-ctas">
         <a href="mailto:contact@gostardigital.com" class="btn-launch" data-i18n="part_cta1">Get In Touch &#9656;</a>
@@ -370,7 +357,6 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
   </div>
 </section>
 
-<!-- GoStar Branding + Legal -->
 <div class="footer-branding">
   <div class="container">
     <img src="gostar.png" alt="GoStar Digital" class="footer-logo" />
@@ -400,17 +386,20 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
 
 <script>
 (function() {
+  var defined = "gradient-text";
+  var gs = '<span class="' + defined + '">';
+  var ge = '</span>';
   var translations = {
     en: {
       nav_features: "Features", nav_how: "How It Works", nav_cases: "Use Cases", nav_partner: "Partner", nav_pricing: "Pricing", nav_launch: "Launch GoStar \u25b8",
       hero_tag: "AI-Powered Voice Guide",
-      hero_title: 'MEET <span class="gradient-text">GOSTAR</span><br>YOUR VOICE IN<br>PUERTO RICO',
-      hero_desc: "GoStar is a bilingual, location-aware AI companion that knows where you are, what's around you, and speaks your language. Navigate Puerto Rico with real-time voice guidance, cultural insights, and safety awareness.",
+      hero_title: "MEET " + gs + "GOSTAR" + ge + "<br>YOUR VOICE IN<br>PUERTO RICO",
+      hero_desc: "GoStar is a bilingual, location-aware AI companion that knows where you are, what\u2019s around you, and speaks your language. Navigate Puerto Rico with real-time voice guidance, cultural insights, and safety awareness.",
       hero_cta: "Launch GoStar \u25b8", hero_cta2: "See Features",
-      phone_voice: "Mira, you're 200 feet from La Bombonera \u2014 best mallorcas on the island. Want me to tell you the story behind it?",
+      phone_voice: "Mira, you\u2019re 200 feet from La Bombonera \u2014 best mallorcas on the island. Want me to tell you the story behind it?",
       stat_1: "Bilingual (EN/ES)", stat_2: "Location-Aware", stat_3: "Voice Available", stat_4: "Scalable POIs",
       feat_tag: "Platform Features",
-      feat_title: 'MORE THAN A CHATBOT.<br><span class="gradient-text">A LOCATION PLATFORM.</span>',
+      feat_title: "MORE THAN A CHATBOT.<br>" + gs + "A LOCATION PLATFORM." + ge,
       feat_desc: "GoStar combines AI intelligence, real-time GPS, and deep Puerto Rican knowledge into one voice-first experience that no off-the-shelf tool can replicate.",
       f1_title: "BILINGUAL VOICE AI", f1_desc: "GoStar speaks English and Spanish fluidly \u2014 with authentic Puerto Rican flavor. Powered by Claude AI and ElevenLabs voice synthesis.",
       f2_title: "GPS INTELLIGENCE", f2_desc: "GoStar knows exactly where you are. Every response is spatially aware, referencing nearby landmarks, restaurants, and points of interest in real time.",
@@ -418,29 +407,29 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
       f4_title: "SAFETY AWARENESS", f4_desc: "ViaSegura integration delivers road safety zones, school zones, and driving alerts. GoStar keeps you informed and protected.",
       f5_title: "ADMIN DASHBOARD", f5_desc: "Visual pin management \u2014 drop, edit, and organize POIs on a map. Filter by category, toggle active/inactive, export data. No code needed.",
       f6_title: "OFFLINE FALLBACK", f6_desc: "If connectivity drops, GoStar falls back to built-in knowledge for every POI. Your guide never goes silent.",
-      how_tag: "How It Works", how_title: 'THREE STEPS. <span class="gradient-text">ONE VOICE.</span>', how_desc: "Get started with GoStar in seconds \u2014 no app download required.",
+      how_tag: "How It Works", how_title: "THREE STEPS. " + gs + "ONE VOICE." + ge, how_desc: "Get started with GoStar in seconds \u2014 no app download required.",
       h1_title: "SCAN & ENTER", h1_desc: "Scan the QR code or visit lavozpr.com. Enter your access code to unlock GoStar.",
-      h2_title: "ALLOW LOCATION", h2_desc: "Grant GPS access so GoStar knows where you are. It'll immediately orient you to your surroundings.",
+      h2_title: "ALLOW LOCATION", h2_desc: "Grant GPS access so GoStar knows where you are. It\u2019ll immediately orient you to your surroundings.",
       h3_title: "TALK TO GOSTAR", h3_desc: "Ask anything \u2014 directions, food recommendations, history, safety tips. GoStar responds with voice and shows it on the map.",
-      uc_tag: "Use Cases", uc_title: 'BUILT FOR <span class="gradient-text">EVERY AUDIENCE</span>', uc_desc: "From cruise ship passengers to event organizers \u2014 GoStar adapts to every context in Puerto Rico.",
+      uc_tag: "Use Cases", uc_title: "BUILT FOR " + gs + "EVERY AUDIENCE" + ge, uc_desc: "From cruise ship passengers to event organizers \u2014 GoStar adapts to every context in Puerto Rico.",
       uc1_title: "CRUISE TOURISM", uc1_desc: "QR codes at terminals give passengers an instant bilingual guide to Old San Juan. GoStar walks them through every landmark, restaurant, and hidden gem.",
       uc2_title: "EVENTS & FESTIVALS", uc2_desc: "GAMERGY, festivals, concerts \u2014 GoStar navigates venue layouts, schedules, and nearby amenities. The perfect event companion.",
-      uc3_title: "RESTAURANTS & BUSINESSES", uc3_desc: "Sponsored pins put your business on GoStar's map. When visitors are nearby, GoStar recommends you \u2014 with your story, menu, and context.",
-      uc4_title: "MUNICIPALITIES", uc4_desc: "Partner with towns to provide guided cultural tours, safety zone coverage, and visitor services powered by GoStar's intelligence.",
-      part_tag: "Partner With Us", part_title: 'PUT YOUR BUSINESS<br><span class="gradient-text">ON GOSTAR\'S MAP</span>',
-      part_desc: "Whether you're a restaurant, event organizer, municipality, or tourism operator \u2014 GoStar can guide visitors directly to you with voice, context, and location intelligence.",
+      uc3_title: "RESTAURANTS & BUSINESSES", uc3_desc: "Sponsored pins put your business on GoStar\u2019s map. When visitors are nearby, GoStar recommends you \u2014 with your story, menu, and context.",
+      uc4_title: "MUNICIPALITIES", uc4_desc: "Partner with towns to provide guided cultural tours, safety zone coverage, and visitor services powered by GoStar\u2019s intelligence.",
+      part_tag: "Partner With Us", part_title: "PUT YOUR BUSINESS<br>" + gs + "ON THE GOSTAR MAP" + ge,
+      part_desc: "Whether you\u2019re a restaurant, event organizer, municipality, or tourism operator \u2014 GoStar can guide visitors directly to you with voice, context, and location intelligence.",
       part_cta1: "Get In Touch \u25b8", part_cta2: "Try The Demo", foot_contact: "Contact"
     },
     es: {
       nav_features: "Funciones", nav_how: "C\u00f3mo Funciona", nav_cases: "Usos", nav_partner: "Alianzas", nav_pricing: "Precios", nav_launch: "Activa GoStar \u25b8",
       hero_tag: "Gu\u00eda de Voz con IA",
-      hero_title: 'CONOCE A <span class="gradient-text">GOSTAR</span><br>TU VOZ EN<br>PUERTO RICO',
+      hero_title: "CONOCE A " + gs + "GOSTAR" + ge + "<br>TU VOZ EN<br>PUERTO RICO",
       hero_desc: "GoStar es un compa\u00f1ero biling\u00fce con inteligencia artificial que sabe d\u00f3nde est\u00e1s, qu\u00e9 hay a tu alrededor y habla tu idioma. Navega Puerto Rico con gu\u00eda por voz en tiempo real, cultura e informaci\u00f3n de seguridad.",
       hero_cta: "Activa GoStar \u25b8", hero_cta2: "Ver Funciones",
       phone_voice: "Mira, est\u00e1s a 200 pies de La Bombonera \u2014 las mejores mallorcas de la isla. \u00bfQuieres que te cuente la historia?",
       stat_1: "Biling\u00fce (EN/ES)", stat_2: "Con Ubicaci\u00f3n GPS", stat_3: "Voz Disponible", stat_4: "POIs Escalables",
       feat_tag: "Funciones de la Plataforma",
-      feat_title: 'M\u00c1S QUE UN CHATBOT.<br><span class="gradient-text">UNA PLATAFORMA DE UBICACI\u00d3N.</span>',
+      feat_title: "M\u00c1S QUE UN CHATBOT.<br>" + gs + "UNA PLATAFORMA DE UBICACI\u00d3N." + ge,
       feat_desc: "GoStar combina inteligencia artificial, GPS en tiempo real y conocimiento profundo de Puerto Rico en una experiencia de voz que ninguna herramienta gen\u00e9rica puede replicar.",
       f1_title: "VOZ BILING\u00dcE CON IA", f1_desc: "GoStar habla ingl\u00e9s y espa\u00f1ol con fluidez \u2014 con sabor aut\u00e9ntico boricua. Impulsado por Claude AI y s\u00edntesis de voz ElevenLabs.",
       f2_title: "INTELIGENCIA GPS", f2_desc: "GoStar sabe exactamente d\u00f3nde est\u00e1s. Cada respuesta es espacialmente consciente, referenciando lugares cercanos, restaurantes y puntos de inter\u00e9s en tiempo real.",
@@ -448,16 +437,16 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
       f4_title: "SEGURIDAD VIAL", f4_desc: "La integraci\u00f3n con ViaSegura ofrece zonas de seguridad vial, zonas escolares y alertas de manejo. GoStar te mantiene informado y protegido.",
       f5_title: "PANEL DE ADMINISTRACI\u00d3N", f5_desc: "Gesti\u00f3n visual de pins \u2014 coloca, edita y organiza POIs en el mapa. Filtra por categor\u00eda, activa o desactiva, exporta datos. Sin c\u00f3digo.",
       f6_title: "RESPALDO SIN CONEXI\u00d3N", f6_desc: "Si pierdes se\u00f1al, GoStar usa su conocimiento integrado para cada POI. Tu gu\u00eda nunca se queda en silencio.",
-      how_tag: "C\u00f3mo Funciona", how_title: 'TRES PASOS. <span class="gradient-text">UNA VOZ.</span>', how_desc: "Empieza con GoStar en segundos \u2014 no necesitas descargar nada.",
+      how_tag: "C\u00f3mo Funciona", how_title: "TRES PASOS. " + gs + "UNA VOZ." + ge, how_desc: "Empieza con GoStar en segundos \u2014 no necesitas descargar nada.",
       h1_title: "ESCANEA Y ENTRA", h1_desc: "Escanea el c\u00f3digo QR o visita lavozpr.com. Ingresa tu c\u00f3digo de acceso para activar GoStar.",
       h2_title: "PERMITE TU UBICACI\u00d3N", h2_desc: "Dale acceso al GPS para que GoStar sepa d\u00f3nde est\u00e1s. Inmediatamente te orienta sobre tu entorno.",
       h3_title: "HABLA CON GOSTAR", h3_desc: "Pregunta lo que quieras \u2014 direcciones, recomendaciones de comida, historia, seguridad. GoStar responde con voz y lo muestra en el mapa.",
-      uc_tag: "Casos de Uso", uc_title: 'DISE\u00d1ADO PARA <span class="gradient-text">TODA AUDIENCIA</span>', uc_desc: "Desde pasajeros de crucero hasta organizadores de eventos \u2014 GoStar se adapta a cada contexto en Puerto Rico.",
+      uc_tag: "Casos de Uso", uc_title: "DISE\u00d1ADO PARA " + gs + "TODA AUDIENCIA" + ge, uc_desc: "Desde pasajeros de crucero hasta organizadores de eventos \u2014 GoStar se adapta a cada contexto en Puerto Rico.",
       uc1_title: "TURISMO DE CRUCEROS", uc1_desc: "C\u00f3digos QR en las terminales dan a los pasajeros un gu\u00eda biling\u00fce instant\u00e1neo del Viejo San Juan. GoStar los lleva por cada lugar, restaurante y joya escondida.",
       uc2_title: "EVENTOS Y FESTIVALES", uc2_desc: "GAMERGY, festivales, conciertos \u2014 GoStar navega el layout del venue, horarios y servicios cercanos. El compa\u00f1ero perfecto para eventos.",
       uc3_title: "RESTAURANTES Y NEGOCIOS", uc3_desc: "Pins patrocinados ponen tu negocio en el mapa de GoStar. Cuando los visitantes est\u00e1n cerca, GoStar te recomienda \u2014 con tu historia, men\u00fa y contexto.",
       uc4_title: "MUNICIPIOS", uc4_desc: "Alianzas con pueblos para ofrecer tours culturales guiados, cobertura de zonas de seguridad y servicios al visitante impulsados por la inteligencia de GoStar.",
-      part_tag: "Alianzas", part_title: 'PON TU NEGOCIO<br><span class="gradient-text">EN EL MAPA DE GOSTAR</span>',
+      part_tag: "Alianzas", part_title: "PON TU NEGOCIO<br>" + gs + "EN EL MAPA DE GOSTAR" + ge,
       part_desc: "Ya seas restaurante, organizador de eventos, municipio u operador tur\u00edstico \u2014 GoStar puede guiar visitantes directamente a ti con voz, contexto e inteligencia de ubicaci\u00f3n.",
       part_cta1: "Cont\u00e1ctanos \u25b8", part_cta2: "Prueba El Demo", foot_contact: "Contacto"
     }
@@ -484,6 +473,7 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
   var observer = new IntersectionObserver(function(entries) { for (var i = 0; i < entries.length; i++) { if (entries[i].isIntersecting) { (function(target, delay) { setTimeout(function() { target.classList.add('visible'); }, delay); })(entries[i].target, i * 80); observer.unobserve(entries[i].target); } } }, { threshold: 0.15 });
   for (var i = 0; i < reveals.length; i++) { observer.observe(reveals[i]); }
 })();
+
 </script>
 
 </body>
