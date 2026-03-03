@@ -245,6 +245,7 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
         <a href="#use-cases" data-i18n="nav_cases">Use Cases</a>
         <a href="#partner" data-i18n="nav_partner">Partner</a>
         <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+        <a href="laruta.html" data-i18n="nav_laruta" style="color:var(--gold);">&#127908; La Ruta</a>
         <a href="app.html" class="btn-launch mobile-menu-cta" data-i18n="nav_launch">Launch GoStar &#9656;</a>
       </div>
       <div class="lang-toggle">
@@ -359,6 +360,26 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
   </div>
 </section>
 
+<!-- LA RUTA HIGHLIGHT -->
+<section id="laruta" style="padding:80px 0;">
+  <div class="container">
+    <div style="background:var(--card-bg);border:1px solid rgba(255,215,0,0.15);border-radius:28px;padding:60px 48px;max-width:900px;margin:0 auto;position:relative;overflow:hidden;text-align:center;">
+      <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--gold),var(--orange));"></div>
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(0,217,165,0.1);border:1px solid rgba(0,217,165,0.2);border-radius:50px;font-size:0.82rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:24px;" data-i18n="lr_tag">&#127908; Free Voice Tour</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,4.5vw,3.6rem);letter-spacing:1.5px;line-height:1;margin-bottom:16px;" data-i18n-html="lr_title">LA <span class="gradient-text">RUTA</span> &#8212; LET GOSTAR SHOW YOU THE ISLAND</div>
+      <p style="font-size:1.1rem;color:var(--text-dim);line-height:1.7;max-width:600px;margin:0 auto 20px;" data-i18n="lr_desc">Explore Puerto Rico entirely by voice. Ask GoStar about any town, beach, landmark, food, or hidden gem &#8212; no GPS needed, just conversation.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:32px;">
+        <span style="padding:6px 16px;background:rgba(255,215,0,0.08);border:1px solid rgba(255,215,0,0.12);border-radius:50px;font-size:0.82rem;color:var(--gold);" data-i18n="lr_chip1">&#127963;&#65039; History</span>
+        <span style="padding:6px 16px;background:rgba(0,217,165,0.08);border:1px solid rgba(0,217,165,0.12);border-radius:50px;font-size:0.82rem;color:var(--teal);" data-i18n="lr_chip2">&#127869;&#65039; Food</span>
+        <span style="padding:6px 16px;background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.12);border-radius:50px;font-size:0.82rem;color:var(--orange);" data-i18n="lr_chip3">&#127754; Beaches</span>
+        <span style="padding:6px 16px;background:rgba(123,104,238,0.08);border:1px solid rgba(123,104,238,0.12);border-radius:50px;font-size:0.82rem;color:var(--purple);" data-i18n="lr_chip4">&#127926; Music</span>
+        <span style="padding:6px 16px;background:rgba(50,205,50,0.08);border:1px solid rgba(50,205,50,0.12);border-radius:50px;font-size:0.82rem;color:var(--green);" data-i18n="lr_chip5">&#128161; Local Tips</span>
+      </div>
+      <a href="laruta.html" class="btn-launch" style="font-size:1.15rem;padding:16px 40px;" data-i18n="lr_cta">Start La Ruta &#9656;</a>
+    </div>
+  </div>
+</section>
+
 <div class="footer-branding">
   <div class="container">
     <img src="gostar.png" alt="GoStar Digital" class="footer-logo" />
@@ -385,7 +406,7 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
   var E = '</span>';
   var translations = {
     en: {
-      nav_features: "Features", nav_how: "How It Works", nav_cases: "Use Cases", nav_partner: "Partner", nav_pricing: "Pricing", nav_launch: "Launch GoStar \u25b8",
+      nav_features: "Features", nav_how: "How It Works", nav_cases: "Use Cases", nav_partner: "Partner", nav_pricing: "Pricing", nav_laruta: "\ud83c\udfa4 La Ruta", nav_launch: "Launch GoStar \u25b8",
       hero_tag: "AI-Powered Voice Guide",
       hero_title: "MEET " + G + "GOSTAR" + E + "<br>YOUR VOICE IN<br>PUERTO RICO",
       hero_desc: "GoStar is a bilingual, location-aware AI companion that knows where you are, what\u2019s around you, and speaks your language. Navigate Puerto Rico with real-time voice guidance, cultural insights, and safety awareness.",
@@ -412,10 +433,15 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
       uc4_title: "MUNICIPALITIES", uc4_desc: "Partner with towns to provide guided cultural tours, safety zone coverage, and visitor services powered by GoStar\u2019s intelligence.",
       part_tag: "Partner With Us", part_title: "PUT YOUR BUSINESS<br>" + G + "ON THE GOSTAR MAP" + E,
       part_desc: "Whether you\u2019re a restaurant, event organizer, municipality, or tourism operator \u2014 GoStar can guide visitors directly to you with voice, context, and location intelligence.",
-      part_cta1: "Get In Touch \u25b8", part_cta2: "Try The Demo", foot_contact: "Contact"
+      part_cta1: "Get In Touch \u25b8", part_cta2: "Try The Demo", foot_contact: "Contact",
+      lr_tag: "\ud83c\udfa4 Free Voice Tour",
+      lr_title: "LA " + G + "RUTA" + E + " \u2014 LET GOSTAR SHOW YOU THE ISLAND",
+      lr_desc: "Explore Puerto Rico entirely by voice. Ask GoStar about any town, beach, landmark, food, or hidden gem \u2014 no GPS needed, just conversation.",
+      lr_chip1: "\ud83c\udfdb\ufe0f History", lr_chip2: "\ud83c\udf7d\ufe0f Food", lr_chip3: "\ud83c\udf0a Beaches", lr_chip4: "\ud83c\udfb6 Music", lr_chip5: "\ud83d\udca1 Local Tips",
+      lr_cta: "Start La Ruta \u25b8"
     },
     es: {
-      nav_features: "Funciones", nav_how: "C\u00f3mo Funciona", nav_cases: "Usos", nav_partner: "Alianzas", nav_pricing: "Precios", nav_launch: "Activa GoStar \u25b8",
+      nav_features: "Funciones", nav_how: "C\u00f3mo Funciona", nav_cases: "Usos", nav_partner: "Alianzas", nav_pricing: "Precios", nav_laruta: "\ud83c\udfa4 La Ruta", nav_launch: "Activa GoStar \u25b8",
       hero_tag: "Gu\u00eda de Voz con IA",
       hero_title: "CONOCE A " + G + "GOSTAR" + E + "<br>TU VOZ EN<br>PUERTO RICO",
       hero_desc: "GoStar es un compa\u00f1ero biling\u00fce con inteligencia artificial que sabe d\u00f3nde est\u00e1s, qu\u00e9 hay a tu alrededor y habla tu idioma. Navega Puerto Rico con gu\u00eda por voz en tiempo real, cultura e informaci\u00f3n de seguridad.",
@@ -442,7 +468,12 @@ footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margi
       uc4_title: "MUNICIPIOS", uc4_desc: "Alianzas con pueblos para ofrecer tours culturales guiados, cobertura de zonas de seguridad y servicios al visitante impulsados por la inteligencia de GoStar.",
       part_tag: "Alianzas", part_title: "PON TU NEGOCIO<br>" + G + "EN EL MAPA DE GOSTAR" + E,
       part_desc: "Ya seas restaurante, organizador de eventos, municipio u operador tur\u00edstico \u2014 GoStar puede guiar visitantes directamente a ti con voz, contexto e inteligencia de ubicaci\u00f3n.",
-      part_cta1: "Cont\u00e1ctanos \u25b8", part_cta2: "Prueba El Demo", foot_contact: "Contacto"
+      part_cta1: "Cont\u00e1ctanos \u25b8", part_cta2: "Prueba El Demo", foot_contact: "Contacto",
+      lr_tag: "\ud83c\udfa4 Tour de Voz Gratis",
+      lr_title: "LA " + G + "RUTA" + E + " \u2014 DEJA QUE GOSTAR TE MUESTRE LA ISLA",
+      lr_desc: "Explora Puerto Rico completamente por voz. Preg\u00fantale a GoStar sobre cualquier pueblo, playa, monumento, comida o joya escondida \u2014 sin GPS, solo conversaci\u00f3n.",
+      lr_chip1: "\ud83c\udfdb\ufe0f Historia", lr_chip2: "\ud83c\udf7d\ufe0f Comida", lr_chip3: "\ud83c\udf0a Playas", lr_chip4: "\ud83c\udfb6 M\u00fasica", lr_chip5: "\ud83d\udca1 Tips Locales",
+      lr_cta: "Inicia La Ruta \u25b8"
     }
   };
   function setLang(lang) {
