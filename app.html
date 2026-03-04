@@ -177,6 +177,13 @@ nav .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: fl
   var locCoords = document.getElementById("locCoords");
   var widgetLoaded = false;
 
+  function setLocation(status, coords, active) {
+    locStatus.textContent = status;
+    locCoords.textContent = coords || "";
+    if (active) { locDot.classList.add("active"); }
+    else { locDot.classList.remove("active"); }
+  }
+
   function loadWidget(lat, lng) {
     if (widgetLoaded) return;
     widgetLoaded = true;
@@ -186,49 +193,37 @@ nav .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: fl
     var widget = document.createElement("elevenlabs-convai");
     widget.setAttribute("agent-id", AGENT_ID);
     if (lat && lng) {
-      var vars = '{"user_latitude":"' + lat + '","user_longitude":"' + lng + '"}';
-      widget.setAttribute("dynamic-variables", vars);
+      widget.setAttribute("dynamic-variables", JSON.stringify({
+        user_latitude: String(lat),
+        user_longitude: String(lng)
+      }));
     }
     container.appendChild(widget);
   }
 
-  function startGPS() {
+  window.addEventListener("load", function() {
     if (!("geolocation" in navigator)) {
-      locStatus.textContent = "GPS not supported";
+      setLocation("GPS not supported \u2014 tell GoStar where you are", "", false);
       loadWidget(null, null);
       return;
     }
+
+    setLocation("Requesting GPS...", "", false);
 
     navigator.geolocation.getCurrentPosition(
       function(pos) {
         var lat = pos.coords.latitude.toFixed(6);
         var lng = pos.coords.longitude.toFixed(6);
-        locDot.classList.add("active");
-        locStatus.textContent = "Location active";
-        locCoords.textContent = lat + ", " + lng;
+        setLocation("GPS Active", lat + ", " + lng, true);
         loadWidget(lat, lng);
-
-        // Keep updating display
-        navigator.geolocation.watchPosition(
-          function(p) {
-            var la = p.coords.latitude.toFixed(6);
-            var lo = p.coords.longitude.toFixed(6);
-            locCoords.textContent = la + ", " + lo;
-          },
-          function() {},
-          { enableHighAccuracy: true, maximumAge: 10000 }
-        );
       },
       function(err) {
-        locStatus.textContent = "Location denied \u2014 tell GoStar where you are";
-        locCoords.textContent = "Error: " + err.message;
+        setLocation("GPS unavailable \u2014 tell GoStar where you are", "", false);
         loadWidget(null, null);
       },
-      { enableHighAccuracy: true, timeout: 8000 }
+      { enableHighAccuracy: true, timeout: 10000 }
     );
-  }
-
-  window.addEventListener("load", startGPS);
+  });
 })();
 </script>
 </body>
