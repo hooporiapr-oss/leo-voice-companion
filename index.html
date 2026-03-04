@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Voz PR &#8212; Puerto Rico's Digital Concierge</title>
+<meta name="description" content="GoStar is Puerto Rico's first AI concierge. Ask by voice about Old San Juan, El Yunque, Loiza, Rincon, Ponce and all 78 municipalities.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--dark:#07070c;--dark2:#0d0d14;--card:#111118;--gold:#FFD700;--orange:#FF6B35;--teal:#00D9A5;--text:#e8e8ec;--dim:#6a6a7a;--gradient:linear-gradient(135deg,#FFD700,#FF6B35)}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.bg-noise{position:fixed;inset:0;opacity:.03;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
+.bg-glow{position:fixed;border-radius:50%;filter:blur(200px);pointer-events:none;z-index:0}
+.bg-g1{width:800px;height:800px;top:-300px;left:50%;transform:translateX(-50%);background:var(--gold);opacity:.04}
+.bg-g2{width:500px;height:500px;bottom:-200px;right:-100px;background:var(--teal);opacity:.04}
+.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.en,.es{display:none}.en.show,.es.show{display:inline}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:12px 0;background:rgba(7,7,12,.9);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,215,0,.04)}
+nav .container{display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;text-decoration:none;color:var(--text);white-space:nowrap}
+.nav-logo span{color:var(--gold)}
+.nav-right{display:flex;align-items:center;gap:10px}
+.nav-link{font-size:.75rem;color:var(--dim);text-decoration:none;transition:color .3s}
+.nav-link:hover{color:var(--gold)}
+.lang-toggle{display:flex;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
+.lang-btn{padding:5px 10px;font-size:.7rem;font-weight:600;letter-spacing:1px;background:transparent;color:var(--dim);border:none;cursor:pointer;transition:all .2s}
+.lang-btn.active{background:rgba(255,215,0,.1);color:var(--gold)}
+.nav-cta{padding:10px 24px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s}
+.nav-cta:hover{transform:scale(1.04);box-shadow:0 4px 24px rgba(255,215,0,.2)}
+.hero{padding:160px 0 100px;text-align:center;position:relative}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(0,217,165,.08);border:1px solid rgba(0,217,165,.15);border-radius:50px;font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:28px}
+.hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3.2rem,11vw,8rem);line-height:.85;letter-spacing:4px;margin-bottom:12px}
+.hero h1 .sub{display:block;font-size:.35em;letter-spacing:8px;color:var(--dim);margin-top:8px}
+.hero-desc{font-size:1.15rem;line-height:1.8;color:var(--dim);max-width:540px;margin:0 auto 44px;font-weight:300}
+.hero-ctas{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:60px}
+.btn-primary{padding:16px 40px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,215,0,.25)}
+.btn-secondary{padding:16px 40px;background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+.btn-secondary:hover{border-color:rgba(255,215,0,.3);color:var(--gold)}
+.hero-stats{display:flex;justify-content:center;gap:60px}
+.hero-stat{text-align:center}
+.hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;letter-spacing:2px}
+.hero-stat-num.g{color:var(--gold)}.hero-stat-num.t{color:var(--teal)}.hero-stat-num.o{color:var(--orange)}
+.hero-stat-label{font-size:.68rem;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:2px}
+.section{padding:100px 0}
+.section-label{font-size:.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:3px;margin-bottom:48px}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.how-card{background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:24px;padding:40px 28px;position:relative;overflow:hidden;transition:all .4s}
+.how-card:hover{border-color:rgba(255,215,0,.12);transform:translateY(-4px)}
+.how-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient);opacity:0;transition:opacity .4s}
+.how-card:hover::before{opacity:1}
+.how-num{font-family:'Bebas Neue',sans-serif;font-size:4rem;line-height:1;opacity:.08;position:absolute;top:16px;right:20px}
+.how-icon{font-size:2rem;margin-bottom:16px}
+.how-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1.5px;margin-bottom:8px}
+.how-desc{font-size:.88rem;color:var(--dim);line-height:1.6}
+/* HIGHLIGHTS */
+.highlights{padding:80px 0}
+.hl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.hl-card{background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:20px;padding:28px 24px;transition:all .4s;text-decoration:none;display:block;position:relative;overflow:hidden;cursor:pointer}
+.hl-card:hover{border-color:rgba(255,215,0,.15);transform:translateY(-4px)}
+.hl-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient);opacity:0;transition:opacity .4s}
+.hl-card:hover::before{opacity:1}
+.hl-icon{font-size:2rem;margin-bottom:12px}
+.hl-name{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:1.5px;color:var(--text);margin-bottom:6px}
+.hl-desc{font-size:.82rem;color:var(--dim);line-height:1.5;margin-bottom:14px}
+.hl-tags{display:flex;gap:6px;flex-wrap:wrap}
+.hl-tag{font-size:.65rem;padding:3px 9px;border-radius:6px;background:rgba(255,255,255,.04);color:var(--dim);border:1px solid rgba(255,255,255,.06);letter-spacing:.5px}
+.hl-ask{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:1.5px;color:var(--gold);opacity:.7;transition:opacity .3s}
+.hl-card:hover .hl-ask{opacity:1}
+/* MUNICIPALITIES */
+.muni-section{padding:80px 0}
+.muni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:32px}
+.muni-card{padding:14px;background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:14px;text-align:center;font-size:.78rem;color:var(--dim);transition:all .3s;text-decoration:none;position:relative}
+.muni-card:hover{border-color:rgba(255,215,0,.15);color:var(--gold);transform:translateY(-2px)}
+.muni-search{width:100%;max-width:400px;padding:12px 20px;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:50px;color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;outline:none;transition:border-color .3s}
+.muni-search:focus{border-color:rgba(255,215,0,.2)}
+.partner-section{padding:80px 0;text-align:center}
+.partner-card{background:var(--dark2);border:1px solid rgba(0,217,165,.1);border-radius:32px;padding:64px 40px;max-width:700px;margin:0 auto}
+.partner-card h2{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:3px;margin-bottom:12px}
+.partner-card p{color:var(--dim);font-size:1rem;line-height:1.7;max-width:480px;margin:0 auto 28px}
+.footer{padding:40px 0;text-align:center;border-top:1px solid rgba(255,215,0,.04)}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;margin-bottom:4px}
+.footer-logo span{color:var(--gold)}
+.footer-sub{font-size:.7rem;color:var(--dim);letter-spacing:.5px}
+.footer-links{margin-top:12px;display:flex;justify-content:center;gap:20px}
+.footer-links a{font-size:.72rem;color:var(--dim);text-decoration:none;transition:color .3s}
+.footer-links a:hover{color:var(--gold)}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.reveal{animation:fadeInUp .8s ease-out both}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--text);font-size:1.4rem;line-height:1}
+.mob-menu{display:none;position:fixed;top:52px;left:0;right:0;background:rgba(7,7,12,.96);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,215,0,.06);padding:16px 24px;z-index:99;flex-direction:column;gap:14px;text-align:center}
+.mob-menu.open{display:flex}
+.mob-menu a{font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--dim);text-decoration:none;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04);transition:color .3s}
+.mob-menu a:last-child{border-bottom:none}
+.mob-menu a:hover,.mob-menu a.mob-cta{color:var(--gold)}
+.mob-lang{padding-top:8px}
+@media(max-width:768px){
+.nav-link{display:none}
+.nav-cta{display:none}
+.desk-lang{display:none}
+.hamburger{display:block}
+.nav-right{gap:6px}
+.nav-logo{font-size:1.3rem;letter-spacing:2px}
+.lang-btn{padding:4px 7px;font-size:.62rem}
+.lang-toggle{border:1px solid rgba(255,255,255,.04)}
+nav{padding:8px 0}
+.hero{padding:90px 0 50px}
+.hero h1{font-size:clamp(2.6rem,9vw,3.5rem)}
+.hero h1 .sub{font-size:.38em;letter-spacing:4px}
+.hero-badge{font-size:.62rem;padding:4px 12px;margin-bottom:18px}
+.hero-desc{font-size:.9rem;margin-bottom:28px;padding:0 4px;line-height:1.7}
+.hero-ctas{flex-direction:column;align-items:center;gap:12px}
+.btn-primary,.btn-secondary{padding:14px 32px;font-size:.95rem;width:100%;max-width:300px;justify-content:center}
+.hero-stats{gap:24px}
+.hero-stat-num{font-size:2.2rem}
+.hero-stat-label{font-size:.6rem}
+.section{padding:60px 0}
+.section-title{font-size:clamp(1.6rem,5vw,2.5rem);margin-bottom:32px}
+.how-grid{grid-template-columns:1fr;gap:14px}
+.how-card{padding:28px 22px}
+.highlights{padding:40px 0}
+.hl-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+.hl-card{padding:18px 14px}
+.hl-icon{font-size:1.6rem;margin-bottom:8px}
+.hl-name{font-size:1.1rem}
+.hl-desc{font-size:.75rem;line-height:1.45;margin-bottom:10px}
+.hl-tag{font-size:.58rem;padding:2px 6px}
+.hl-ask{font-size:.7rem;margin-top:10px}
+.muni-section{padding:40px 0}
+.muni-grid{grid-template-columns:repeat(3,1fr);gap:6px}
+.muni-card{padding:10px 6px;font-size:.68rem;border-radius:10px}
+.muni-search{max-width:100%;font-size:.85rem;padding:10px 16px}
+.partner-section{padding:40px 0}
+.partner-card{padding:32px 20px;border-radius:20px}
+.partner-card h2{font-size:1.5rem}
+.partner-card p{font-size:.85rem}
+.footer{padding:24px 0}
+.footer-links{flex-wrap:wrap;gap:12px}
+.container{padding:0 14px}
+.section-label{font-size:.6rem;letter-spacing:2px}
+}
+@media(max-width:380px){
+.hero h1{font-size:2.2rem}
+.hero-stats{gap:14px}
+.hero-stat-num{font-size:1.6rem}
+.hero-stat-label{font-size:.55rem}
+.nav-logo{font-size:1.15rem;letter-spacing:1px}
+.hl-grid{grid-template-columns:1fr}
+.muni-grid{grid-template-columns:repeat(3,1fr)}
+.muni-card{font-size:.62rem;padding:8px 4px}
+.section-title{font-size:1.4rem}
+}
+</style>
+</head>
+<body>
+<div class="bg-noise"></div>
+<div class="bg-glow bg-g1"></div>
+<div class="bg-glow bg-g2"></div>
+<nav><div class="container">
+<a href="index.html" class="nav-logo">LA VOZ <span>PR</span></a>
+<div class="nav-right">
+<a href="#highlights" class="nav-link"><span class="en show">Highlights</span><span class="es">Destacados</span></a>
+<a href="#municipalities" class="nav-link"><span class="en show">Municipalities</span><span class="es">Municipios</span></a>
+<div class="lang-toggle desk-lang"><button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button><button class="lang-btn" id="btnES" onclick="setLang('es')">ES</button></div>
+<a href="laruta.html" class="nav-cta"><span class="en show">TALK TO GOSTAR</span><span class="es">HABLA CON GOSTAR</span></a>
+<button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">&#9776;</button>
+</div>
+</div></nav>
+<div class="mob-menu" id="mobMenu">
+<a href="#highlights" onclick="toggleMenu()"><span class="en show">Highlights</span><span class="es">Destacados</span></a>
+<a href="#municipalities" onclick="toggleMenu()"><span class="en show">Municipalities</span><span class="es">Municipios</span></a>
+<a href="laruta.html" class="mob-cta"><span class="en show">Talk to GoStar</span><span class="es">Habla con GoStar</span></a>
+<div class="mob-lang"><div class="lang-toggle"><button class="lang-btn active" id="btnEN2" onclick="setLang('en')">EN</button><button class="lang-btn" id="btnES2" onclick="setLang('es')">ES</button></div></div>
+</div>
+<section class="hero"><div class="container">
+<div class="hero-badge reveal"><span class="dot"></span> <span class="en show">PUERTO RICO'S DIGITAL CONCIERGE</span><span class="es">CONSERJE DIGITAL DE PUERTO RICO</span></div>
+<h1 class="reveal d1"><span class="gradient-text">LA VOZ PR</span><span class="sub"><span class="en show">Ask GoStar. Know the Island.</span><span class="es">Pregunta a GoStar. Conoce la Isla.</span></span></h1>
+<p class="hero-desc reveal d2"><span class="en show">Your AI voice concierge for all of Puerto Rico. Old San Juan forts, El Yunque waterfalls, Loiza bomba, Rincon surf, Ponce plazas &#8212; just ask GoStar.</span><span class="es">Tu conserje de voz AI para todo Puerto Rico. Fuertes del Viejo San Juan, cascadas de El Yunque, bomba de Loiza, surf de Rincon, plazas de Ponce &#8212; solo pregunta a GoStar.</span></p>
+<div class="hero-ctas reveal d3">
+<a href="laruta.html" class="btn-primary"><span class="en show">TALK TO GOSTAR</span><span class="es">HABLA CON GOSTAR</span> &#9656;</a>
+<a href="#highlights" class="btn-secondary"><span class="en show">EXPLORE HIGHLIGHTS</span><span class="es">EXPLORA DESTACADOS</span></a>
+</div>
+<div class="hero-stats reveal d4">
+<div class="hero-stat"><div class="hero-stat-num g">78</div><div class="hero-stat-label"><span class="en show">Municipalities</span><span class="es">Municipios</span></div></div>
+<div class="hero-stat"><div class="hero-stat-num t">1</div><div class="hero-stat-label"><span class="en show">AI Concierge</span><span class="es">Conserje AI</span></div></div>
+<div class="hero-stat"><div class="hero-stat-num o">24/7</div><div class="hero-stat-label"><span class="en show">Always On</span><span class="es">Siempre Activo</span></div></div>
+</div>
+</div></section>
+<section class="section"><div class="container" style="text-align:center">
+<div class="section-label reveal"><span class="en show">HOW IT WORKS</span><span class="es">COMO FUNCIONA</span></div>
+<div class="section-title reveal d1"><span class="en show">YOUR CONCIERGE IN <span class="gradient-text">THREE TAPS</span></span><span class="es">TU CONSERJE EN <span class="gradient-text">TRES TOQUES</span></span></div>
+<div class="how-grid">
+<div class="how-card reveal d1"><div class="how-num">01</div><div class="how-icon">&#127477;&#127479;</div><div class="how-title"><span class="en show">PICK A SPOT</span><span class="es">ELIGE UN LUGAR</span></div><div class="how-desc"><span class="en show">Browse highlights below or search any of 78 municipalities. Every corner of the island is covered.</span><span class="es">Explora los destacados o busca cualquiera de los 78 municipios. Cada rincon de la isla esta cubierto.</span></div></div>
+<div class="how-card reveal d2"><div class="how-num">02</div><div class="how-icon">&#127908;</div><div class="how-title"><span class="en show">ASK GOSTAR</span><span class="es">PREGUNTA A GOSTAR</span></div><div class="how-desc"><span class="en show">Tap the mic and ask anything. Where to eat. What to see. Best sunset. Hidden gems. GoStar knows.</span><span class="es">Toca el mic y pregunta lo que quieras. Donde comer. Que ver. Mejor atardecer. Tesoros escondidos. GoStar sabe.</span></div></div>
+<div class="how-card reveal d3"><div class="how-num">03</div><div class="how-icon">&#11088;</div><div class="how-title"><span class="en show">GO EXPERIENCE</span><span class="es">VIVE LA EXPERIENCIA</span></div><div class="how-desc"><span class="en show">Get insider tips, discover local culture, and explore like a boricua &#8212; not a tourist.</span><span class="es">Recibe tips locales, descubre la cultura, y explora como un boricua &#8212; no como turista.</span></div></div>
+</div>
+</div></section>
+<section class="highlights" id="highlights"><div class="container" style="text-align:center">
+<div class="section-label reveal"><span class="en show">ISLAND HIGHLIGHTS</span><span class="es">DESTACADOS DE LA ISLA</span></div>
+<div class="section-title reveal d1"><span class="en show">TOP SPOTS. <span class="gradient-text">ONE VOICE.</span></span><span class="es">LOS MEJORES LUGARES. <span class="gradient-text">UNA VOZ.</span></span></div>
+<div class="hl-grid" id="hlGrid"></div>
+</div></section>
+<section class="muni-section" id="municipalities"><div class="container" style="text-align:center">
+<div class="section-label reveal"><span class="en show">ALL 78 MUNICIPALITIES</span><span class="es">LOS 78 MUNICIPIOS</span></div>
+<div class="section-title reveal d1"><span class="en show"><span class="gradient-text">THE WHOLE ISLAND.</span> JUST ASK.</span><span class="es"><span class="gradient-text">TODA LA ISLA.</span> SOLO PREGUNTA.</span></div>
+<input type="text" class="muni-search" id="muniSearch" placeholder="Search municipalities..." oninput="filterMunis()">
+<div class="muni-grid" id="muniGrid"></div>
+</div></section>
+<section class="partner-section"><div class="container">
+<div class="partner-card reveal">
+<h2><span class="en show">OWN A BUSINESS IN </span><span class="es">&#191;TIENES UN NEGOCIO EN </span><span class="gradient-text">PUERTO RICO?</span></h2>
+<p><span class="en show">GoStar recommends your business by name to every visitor who asks. Voice-powered referrals from Puerto Rico's digital concierge.</span><span class="es">GoStar recomienda tu negocio por nombre a cada visitante. Referidos por voz del conserje digital de Puerto Rico.</span></p>
+<a href="mailto:contact@gostardigital.com?subject=La Voz PR Partner" class="btn-primary"><span class="en show">BECOME A PARTNER</span><span class="es">HAZTE SOCIO</span> &#9656;</a>
+</div>
+</div></section>
+<div class="footer">
+<div class="footer-logo">LA VOZ <span>PR</span></div>
+<div class="footer-sub"><span class="en show">Puerto Rico's Digital Concierge</span><span class="es">Conserje Digital de Puerto Rico</span> &#8212; GoStar Digital LLC</div>
+<div class="footer-links">
+<a href="laruta.html">La Ruta</a>
+<a href="mailto:contact@gostardigital.com">Contact</a>
+</div>
+</div>
+<script>
+var lang="en";
+var HIGHLIGHTS=[
+{name:"Old San Juan",icon:"\ud83c\udff0",en:{desc:"500 years of history. El Morro, San Cristobal, cobblestone streets, La Bombonera, Nuyorican Cafe."},es:{desc:"500 anos de historia. El Morro, San Cristobal, calles adoquinadas, La Bombonera, Nuyorican Cafe."},tags:["UNESCO","Forts","Nightlife","Food"]},
+{name:"El Yunque",icon:"\ud83c\udf3f",en:{desc:"The only tropical rainforest in the US National Forest System. Waterfalls, hiking trails, coqui frogs, cloud cover at the peak."},es:{desc:"El unico bosque tropical del sistema de bosques nacionales de EEUU. Cascadas, senderos, coquies, nubes en la cima."},tags:["Rainforest","Waterfalls","Hiking"]},
+{name:"Loiza",icon:"\ud83e\udd41",en:{desc:"Heart of Afro-Puerto Rican culture. Bomba, plena, vejigante masks, Pinones kioscos, and 400 years of living heritage."},es:{desc:"Corazon de la cultura afropuertorriquena. Bomba, plena, mascaras de vejigante, kioscos de Pinones, 400 anos de herencia viva."},tags:["Bomba","Culture","Street Food"]},
+{name:"Rincon",icon:"\ud83c\udfc4",en:{desc:"Surf capital of the Caribbean. World-class waves, stunning sunsets, whale watching in winter, laid-back beach town vibes."},es:{desc:"Capital del surf del Caribe. Olas de clase mundial, atardeceres, avistamiento de ballenas en invierno, vibra de pueblo playero."},tags:["Surfing","Sunsets","Whales"]},
+{name:"Ponce",icon:"\ud83c\udfdb\ufe0f",en:{desc:"La Perla del Sur. Neoclassical architecture, Parque de Bombas, Museo de Arte, Plaza Las Delicias, and authentic southern culture."},es:{desc:"La Perla del Sur. Arquitectura neoclasica, Parque de Bombas, Museo de Arte, Plaza Las Delicias, cultura surena autentica."},tags:["Architecture","Museums","History"]},
+{name:"Vieques",icon:"\ud83c\udf0a",en:{desc:"Bioluminescent Mosquito Bay &#8212; the brightest bio bay in the world. Wild horses, pristine beaches, no chain restaurants."},es:{desc:"Bahia Bioluminiscente Mosquito &#8212; la mas brillante del mundo. Caballos salvajes, playas pristinas, sin cadenas de restaurantes."},tags:["Bio Bay","Beaches","Island Life"]},
+{name:"Culebra",icon:"\ud83c\udfd6\ufe0f",en:{desc:"Flamenco Beach &#8212; consistently ranked top 10 in the world. Crystal clear water, no development, pure Caribbean paradise."},es:{desc:"Playa Flamenco &#8212; consistentemente en el top 10 del mundo. Agua cristalina, sin desarrollo, paraiso caribeno puro."},tags:["Top Beach","Snorkeling","Paradise"]},
+{name:"Cabo Rojo",icon:"\ud83e\udea8",en:{desc:"Los Morrillos lighthouse on dramatic red cliffs. Salt flats that turn pink. La Playuela beach. Southwest Puerto Rico at its wildest."},es:{desc:"Faro Los Morrillos sobre acantilados rojos. Salinas rosadas. Playa La Playuela. El suroeste de PR en su forma mas salvaje."},tags:["Lighthouse","Cliffs","Salt Flats"]},
+{name:"Guavate",icon:"\ud83c\udf56",en:{desc:"The Pork Highway. Lechon roasted on open pits, live salsa music on weekends, cold Medalla, and the real taste of Puerto Rico."},es:{desc:"La Ruta del Lechon. Lechon asado en vara, salsa en vivo los fines de semana, Medalla fria, y el sabor real de Puerto Rico."},tags:["Lechon","Live Music","Iconic"]},
+{name:"Jayuya",icon:"\u26f0\ufe0f",en:{desc:"The heart of Taino heritage. Cerro Punta (highest peak), coffee plantations, cool mountain air, and indigenous culture preserved."},es:{desc:"El corazon de la herencia taina. Cerro Punta (pico mas alto), fincas de cafe, brisa de montana, y cultura indigena preservada."},tags:["Mountains","Taino","Coffee"]},
+{name:"Fajardo",icon:"\u26f5",en:{desc:"Gateway to the islands. Ferries to Vieques and Culebra. Las Cabezas de San Juan nature reserve. Seven Seas Beach. Kayak bio bays."},es:{desc:"Puerta a las islas. Ferries a Vieques y Culebra. Reserva Las Cabezas de San Juan. Playa Seven Seas. Bio bahias en kayak."},tags:["Ferries","Nature","Bio Bay"]},
+{name:"Isabela",icon:"\ud83c\udf0a",en:{desc:"Northwest coast hidden gem. Jobos Beach surfing, Blue Hole swimming, Guajataca Tunnel, and dramatic cliff coastlines."},es:{desc:"Gema escondida de la costa noroeste. Surf en Playa Jobos, Blue Hole, Tunel de Guajataca, y costas dramaticas de acantilados."},tags:["Surf","Cliffs","Hidden Gem"]}
+];
+var MUNIS=["Adjuntas","Aguada","Aguadilla","Aguas Buenas","Aibonito","Arecibo","Arroyo","Barceloneta","Barranquitas","Bayamon","Cabo Rojo","Caguas","Camuy","Canovanas","Carolina","Catano","Cayey","Ceiba","Ciales","Cidra","Coamo","Comerio","Corozal","Culebra","Dorado","Fajardo","Florida","Guanica","Guayama","Guayanilla","Guaynabo","Gurabo","Hatillo","Hormigueros","Humacao","Isabela","Jayuya","Juana Diaz","Juncos","Lajas","Lares","Las Marias","Las Piedras","Loiza","Luquillo","Manati","Maricao","Maunabo","Mayaguez","Moca","Morovis","Naguabo","Naranjito","Orocovis","Patillas","Penuelas","Ponce","Quebradillas","Rincon","Rio Grande","Sabana Grande","Salinas","San German","San Juan","San Lorenzo","San Sebastian","Santa Isabel","Toa Alta","Toa Baja","Trujillo Alto","Utuado","Vega Alta","Vega Baja","Vieques","Villalba","Yabucoa","Yauco"];
+function renderHL(){
+var g=document.getElementById("hlGrid");
+g.innerHTML=HIGHLIGHTS.map(function(h){
+return '<a href="laruta.html" class="hl-card"><div class="hl-icon">'+h.icon+'</div><div class="hl-name">'+h.name+'</div><div class="hl-desc"><span class="en '+(lang==="en"?"show":"")+'">'+h.en.desc+'</span><span class="es '+(lang==="es"?"show":"")+'">'+h.es.desc+'</span></div><div class="hl-tags">'+h.tags.map(function(t){return '<span class="hl-tag">'+t+'</span>';}).join("")+'</div><div class="hl-ask"><span class="en '+(lang==="en"?"show":"")+'">ASK GOSTAR &#9656;</span><span class="es '+(lang==="es"?"show":"")+'">PREGUNTA A GOSTAR &#9656;</span></div></a>';
+}).join("");
+}
+function renderMunis(filter){
+var grid=document.getElementById("muniGrid");
+var list=filter?MUNIS.filter(function(m){return m.toLowerCase().indexOf(filter.toLowerCase())>-1;}):MUNIS;
+grid.innerHTML=list.map(function(m){return '<a href="laruta.html" class="muni-card">'+m+'</a>';}).join("");
+}
+function filterMunis(){renderMunis(document.getElementById("muniSearch").value);}
+function setLang(l){
+lang=l;
+document.getElementById("btnEN").classList.toggle("active",l==="en");
+document.getElementById("btnES").classList.toggle("active",l==="es");
+var en2=document.getElementById("btnEN2"),es2=document.getElementById("btnES2");
+if(en2)en2.classList.toggle("active",l==="en");
+if(es2)es2.classList.toggle("active",l==="es");
+document.querySelectorAll(".en").forEach(function(e){e.classList.toggle("show",l==="en");});
+document.querySelectorAll(".es").forEach(function(e){e.classList.toggle("show",l==="es");});
+document.getElementById("muniSearch").placeholder=l==="en"?"Search municipalities...":"Buscar municipios...";
+renderHL();
+}
+function toggleMenu(){document.getElementById("mobMenu").classList.toggle("open");var b=document.getElementById("hamburgerBtn");b.innerHTML=document.getElementById("mobMenu").classList.contains("open")?"\u2715":"\u2630";}
+renderHL();renderMunis();
+</script>
+</body>
+</html>
