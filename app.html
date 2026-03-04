@@ -172,66 +172,63 @@ nav .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: fl
 <script>
 (function() {
   var AGENT_ID = "agent_6201kjv6fkvhe87sf17gfgchwe3s";
+  var locDot = document.getElementById("locDot");
+  var locStatus = document.getElementById("locStatus");
+  var locCoords = document.getElementById("locCoords");
+  var widgetLoaded = false;
 
-  // GPS state
-  var currentLat = "unknown";
-  var currentLng = "unknown";
-
-  // Load widget immediately
-  window.addEventListener("load", function() {
+  function loadWidget(lat, lng) {
+    if (widgetLoaded) return;
+    widgetLoaded = true;
     var container = document.getElementById("gps-widget-container");
     if (!container) return;
     container.innerHTML = "";
     var widget = document.createElement("elevenlabs-convai");
     widget.setAttribute("agent-id", AGENT_ID);
-    container.appendChild(widget);
-  });
-
-  // Intercept conversation start to inject GPS coordinates
-  document.addEventListener("elevenlabs-convai:call", function(e) {
-    if (currentLat !== "unknown" && currentLng !== "unknown") {
-      e.detail.config.dynamicVariables = {
-        user_latitude: currentLat,
-        user_longitude: currentLng
-      };
+    if (lat && lng) {
+      var vars = '{"user_latitude":"' + lat + '","user_longitude":"' + lng + '"}';
+      widget.setAttribute("dynamic-variables", vars);
     }
-  });
-
-  // Also get GPS early so coords are ready before user starts talking
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      function(pos) {
-        currentLat = pos.coords.latitude.toFixed(4);
-        currentLng = pos.coords.longitude.toFixed(4);
-      },
-      function() {},
-      { enableHighAccuracy: true, timeout: 5000 }
-    );
+    container.appendChild(widget);
   }
 
-  // GPS Location — feeds into widget dynamic variables
-  var locDot = document.getElementById("locDot");
-  var locStatus = document.getElementById("locStatus");
-  var locCoords = document.getElementById("locCoords");
+  function startGPS() {
+    if (!("geolocation" in navigator)) {
+      locStatus.textContent = "GPS not supported";
+      loadWidget(null, null);
+      return;
+    }
 
-  if ("geolocation" in navigator) {
-    navigator.geolocation.watchPosition(
+    navigator.geolocation.getCurrentPosition(
       function(pos) {
-        currentLat = pos.coords.latitude.toFixed(4);
-        currentLng = pos.coords.longitude.toFixed(4);
+        var lat = pos.coords.latitude.toFixed(6);
+        var lng = pos.coords.longitude.toFixed(6);
         locDot.classList.add("active");
         locStatus.textContent = "Location active";
-        locCoords.textContent = currentLat + ", " + currentLng;
+        locCoords.textContent = lat + ", " + lng;
+        loadWidget(lat, lng);
+
+        // Keep updating display
+        navigator.geolocation.watchPosition(
+          function(p) {
+            var la = p.coords.latitude.toFixed(6);
+            var lo = p.coords.longitude.toFixed(6);
+            locCoords.textContent = la + ", " + lo;
+          },
+          function() {},
+          { enableHighAccuracy: true, maximumAge: 10000 }
+        );
       },
       function(err) {
         locStatus.textContent = "Location denied \u2014 tell GoStar where you are";
         locCoords.textContent = "Error: " + err.message;
+        loadWidget(null, null);
       },
-      { enableHighAccuracy: true, maximumAge: 10000 }
+      { enableHighAccuracy: true, timeout: 8000 }
     );
-  } else {
-    locStatus.textContent = "GPS not supported \u2014 tell GoStar where you are";
   }
+
+  window.addEventListener("load", startGPS);
 })();
 </script>
 </body>
