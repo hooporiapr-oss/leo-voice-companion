@@ -4,441 +4,238 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>GoStar GPS — La Voz PR</title>
+<meta name="description" content="GoStar GPS — your AI voice navigator for Puerto Rico. Real-time guidance, local knowledge, and spatial intelligence entirely by voice.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="https://elevenlabs.io/convai-widget/index.js" async></script>
 <style>
-  :root {
-    --dark: #0a0a0f;
-    --gold: #FFD700;
-    --orange: #FF6B35;
-    --teal: #00D9A5;
-    --card-bg: rgba(18, 18, 28, 0.92);
-    --gradient: linear-gradient(135deg, var(--gold), var(--orange));
-    --font-display: 'Bebas Neue', sans-serif;
-    --font-body: 'Outfit', sans-serif;
-  }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --dark: #0a0a0f;
+  --card-bg: rgba(18, 18, 28, 0.92);
+  --gold: #FFD700;
+  --orange: #FF6B35;
+  --teal: #00D9A5;
+  --text: #e8e8ec;
+  --text-dim: #8a8a9a;
+  --gradient: linear-gradient(135deg, #FFD700, #FF6B35);
+}
 
-  body {
-    font-family: var(--font-body);
-    background: var(--dark);
-    color: #fff;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    position: relative;
-  }
+html { scroll-behavior: smooth; }
 
-  /* ── MAP ── */
-  #map { position: absolute; inset: 0; z-index: 1; }
-  .leaflet-tile-pane { filter: saturate(0.3) brightness(0.45) contrast(1.1); }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-  /* ── TOP BAR ── */
-  .top-bar {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-    padding: 12px 16px;
-    display: flex; align-items: center; justify-content: space-between;
-    background: linear-gradient(180deg, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0) 100%);
-    pointer-events: none;
-  }
-  .top-bar > * { pointer-events: all; }
+.bg-grid {
+  position: fixed; inset: 0;
+  background-image: linear-gradient(rgba(255,215,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,215,0,0.03) 1px, transparent 1px);
+  background-size: 60px 60px; pointer-events: none; z-index: 0;
+}
+.bg-glow { position: fixed; border-radius: 50%; filter: blur(160px); pointer-events: none; z-index: 0; }
+.bg-glow-1 { width: 500px; height: 500px; top: -150px; right: -100px; background: var(--gold); opacity: 0.08; }
+.bg-glow-2 { width: 500px; height: 500px; bottom: -150px; left: -100px; background: var(--teal); opacity: 0.08; }
 
-  .brand { display: flex; align-items: center; gap: 10px; }
-  .brand-icon {
-    width: 40px; height: 40px; border-radius: 12px;
-    background: var(--gradient);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display); font-size: 20px; color: var(--dark);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-  }
-  .brand-text {
-    font-family: var(--font-display); font-size: 22px; letter-spacing: 2px;
-    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  }
-  .brand-sub { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase; }
+.gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
-  .status-pill {
-    display: flex; align-items: center; gap: 6px;
-    padding: 6px 14px; border-radius: 20px;
-    background: var(--card-bg); border: 1px solid rgba(255,215,0,0.15);
-    font-size: 12px; color: rgba(255,255,255,0.7); backdrop-filter: blur(10px);
-  }
-  .status-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--teal); animation: pulse-dot 2s infinite;
-  }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,217,165,0.5); }
-    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,217,165,0); }
-  }
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 0; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,215,0,0.08); }
+nav .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; }
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 2px; text-decoration: none; color: var(--text); }
+.nav-logo span { color: var(--gold); }
+.nav-back { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; background: transparent; color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; letter-spacing: 1.5px; border-radius: 50px; text-decoration: none; border: 1.5px solid rgba(255,215,0,0.3); transition: all 0.3s; }
+.nav-back:hover { border-color: var(--gold); background: rgba(255,215,0,0.06); }
 
-  /* ── POI MARKERS ── */
-  .poi-marker {
-    width: 32px; height: 32px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; border: 2px solid;
-    box-shadow: 0 0 12px rgba(0,0,0,0.4);
-  }
-  .poi-safety { background: rgba(255,70,70,0.9); border-color: #ff4646; }
-  .poi-culture { background: rgba(0,217,165,0.9); border-color: var(--teal); }
-  .poi-food { background: rgba(255,215,0,0.9); border-color: var(--gold); }
-  .poi-event { background: rgba(255,107,53,0.9); border-color: var(--orange); }
+/* HERO */
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 24px 80px; text-align: center; position: relative; z-index: 1; }
+.hero-inner { max-width: 700px; margin: 0 auto; }
+.hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 18px; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.15); border-radius: 50px; font-size: 0.82rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; animation: fadeInUp 0.8s ease-out; }
+.hero-tag .pulse { width: 8px; height: 8px; background: var(--teal); border-radius: 50%; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
 
-  .user-marker {
-    width: 20px; height: 20px; border-radius: 50%;
-    background: var(--gold); border: 3px solid #fff;
-    box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 40px rgba(255,215,0,0.2);
-    animation: user-pulse 2s infinite;
-  }
-  @keyframes user-pulse {
-    0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 0 0 rgba(255,215,0,0.3); }
-    50% { box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 0 20px rgba(255,215,0,0); }
-  }
+.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 5.5rem); line-height: 0.92; letter-spacing: 3px; margin-bottom: 12px; animation: fadeInUp 0.8s ease-out 0.1s both; }
+.hero-sub { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.2rem, 2.5vw, 1.6rem); letter-spacing: 2px; color: var(--teal); margin-bottom: 28px; animation: fadeInUp 0.8s ease-out 0.15s both; }
+.hero p { font-size: 1.1rem; line-height: 1.7; color: var(--text-dim); max-width: 520px; margin: 0 auto 40px; animation: fadeInUp 0.8s ease-out 0.2s both; }
 
-  /* ── NEARBY CHIPS ── */
-  .nearby-bar {
-    position: fixed; top: 70px; left: 12px; right: 12px;
-    z-index: 1000; display: flex; gap: 8px;
-    overflow-x: auto; padding: 4px 0; scrollbar-width: none;
-  }
-  .nearby-bar::-webkit-scrollbar { display: none; }
-  .nearby-chip {
-    flex-shrink: 0; padding: 8px 14px; border-radius: 14px;
-    background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
-    backdrop-filter: blur(10px); font-size: 12px;
-    color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.2s;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .nearby-chip:hover { border-color: var(--gold); color: #fff; }
-  .nearby-chip .chip-icon { font-size: 14px; }
-  .nearby-chip .chip-dist { color: var(--teal); font-weight: 600; font-size: 11px; }
+/* LOCATION PROMPT */
+.location-prompt { animation: fadeInUp 0.8s ease-out 0.3s both; margin-bottom: 48px; }
+.location-box { max-width: 400px; margin: 0 auto; background: var(--card-bg); border: 1px solid rgba(255,215,0,0.12); border-radius: 20px; padding: 24px; }
+.location-box-label { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 1.5px; color: var(--gold); margin-bottom: 12px; }
+.location-status { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: var(--text-dim); }
+.location-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--text-dim); flex-shrink: 0; transition: all 0.3s; }
+.location-dot.active { background: var(--teal); box-shadow: 0 0 12px rgba(0,217,165,0.5); animation: pulse 2s infinite; }
+.location-coords { font-family: 'Outfit', sans-serif; font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-top: 8px; font-variant-numeric: tabular-nums; }
 
-  /* ── PROXIMITY ALERT ── */
-  .proximity-alert {
-    position: fixed; bottom: 90px; left: 12px; right: 12px;
-    z-index: 1000; padding: 14px 18px; border-radius: 16px;
-    background: var(--card-bg); border: 1px solid rgba(255,215,0,0.15);
-    backdrop-filter: blur(16px);
-    font-size: 14px; line-height: 1.5;
-    animation: alertIn 0.4s ease-out;
-    display: none;
-  }
-  .proximity-alert.active { display: block; }
-  .proximity-alert .alert-name {
-    font-family: var(--font-display); font-size: 11px;
-    letter-spacing: 1.5px; color: var(--gold); margin-bottom: 4px;
-  }
-  .proximity-alert .alert-text { color: rgba(255,255,255,0.85); }
-  .proximity-alert .location-tag {
-    display: inline-flex; align-items: center; gap: 4px;
-    margin-top: 6px; padding: 3px 8px; border-radius: 8px;
-    background: rgba(0,217,165,0.1); border: 1px solid rgba(0,217,165,0.2);
-    font-size: 10px; color: var(--teal);
-  }
-  @keyframes alertIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* WIDGET AREA */
+.widget-section { padding: 0 24px 60px; text-align: center; position: relative; z-index: 1; }
+.widget-frame { max-width: 480px; margin: 0 auto; background: var(--card-bg); border: 1px solid rgba(255,215,0,0.1); border-radius: 24px; padding: 32px 20px; position: relative; overflow: hidden; min-height: 420px; }
+.widget-frame::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient); }
+.widget-frame-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 6px; }
+.widget-frame-sub { font-size: 0.82rem; color: var(--text-dim); margin-bottom: 20px; }
+#gps-widget-container { min-height: 360px; display: flex; align-items: center; justify-content: center; }
+.widget-loading { color: var(--text-dim); font-size: 0.9rem; }
 
-  /* ── SPLASH ── */
-  .splash-overlay {
-    position: fixed; inset: 0; z-index: 2000; background: var(--dark);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    transition: opacity 0.6s, visibility 0.6s;
-  }
-  .splash-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-  .splash-logo {
-    width: 80px; height: 80px; border-radius: 24px;
-    background: var(--gradient);
-    display: flex; align-items: center; justify-content: center;
-    font-family: var(--font-display); font-size: 38px; color: var(--dark);
-    margin-bottom: 20px; box-shadow: 0 0 60px rgba(255,215,0,0.3);
-    animation: float 3s ease-in-out infinite;
-  }
-  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-  .splash-title {
-    font-family: var(--font-display); font-size: 42px; letter-spacing: 4px;
-    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    margin-bottom: 8px;
-  }
-  .splash-sub { color: rgba(255,255,255,0.4); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; }
-  .splash-features { display: flex; gap: 24px; margin-bottom: 40px; }
-  .splash-feat { text-align: center; color: rgba(255,255,255,0.5); font-size: 12px; }
-  .splash-feat-icon { font-size: 24px; margin-bottom: 6px; }
-  .start-btn {
-    padding: 16px 48px; border-radius: 30px; border: none;
-    background: var(--gradient); color: var(--dark);
-    font-family: var(--font-display); font-size: 18px; letter-spacing: 2px;
-    cursor: pointer; box-shadow: 0 0 30px rgba(255,215,0,0.3); transition: all 0.3s;
-  }
-  .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(255,215,0,0.5); }
+/* FEATURES */
+.features { padding: 60px 24px 80px; position: relative; z-index: 1; }
+.features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 800px; margin: 0 auto; }
+.feat-card { background: var(--card-bg); border: 1px solid rgba(255,215,0,0.06); border-radius: 16px; padding: 24px 18px; text-align: center; }
+.feat-icon { font-size: 1.8rem; margin-bottom: 10px; }
+.feat-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 1px; margin-bottom: 4px; }
+.feat-card p { font-size: 0.78rem; color: var(--text-dim); line-height: 1.4; }
 
-  /* ── ELEVENLABS WIDGET POSITION ── */
-  elevenlabs-convai {
-    position: fixed !important;
-    bottom: 20px !important;
-    right: 16px !important;
-    z-index: 1500 !important;
-  }
+/* FOOTER */
+.footer-brand { padding: 40px 24px; text-align: center; border-top: 1px solid rgba(255,215,0,0.06); position: relative; z-index: 1; }
+.footer-brand-text { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 2px; }
+.footer-brand-text span { color: var(--gold); }
+.footer-company { font-size: 0.75rem; color: var(--text-dim); margin-top: 4px; }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 768px) {
+  .hero { padding: 100px 20px 60px; min-height: auto; }
+  .hero h1 { font-size: 3rem; }
+  .features-grid { grid-template-columns: 1fr; max-width: 320px; }
+  .widget-frame { padding: 24px 14px; }
+}
 </style>
 </head>
 <body>
 
-<!-- SPLASH SCREEN -->
-<div class="splash-overlay" id="splash">
-  <div class="splash-logo">G</div>
-  <div class="splash-title">GOSTAR</div>
-  <div class="splash-sub">Tu Portal a Puerto Rico</div>
-  <div class="splash-features">
-    <div class="splash-feat"><div class="splash-feat-icon">&#128506;&#65039;</div><div>GPS Intelligence</div></div>
-    <div class="splash-feat"><div class="splash-feat-icon">&#127908;</div><div>Voice Guide</div></div>
-    <div class="splash-feat"><div class="splash-feat-icon">&#127477;&#127479;</div><div>100% Boricua</div></div>
-  </div>
-  <button class="start-btn" onclick="startApp()">COMENZAR</button>
-</div>
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
 
-<!-- TOP BAR -->
-<div class="top-bar">
-  <div class="brand">
-    <div class="brand-icon">G</div>
-    <div>
-      <div class="brand-text">GOSTAR</div>
-      <div class="brand-sub">La Voz PR</div>
+<nav>
+  <div class="container">
+    <a href="index.html" class="nav-logo">LA VOZ <span>PR</span></a>
+    <a href="index.html" class="nav-back">&#9666; Home</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag"><span class="pulse"></span> GPS Voice Navigator</div>
+    <h1>GOSTAR <span class="gradient-text">GPS</span></h1>
+    <div class="hero-sub">YOUR VOICE NAVIGATOR FOR PUERTO RICO</div>
+    <p>Tell GoStar where you are and where you want to go. Directions, food, culture, safety alerts &#8212; all by voice, no screen needed.</p>
+
+    <div class="location-prompt">
+      <div class="location-box">
+        <div class="location-box-label">YOUR LOCATION</div>
+        <div class="location-status">
+          <div class="location-dot" id="locDot"></div>
+          <span id="locStatus">Requesting location...</span>
+        </div>
+        <div class="location-coords" id="locCoords"></div>
+      </div>
     </div>
   </div>
-  <div class="status-pill" id="statusPill">
-    <div class="status-dot" id="statusDot"></div>
-    <span id="statusText">Localizando...</span>
+</section>
+
+<!-- WIDGET -->
+<section class="widget-section">
+  <div class="widget-frame">
+    <div class="widget-frame-label">GOSTAR GPS &#8212; LIVE</div>
+    <div class="widget-frame-sub">Speak to navigate Puerto Rico</div>
+    <div id="gps-widget-container">
+      <div class="widget-loading">Loading GoStar GPS...</div>
+    </div>
   </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="features-grid">
+    <div class="feat-card"><div class="feat-icon">&#128205;</div><h3>DIRECTIONS</h3><p>Turn-by-turn guidance using landmarks you can actually see</p></div>
+    <div class="feat-card"><div class="feat-icon">&#127869;&#65039;</div><h3>FOOD NEARBY</h3><p>Restaurants, kioskos, panader&#237;as &#8212; GoStar has opinions</p></div>
+    <div class="feat-card"><div class="feat-icon">&#9888;&#65039;</div><h3>SAFETY ALERTS</h3><p>School zones, dangerous intersections, ViaSegura protocol</p></div>
+    <div class="feat-card"><div class="feat-icon">&#127754;</div><h3>BEACHES</h3><p>From Condado to Flamenco &#8212; surf, family, or party</p></div>
+    <div class="feat-card"><div class="feat-icon">&#127963;&#65039;</div><h3>CULTURE</h3><p>Forts, plazas, museums, street art, live music</p></div>
+    <div class="feat-card"><div class="feat-icon">&#127477;&#127479;</div><h3>100% LOCAL</h3><p>Not a generic GPS &#8212; GoStar knows the island like a boricua</p></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer-brand">
+  <div class="footer-brand-text">LA VOZ <span>PR</span></div>
+  <div class="footer-company">GoStar Digital LLC &#8212; San Juan, Puerto Rico</div>
 </div>
 
-<!-- NEARBY CHIPS -->
-<div class="nearby-bar" id="nearbyBar"></div>
-
-<!-- MAP -->
-<div id="map"></div>
-
-<!-- PROXIMITY ALERT -->
-<div class="proximity-alert" id="proximityAlert">
-  <div class="alert-name">GOSTAR</div>
-  <div class="alert-text" id="alertText"></div>
-  <div class="location-tag" id="alertLocation"></div>
-</div>
-
-<!-- ELEVENLABS GOSTAR VOICE -->
-<elevenlabs-convai agent-id="agent_5801kjdgm1zwe65843rj9r29zmj1"></elevenlabs-convai>
-
+<!-- ELEVENLABS GPS AGENT -->
+<script src="https://elevenlabs.io/convai-widget/index.js" async></script>
 <script>
-// ═══════════════════════════════════════════════════
-// GOSTAR GPS — La Voz PR
-// Map + POIs + ElevenLabs Voice
-// GoStar Digital LLC
-// ═══════════════════════════════════════════════════
+(function() {
+  var AGENT_ID = "agent_6201kjv6fkvhe87sf17gfgchwe3s";
 
-// ── STATE ──
-var map, userMarker, userLat, userLng;
-var announcedPOIs = {};
-var alertTimeout = null;
-var POI_DB = [];
+  // Load widget with GPS dynamic variables
+  var currentLat = "unknown";
+  var currentLng = "unknown";
 
-// ══════════════════════════════════════
-// POINTS OF INTEREST
-// ══════════════════════════════════════
-
-function getDefaultPOIs() {
-  return [
-    { id:"morro", name:"Castillo San Felipe del Morro", lat:18.4706, lng:-66.1239, type:"culture", icon:"\ud83c\udff0", desc:"Fortaleza del siglo XVI, Patrimonio de la UNESCO. M\u00e1s de 400 a\u00f1os defendiendo la isla." },
-    { id:"sanjuangate", name:"Puerta de San Juan", lat:18.4644, lng:-66.1198, type:"culture", icon:"\ud83d\udeaa", desc:"Entrada hist\u00f3rica a la ciudad amurallada del siglo XVI." },
-    { id:"fortaleza", name:"La Fortaleza", lat:18.4652, lng:-66.1186, type:"culture", icon:"\ud83c\udfdb\ufe0f", desc:"Mansi\u00f3n ejecutiva del Gobernador \u2014 la m\u00e1s antigua en las Am\u00e9ricas." },
-    { id:"labomba", name:"La Bombonera", lat:18.4656, lng:-66.1167, type:"food", icon:"\ud83c\udf7d\ufe0f", desc:"Restaurante ic\u00f3nico desde 1902. Mallorcas y caf\u00e9 con leche legendarios." },
-    { id:"placita", name:"La Placita de Santurce", lat:18.4489, lng:-66.0594, type:"food", icon:"\ud83c\udfb6", desc:"Mercado de d\u00eda, fiesta de noche. La rumba m\u00e1s famosa de San Juan." },
-    { id:"school1", name:"Zona Escolar - Calle del Cristo", lat:18.4648, lng:-66.1180, type:"safety", icon:"\u26a0\ufe0f", desc:"\u00a1Zona escolar activa! Velocidad m\u00e1xima 15 MPH. Multas duplicadas." },
-    { id:"coliseo", name:"Coliseo de Puerto Rico", lat:18.4271, lng:-66.0612, type:"event", icon:"\ud83c\udfae", desc:"El Choliseo \u2014 potencial sede GAMERGY 2026. 18,000+ capacidad." }
-  ];
-}
-
-async function loadPOIData() {
-  try {
-    var response = await fetch("./poi-data.json");
-    if (response.ok) {
-      var data = await response.json();
-      var raw = data.pois || data;
-      POI_DB = raw.filter(function(p) { return p.active !== false; });
-      console.log("Loaded " + POI_DB.length + " POIs from poi-data.json");
-      return;
-    }
-  } catch (e) {
-    console.log("No poi-data.json, using defaults");
+  function loadWidget() {
+    var container = document.getElementById("gps-widget-container");
+    if (!container) return;
+    container.innerHTML = "";
+    var widget = document.createElement("elevenlabs-convai");
+    widget.setAttribute("agent-id", AGENT_ID);
+    widget.setAttribute("dynamic-variables", JSON.stringify({
+      user_latitude: currentLat,
+      user_longitude: currentLng
+    }));
+    container.appendChild(widget);
   }
-  POI_DB = getDefaultPOIs();
-  console.log("Loaded " + POI_DB.length + " default POIs");
-}
 
-// ══════════════════════════════════════
-// MAP
-// ══════════════════════════════════════
+  // Wait for GPS before loading widget
+  function initWidget() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        function(pos) {
+          currentLat = pos.coords.latitude.toFixed(4);
+          currentLng = pos.coords.longitude.toFixed(4);
+          loadWidget();
+        },
+        function() {
+          // No GPS — load anyway, user can tell GoStar verbally
+          loadWidget();
+        },
+        { enableHighAccuracy: true, timeout: 5000 }
+      );
+    } else {
+      loadWidget();
+    }
+  }
 
-function initMap() {
-  userLat = 18.4655;
-  userLng = -66.1180;
+  window.addEventListener("load", initWidget);
 
-  map = L.map("map", {
-    center: [userLat, userLng], zoom: 16,
-    zoomControl: false, attributionControl: false
-  });
+  // GPS Location
+  var locDot = document.getElementById("locDot");
+  var locStatus = document.getElementById("locStatus");
+  var locCoords = document.getElementById("locCoords");
 
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
-    maxZoom: 19
-  }).addTo(map);
-
-  POI_DB.forEach(function(poi) {
-    var marker = L.marker([poi.lat, poi.lng], {
-      icon: L.divIcon({
-        className: "",
-        html: '<div class="poi-marker poi-' + poi.type + '">' + poi.icon + '</div>',
-        iconSize: [32, 32], iconAnchor: [16, 16]
-      })
-    }).addTo(map);
-
-    marker.on("click", function() {
-      map.flyTo([poi.lat, poi.lng], 17, { duration: 1 });
-      showProximityAlert(poi);
-    });
-  });
-
-  userMarker = L.marker([userLat, userLng], {
-    icon: L.divIcon({
-      className: "", html: '<div class="user-marker"></div>',
-      iconSize: [20, 20], iconAnchor: [10, 10]
-    })
-  }).addTo(map);
-
-  updateNearbyChips();
-  startGPS();
-}
-
-// ── GPS ──
-function startGPS() {
   if ("geolocation" in navigator) {
     navigator.geolocation.watchPosition(
       function(pos) {
-        userLat = pos.coords.latitude;
-        userLng = pos.coords.longitude;
-        userMarker.setLatLng([userLat, userLng]);
-        document.getElementById("statusText").textContent = "\ud83c\udfa4 GoStar + GPS";
-        document.getElementById("statusDot").style.background = "var(--gold)";
-        updateNearbyChips();
-        checkProximityAlerts();
+        var lat = pos.coords.latitude.toFixed(4);
+        var lng = pos.coords.longitude.toFixed(4);
+        locDot.classList.add("active");
+        locStatus.textContent = "Location active";
+        locCoords.textContent = lat + ", " + lng;
       },
       function() {
-        document.getElementById("statusText").textContent = "\ud83c\udfa4 GoStar + Demo";
-        simulateMovement();
+        locStatus.textContent = "Location unavailable \u2014 tell GoStar where you are";
+        locCoords.textContent = "";
       },
-      { enableHighAccuracy: true, maximumAge: 5000 }
+      { enableHighAccuracy: true, maximumAge: 10000 }
     );
   } else {
-    simulateMovement();
+    locStatus.textContent = "GPS not supported \u2014 tell GoStar where you are";
   }
-}
-
-// ── SIMULATE MOVEMENT ──
-var simStep = 0;
-var simPath = [
-  [18.4655, -66.1180], [18.4658, -66.1185], [18.4662, -66.1190],
-  [18.4665, -66.1195], [18.4668, -66.1198], [18.4652, -66.1186],
-  [18.4648, -66.1180], [18.4644, -66.1198], [18.4638, -66.1175],
-  [18.4656, -66.1167], [18.4700, -66.1230], [18.4706, -66.1239]
-];
-
-function simulateMovement() {
-  document.getElementById("statusText").textContent = "\ud83c\udfa4 GoStar + Demo";
-  setInterval(function() {
-    if (simStep < simPath.length) {
-      userLat = simPath[simStep][0];
-      userLng = simPath[simStep][1];
-      userMarker.setLatLng([userLat, userLng]);
-      map.panTo([userLat, userLng], { animate: true, duration: 1.5 });
-      updateNearbyChips();
-      checkProximityAlerts();
-      simStep++;
-    } else {
-      simStep = 0;
-      announcedPOIs = {};
-    }
-  }, 8000);
-}
-
-// ── PROXIMITY ──
-function checkProximityAlerts() {
-  var nearby = getNearbyPOIs(0.003);
-  for (var i = 0; i < nearby.length; i++) {
-    var poi = nearby[i];
-    if (!announcedPOIs[poi.id]) {
-      announcedPOIs[poi.id] = true;
-      (function(p) {
-        setTimeout(function() { showProximityAlert(p); }, 1500);
-      })(poi);
-    }
-  }
-}
-
-function showProximityAlert(poi) {
-  var el = document.getElementById("proximityAlert");
-  var text = document.getElementById("alertText");
-  var loc = document.getElementById("alertLocation");
-  text.textContent = poi.desc;
-  loc.innerHTML = "\ud83d\udccd " + poi.name;
-  el.classList.add("active");
-  if (alertTimeout) clearTimeout(alertTimeout);
-  alertTimeout = setTimeout(function() { el.classList.remove("active"); }, 8000);
-}
-
-// ── NEARBY ──
-function getNearbyPOIs(radius) {
-  radius = radius || 0.008;
-  return POI_DB
-    .map(function(poi) {
-      var dist = Math.sqrt(Math.pow(poi.lat - userLat, 2) + Math.pow(poi.lng - userLng, 2));
-      return { id: poi.id, name: poi.name, lat: poi.lat, lng: poi.lng, type: poi.type, icon: poi.icon, desc: poi.desc, dist: dist };
-    })
-    .filter(function(poi) { return poi.dist < radius; })
-    .sort(function(a, b) { return a.dist - b.dist; });
-}
-
-function updateNearbyChips() {
-  var nearby = getNearbyPOIs(0.015);
-  var bar = document.getElementById("nearbyBar");
-  bar.innerHTML = nearby.slice(0, 6).map(function(poi) {
-    var distMeters = Math.round(poi.dist * 111000);
-    var distLabel = distMeters > 999 ? (distMeters/1000).toFixed(1) + "km" : distMeters + "m";
-    var shortName = poi.name.length > 20 ? poi.name.substring(0,20) + "..." : poi.name;
-    return '<div class="nearby-chip" onclick="chipTap(\'' + poi.id + '\')">' +
-      '<span class="chip-icon">' + poi.icon + '</span>' +
-      '<span>' + shortName + '</span>' +
-      '<span class="chip-dist">' + distLabel + '</span></div>';
-  }).join("");
-}
-
-function chipTap(poiId) {
-  var poi = POI_DB.find(function(p) { return p.id === poiId; });
-  if (!poi) return;
-  map.flyTo([poi.lat, poi.lng], 17, { duration: 1 });
-  showProximityAlert(poi);
-}
-
-// ══════════════════════════════════════
-// START
-// ══════════════════════════════════════
-
-async function startApp() {
-  document.getElementById("splash").classList.add("hidden");
-  await loadPOIData();
-  initMap();
-}
+})();
 </script>
 </body>
 </html>
