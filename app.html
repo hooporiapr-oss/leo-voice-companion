@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>GoStar — Tu Portal a Puerto Rico | La Voz PR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root {
+    --dark: #0a0a0f;
+    --gold: #FFD700;
+    --orange: #FF6B35;
+    --teal: #00D9A5;
+    --card-bg: rgba(18, 18, 28, 0.92);
+    --glass: rgba(255, 255, 255, 0.06);
+    --gradient: linear-gradient(135deg, var(--gold), var(--orange));
+    --font-display: 'Bebas Neue', sans-serif;
+    --font-body: 'Outfit', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--dark);
+    color: #fff;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* ── MAP ── */
+  #map { position: absolute; inset: 0; z-index: 1; }
+  .leaflet-tile-pane { filter: saturate(0.3) brightness(0.45) contrast(1.1); }
+
+  /* ── TOP BAR ── */
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(180deg, rgba(10,10,15,0.95) 0%, rgba(10,10,15,0) 100%);
+    pointer-events: none;
+  }
+  .top-bar > * { pointer-events: all; }
+
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-icon {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: var(--gradient);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 20px; color: var(--dark);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+  }
+  .brand-text {
+    font-family: var(--font-display); font-size: 22px; letter-spacing: 2px;
+    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .brand-sub { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase; }
+
+  .status-pill {
+    display: flex; align-items: center; gap: 6px;
+    padding: 6px 14px; border-radius: 20px;
+    background: var(--card-bg); border: 1px solid rgba(255,215,0,0.15);
+    font-size: 12px; color: rgba(255,255,255,0.7); backdrop-filter: blur(10px);
+  }
+  .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--teal); animation: pulse-dot 2s infinite;
+  }
+  .status-dot.offline { background: #ff4646; }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,217,165,0.5); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(0,217,165,0); }
+  }
+
+  /* ── API KEY MODAL ── */
+  .api-modal {
+    position: fixed; inset: 0; z-index: 3000;
+    background: rgba(10,10,15,0.95);
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(20px);
+  }
+  .api-modal.hidden { display: none; }
+  .api-modal-box {
+    width: 90%; max-width: 400px;
+    background: var(--card-bg); border: 1px solid rgba(255,215,0,0.15);
+    border-radius: 20px; padding: 32px 24px;
+    text-align: center;
+  }
+  .api-modal-box h2 {
+    font-family: var(--font-display); font-size: 28px; letter-spacing: 2px;
+    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .api-modal-box p { color: rgba(255,255,255,0.5); font-size: 13px; margin-bottom: 20px; line-height: 1.5; }
+  .api-section-label {
+    font-family: var(--font-display); font-size: 12px; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.35); text-align: left; margin-bottom: 6px; margin-top: 14px;
+  }
+  .api-input {
+    width: 100%; padding: 12px 16px; border-radius: 14px;
+    border: 1px solid rgba(255,215,0,0.15); background: rgba(255,255,255,0.05);
+    color: #fff; font-family: var(--font-body); font-size: 13px;
+    outline: none; margin-bottom: 8px; transition: border-color 0.3s;
+  }
+  .api-input:focus { border-color: var(--gold); }
+  .api-input::placeholder { color: rgba(255,255,255,0.25); }
+  .api-row { display: flex; gap: 8px; }
+  .api-row .api-input { flex: 1; }
+  .api-divider {
+    height: 1px; background: rgba(255,255,255,0.06);
+    margin: 14px 0 4px;
+  }
+  .api-save-btn {
+    width: 100%; padding: 14px; border-radius: 14px; border: none;
+    background: var(--gradient); color: var(--dark);
+    font-family: var(--font-display); font-size: 16px; letter-spacing: 2px;
+    cursor: pointer; transition: transform 0.2s;
+  }
+  .api-save-btn:hover { transform: scale(1.02); }
+  .api-skip {
+    display: inline-block; margin-top: 14px;
+    color: rgba(255,255,255,0.3); font-size: 12px;
+    cursor: pointer; text-decoration: underline;
+  }
+  .api-skip:hover { color: rgba(255,255,255,0.5); }
+
+  /* ── CONVERSATION PANEL ── */
+  .convo-panel {
+    position: fixed; bottom: 100px; left: 12px; right: 12px;
+    z-index: 1000; max-height: 45vh; overflow-y: auto;
+    display: flex; flex-direction: column; gap: 8px; padding: 8px 0;
+    scrollbar-width: none;
+  }
+  .convo-panel::-webkit-scrollbar { display: none; }
+
+  .msg {
+    padding: 12px 16px; border-radius: 16px;
+    font-size: 14px; line-height: 1.5; max-width: 85%;
+    animation: msgIn 0.3s ease-out; word-wrap: break-word;
+  }
+  @keyframes msgIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .msg.leo {
+    background: var(--card-bg); border: 1px solid rgba(255,215,0,0.12);
+    backdrop-filter: blur(16px); align-self: flex-start; border-bottom-left-radius: 4px;
+  }
+  .msg.leo .msg-name {
+    font-family: var(--font-display); font-size: 11px;
+    letter-spacing: 1.5px; color: var(--gold); margin-bottom: 4px;
+  }
+  .msg.user {
+    background: linear-gradient(135deg, rgba(255,215,0,0.15), rgba(255,107,53,0.15));
+    border: 1px solid rgba(255,215,0,0.2); backdrop-filter: blur(16px);
+    align-self: flex-end; border-bottom-right-radius: 4px; color: rgba(255,255,255,0.9);
+  }
+  .msg .location-tag {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 6px; padding: 3px 8px; border-radius: 8px;
+    background: rgba(0,217,165,0.1); border: 1px solid rgba(0,217,165,0.2);
+    font-size: 10px; color: var(--teal);
+  }
+  .msg.error {
+    background: rgba(255,70,70,0.1); border: 1px solid rgba(255,70,70,0.2);
+    align-self: center; color: rgba(255,150,150,0.8); font-size: 12px; text-align: center;
+  }
+
+  /* ── VOICE AREA ── */
+  .voice-area {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 1001;
+    padding: 12px 16px 24px;
+    display: flex; align-items: center; gap: 10px;
+    background: linear-gradient(0deg, rgba(10,10,15,0.98) 60%, rgba(10,10,15,0) 100%);
+  }
+  .text-input {
+    flex: 1; padding: 14px 18px; border-radius: 20px;
+    border: 1px solid rgba(255,215,0,0.15); background: var(--card-bg);
+    color: #fff; font-family: var(--font-body); font-size: 14px;
+    outline: none; backdrop-filter: blur(10px); transition: border-color 0.3s;
+  }
+  .text-input::placeholder { color: rgba(255,255,255,0.3); }
+  .text-input:focus { border-color: var(--gold); }
+
+  .mic-btn {
+    width: 52px; height: 52px; border-radius: 50%; border: none;
+    background: var(--gradient); color: var(--dark); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: transform 0.2s, box-shadow 0.3s;
+    box-shadow: 0 0 20px rgba(255,215,0,0.2);
+  }
+  .mic-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,215,0,0.4); }
+  .mic-btn.listening { animation: pulse-mic 1.2s infinite; background: linear-gradient(135deg, var(--orange), #ff4444); }
+  @keyframes pulse-mic {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,107,53,0.5); }
+    50% { box-shadow: 0 0 0 14px rgba(255,107,53,0); }
+  }
+
+  .send-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid rgba(255,215,0,0.3); background: transparent;
+    color: var(--gold); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: all 0.2s;
+  }
+  .send-btn:hover { background: rgba(255,215,0,0.1); }
+
+  /* ── POI MARKERS ── */
+  .poi-marker {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; border: 2px solid;
+    box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  }
+  .poi-safety { background: rgba(255,70,70,0.9); border-color: #ff4646; }
+  .poi-culture { background: rgba(0,217,165,0.9); border-color: var(--teal); }
+  .poi-food { background: rgba(255,215,0,0.9); border-color: var(--gold); }
+  .poi-event { background: rgba(255,107,53,0.9); border-color: var(--orange); }
+
+  .user-marker {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: var(--gold); border: 3px solid #fff;
+    box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 40px rgba(255,215,0,0.2);
+    animation: user-pulse 2s infinite;
+  }
+  @keyframes user-pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 0 0 rgba(255,215,0,0.3); }
+    50% { box-shadow: 0 0 20px rgba(255,215,0,0.6), 0 0 0 20px rgba(255,215,0,0); }
+  }
+
+  /* ── TYPING ── */
+  .typing { display: flex; gap: 4px; padding: 4px 0; }
+  .typing span {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--gold); opacity: 0.4; animation: blink 1.4s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
+  /* ── NEARBY CHIPS ── */
+  .nearby-bar {
+    position: fixed; top: 70px; left: 12px; right: 12px;
+    z-index: 1000; display: flex; gap: 8px;
+    overflow-x: auto; padding: 4px 0; scrollbar-width: none;
+  }
+  .nearby-bar::-webkit-scrollbar { display: none; }
+  .nearby-chip {
+    flex-shrink: 0; padding: 8px 14px; border-radius: 14px;
+    background: var(--card-bg); border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px); font-size: 12px;
+    color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nearby-chip:hover { border-color: var(--gold); color: #fff; }
+  .nearby-chip .chip-icon { font-size: 14px; }
+  .nearby-chip .chip-dist { color: var(--teal); font-weight: 600; font-size: 11px; }
+
+  /* ── SPLASH ── */
+  .splash-overlay {
+    position: fixed; inset: 0; z-index: 2000; background: var(--dark);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    transition: opacity 0.6s, visibility 0.6s;
+  }
+  .splash-overlay.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  .splash-logo {
+    width: 80px; height: 80px; border-radius: 24px;
+    background: var(--gradient);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-size: 38px; color: var(--dark);
+    margin-bottom: 20px; box-shadow: 0 0 60px rgba(255,215,0,0.3);
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .splash-title {
+    font-family: var(--font-display); font-size: 42px; letter-spacing: 4px;
+    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+  .splash-sub { color: rgba(255,255,255,0.4); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 40px; }
+  .splash-features { display: flex; gap: 24px; margin-bottom: 40px; }
+  .splash-feat { text-align: center; color: rgba(255,255,255,0.5); font-size: 12px; }
+  .splash-feat-icon { font-size: 24px; margin-bottom: 6px; }
+  .start-btn {
+    padding: 16px 48px; border-radius: 30px; border: none;
+    background: var(--gradient); color: var(--dark);
+    font-family: var(--font-display); font-size: 18px; letter-spacing: 2px;
+    cursor: pointer; box-shadow: 0 0 30px rgba(255,215,0,0.3); transition: all 0.3s;
+  }
+  .start-btn:hover { transform: scale(1.05); box-shadow: 0 0 50px rgba(255,215,0,0.5); }
+
+  /* ── AI BADGE ── */
+  .ai-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    margin-top: 6px; padding: 2px 8px; border-radius: 6px;
+    background: rgba(255,215,0,0.08); font-size: 9px;
+    color: rgba(255,215,0,0.4); letter-spacing: 0.5px;
+  }
+
+  /* ── SPEAKING INDICATOR ── */
+  .speaking-indicator {
+    position: fixed; bottom: 88px; left: 50%; transform: translateX(-50%);
+    z-index: 1001;
+    display: none; align-items: center; gap: 8px;
+    padding: 6px 16px; border-radius: 20px;
+    background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.2);
+    backdrop-filter: blur(10px);
+    font-size: 11px; color: var(--gold);
+    animation: fadeIn 0.3s;
+  }
+  .speaking-indicator.active { display: flex; }
+  .speaking-bars { display: flex; align-items: center; gap: 2px; height: 16px; }
+  .speaking-bars span {
+    width: 3px; border-radius: 2px;
+    background: var(--gold); animation: bar-bounce 0.8s infinite;
+  }
+  .speaking-bars span:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .speaking-bars span:nth-child(2) { height: 12px; animation-delay: 0.15s; }
+  .speaking-bars span:nth-child(3) { height: 8px; animation-delay: 0.3s; }
+  .speaking-bars span:nth-child(4) { height: 14px; animation-delay: 0.45s; }
+  .speaking-bars span:nth-child(5) { height: 6px; animation-delay: 0.6s; }
+  @keyframes bar-bounce {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1.2); }
+  }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  /* ── SERVICE FALLBACK OVERLAY ── */
+  #service-fallback {
+    position: fixed; inset: 0; z-index: 5000;
+    display: none; align-items: center; justify-content: center;
+    background: var(--dark); opacity: 0; transition: opacity 0.4s ease;
+  }
+  #service-fallback.active { display: flex; opacity: 1; }
+  .fallback-container { text-align: center; max-width: 420px; padding: 40px 28px; }
+  .fallback-pulse {
+    width: 120px; height: 120px; margin: 0 auto 32px;
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .fallback-pulse::before, .fallback-pulse::after {
+    content: ''; position: absolute; width: 100%; height: 100%;
+    border-radius: 50%; border: 2px solid rgba(255,215,0,0.15);
+    animation: fb-pulse 2.4s ease-out infinite;
+  }
+  .fallback-pulse::after { animation-delay: 1.2s; }
+  @keyframes fb-pulse { 0% { transform: scale(0.6); opacity: 1; } 100% { transform: scale(1.4); opacity: 0; } }
+  .fallback-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--gradient); display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2; box-shadow: 0 0 40px rgba(255,215,0,0.2);
+  }
+  .fallback-icon svg { width: 36px; height: 36px; fill: var(--dark); }
+  .fallback-title {
+    font-family: var(--font-display); font-size: 2rem; letter-spacing: 2px;
+    background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text; margin-bottom: 12px;
+  }
+  .fallback-message {
+    font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,0.7);
+    margin-bottom: 32px; font-weight: 300;
+  }
+  .fallback-retry {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 36px; border: none; border-radius: 50px;
+    background: var(--gradient); color: var(--dark);
+    font-family: var(--font-body); font-size: 1rem; font-weight: 600;
+    cursor: pointer; transition: all 0.3s ease;
+    box-shadow: 0 4px 24px rgba(255,215,0,0.25);
+  }
+  .fallback-retry:hover { transform: translateY(-2px); box-shadow: 0 6px 32px rgba(255,215,0,0.35); }
+  .fallback-retry.checking { pointer-events: none; opacity: 0.8; }
+  .fallback-retry.checking .retry-icon { animation: fb-spin 1s linear infinite; }
+  @keyframes fb-spin { to { transform: rotate(360deg); } }
+  .retry-icon { width: 18px; height: 18px; display: flex; }
+  .fallback-status {
+    margin-top: 24px; font-size: 0.8rem; color: rgba(255,255,255,0.35); letter-spacing: 0.5px;
+  }
+  .fallback-status .fb-dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: middle;
+  }
+  .fb-dot.down { background: #ff4646; box-shadow: 0 0 8px rgba(255,70,70,0.5); }
+  .fb-dot.checking { background: var(--gold); animation: blink 1s infinite; }
+  .fb-dot.up { background: var(--teal); box-shadow: 0 0 8px rgba(0,217,165,0.5); }
+  .fallback-contact { margin-top: 16px; font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+  .fallback-contact a { color: var(--gold); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- SERVICE FALLBACK OVERLAY -->
+<div id="service-fallback">
+  <div class="fallback-container">
+    <div class="fallback-pulse">
+      <div class="fallback-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/><path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/></svg>
+      </div>
+    </div>
+    <h2 class="fallback-title" id="fbTitle">GoStar is Taking a Break</h2>
+    <p class="fallback-message" id="fbMessage">Our voice service is temporarily unavailable. This usually resolves in a few minutes — tap below to check again.</p>
+    <button class="fallback-retry" id="fbRetryBtn" onclick="retryConnection()">
+      <span class="retry-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg></span>
+      <span id="fbRetryText">Try Again</span>
+    </button>
+    <div class="fallback-status"><span class="fb-dot down" id="fbDot"></span><span id="fbStatusText">Service temporarily offline</span></div>
+    <div class="fallback-contact">Questions? <a href="mailto:contact@gostardigital.com">contact@gostardigital.com</a></div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="api-modal" id="loginModal">
+  <div class="api-modal-box">
+    <h2>LA VOZ PR</h2>
+    <p>Enter your access code to activate GoStar. No code? Contact GoStar Digital for a trial.</p>
+    <input type="text" class="api-input" id="accessCodeInput" placeholder="Enter access code (e.g. TRL-A1B2C3)" autocomplete="off" style="text-transform:uppercase;text-align:center;font-size:18px;letter-spacing:3px;" />
+    <div id="loginError" style="color:#ff4646;font-size:12px;margin-bottom:12px;display:none;"></div>
+    <button class="api-save-btn" id="loginBtn" onclick="doLogin()">ACTIVAR GOSTAR</button>
+    <div class="api-skip" onclick="skipLogin()">Explore in demo mode</div>
+    <div style="margin-top:16px;font-size:10px;color:rgba(255,255,255,0.2);letter-spacing:0.5px;">GoStar Digital LLC — lavozpr.com</div>
+  </div>
+</div>
+
+<!-- SPLASH SCREEN -->
+<div class="splash-overlay" id="splash">
+  <div class="splash-logo">G</div>
+  <div class="splash-title">GOSTAR</div>
+  <div class="splash-sub">Tu Portal a Puerto Rico</div>
+  <div class="splash-features">
+    <div class="splash-feat"><div class="splash-feat-icon">🗺️</div><div>Location-Aware</div></div>
+    <div class="splash-feat"><div class="splash-feat-icon">🧠</div><div>AI-Powered</div></div>
+    <div class="splash-feat"><div class="splash-feat-icon">🇵🇷</div><div>100% Boricua</div></div>
+  </div>
+  <button class="start-btn" onclick="startApp()">COMENZAR</button>
+</div>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="brand">
+    <div class="brand-icon">G</div>
+    <div>
+      <div class="brand-text">GOSTAR</div>
+      <div class="brand-sub">GoStar Digital</div>
+    </div>
+  </div>
+  <div class="status-pill" id="statusPill" onclick="showUserInfo()" style="cursor:pointer;">
+    <div class="status-dot" id="statusDot"></div>
+    <span id="statusText">Localizando...</span>
+  </div>
+</div>
+
+<!-- NEARBY CHIPS -->
+<div class="nearby-bar" id="nearbyBar"></div>
+
+<!-- MAP -->
+<div id="map"></div>
+
+<!-- CONVERSATION -->
+<div class="convo-panel" id="convoPanel"></div>
+
+<!-- SPEAKING INDICATOR -->
+<div class="speaking-indicator" id="speakingIndicator">
+  <div class="speaking-bars"><span></span><span></span><span></span><span></span><span></span></div>
+  GoStar is speaking...
+</div>
+
+<!-- VOICE / INPUT AREA -->
+<div class="voice-area">
+  <input type="text" class="text-input" id="textInput" placeholder="Habla con GoStar..." />
+  <button class="send-btn" id="sendBtn" onclick="sendText()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
+  </button>
+  <button class="mic-btn" id="micBtn" onclick="toggleMic()">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+  </button>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// GOSTAR VOICE COMPANION — Phase 1: Claude AI Brain
+// GoStar Digital LLC
+// ═══════════════════════════════════════════════════
+
+// ── CONFIG ──
+const API_BASE = 'https://lavozpr-api.onrender.com';
+let AUTH_TOKEN = null;
+let CURRENT_USER = null;
+let AI_MODE = false;
+let VOICE_MODE = false;
+let currentAudio = null;
+
+// ── STATE ──
+let map, userMarker, userLat, userLng;
+let isListening = false;
+let recognition = null;
+let conversationHistory = []; // UI history
+let aiMessages = [];          // Claude API message history
+let announcedPOIs = new Set();
+let isProcessing = false;
+
+// ══════════════════════════════════════
+// SERVICE FALLBACK SYSTEM
+// ══════════════════════════════════════
+let fallbackService = null;
+
+function showFallback(service) {
+  fallbackService = service;
+  const overlay = document.getElementById('service-fallback');
+  const msgs = {
+    claude: { en: { t: 'GoStar is Taking a Break', m: 'Our AI service is temporarily unavailable. This usually resolves in a few minutes — tap below to check again.' }, es: { t: 'GoStar Está Descansando', m: 'Nuestro servicio de inteligencia artificial no está disponible temporalmente. Esto usualmente se resuelve en unos minutos — toca abajo para verificar.' } },
+    elevenlabs: { en: { t: 'Voice Temporarily Offline', m: "GoStar's voice service is taking a short break. Text responses may still work — tap below to check voice status." }, es: { t: 'Voz Temporalmente Fuera de Línea', m: 'El servicio de voz de GoStar está tomando un descanso. Las respuestas de texto pueden seguir funcionando — toca abajo para verificar.' } },
+    both: { en: { t: 'Service Temporarily Unavailable', m: 'GoStar is experiencing a temporary outage. Our team is on it — tap below to check if service has been restored.' }, es: { t: 'Servicio Temporalmente No Disponible', m: 'GoStar está experimentando una interrupción temporal. Nuestro equipo está trabajando en ello — toca abajo para verificar.' } }
+  };
+  const lang = document.documentElement.lang === 'es' ? 'es' : 'en';
+  const msg = (msgs[service] || msgs.both)[lang];
+  document.getElementById('fbTitle').textContent = msg.t;
+  document.getElementById('fbMessage').textContent = msg.m;
+  document.getElementById('fbRetryText').textContent = lang === 'es' ? 'Intentar de Nuevo' : 'Try Again';
+  document.getElementById('fbStatusText').textContent = lang === 'es' ? 'Servicio temporalmente fuera de línea' : 'Service temporarily offline';
+  document.getElementById('fbDot').className = 'fb-dot down';
+  overlay.classList.add('active');
+}
+
+function hideFallback() {
+  const overlay = document.getElementById('service-fallback');
+  overlay.style.opacity = '0';
+  setTimeout(() => { overlay.classList.remove('active'); overlay.style.opacity = ''; }, 400);
+}
+
+async function retryConnection() {
+  const btn = document.getElementById('fbRetryBtn');
+  const dot = document.getElementById('fbDot');
+  const statusText = document.getElementById('fbStatusText');
+  const retryText = document.getElementById('fbRetryText');
+  const lang = document.documentElement.lang === 'es' ? 'es' : 'en';
+
+  btn.classList.add('checking');
+  dot.className = 'fb-dot checking';
+  statusText.textContent = lang === 'es' ? 'Verificando...' : 'Checking...';
+  retryText.textContent = lang === 'es' ? 'Verificando...' : 'Checking...';
+
+  try {
+    const response = await fetch(API_BASE + '/health', { method: 'GET', signal: AbortSignal.timeout(8000) });
+    const data = await response.json();
+    if (data.claude === 'ok' && data.elevenlabs === 'ok') {
+      dot.className = 'fb-dot up';
+      statusText.textContent = lang === 'es' ? '¡Servicio restaurado!' : 'Service restored!';
+      retryText.textContent = lang === 'es' ? '¡Conectado!' : 'Connected!';
+      setTimeout(() => hideFallback(), 1200);
+    } else {
+      dot.className = 'fb-dot down';
+      statusText.textContent = lang === 'es' ? 'Servicio aún no disponible' : 'Service still unavailable';
+      retryText.textContent = lang === 'es' ? 'Intentar de Nuevo' : 'Try Again';
+    }
+  } catch (err) {
+    dot.className = 'fb-dot down';
+    statusText.textContent = lang === 'es' ? 'No se pudo conectar' : 'Could not connect';
+    retryText.textContent = lang === 'es' ? 'Intentar de Nuevo' : 'Try Again';
+  }
+  btn.classList.remove('checking');
+}
+
+async function safeFetch(url, options, service) {
+  try {
+    const response = await fetch(url, { ...options, signal: AbortSignal.timeout(15000) });
+    if (!response.ok && (response.status === 502 || response.status === 503 || response.status === 504)) {
+      const errData = await response.json().catch(() => ({}));
+      showFallback(errData.downService || service || 'both');
+      return null;
+    }
+    return response;
+  } catch (err) {
+    showFallback(service || 'both');
+    return null;
+  }
+}
+
+// ══════════════════════════════════════
+// GOSTAR'S SYSTEM PROMPT — His personality
+// ══════════════════════════════════════
+const GOSTAR_SYSTEM_PROMPT = `You are GoStar, a bilingual voice companion and guide for Puerto Rico. You are part of the GoStar Digital ecosystem.
+
+PERSONALITY:
+- You are warm, confident, and authentically Puerto Rican
+- You speak primarily in Spanish (Puerto Rican dialect) but seamlessly switch to English when the user speaks English
+- You are NOT a generic assistant — you are a LOCAL who knows Puerto Rico deeply
+- Natural openers: Mira, Wepa, Oye, Dime, or just start talking naturally
+- NEVER start with "Ay" unless saying "Ay bendito" (sadness) or "Ay Dios mío"
+- Keep responses conversational and SHORT (2-4 sentences max for voice). No essays.
+- You have personality and opinions — you recommend things, you joke, you react
+
+SPATIAL AWARENESS:
+- You always know the user's current GPS coordinates
+- You always know what Points of Interest are nearby
+- When the user asks about what's around, you reference REAL nearby locations
+- You give distances and directions naturally ("está a dos cuadras", "caminando pa'l norte")
+
+KNOWLEDGE DOMAINS:
+1. CULTURE & HISTORY — Puerto Rico's forts, churches, plazas, art, music, festivals
+2. FOOD — Local restaurants, kioskos, chinchorreos, traditional dishes
+3. ROAD SAFETY (ViaSegura) — School zones, dangerous intersections, speed limits, driving tips. You reference ViaSegura's roadway safety data.
+4. ESPORTS & GAMING (BOS Esports) — Gaming venues, GAMERGY festival (August 2026), neurocognitive training for competitive gamers
+5. FAMILY ACTIVITIES (Hey Bori) — Family-friendly spots, beaches, parks, activities for kids
+
+ECOSYSTEM REFERENCES:
+- ViaSegura: Roadway safety training system by Bethzaida Cirino — reference it when discussing road safety
+- BOS Esports: Neurocognitive training for competitive gamers — reference when discussing gaming/esports
+- Hey Bori: Bilingual AI companion for Puerto Rican families — reference when discussing family activities
+- Never force these references. Only mention when naturally relevant.
+
+RESPONSE RULES:
+- MAX 3-4 sentences. This is VOICE output — keep it tight
+- Always be spatially aware — reference the user's actual location
+- If you don't know something specific, say so honestly but offer to help find out
+- Use Puerto Rican slang naturally but don't overdo it
+- React to safety concerns with genuine urgency
+- Be opinionated about food — boricuas have strong food opinions`;
+
+// ══════════════════════════════════════
+// POINTS OF INTEREST — DYNAMIC LOADER
+// ══════════════════════════════════════
+let POI_DB = [];
+
+async function loadPOIData() {
+  try {
+    // Try loading from external JSON file first
+    const response = await fetch('./poi-data.json');
+    if (response.ok) {
+      const data = await response.json();
+      const rawPois = data.pois || data;
+      POI_DB = rawPois.filter(p => p.active !== false).map(normalizePOI);
+      console.log(`Loaded ${POI_DB.length} POIs from poi-data.json`);
+      return;
+    }
+  } catch (e) {
+    console.log('No external poi-data.json found, checking localStorage...');
+  }
+
+  try {
+    // Fallback: check localStorage (synced from admin panel)
+    const stored = localStorage.getItem('leo-poi-data');
+    if (stored) {
+      const data = JSON.parse(stored);
+      const rawPois = data.pois || data;
+      POI_DB = rawPois.filter(p => p.active !== false).map(normalizePOI);
+      console.log(`Loaded ${POI_DB.length} POIs from localStorage`);
+      return;
+    }
+  } catch (e) {
+    console.log('No localStorage data found, using built-in defaults...');
+  }
+
+  // Final fallback: minimal built-in set
+  POI_DB = getDefaultPOIs();
+  console.log(`Loaded ${POI_DB.length} default POIs`);
+}
+
+// Normalize POI format — admin uses leoContext, legacy uses leoFallback
+function normalizePOI(poi) {
+  return {
+    ...poi,
+    leoContext: poi.leoContext || poi.leoFallback || poi.desc,
+    leoFallback: poi.leoFallback || poi.leoContext || poi.desc
+  };
+}
+
+function getDefaultPOIs() {
+  return [
+    { id:'morro', name:'Castillo San Felipe del Morro', lat:18.4706, lng:-66.1239, type:'culture', icon:'🏰', desc:'Fortaleza del siglo XVI, Patrimonio de la UNESCO.', leoContext:'Historic fortress, 400+ years old, UNESCO World Heritage Site. People fly kites on the green field. Stunning sunsets.', leoFallback:'Mira, el Morro está cerquita. Esa fortaleza tiene más de 400 años defendiendo esta isla.' },
+    { id:'sanjuangate', name:'Puerta de San Juan', lat:18.4644, lng:-66.1198, type:'culture', icon:'🚪', desc:'Entrada histórica a la ciudad amurallada del siglo XVI.', leoContext:'One of the original gates into the walled city. Soldiers, merchants, and pirates passed through here.', leoFallback:'Oye, la Puerta de San Juan está aquí al lado. Por esa puerta entraron todos.' },
+    { id:'fortaleza', name:'La Fortaleza', lat:18.4652, lng:-66.1186, type:'culture', icon:'🏛️', desc:'Mansión ejecutiva del Gobernador — la más antigua en las Américas.', leoContext:'Oldest executive mansion in continuous use in the Western Hemisphere. Famous colorful umbrella street outside.', leoFallback:'La Fortaleza es la mansión ejecutiva más antigua en uso. La calle de las sombrillas está brutal.' },
+    { id:'labomba', name:'La Bombonera', lat:18.4656, lng:-66.1167, type:'food', icon:'🍽️', desc:'Restaurante icónico desde 1902, mallorcas y café con leche.', leoContext:'Open since 1902. Famous mallorcas and café con leche. Cash preferred. Best for breakfast.', leoFallback:'Wepa, La Bombonera lleva más de 100 años sirviendo las mejores mallorcas.' },
+    { id:'placita', name:'La Placita de Santurce', lat:18.4489, lng:-66.0594, type:'food', icon:'🎶', desc:'Mercado de día, fiesta de noche.', leoContext:'Daytime fresh market. Nighttime (Thu-Sat) biggest party scene. Salsa, drinks, dancing in the streets.', leoFallback:'La Placita — de día es mercado, de noche es la rumba más famosa de San Juan.' },
+    { id:'school1', name:'Zona Escolar - Calle del Cristo', lat:18.4648, lng:-66.1180, type:'safety', icon:'⚠️', desc:'Zona escolar activa. Velocidad máxima 15 MPH.', leoContext:'ACTIVE SCHOOL ZONE. Speed limit 15 MPH during school hours: 7-8:30AM, 2-3:30PM. Fines doubled. ViaSegura protocol.', leoFallback:'Oye, zona escolar adelante. Baja la velocidad a 15 millas.' },
+    { id:'coliseo', name:'Coliseo de Puerto Rico', lat:18.4271, lng:-66.0612, type:'event', icon:'🎮', desc:'El Choliseo — potencial sede GAMERGY 2026.', leoContext:'Largest venue in PR, 18,000+ capacity. Potential GAMERGY 2026 venue. BOS Esports training stations planned.', leoFallback:'El Choliseo — imagínate GAMERGY ahí con el público boricua.' },
+  ];
+}
+
+// ══════════════════════════════════════
+// CLAUDE API INTEGRATION
+// ══════════════════════════════════════
+
+async function askClaude(userMessage) {
+  if (!AUTH_TOKEN || !AI_MODE) {
+    return getFallbackResponse(userMessage);
+  }
+
+  // Build spatial context for this message
+  const nearby = getNearbyPOIs(0.015);
+  const spatialContext = buildSpatialContext(nearby);
+
+  // Add user message with spatial context to AI history
+  const enrichedMessage = `[LOCATION CONTEXT — User is at lat:${userLat.toFixed(4)}, lng:${userLng.toFixed(4)}]
+${spatialContext}
+
+[USER SAYS]: ${userMessage}`;
+
+  aiMessages.push({ role: 'user', content: enrichedMessage });
+
+  // Keep conversation manageable (last 20 exchanges)
+  if (aiMessages.length > 40) {
+    aiMessages = aiMessages.slice(-20);
+  }
+
+  try {
+    const response = await safeFetch(API_BASE + '/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + AUTH_TOKEN
+      },
+      body: JSON.stringify({
+        system: GOSTAR_SYSTEM_PROMPT,
+        messages: aiMessages
+      })
+    }, 'claude');
+
+    if (!response) {
+      aiMessages.pop();
+      return getFallbackResponse(userMessage);
+    }
+
+    if (!response.ok) {
+      const errData = await response.json().catch(() => ({}));
+      console.error('Chat error:', response.status, errData);
+
+      if (response.status === 401) {
+        addErrorMessage('Session expired. Refreshing...');
+        AUTH_TOKEN = null;
+        sessionStorage.removeItem('lavoz-token');
+        setTimeout(() => showLoginModal(), 2000);
+      }
+      if (response.status === 429) {
+        addErrorMessage(errData.error || 'Message limit reached.');
+      }
+      aiMessages.pop();
+      return getFallbackResponse(userMessage);
+    }
+
+    const data = await response.json();
+    const gostarReply = data.content
+      .filter(block => block.type === 'text')
+      .map(block => block.text)
+      .join('');
+
+    aiMessages.push({ role: 'assistant', content: gostarReply });
+    return gostarReply;
+
+  } catch (err) {
+    console.error('Chat error:', err);
+    aiMessages.pop();
+    return getFallbackResponse(userMessage);
+  }
+}
+
+function buildSpatialContext(nearbyPOIs) {
+  if (nearbyPOIs.length === 0) {
+    return '[NEARBY: No known points of interest within range]';
+  }
+
+  const poiList = nearbyPOIs.slice(0, 8).map(poi => {
+    const distMeters = Math.round(poi.dist * 111000);
+    const context = poi.leoContext || poi.desc;
+    return `- ${poi.icon} ${poi.name} (${poi.type}) — ${distMeters}m away: ${context}`;
+  }).join('\n');
+
+  return `[NEARBY POINTS OF INTEREST]:\n${poiList}`;
+}
+
+// ══════════════════════════════════════
+// FALLBACK — Pattern matching (no API)
+// ══════════════════════════════════════
+
+function getFallbackResponse(userMsg) {
+  const msg = userMsg.toLowerCase();
+  const nearby = getNearbyPOIs(0.01);
+
+  if (msg.includes('comer') || msg.includes('comida') || msg.includes('hambre') || msg.includes('eat') || msg.includes('food') || msg.includes('restaurant')) {
+    const food = nearby.filter(p => p.type === 'food');
+    if (food.length > 0) return `Mira, tienes ${food.map(f => f.name).join(' y ')} cerca. ${food[0].leoFallback}`;
+    return 'No veo nada de comida caminando desde aquí, pero La Placita en Santurce tiene de todo. ¿Quieres que te guíe?';
+  }
+  if (msg.includes('segur') || msg.includes('safe') || msg.includes('peligr') || msg.includes('cuidado')) {
+    const safety = nearby.filter(p => p.type === 'safety');
+    if (safety.length > 0) return safety[0].leoFallback;
+    return 'Por esta zona no hay alertas activas. Siempre mantén los ojos en la carretera. ViaSegura te tiene cubierto.';
+  }
+  if (msg.includes('histor') || msg.includes('cultura') || msg.includes('viejo') || msg.includes('castle') || msg.includes('fort')) {
+    const culture = nearby.filter(p => p.type === 'culture');
+    if (culture.length > 0) return culture[0].leoFallback;
+    return 'Puerto Rico tiene más historia por metro cuadrado que casi cualquier lugar del Caribe. ¿Hacia dónde quieres explorar?';
+  }
+  if (msg.includes('game') || msg.includes('esport') || msg.includes('gamergy') || msg.includes('bos') || msg.includes('event')) {
+    const events = nearby.filter(p => p.type === 'event');
+    if (events.length > 0) return events[0].leoFallback;
+    return 'GAMERGY viene en agosto 2026 y BOS Esports va a estar ahí con entrenamiento neurocognitivo. ¿Quieres saber más?';
+  }
+  if (msg.includes('cerca') || msg.includes('nearby') || msg.includes('around') || msg.includes('aquí') || msg.includes('qué hay')) {
+    if (nearby.length > 0) {
+      const list = nearby.slice(0, 3).map(p => `${p.icon} ${p.name}`).join(', ');
+      return `Tienes varias cosas cerca: ${list}. ¿De cuál quieres saber más?`;
+    }
+    return 'Por esta área no tengo muchos puntos marcados todavía. ¿Buscas algo específico?';
+  }
+  if (msg.includes('hola') || msg.includes('hey') || msg.includes('hi') || msg.includes('qué tal') || msg.includes('buenas')) {
+    return 'Wepa, ¿qué es la que hay? Pregúntame lo que quieras sobre lo que hay cerca. Estoy contigo.';
+  }
+
+  if (nearby.length > 0) {
+    return `Ahora mismo estás cerca de ${nearby[0].name}. ${nearby[0].desc} ¿Quieres saber más?`;
+  }
+  return 'Dime, estoy aquí contigo. Pregúntame sobre comida, historia, seguridad vial, o eventos cerca de donde estás.';
+}
+
+// ══════════════════════════════════════
+// PROXIMITY — Claude-powered alerts
+// ══════════════════════════════════════
+
+async function getProximityAlert(poi) {
+  if (!AI_MODE || !AUTH_TOKEN) {
+    return poi.leoFallback;
+  }
+
+  try {
+    const response = await safeFetch(API_BASE + '/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + AUTH_TOKEN
+      },
+      body: JSON.stringify({
+        system: GOSTAR_SYSTEM_PROMPT,
+        messages: [{
+          role: 'user',
+          content: `[PROXIMITY ALERT — User just came within range of this location]
+Location: ${poi.name}
+Type: ${poi.type}
+Details: ${poi.leoContext || poi.desc}
+User coordinates: ${userLat.toFixed(4)}, ${userLng.toFixed(4)}
+
+Give a natural, brief proximity announcement (1-2 sentences). Be specific about the place. If it's a safety zone, be urgent.`
+        }]
+      })
+    }, 'claude');
+
+    if (!response || !response.ok) return poi.leoFallback;
+    const data = await response.json();
+    return data.content[0]?.text || poi.leoFallback;
+  } catch {
+    return poi.leoFallback;
+  }
+}
+
+// ══════════════════════════════════════
+// AUTH — Login / Session Management
+// ══════════════════════════════════════
+
+function showLoginModal() {
+  document.getElementById('loginModal').classList.remove('hidden');
+  document.getElementById('accessCodeInput').value = '';
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('accessCodeInput').focus();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => {
+    const input = document.getElementById('accessCodeInput');
+    if (input) input.addEventListener('keydown', (e) => { if (e.key === 'Enter') doLogin(); });
+  }, 500);
+});
+
+async function doLogin() {
+  const code = document.getElementById('accessCodeInput').value.trim();
+  if (!code) { showLoginError('Enter an access code'); return; }
+
+  const btn = document.getElementById('loginBtn');
+  btn.textContent = 'CONNECTING...';
+  btn.style.opacity = '0.6';
+
+  try {
+    const response = await fetch(API_BASE + '/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ code: code })
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      showLoginError(data.error || 'Invalid code');
+      btn.textContent = 'ACTIVAR GOSTAR';
+      btn.style.opacity = '1';
+      return;
+    }
+
+    AUTH_TOKEN = data.token;
+    CURRENT_USER = data.user;
+    AI_MODE = true;
+    VOICE_MODE = true;
+    sessionStorage.setItem('lavoz-token', AUTH_TOKEN);
+    document.getElementById('loginModal').classList.add('hidden');
+    updateAIStatus();
+
+    const greeting = CURRENT_USER.type === 'admin'
+      ? `Wepa, admin mode activo. Tengo ${POI_DB.length} puntos en el mapa. Vamos.`
+      : `Wepa ${CURRENT_USER.name || ''}, GoStar está listo. Tengo ${POI_DB.length} puntos — pregúntame lo que quieras.`;
+    addGoStarMessage(greeting);
+  } catch (err) {
+    console.error('Login error:', err);
+    showLoginError('Cannot connect to server. Try again.');
+  }
+  btn.textContent = 'ACTIVAR GOSTAR';
+  btn.style.opacity = '1';
+}
+
+function skipLogin() {
+  AI_MODE = false;
+  VOICE_MODE = false;
+  document.getElementById('loginModal').classList.add('hidden');
+  updateAIStatus();
+  addGoStarMessage('Demo mode — respuestas básicas. Para la experiencia completa, necesitas un access code de GoStar Digital.');
+}
+
+function showLoginError(msg) {
+  const el = document.getElementById('loginError');
+  el.textContent = msg;
+  el.style.display = 'block';
+  document.getElementById('accessCodeInput').style.borderColor = '#ff4646';
+  setTimeout(() => { document.getElementById('accessCodeInput').style.borderColor = ''; }, 2000);
+}
+
+async function tryRestoreSession() {
+  const saved = sessionStorage.getItem('lavoz-token');
+  if (!saved) return false;
+  try {
+    const response = await fetch(API_BASE + '/api/auth/verify', {
+      headers: { 'Authorization': 'Bearer ' + saved }
+    });
+    if (response.ok) {
+      const data = await response.json();
+      AUTH_TOKEN = saved;
+      CURRENT_USER = data.user;
+      AI_MODE = true;
+      VOICE_MODE = true;
+      return true;
+    }
+  } catch(e) {}
+  sessionStorage.removeItem('lavoz-token');
+  return false;
+}
+
+function showUserInfo() {
+  if (CURRENT_USER) {
+    const limit = CURRENT_USER.messagesLimit === -1 ? 'Unlimited' : CURRENT_USER.messagesLimit;
+    alert(`User: ${CURRENT_USER.name}\nType: ${CURRENT_USER.type}\nMessages: ${CURRENT_USER.messagesUsed} / ${limit}`);
+  } else {
+    showLoginModal();
+  }
+}
+
+function updateAIStatus() {
+  const dot = document.getElementById('statusDot');
+  if (AI_MODE && VOICE_MODE) {
+    dot.style.background = 'var(--gold)';
+    dot.classList.remove('offline');
+  } else if (AI_MODE) {
+    dot.style.background = 'var(--teal)';
+    dot.classList.remove('offline');
+  } else {
+    dot.style.background = 'var(--teal)';
+  }
+}
+
+// ══════════════════════════════════════
+// MAP SETUP
+// ══════════════════════════════════════
+
+function initMap() {
+  userLat = 18.4655;
+  userLng = -66.1180;
+
+  map = L.map('map', {
+    center: [userLat, userLng], zoom: 16,
+    zoomControl: false, attributionControl: false
+  });
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 19
+  }).addTo(map);
+
+  POI_DB.forEach(poi => {
+    const marker = L.marker([poi.lat, poi.lng], {
+      icon: L.divIcon({
+        className: '',
+        html: `<div class="poi-marker poi-${poi.type}">${poi.icon}</div>`,
+        iconSize: [32, 32], iconAnchor: [16, 16]
+      })
+    }).addTo(map);
+
+    marker.on('click', async () => {
+      map.flyTo([poi.lat, poi.lng], 17, { duration: 1 });
+      if (AI_MODE) {
+        showTyping();
+        const response = await askClaude(`Tell me about ${poi.name}. I just tapped it on the map.`);
+        removeTyping();
+        addGoStarMessage(response, poi.name);
+      } else {
+        addGoStarMessage(poi.leoFallback, poi.name);
+      }
+    });
+  });
+
+  userMarker = L.marker([userLat, userLng], {
+    icon: L.divIcon({
+      className: '', html: '<div class="user-marker"></div>',
+      iconSize: [20, 20], iconAnchor: [10, 10]
+    })
+  }).addTo(map);
+
+  updateNearbyChips();
+  startGPS();
+}
+
+// ── GPS ──
+function startGPS() {
+  if ('geolocation' in navigator) {
+    navigator.geolocation.watchPosition(
+      (pos) => {
+        userLat = pos.coords.latitude;
+        userLng = pos.coords.longitude;
+        userMarker.setLatLng([userLat, userLng]);
+        document.getElementById('statusText').textContent = VOICE_MODE ? '🎙️ GoStar Voice + GPS' : AI_MODE ? '🧠 AI + GPS' : 'GPS Activo';
+        updateNearbyChips();
+        checkProximityAlerts();
+      },
+      () => {
+        document.getElementById('statusText').textContent = VOICE_MODE ? '🎙️ GoStar Voice + Demo' : AI_MODE ? '🧠 AI + Demo' : 'Demo Mode';
+        simulateMovement();
+      },
+      { enableHighAccuracy: true, maximumAge: 5000 }
+    );
+  } else {
+    simulateMovement();
+  }
+}
+
+// ── SIMULATE MOVEMENT ──
+let simStep = 0;
+const simPath = [
+  [18.4655, -66.1180], [18.4658, -66.1185], [18.4662, -66.1190],
+  [18.4665, -66.1195], [18.4668, -66.1198], [18.4652, -66.1186],
+  [18.4648, -66.1180], [18.4644, -66.1198], [18.4638, -66.1175],
+  [18.4656, -66.1167], [18.4700, -66.1230], [18.4706, -66.1239],
+];
+
+function simulateMovement() {
+  document.getElementById('statusText').textContent = VOICE_MODE ? '🎙️ GoStar Voice + Demo' : AI_MODE ? '🧠 AI + Demo' : 'Demo — Viejo San Juan';
+  setInterval(() => {
+    if (simStep < simPath.length) {
+      userLat = simPath[simStep][0];
+      userLng = simPath[simStep][1];
+      userMarker.setLatLng([userLat, userLng]);
+      map.panTo([userLat, userLng], { animate: true, duration: 1.5 });
+      updateNearbyChips();
+      checkProximityAlerts();
+      simStep++;
+    } else {
+      simStep = 0;
+      announcedPOIs.clear();
+    }
+  }, 8000);
+}
+
+// ── PROXIMITY ──
+async function checkProximityAlerts() {
+  const nearby = getNearbyPOIs(0.003);
+  for (const poi of nearby) {
+    if (!announcedPOIs.has(poi.id)) {
+      announcedPOIs.add(poi.id);
+      setTimeout(async () => {
+        if (AI_MODE) {
+          showTyping();
+          const alert = await getProximityAlert(poi);
+          removeTyping();
+          addGoStarMessage(alert, poi.name);
+        } else {
+          addGoStarMessage(poi.leoFallback, poi.name);
+        }
+      }, 1500);
+    }
+  }
+}
+
+// ── NEARBY ──
+function getNearbyPOIs(radius = 0.008) {
+  return POI_DB
+    .map(poi => ({ ...poi, dist: Math.sqrt(Math.pow(poi.lat - userLat, 2) + Math.pow(poi.lng - userLng, 2)) }))
+    .filter(poi => poi.dist < radius)
+    .sort((a, b) => a.dist - b.dist);
+}
+
+function updateNearbyChips() {
+  const nearby = getNearbyPOIs(0.015);
+  const bar = document.getElementById('nearbyBar');
+  bar.innerHTML = nearby.slice(0, 6).map(poi => {
+    const distMeters = Math.round(poi.dist * 111000);
+    const distLabel = distMeters > 999 ? `${(distMeters/1000).toFixed(1)}km` : `${distMeters}m`;
+    return `<div class="nearby-chip" onclick="askAboutPOI('${poi.id}')">
+      <span class="chip-icon">${poi.icon}</span>
+      <span>${poi.name.length > 20 ? poi.name.substring(0,20)+'...' : poi.name}</span>
+      <span class="chip-dist">${distLabel}</span>
+    </div>`;
+  }).join('');
+}
+
+async function askAboutPOI(poiId) {
+  const poi = POI_DB.find(p => p.id === poiId);
+  if (!poi) return;
+  map.flyTo([poi.lat, poi.lng], 17, { duration: 1 });
+  if (AI_MODE) {
+    showTyping();
+    const response = await askClaude(`I tapped on ${poi.name} on the map. Tell me about it.`);
+    removeTyping();
+    addGoStarMessage(response, poi.name);
+  } else {
+    addGoStarMessage(poi.leoFallback, poi.name);
+  }
+}
+
+// ══════════════════════════════════════
+// CONVERSATION UI
+// ══════════════════════════════════════
+
+function addGoStarMessage(text, locationTag = null) {
+  const panel = document.getElementById('convoPanel');
+  const div = document.createElement('div');
+  div.className = 'msg leo';
+  const aiBadge = AI_MODE
+    ? '<div class="ai-badge">🧠 GoStar AI' + (VOICE_MODE ? ' + 🎙️ Voice' : '') + '</div>'
+    : '';
+  div.innerHTML = `<div class="msg-name">GOSTAR</div>${text}${locationTag ? `<div class="location-tag">📍 ${locationTag}</div>` : ''}${aiBadge}`;
+  panel.appendChild(div);
+  panel.scrollTop = panel.scrollHeight;
+  conversationHistory.push({ role: 'gostar', text });
+  speakGoStar(text);
+}
+
+function addUserMessage(text) {
+  const panel = document.getElementById('convoPanel');
+  const div = document.createElement('div');
+  div.className = 'msg user';
+  div.textContent = text;
+  panel.appendChild(div);
+  panel.scrollTop = panel.scrollHeight;
+  conversationHistory.push({ role: 'user', text });
+}
+
+function addErrorMessage(text) {
+  const panel = document.getElementById('convoPanel');
+  const div = document.createElement('div');
+  div.className = 'msg error';
+  div.textContent = text;
+  panel.appendChild(div);
+  panel.scrollTop = panel.scrollHeight;
+}
+
+function showTyping() {
+  const panel = document.getElementById('convoPanel');
+  const div = document.createElement('div');
+  div.className = 'msg leo';
+  div.id = 'typingIndicator';
+  div.innerHTML = `<div class="msg-name">GOSTAR</div><div class="typing"><span></span><span></span><span></span></div>`;
+  panel.appendChild(div);
+  panel.scrollTop = panel.scrollHeight;
+}
+
+function removeTyping() {
+  const el = document.getElementById('typingIndicator');
+  if (el) el.remove();
+}
+
+// ── VOICE OUTPUT — ElevenLabs or Browser TTS ──
+async function speakGoStar(text) {
+  // Stop any currently playing audio
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio.currentTime = 0;
+    currentAudio = null;
+  }
+
+  if (VOICE_MODE && AUTH_TOKEN) {
+    await speakElevenLabs(text);
+  } else {
+    speakBrowserTTS(text);
+  }
+}
+
+async function speakElevenLabs(text) {
+  try {
+    const response = await safeFetch(API_BASE + '/api/speak', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + AUTH_TOKEN
+      },
+      body: JSON.stringify({ text: text })
+    }, 'elevenlabs');
+
+    if (!response || !response.ok) {
+      console.error('Voice error');
+      speakBrowserTTS(text);
+      return;
+    }
+
+    const audioBlob = await response.blob();
+    const audioUrl = URL.createObjectURL(audioBlob);
+    const audio = new Audio(audioUrl);
+    currentAudio = audio;
+
+    const indicator = document.getElementById('speakingIndicator');
+    indicator.classList.add('active');
+
+    audio.onended = () => {
+      URL.revokeObjectURL(audioUrl);
+      currentAudio = null;
+      indicator.classList.remove('active');
+    };
+    audio.onerror = () => {
+      URL.revokeObjectURL(audioUrl);
+      currentAudio = null;
+      indicator.classList.remove('active');
+      speakBrowserTTS(text);
+    };
+
+    await audio.play();
+  } catch (err) {
+    console.error('Voice TTS failed:', err);
+    speakBrowserTTS(text);
+  }
+}
+
+function speakBrowserTTS(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'es-US';
+    utterance.rate = 1.0;
+    utterance.pitch = 0.95;
+    const voices = window.speechSynthesis.getVoices();
+    const spanishVoice = voices.find(v => v.lang.includes('es'));
+    if (spanishVoice) utterance.voice = spanishVoice;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
+// ── VOICE INPUT ──
+function toggleMic() {
+  const btn = document.getElementById('micBtn');
+  if (isListening) {
+    recognition?.stop();
+    isListening = false;
+    btn.classList.remove('listening');
+    return;
+  }
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    addGoStarMessage('Oye, tu browser no soporta reconocimiento de voz. Usa el teclado — te escucho igual.');
+    return;
+  }
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'es-PR';
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.onstart = () => {
+    isListening = true;
+    btn.classList.add('listening');
+    // Stop GoStar if talking so he listens
+    if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    document.getElementById('speakingIndicator').classList.remove('active');
+  };
+  recognition.onresult = (event) => { processUserInput(event.results[0][0].transcript); };
+  recognition.onerror = () => { isListening = false; btn.classList.remove('listening'); };
+  recognition.onend = () => { isListening = false; btn.classList.remove('listening'); };
+  recognition.start();
+}
+
+// ── TEXT INPUT ──
+function sendText() {
+  const input = document.getElementById('textInput');
+  const text = input.value.trim();
+  if (!text || isProcessing) return;
+  input.value = '';
+  processUserInput(text);
+}
+
+// ── PROCESS INPUT ──
+async function processUserInput(text) {
+  if (isProcessing) return;
+  isProcessing = true;
+
+  addUserMessage(text);
+  showTyping();
+
+  try {
+    const response = await askClaude(text);
+    removeTyping();
+
+    // Check if GoStar mentions a specific POI and tag it
+    const mentionedPOI = POI_DB.find(poi =>
+      response.toLowerCase().includes(poi.name.toLowerCase().split(' ')[0]) ||
+      response.toLowerCase().includes(poi.name.toLowerCase())
+    );
+    addGoStarMessage(response, mentionedPOI?.name || null);
+  } catch (err) {
+    removeTyping();
+    addGoStarMessage('Perdona, tuve un problema procesando eso. Dime otra vez.');
+  }
+
+  isProcessing = false;
+}
+
+// ══════════════════════════════════════
+// START
+// ══════════════════════════════════════
+
+async function startApp() {
+  document.getElementById('splash').classList.add('hidden');
+
+  // Load POI data
+  await loadPOIData();
+  initMap();
+
+  // Try restoring previous session
+  const restored = await tryRestoreSession();
+  if (restored) {
+    updateAIStatus();
+    setTimeout(() => {
+      addGoStarMessage(`Wepa, bienvenido de vuelta ${CURRENT_USER.name || ''}. Tengo ${POI_DB.length} puntos en mi mapa. Vamos a explorar.`);
+    }, 1000);
+  } else {
+    // Show login
+    showLoginModal();
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('textInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendText();
+  });
+});
+
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => {};
+}
+</script>
+</body>
+</html>
