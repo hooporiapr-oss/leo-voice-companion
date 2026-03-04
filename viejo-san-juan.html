@@ -158,142 +158,103 @@ elevenlabs-convai{position:fixed!important;bottom:20px!important;right:16px!impo
 <elevenlabs-convai agent-id="agent_5801kjdgm1zwe65843rj9r29zmj1"></elevenlabs-convai>
 
 <script>
-var lang = "en";
-var currentFilter = "all";
+var lang="en";
+var currentFilter="all";
 
-var SPOTS = [
-  {id:"morro", name:"Castillo San Felipe del Morro", cat:"culture", tier:"free",
-    en:{desc:"Massive 16th-century fortress guarding the entrance to San Juan Bay. UNESCO World Heritage Site. Kite-flying on the green, stunning sunsets from the ramparts."},
-    es:{desc:"Fortaleza masiva del siglo XVI que guarda la entrada a la Bah\u00eda de San Juan. Patrimonio UNESCO. Vuelo de chichiguas en el campo, atardeceres desde las murallas."},
-    tags:["UNESCO","1539","Free Entry"]},
-  {id:"cristobal", name:"Castillo San Crist\u00f3bal", cat:"culture", tier:"free",
-    en:{desc:"The largest fortification built by the Spanish in the Americas. Five independent units connected by tunnels and moats. Overlooks the Atlantic."},
-    es:{desc:"La fortificaci\u00f3n m\u00e1s grande construida por los espa\u00f1oles en las Am\u00e9ricas. Cinco unidades conectadas por t\u00faneles y fosos. Vista al Atl\u00e1ntico."},
-    tags:["UNESCO","1634","Tunnels"]},
-  {id:"fortaleza", name:"La Fortaleza", cat:"culture", tier:"free",
-    en:{desc:"The oldest executive mansion in continuous use in the Western Hemisphere. The famous Calle de las Sombrillas (umbrella street) is right outside."},
-    es:{desc:"La mansi\u00f3n ejecutiva en uso continuo m\u00e1s antigua del hemisferio occidental. La famosa Calle de las Sombrillas est\u00e1 justo afuera."},
-    tags:["1533","Umbrella Street"]},
-  {id:"puerta", name:"Puerta de San Juan", cat:"culture", tier:"free",
-    en:{desc:"One of the original gates into the walled city. Soldiers, merchants, and pirates all passed through here. Walk through 500 years of history."},
-    es:{desc:"Una de las puertas originales a la ciudad amurallada. Soldados, mercaderes y piratas pasaron por aqu\u00ed. Camina por 500 a\u00f1os de historia."},
-    tags:["1520s","City Wall"]},
-  {id:"catedral", name:"Catedral de San Juan Bautista", cat:"culture", tier:"free",
-    en:{desc:"One of the oldest cathedrals in the Americas. Contains the marble tomb of Ponce de Le\u00f3n. Stunning architecture spanning centuries."},
-    es:{desc:"Una de las catedrales m\u00e1s antiguas de las Am\u00e9ricas. Contiene la tumba de m\u00e1rmol de Ponce de Le\u00f3n. Arquitectura impresionante de siglos."},
-    tags:["1521","Ponce de Le\u00f3n"]},
-  {id:"bombonera", name:"La Bombonera", cat:"food", tier:"partner",
-    en:{desc:"Iconic restaurant since 1902. The mallorcas and caf\u00e9 con leche are legendary. Cash preferred. Get there early for breakfast \u2014 locals and tourists line up."},
-    es:{desc:"Restaurante ic\u00f3nico desde 1902. Las mallorcas y el caf\u00e9 con leche son legendarios. Efectivo preferido. Llega temprano \u2014 locales y turistas hacen fila."},
-    tags:["Since 1902","Breakfast","$$"]},
-  {id:"raices", name:"Ra\u00edces", cat:"food", tier:"partner",
-    en:{desc:"Traditional Puerto Rican cuisine in a beautiful colonial setting. Mofongo, asopao, and tostones done right. Live music on weekends."},
-    es:{desc:"Cocina puertorrique\u00f1a tradicional en un hermoso ambiente colonial. Mofongo, asopao y tostones como deben ser. M\u00fasica en vivo los fines de semana."},
-    tags:["Mofongo","Live Music","$$$"]},
-  {id:"senorpaleta", name:"Se\u00f1or Paleta", cat:"food", tier:"free",
-    en:{desc:"Artisan popsicles in tropical flavors \u2014 parcha, coco, guayaba. Perfect walking snack in the San Juan heat."},
-    es:{desc:"Paletas artesanales en sabores tropicales \u2014 parcha, coco, guayaba. El snack perfecto caminando bajo el sol de San Juan."},
-    tags:["Popsicles","Tropical","$"]},
-  {id:"elconvento", name:"Hotel El Convento", cat:"hotel", tier:"exclusive",
-    en:{desc:"A 350-year-old former convent transformed into Old San Juan's most iconic boutique hotel. Rooftop pool, courtyard dining, steps from the Cathedral."},
-    es:{desc:"Un antiguo convento de 350 a\u00f1os transformado en el hotel boutique m\u00e1s ic\u00f3nico del Viejo San Juan. Piscina en la azotea, a pasos de la Catedral."},
-    tags:["Boutique","Historic","$$$$"]},
-  {id:"gallery", name:"Gallery Inn", cat:"hotel", tier:"partner",
-    en:{desc:"An eccentric, art-filled guesthouse perched on the city wall. Every room is unique. Rooftop terrace with the best sunset view in the city."},
-    es:{desc:"Una casa de hu\u00e9spedes exc\u00e9ntrica llena de arte sobre la muralla. Cada habitaci\u00f3n es \u00fanica. La mejor vista del atardecer."},
-    tags:["Art Hotel","Rooftop","$$$"]},
-  {id:"nuyorican", name:"Nuyorican Caf\u00e9", cat:"nightlife", tier:"free",
-    en:{desc:"The heartbeat of Old San Juan nightlife. Live salsa, jazz, and bomba y plena. Small venue, huge energy. Get there early or forget getting in."},
-    es:{desc:"El coraz\u00f3n de la vida nocturna del Viejo San Juan. Salsa en vivo, jazz, bomba y plena. Lugar peque\u00f1o, energ\u00eda enorme. Llega temprano o no entras."},
-    tags:["Live Music","Salsa","$$"]},
-  {id:"labarandilla", name:"La Barandilla", cat:"nightlife", tier:"partner",
-    en:{desc:"Craft cocktails and local beers in a laid-back colonial space. Great for a chill drink before hitting the livelier spots. DJ sets on Fridays."},
-    es:{desc:"C\u00f3cteles artesanales y cervezas locales en un espacio colonial relajado. Perfecto para un trago tranquilo antes de la fiesta. DJ los viernes."},
-    tags:["Cocktails","DJ","$$"]}
+var SPOTS=[
+{id:"morro",name:"Castillo San Felipe del Morro",cat:"culture",tier:"free",en:{desc:"Massive 16th-century fortress guarding the entrance to San Juan Bay. UNESCO World Heritage Site. Kite-flying on the green, stunning sunsets from the ramparts."},es:{desc:"Fortaleza masiva del siglo XVI que guarda la entrada a la Bah\u00eda de San Juan. Patrimonio UNESCO. Vuelo de chichiguas en el campo, atardeceres desde las murallas."},tags:["UNESCO","1539","Free Entry"]},
+{id:"cristobal",name:"Castillo San Crist\u00f3bal",cat:"culture",tier:"free",en:{desc:"The largest fortification built by the Spanish in the Americas. Five independent units connected by tunnels and moats. Overlooks the Atlantic."},es:{desc:"La fortificaci\u00f3n m\u00e1s grande construida por los espa\u00f1oles en las Am\u00e9ricas. Cinco unidades conectadas por t\u00faneles y fosos. Vista al Atl\u00e1ntico."},tags:["UNESCO","1634","Tunnels"]},
+{id:"fortaleza",name:"La Fortaleza",cat:"culture",tier:"free",en:{desc:"The oldest executive mansion in continuous use in the Western Hemisphere. The famous Calle de las Sombrillas (umbrella street) is right outside."},es:{desc:"La mansi\u00f3n ejecutiva en uso continuo m\u00e1s antigua del hemisferio occidental. La famosa Calle de las Sombrillas est\u00e1 justo afuera."},tags:["1533","Umbrella Street"]},
+{id:"puerta",name:"Puerta de San Juan",cat:"culture",tier:"free",en:{desc:"One of the original gates into the walled city. Soldiers, merchants, and pirates all passed through here. Walk through 500 years of history."},es:{desc:"Una de las puertas originales a la ciudad amurallada. Soldados, mercaderes y piratas pasaron por aqu\u00ed. Camina por 500 a\u00f1os de historia."},tags:["1520s","City Wall"]},
+{id:"catedral",name:"Catedral de San Juan Bautista",cat:"culture",tier:"free",en:{desc:"One of the oldest cathedrals in the Americas. Contains the marble tomb of Ponce de Le\u00f3n. Stunning architecture spanning centuries."},es:{desc:"Una de las catedrales m\u00e1s antiguas de las Am\u00e9ricas. Contiene la tumba de m\u00e1rmol de Ponce de Le\u00f3n. Arquitectura impresionante de siglos."},tags:["1521","Ponce de Le\u00f3n"]},
+{id:"bombonera",name:"La Bombonera",cat:"food",tier:"partner",en:{desc:"Iconic restaurant since 1902. The mallorcas and caf\u00e9 con leche are legendary. Cash preferred. Get there early for breakfast \u2014 locals and tourists line up."},es:{desc:"Restaurante ic\u00f3nico desde 1902. Las mallorcas y el caf\u00e9 con leche son legendarios. Efectivo preferido. Llega temprano \u2014 locales y turistas hacen fila."},tags:["Since 1902","Breakfast","$$"]},
+{id:"raices",name:"Ra\u00edces",cat:"food",tier:"partner",en:{desc:"Traditional Puerto Rican cuisine in a beautiful colonial setting. Mofongo, asopao, and tostones done right. Live music on weekends."},es:{desc:"Cocina puertorrique\u00f1a tradicional en un hermoso ambiente colonial. Mofongo, asopao y tostones como deben ser. M\u00fasica en vivo los fines de semana."},tags:["Mofongo","Live Music","$$$"]},
+{id:"senorpaleta",name:"Se\u00f1or Paleta",cat:"food",tier:"free",en:{desc:"Artisan popsicles in tropical flavors \u2014 parcha, coco, guayaba. Perfect walking snack in the San Juan heat."},es:{desc:"Paletas artesanales en sabores tropicales \u2014 parcha, coco, guayaba. El snack perfecto caminando bajo el sol de San Juan."},tags:["Popsicles","Tropical","$"]},
+{id:"elconvento",name:"Hotel El Convento",cat:"hotel",tier:"exclusive",en:{desc:"A 350-year-old former convent transformed into Old San Juan's most iconic boutique hotel. Rooftop pool, courtyard dining, steps from the Cathedral."},es:{desc:"Un antiguo convento de 350 a\u00f1os transformado en el hotel boutique m\u00e1s ic\u00f3nico del Viejo San Juan. Piscina en la azotea, a pasos de la Catedral."},tags:["Boutique","Historic","$$$$"]},
+{id:"gallery",name:"Gallery Inn",cat:"hotel",tier:"partner",en:{desc:"An eccentric, art-filled guesthouse perched on the city wall. Every room is unique. Rooftop terrace with the best sunset view in the city."},es:{desc:"Una casa de hu\u00e9spedes exc\u00e9ntrica llena de arte sobre la muralla. Cada habitaci\u00f3n es \u00fanica. La mejor vista del atardecer."},tags:["Art Hotel","Rooftop","$$$"]},
+{id:"nuyorican",name:"Nuyorican Caf\u00e9",cat:"nightlife",tier:"free",en:{desc:"The heartbeat of Old San Juan nightlife. Live salsa, jazz, and bomba y plena. Small venue, huge energy. Get there early or forget getting in."},es:{desc:"El coraz\u00f3n de la vida nocturna del Viejo San Juan. Salsa en vivo, jazz, bomba y plena. Lugar peque\u00f1o, energ\u00eda enorme. Llega temprano o no entras."},tags:["Live Music","Salsa","$$"]},
+{id:"labarandilla",name:"La Barandilla",cat:"nightlife",tier:"partner",en:{desc:"Craft cocktails and local beers in a laid-back colonial space. Great for a chill drink before hitting the livelier spots. DJ sets on Fridays."},es:{desc:"C\u00f3cteles artesanales y cervezas locales en un espacio colonial relajado. Perfecto para un trago tranquilo antes de la fiesta. DJ los viernes."},tags:["Cocktails","DJ","$$"]}
 ];
 
-var FILTERS = {
-  en:[{cat:"all",label:"All Spots"},{cat:"culture",label:"\ud83c\udfdb\ufe0f Landmarks"},{cat:"food",label:"\ud83c\udf7d\ufe0f Food & Drink"},{cat:"hotel",label:"\ud83c\udfe8 Hotels"},{cat:"nightlife",label:"\ud83c\udfb6 Nightlife"}],
-  es:[{cat:"all",label:"Todos"},{cat:"culture",label:"\ud83c\udfdb\ufe0f Monumentos"},{cat:"food",label:"\ud83c\udf7d\ufe0f Comida & Bebida"},{cat:"hotel",label:"\ud83c\udfe8 Hoteles"},{cat:"nightlife",label:"\ud83c\udfb6 Vida Nocturna"}]
+var FILTERS={
+en:[{cat:"all",label:"All Spots"},{cat:"culture",label:"\ud83c\udfdb\ufe0f Landmarks"},{cat:"food",label:"\ud83c\udf7d\ufe0f Food & Drink"},{cat:"hotel",label:"\ud83c\udfe8 Hotels"},{cat:"nightlife",label:"\ud83c\udfb6 Nightlife"}],
+es:[{cat:"all",label:"Todos"},{cat:"culture",label:"\ud83c\udfdb\ufe0f Monumentos"},{cat:"food",label:"\ud83c\udf7d\ufe0f Comida & Bebida"},{cat:"hotel",label:"\ud83c\udfe8 Hoteles"},{cat:"nightlife",label:"\ud83c\udfb6 Vida Nocturna"}]
 };
 
-var CAT_LABELS = {
-  en:{culture:"LANDMARK",food:"FOOD & DRINK",hotel:"HOTEL",nightlife:"NIGHTLIFE"},
-  es:{culture:"MONUMENTO",food:"COMIDA & BEBIDA",hotel:"HOTEL",nightlife:"VIDA NOCTURNA"}
+var CAT_LABELS={
+en:{culture:"LANDMARK",food:"FOOD & DRINK",hotel:"HOTEL",nightlife:"NIGHTLIFE"},
+es:{culture:"MONUMENTO",food:"COMIDA & BEBIDA",hotel:"HOTEL",nightlife:"VIDA NOCTURNA"}
 };
 
-var BG_MAP = {
-  culture:"linear-gradient(135deg,#141428,#1a2640)",
-  food:"linear-gradient(135deg,#2a1800,#1c1000)",
-  hotel:"linear-gradient(135deg,#0e1c2c,#1a2838)",
-  nightlife:"linear-gradient(135deg,#1c0c30,#2a1840)"
-};
+var BG_MAP={culture:"linear-gradient(135deg,#141428,#1a2640)",food:"linear-gradient(135deg,#2a1800,#1c1000)",hotel:"linear-gradient(135deg,#0e1c2c,#1a2838)",nightlife:"linear-gradient(135deg,#1c0c30,#2a1840)"};
+var ICON_MAP={culture:"\ud83c\udff0",food:"\ud83c\udf7d\ufe0f",hotel:"\ud83c\udfe8",nightlife:"\ud83c\udfb6"};
 
-var ICON_MAP = {culture:"\ud83c\udff0",food:"\ud83c\udf7d\ufe0f",hotel:"\ud83c\udfe8",nightlife:"\ud83c\udfb6"};
-
-function renderFilters() {
-  var bar = document.getElementById("filterBar");
-  bar.innerHTML = FILTERS[lang].map(function(f) {
-    var cls = f.cat === currentFilter ? "filter-chip active" : "filter-chip";
-    return '<button class="' + cls + '" onclick="filterSpots(\'' + f.cat + '\',this)">' + f.label + '</button>';
+function renderFilters(){
+  var bar=document.getElementById("filterBar");
+  bar.innerHTML=FILTERS[lang].map(function(f){
+    var cls=f.cat===currentFilter?"filter-chip active":"filter-chip";
+    return '<button class="'+cls+'" onclick="filterSpots(\''+f.cat+'\',this)">'+f.label+'</button>';
   }).join("");
 }
 
-function renderSpots(filter) {
-  var grid = document.getElementById("spotsGrid");
-  var filtered = filter === "all" ? SPOTS : SPOTS.filter(function(s) { return s.cat === filter; });
-
-  grid.innerHTML = filtered.map(function(spot, i) {
-    var tierBadge = spot.tier === "free"
-      ? '<span class="spot-badge badge-free">' + (lang === "en" ? "Free" : "Gratis") + '</span>'
-      : spot.tier === "exclusive"
-      ? '<span class="spot-badge badge-exclusive">\u2605 Exclusive</span>'
-      : '<span class="spot-badge badge-partner">\u2605 Partner</span>';
-
-    var btnClass = spot.tier === "free" ? "free" : "premium";
-    var btnText = spot.tier === "free"
-      ? (lang === "en" ? "\ud83c\udfa4 HEAR FROM GOSTAR" : "\ud83c\udfa4 ESCUCHA A GOSTAR")
-      : (lang === "en" ? "\u2605 GOSTAR RECOMMENDS" : "\u2605 GOSTAR RECOMIENDA");
-    var cardClass = spot.tier !== "free" ? " partner" : "";
-    var catLabel = CAT_LABELS[lang][spot.cat] || spot.cat.toUpperCase();
-    var desc = spot[lang].desc;
-    var tags = spot.tags.map(function(t) { return '<span class="spot-tag">' + t + '</span>'; }).join("");
-    var bg = BG_MAP[spot.cat] || BG_MAP.culture;
-    var icon = ICON_MAP[spot.cat] || "";
-
-    return '<div class="spot-card' + cardClass + '" style="animation-delay:' + (i * 0.06) + 's">' +
-      '<div style="position:relative;height:180px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:' + bg + ';">' +
-        tierBadge +
-        '<span style="font-size:3rem;opacity:0.5;">' + icon + '</span>' +
-      '</div>' +
-      '<div class="spot-body">' +
-        '<div class="spot-cat">' + catLabel + '</div>' +
-        '<div class="spot-name">' + spot.name + '</div>' +
-        '<div class="spot-desc">' + desc + '</div>' +
-        '<div class="spot-meta">' + tags + '</div>' +
-        '<button class="spot-voice-btn ' + btnClass + '" onclick="askGoStar(\'' + spot.id + '\')">' + btnText + '</button>' +
+function renderSpots(filter){
+  var grid=document.getElementById("spotsGrid");
+  var filtered=filter==="all"?SPOTS:SPOTS.filter(function(s){return s.cat===filter;});
+  grid.innerHTML=filtered.map(function(spot,i){
+    var tierBadge=spot.tier==="free"
+      ?'<span class="spot-badge badge-free">'+(lang==="en"?"Free":"Gratis")+'</span>'
+      :spot.tier==="exclusive"
+      ?'<span class="spot-badge badge-exclusive">\u2605 Exclusive</span>'
+      :'<span class="spot-badge badge-partner">\u2605 Partner</span>';
+    var btnClass=spot.tier==="free"?"free":"premium";
+    var btnText=spot.tier==="free"
+      ?(lang==="en"?"\ud83c\udfa4 HEAR FROM GOSTAR":"\ud83c\udfa4 ESCUCHA A GOSTAR")
+      :(lang==="en"?"\u2605 GOSTAR RECOMMENDS":"\u2605 GOSTAR RECOMIENDA");
+    var cardClass=spot.tier!=="free"?" partner":"";
+    var catLabel=CAT_LABELS[lang][spot.cat]||spot.cat.toUpperCase();
+    var desc=spot[lang].desc;
+    var tags=spot.tags.map(function(t){return '<span class="spot-tag">'+t+'</span>';}).join("");
+    var bg=BG_MAP[spot.cat]||BG_MAP.culture;
+    var icon=ICON_MAP[spot.cat]||"";
+    return '<div class="spot-card'+cardClass+'" style="animation-delay:'+(i*0.06)+'s">'+
+      '<div style="position:relative;height:180px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:'+bg+';">'+
+        tierBadge+
+        '<span style="font-size:3rem;opacity:0.5;">'+icon+'</span>'+
+      '</div>'+
+      '<div class="spot-body">'+
+        '<div class="spot-cat">'+catLabel+'</div>'+
+        '<div class="spot-name">'+spot.name+'</div>'+
+        '<div class="spot-desc">'+desc+'</div>'+
+        '<div class="spot-meta">'+tags+'</div>'+
+        '<button class="spot-voice-btn '+btnClass+'" onclick="askGoStar(\''+spot.id+'\')">'+btnText+'</button>'+
       '</div></div>';
   }).join("");
 }
 
-function filterSpots(cat, el) {
-  currentFilter = cat;
-  document.querySelectorAll(".filter-chip").forEach(function(c) { c.classList.remove("active"); });
-  if (el) el.classList.add("active");
+function filterSpots(cat,el){
+  currentFilter=cat;
+  document.querySelectorAll(".filter-chip").forEach(function(c){c.classList.remove("active");});
+  if(el)el.classList.add("active");
   renderSpots(cat);
 }
 
-function askGoStar(spotId) {
-  var widget = document.querySelector("elevenlabs-convai");
-  if (widget) widget.scrollIntoView({ behavior: "smooth", block: "end" });
+function askGoStar(spotId){
+  var spot=SPOTS.find(function(s){return s.id===spotId;});
+  if(!spot)return;
+  var widget=document.querySelector("elevenlabs-convai");
+  if(widget){
+    var vars={spot_name:spot.name,municipality:"Viejo San Juan",spot_category:spot.cat,spot_description:spot[lang].desc};
+    widget.setAttribute("dynamic-variables",JSON.stringify(vars));
+    widget.scrollIntoView({behavior:"smooth",block:"end"});
+  }
 }
 
-function setLang(l) {
-  lang = l;
-  document.getElementById("btnEN").classList.toggle("active", l === "en");
-  document.getElementById("btnES").classList.toggle("active", l === "es");
-  document.querySelectorAll(".en").forEach(function(el) { el.classList.toggle("show", l === "en"); });
-  document.querySelectorAll(".es").forEach(function(el) { el.classList.toggle("show", l === "es"); });
+function setLang(l){
+  lang=l;
+  document.getElementById("btnEN").classList.toggle("active",l==="en");
+  document.getElementById("btnES").classList.toggle("active",l==="es");
+  document.querySelectorAll(".en").forEach(function(el){el.classList.toggle("show",l==="en");});
+  document.querySelectorAll(".es").forEach(function(el){el.classList.toggle("show",l==="es");});
   renderFilters();
   renderSpots(currentFilter);
 }
