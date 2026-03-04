@@ -173,44 +173,41 @@ nav .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: fl
 (function() {
   var AGENT_ID = "agent_6201kjv6fkvhe87sf17gfgchwe3s";
 
-  // Load widget with GPS dynamic variables
+  // GPS state
   var currentLat = "unknown";
   var currentLng = "unknown";
 
-  function loadWidget() {
+  // Load widget immediately
+  window.addEventListener("load", function() {
     var container = document.getElementById("gps-widget-container");
     if (!container) return;
     container.innerHTML = "";
     var widget = document.createElement("elevenlabs-convai");
     widget.setAttribute("agent-id", AGENT_ID);
-    widget.setAttribute("dynamic-variables", JSON.stringify({
-      user_latitude: currentLat,
-      user_longitude: currentLng
-    }));
     container.appendChild(widget);
-  }
+  });
 
-  // Wait for GPS before loading widget
-  function initWidget() {
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(
-        function(pos) {
-          currentLat = pos.coords.latitude.toFixed(4);
-          currentLng = pos.coords.longitude.toFixed(4);
-          loadWidget();
-        },
-        function() {
-          // No GPS — load anyway, user can tell GoStar verbally
-          loadWidget();
-        },
-        { enableHighAccuracy: true, timeout: 5000 }
-      );
-    } else {
-      loadWidget();
+  // Intercept conversation start to inject GPS coordinates
+  document.addEventListener("elevenlabs-convai:call", function(e) {
+    if (currentLat !== "unknown" && currentLng !== "unknown") {
+      e.detail.config.dynamicVariables = {
+        user_latitude: currentLat,
+        user_longitude: currentLng
+      };
     }
-  }
+  });
 
-  window.addEventListener("load", initWidget);
+  // Also get GPS early so coords are ready before user starts talking
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(
+      function(pos) {
+        currentLat = pos.coords.latitude.toFixed(4);
+        currentLng = pos.coords.longitude.toFixed(4);
+      },
+      function() {},
+      { enableHighAccuracy: true, timeout: 5000 }
+    );
+  }
 
   // GPS Location — feeds into widget dynamic variables
   var locDot = document.getElementById("locDot");
