@@ -56,14 +56,16 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
 .hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;z-index:5}
 .hint-text{font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase}
 
-/* ELEVENLABS WIDGET */
-elevenlabs-convai{z-index:100!important;position:relative!important}
+/* ELEVENLABS WIDGET - force center */
+elevenlabs-convai{z-index:100!important}
+.widget-wrap{position:fixed;bottom:24px;left:0;right:0;display:flex;justify-content:center;z-index:100;pointer-events:none}
+.widget-wrap elevenlabs-convai{pointer-events:auto}
 
 @media(max-width:768px){
 .title{font-size:clamp(2.6rem,11vw,4rem);letter-spacing:4px}
 .subtitle{font-size:.82rem}
 .center-block{margin-bottom:100px}
-elevenlabs-convai{bottom:70px!important}
+.widget-wrap{bottom:16px}
 .slide-caption{padding:0 16px 16px}
 .dots{bottom:50px}
 }
@@ -106,21 +108,33 @@ elevenlabs-convai{bottom:70px!important}
 </div>
 </div>
 
-<div style="position:fixed;bottom:80px;left:0;right:0;display:flex;justify-content:center;z-index:100">
+<div class="widget-wrap">
 <elevenlabs-convai agent-id="agent_5801kjdgm1zwe65843rj9r29zmj1"></elevenlabs-convai>
 </div>
 
 <script>
+// Force-center the ElevenLabs widget button by overriding shadow DOM styles
+function centerWidget(){
+var el=document.querySelector('elevenlabs-convai');
+if(!el||!el.shadowRoot)return setTimeout(centerWidget,500);
+var style=document.createElement('style');
+style.textContent='div[style*="fixed"]{left:50%!important;right:auto!important;transform:translateX(-50%)!important;bottom:0!important;}';
+el.shadowRoot.appendChild(style);
+}
+centerWidget();
+</script>
+
+<script>
 var lang="en";
 var SLIDES=[
-{img:"https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1600&q=80",en:"Old San Juan",es:"Viejo San Juan",loc:"San Juan"},
-{img:"https://images.unsplash.com/photo-1569839756185-7b0eae75ed9e?w=1600&q=80",en:"Colorful Streets",es:"Calles Coloridas",loc:"Viejo San Juan"},
-{img:"https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1600&q=80",en:"El Yunque Rainforest",es:"Bosque El Yunque",loc:"Rio Grande"},
-{img:"https://images.unsplash.com/photo-1580237072617-771c3ecc4a24?w=1600&q=80",en:"Flamenco Beach",es:"Playa Flamenco",loc:"Culebra"},
-{img:"https://images.unsplash.com/photo-1562618817-3a66497b1c85?w=1600&q=80",en:"Cordillera Central",es:"Cordillera Central",loc:"Mountains"},
-{img:"https://images.unsplash.com/photo-1591792111137-5b8219d5fad6?w=1600&q=80",en:"Tropical Coastline",es:"Costa Tropical",loc:"West Coast"},
-{img:"https://images.unsplash.com/photo-1560703791-a1ba8329a4b1?w=1600&q=80",en:"Caribbean Sunset",es:"Atardecer Caribeno",loc:"Cabo Rojo"},
-{img:"https://images.unsplash.com/photo-1606567595334-d39972c85dbe?w=1600&q=80",en:"Island Paradise",es:"Paraiso de la Isla",loc:"Puerto Rico"}
+{img:"https://images.unsplash.com/photo-1580058572462-98e2c0e0e2f0?w=1600&q=80",en:"Cordillera Central",es:"Cordillera Central",loc:"Puerto Rico"},
+{img:"https://images.unsplash.com/photo-1597852161646-3d4e18d34df4?w=1600&q=80",en:"Mountain Peaks",es:"Picos de Montana",loc:"Jayuya"},
+{img:"https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1600&q=80",en:"El Yunque Canopy",es:"Dosel de El Yunque",loc:"Rio Grande"},
+{img:"https://images.unsplash.com/photo-1562618817-3a66497b1c85?w=1600&q=80",en:"Cloud Forest",es:"Bosque de Nubes",loc:"Cordillera"},
+{img:"https://images.unsplash.com/photo-1591792111137-5b8219d5fad6?w=1600&q=80",en:"Tropical Valley",es:"Valle Tropical",loc:"Adjuntas"},
+{img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80",en:"Mountain Sunrise",es:"Amanecer en la Montana",loc:"Orocovis"},
+{img:"https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1600&q=80",en:"Green Highlands",es:"Tierras Altas Verdes",loc:"Barranquitas"},
+{img:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1600&q=80",en:"Rainforest Trail",es:"Sendero del Bosque",loc:"El Yunque"}
 ];
 
 var current=0;
