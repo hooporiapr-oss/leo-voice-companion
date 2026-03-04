@@ -2,480 +2,164 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Ruta — Let GoStar Show You The Island | La Voz PR</title>
-<meta name="description" content="La Ruta is an AI-powered voice tour of Puerto Rico. Let GoStar guide you through the island's culture, history, food, and hidden gems — entirely by voice.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>La Ruta &#8212; Talk to GoStar | La Voz PR</title>
+<meta name="description" content="Ask GoStar about any spot in Puerto Rico. Voice-powered AI concierge covering all 78 municipalities.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://elevenlabs.io/convai-widget/index.js" async></script>
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#FFD700;--orange:#FF6B35;--dark:#07070c;--text:#f0f0f4;--dim:#8a8a9a;--gradient:linear-gradient(135deg,#FFD700,#FF6B35)}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-font-smoothing:antialiased}
 
-:root {
-  --dark: #0a0a0f;
-  --card-bg: rgba(18, 18, 28, 0.92);
-  --gold: #FFD700;
-  --orange: #FF6B35;
-  --teal: #00D9A5;
-  --red: #ff4646;
-  --purple: #7B68EE;
-  --green: #32CD32;
-  --text: #e8e8ec;
-  --text-dim: #8a8a9a;
-  --gradient: linear-gradient(135deg, #FFD700, #FF6B35);
+/* FULLSCREEN SLIDESHOW */
+.slideshow{position:fixed;inset:0;z-index:0}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease-in-out;background-size:cover;background-position:center}
+.slide.active{opacity:1}
+.slide::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.15) 40%,rgba(0,0,0,.5) 100%)}
+
+/* SLIDE CAPTION */
+.slide-caption{position:absolute;bottom:0;left:0;right:0;z-index:1;padding:0 24px 20px;opacity:0;transition:opacity 1.8s ease-in-out;pointer-events:none}
+.slide-caption.active{opacity:1}
+.slide-loc{font-family:'Bebas Neue',sans-serif;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.slide-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1.5px;color:rgba(255,255,255,.7)}
+
+/* PROGRESS DOTS */
+.dots{position:absolute;bottom:58px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:6px}
+.dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .4s}
+.dot.active{background:var(--gold);transform:scale(1.3)}
+
+/* MAIN OVERLAY CONTENT */
+.overlay{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+
+/* TOP BAR */
+.top-bar{position:absolute;top:0;left:0;right:0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;z-index:10}
+.back-link{display:flex;align-items:center;gap:6px;font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none;transition:color .3s;letter-spacing:.5px}
+.back-link:hover{color:var(--gold)}
+.lang-toggle{display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+.lang-btn{padding:4px 8px;font-size:.62rem;font-weight:600;letter-spacing:1px;background:transparent;color:rgba(255,255,255,.4);border:none;cursor:pointer;transition:all .2s}
+.lang-btn.active{background:rgba(255,215,0,.12);color:var(--gold)}
+
+/* CENTER CONTENT */
+.center-block{margin-bottom:80px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.15);border-radius:50px;font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.badge .pulse{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,12vw,6rem);line-height:.85;letter-spacing:6px;margin-bottom:8px;text-shadow:0 4px 40px rgba(0,0,0,.6)}
+.title .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{font-size:.95rem;color:rgba(255,255,255,.5);letter-spacing:1px;font-weight:300;text-shadow:0 2px 12px rgba(0,0,0,.5)}
+.en,.es{display:none}.en.show,.es.show{display:inline}
+
+/* BOTTOM HINT */
+.hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;z-index:5}
+.hint-text{font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase}
+
+/* ELEVENLABS WIDGET */
+elevenlabs-convai{position:fixed!important;bottom:80px!important;left:50%!important;transform:translateX(-50%)!important;z-index:100!important}
+
+@media(max-width:768px){
+.title{font-size:clamp(2.6rem,11vw,4rem);letter-spacing:4px}
+.subtitle{font-size:.82rem}
+.center-block{margin-bottom:100px}
+elevenlabs-convai{bottom:70px!important}
+.slide-caption{padding:0 16px 16px}
+.dots{bottom:50px}
 }
-
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Outfit', sans-serif;
-  background: var(--dark);
-  color: var(--text);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
-
-.bg-grid {
-  position: fixed; inset: 0;
-  background-image: linear-gradient(rgba(255,215,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,215,0,0.03) 1px, transparent 1px);
-  background-size: 60px 60px; pointer-events: none; z-index: 0;
-}
-.bg-glow { position: fixed; width: 600px; height: 600px; border-radius: 50%; filter: blur(160px); opacity: 0.12; pointer-events: none; z-index: 0; }
-.bg-glow-1 { top: -200px; right: -100px; background: var(--gold); }
-.bg-glow-2 { bottom: -200px; left: -100px; background: var(--teal); }
-.bg-glow-3 { top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--orange); opacity: 0.06; width: 800px; height: 800px; }
-
-.container { max-width: 1140px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-.gradient-text { background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-
-/* NAV */
-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 18px 0; background: rgba(10,10,15,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,215,0,0.08); }
-nav .container { display: flex; align-items: center; justify-content: space-between; }
-.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 2px; text-decoration: none; color: var(--text); }
-.nav-logo span { color: var(--gold); }
-.nav-right { display: flex; align-items: center; gap: 16px; }
-.nav-back { display: inline-flex; align-items: center; gap: 8px; padding: 10px 22px; background: transparent; color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 0.95rem; letter-spacing: 1.5px; border-radius: 50px; text-decoration: none; border: 1.5px solid rgba(255,215,0,0.3); transition: all 0.3s; }
-.nav-back:hover { border-color: var(--gold); background: rgba(255,215,0,0.06); }
-
-.lang-toggle { display: flex; align-items: center; background: rgba(255,215,0,0.06); border: 1px solid rgba(255,215,0,0.15); border-radius: 50px; padding: 3px; user-select: none; }
-.lang-btn { padding: 5px 14px; font-family: 'Outfit', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.8px; border: none; border-radius: 50px; background: transparent; color: var(--text-dim); cursor: pointer; transition: all 0.3s; }
-.lang-btn.active { background: var(--gradient); color: var(--dark); }
-.lang-btn:hover:not(.active) { color: var(--gold); }
-
-/* HERO */
-.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 120px 0 80px; text-align: center; position: relative; }
-.hero-inner { max-width: 800px; margin: 0 auto; }
-.hero-tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 18px; background: rgba(255,215,0,0.08); border: 1px solid rgba(255,215,0,0.15); border-radius: 50px; font-size: 0.82rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 28px; animation: fadeInUp 0.8s ease-out; }
-.hero-tag .pulse { width: 8px; height: 8px; background: var(--teal); border-radius: 50%; animation: pulse 2s infinite; }
-@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
-
-.hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 6rem); line-height: 0.92; letter-spacing: 3px; margin-bottom: 12px; animation: fadeInUp 0.8s ease-out 0.1s both; }
-.hero-sub { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.4rem, 3vw, 2rem); letter-spacing: 2px; color: var(--teal); margin-bottom: 28px; animation: fadeInUp 0.8s ease-out 0.15s both; }
-.hero p { font-size: 1.15rem; line-height: 1.7; color: var(--text-dim); max-width: 580px; margin: 0 auto 40px; animation: fadeInUp 0.8s ease-out 0.2s both; }
-
-/* VOICE ORB — the main CTA */
-.voice-orb-wrap { animation: fadeInUp 0.8s ease-out 0.3s both; margin-bottom: 48px; }
-.voice-orb { position: relative; width: 180px; height: 180px; margin: 0 auto; cursor: pointer; }
-.voice-orb-bg { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, rgba(255,215,0,0.2) 0%, rgba(255,107,53,0.08) 60%, transparent 70%); animation: orb-breathe 3s ease-in-out infinite; }
-@keyframes orb-breathe { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.15); opacity: 1; } }
-.voice-orb-ring { position: absolute; inset: 10px; border-radius: 50%; border: 2px solid rgba(255,215,0,0.3); animation: orb-spin 8s linear infinite; }
-@keyframes orb-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.voice-orb-ring::before { content: ''; position: absolute; top: -4px; left: 50%; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; transform: translateX(-50%); }
-.voice-orb-inner { position: absolute; inset: 25px; border-radius: 50%; background: var(--card-bg); border: 1px solid rgba(255,215,0,0.15); display: flex; align-items: center; justify-content: center; flex-direction: column; transition: all 0.3s; }
-.voice-orb:hover .voice-orb-inner { border-color: rgba(255,215,0,0.4); background: rgba(18, 18, 28, 1); }
-.voice-orb-icon { font-size: 2.4rem; margin-bottom: 4px; }
-.voice-orb-label { font-family: 'Bebas Neue', sans-serif; font-size: 0.85rem; letter-spacing: 2px; color: var(--gold); }
-
-.voice-orb-hint { font-size: 0.82rem; color: var(--text-dim); margin-top: 16px; animation: fadeInUp 0.8s ease-out 0.4s both; }
-
-/* WAVE DIVIDER */
-.wave-divider { height: 60px; position: relative; overflow: hidden; }
-.wave-divider::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(255,215,0,0.2), var(--gold), rgba(255,215,0,0.2), transparent); }
-
-/* WHAT IS LA RUTA */
-.about-section { padding: 100px 0; }
-.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.about-visual { position: relative; }
-.about-map { width: 100%; border-radius: 20px; overflow: hidden; position: relative; background: var(--card-bg); border: 1px solid rgba(255,215,0,0.08); padding: 32px; min-height: 320px; display: flex; align-items: center; justify-content: center; }
-.map-dots { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
-.map-dot { width: 12px; height: 12px; border-radius: 50%; animation: dot-pulse 2s ease-in-out infinite; }
-.map-dot:nth-child(1) { background: var(--gold); animation-delay: 0s; }
-.map-dot:nth-child(2) { background: var(--teal); animation-delay: 0.2s; }
-.map-dot:nth-child(3) { background: var(--orange); animation-delay: 0.4s; }
-.map-dot:nth-child(4) { background: var(--purple); animation-delay: 0.6s; }
-.map-dot:nth-child(5) { background: var(--green); animation-delay: 0.8s; }
-.map-dot:nth-child(6) { background: var(--red); animation-delay: 0.3s; }
-.map-dot:nth-child(7) { background: var(--gold); animation-delay: 0.5s; }
-.map-dot:nth-child(8) { background: var(--teal); animation-delay: 0.7s; }
-.map-dot:nth-child(9) { background: var(--orange); animation-delay: 0.1s; }
-.map-dot:nth-child(10) { background: var(--purple); animation-delay: 0.9s; }
-@keyframes dot-pulse { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.6); opacity: 1; } }
-
-.about-text .section-tag { display: inline-flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
-.about-text .section-tag::before { content: ''; width: 24px; height: 1.5px; background: var(--gradient); }
-.about-text h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: 1.5px; line-height: 1; margin-bottom: 20px; }
-.about-text p { font-size: 1.05rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 16px; }
-
-/* TOPICS */
-.topics-section { padding: 80px 0; background: rgba(18,18,28,0.4); }
-.topics-section .section-header { text-align: center; margin-bottom: 60px; }
-.topics-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: 1.5px; line-height: 1; margin-bottom: 12px; }
-.topics-section .section-desc { font-size: 1.05rem; color: var(--text-dim); max-width: 500px; margin: 0 auto; }
-.topics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
-.topic-card { background: var(--card-bg); border: 1px solid rgba(255,215,0,0.06); border-radius: 16px; padding: 28px 22px; text-align: center; transition: all 0.4s; position: relative; overflow: hidden; }
-.topic-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient); opacity: 0; transition: opacity 0.4s; }
-.topic-card:hover { transform: translateY(-4px); border-color: rgba(255,215,0,0.15); }
-.topic-card:hover::before { opacity: 1; }
-.topic-icon { font-size: 2rem; margin-bottom: 12px; }
-.topic-card h3 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 1px; margin-bottom: 6px; }
-.topic-card p { font-size: 0.85rem; color: var(--text-dim); line-height: 1.5; }
-
-/* FULL EXPERIENCE */
-.experience-section { padding: 100px 0; text-align: center; }
-.experience-section h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 4vw, 3rem); letter-spacing: 1.5px; margin-bottom: 12px; }
-.experience-section .section-desc { font-size: 1.05rem; color: var(--text-dim); max-width: 500px; margin: 0 auto 40px; }
-.experience-frame { max-width: 480px; margin: 0 auto; background: var(--card-bg); border: 1px solid rgba(255,215,0,0.1); border-radius: 24px; padding: 40px 24px; position: relative; overflow: hidden; min-height: 500px; }
-.experience-frame::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient); }
-.experience-frame-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px; color: var(--gold); margin-bottom: 8px; }
-.experience-frame-sub { font-size: 0.85rem; color: var(--text-dim); margin-bottom: 24px; }
-#laruta-widget-container { min-height: 380px; display: flex; align-items: center; justify-content: center; }
-.widget-loading { color: var(--text-dim); font-size: 0.9rem; }
-
-/* CTA BANNER */
-.cta-banner { padding: 80px 0; text-align: center; }
-.cta-box { background: var(--card-bg); border: 1px solid rgba(255,215,0,0.1); border-radius: 28px; padding: 60px 40px; max-width: 700px; margin: 0 auto; position: relative; overflow: hidden; }
-.cta-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient); }
-.cta-box h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: 1.5px; margin-bottom: 12px; }
-.cta-box p { font-size: 1rem; color: var(--text-dim); max-width: 460px; margin: 0 auto 28px; line-height: 1.6; }
-.cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-.btn-launch { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: var(--gradient); color: var(--dark); font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 1.5px; border-radius: 50px; text-decoration: none; border: none; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; }
-.btn-launch:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255,215,0,0.25); }
-.btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: transparent; color: var(--gold); font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 1.5px; border-radius: 50px; text-decoration: none; border: 1.5px solid rgba(255,215,0,0.4); cursor: pointer; transition: all 0.3s; }
-.btn-outline:hover { border-color: var(--gold); background: rgba(255,215,0,0.06); }
-
-/* FOOTER BRANDING */
-.footer-branding { padding: 60px 0 0; text-align: center; position: relative; z-index: 1; }
-.footer-logo { width: 160px; height: auto; margin-bottom: 16px; filter: drop-shadow(0 4px 20px rgba(255,215,0,0.15)); }
-.footer-copyright { font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: var(--text-dim); letter-spacing: 0.3px; margin-bottom: 10px; }
-.footer-legal { display: flex; gap: 24px; justify-content: center; align-items: center; }
-.footer-legal a { font-family: 'Outfit', sans-serif; font-size: 0.82rem; color: var(--text-dim); text-decoration: none; transition: color 0.3s; }
-.footer-legal a:hover { color: var(--gold); }
-.footer-legal-divider { color: rgba(255,215,0,0.2); font-size: 0.75rem; }
-
-footer { padding: 48px 0 32px; border-top: 1px solid rgba(255,215,0,0.06); margin-top: 40px; }
-.footer-content { display: flex; justify-content: center; align-items: center; text-align: center; }
-.footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 2px; }
-.footer-brand span { color: var(--gold); }
-.footer-company { font-size: 0.8rem; color: var(--text-dim); margin-top: 4px; }
-
-/* FULLSCREEN OVERLAY */
-.fullscreen-overlay { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(10,10,15,0.98); backdrop-filter: blur(30px); flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
-.fullscreen-overlay.active { display: flex; }
-.fullscreen-close { position: absolute; top: 24px; right: 24px; background: none; border: 1.5px solid rgba(255,215,0,0.3); color: var(--gold); width: 44px; height: 44px; border-radius: 50%; font-size: 1.4rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
-.fullscreen-close:hover { background: rgba(255,215,0,0.1); border-color: var(--gold); }
-.fullscreen-header { text-align: center; margin-bottom: 32px; }
-.fullscreen-header h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 2px; }
-.fullscreen-header p { color: var(--text-dim); font-size: 0.9rem; margin-top: 6px; }
-.fullscreen-widget { width: 100%; max-width: 480px; min-height: 420px; display: flex; align-items: center; justify-content: center; }
-
-/* ANIMATIONS */
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-.reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease-out; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* RESPONSIVE */
-@media (max-width: 960px) {
-  .about-grid { grid-template-columns: 1fr; }
-  .about-visual { order: -1; }
-  .topics-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-@media (max-width: 768px) {
-  .hero { padding: 100px 0 60px; min-height: auto; }
-  .hero h1 { font-size: 3rem; }
-  .topics-grid { grid-template-columns: 1fr; max-width: 320px; }
-  .voice-orb { width: 150px; height: 150px; }
-  .voice-orb-inner { inset: 20px; }
-  .voice-orb-icon { font-size: 2rem; }
-  .experience-frame { padding: 28px 16px; }
-  .cta-box { padding: 40px 20px; }
-  .cta-buttons { flex-direction: column; align-items: center; gap: 12px; }
-  .cta-buttons .btn-launch, .cta-buttons .btn-outline { width: 100%; max-width: 280px; text-align: center; justify-content: center; }
-  .footer-logo { width: 120px; }
+@media(max-width:380px){
+.title{font-size:2.4rem;letter-spacing:3px}
+.badge{font-size:.55rem;padding:4px 10px}
+.center-block{margin-bottom:110px}
 }
 </style>
 </head>
 <body>
 
-<div class="bg-grid"></div>
-<div class="bg-glow bg-glow-1"></div>
-<div class="bg-glow bg-glow-2"></div>
-<div class="bg-glow bg-glow-3"></div>
+<!-- FULLSCREEN SLIDESHOW -->
+<div class="slideshow" id="slideshow"></div>
 
-<nav>
-  <div class="container">
-    <a href="index.html" class="nav-logo">LA VOZ <span>PR</span></a>
-    <div class="nav-right">
-      <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="en">EN</button>
-        <button class="lang-btn" data-lang="es">ES</button>
-      </div>
-      <a href="index.html" class="nav-back" data-i18n="nav_back">&#9666; Home</a>
-    </div>
-  </div>
-</nav>
+<!-- PROGRESS DOTS -->
+<div class="dots" id="dots"></div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-inner">
-      <div class="hero-tag"><span class="pulse"></span> <span data-i18n="hero_tag">Free Voice Tour</span></div>
-      <h1>LA <span class="gradient-text">RUTA</span></h1>
-      <div class="hero-sub" data-i18n="hero_sub">LET GOSTAR SHOW YOU THE ISLAND</div>
-      <p data-i18n="hero_desc">A fully guided voice tour of Puerto Rico. Ask about any town, beach, landmark, or hidden gem &#8212; GoStar knows the island inside out and speaks your language.</p>
-      <div class="voice-orb-wrap">
-        <div class="voice-orb" id="launchOrb" title="Start La Ruta">
-          <div class="voice-orb-bg"></div>
-          <div class="voice-orb-ring"></div>
-          <div class="voice-orb-inner">
-            <div class="voice-orb-icon">&#127908;</div>
-            <div class="voice-orb-label">START</div>
-          </div>
-        </div>
-        <div class="voice-orb-hint" data-i18n="orb_hint">Tap to start your voice tour</div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- SLIDE CAPTIONS -->
+<div id="captions"></div>
 
-<div class="wave-divider"></div>
-
-<!-- WHAT IS LA RUTA -->
-<section class="about-section">
-  <div class="container">
-    <div class="about-grid">
-      <div class="about-visual reveal">
-        <div class="about-map">
-          <div class="map-dots">
-            <div class="map-dot"></div><div class="map-dot"></div><div class="map-dot"></div><div class="map-dot"></div><div class="map-dot"></div>
-            <div class="map-dot"></div><div class="map-dot"></div><div class="map-dot"></div><div class="map-dot"></div><div class="map-dot"></div>
-          </div>
-        </div>
-      </div>
-      <div class="about-text reveal">
-        <div class="section-tag" data-i18n="about_tag">What Is La Ruta?</div>
-        <h2 data-i18n-html="about_title">YOUR PERSONAL<br><span class="gradient-text">VOICE GUIDE</span></h2>
-        <p data-i18n="about_p1">La Ruta is an AI-powered voice experience that lets you explore Puerto Rico through conversation. No screens to stare at, no guides to follow &#8212; just you and GoStar, talking about the island.</p>
-        <p data-i18n="about_p2">Ask about Old San Juan, the bioluminescent bays, the best mofongo in Ponce, the history of El Yunque &#8212; GoStar responds with the knowledge of a local who grew up on every corner of the island.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TOPICS -->
-<section class="topics-section">
-  <div class="container">
-    <div class="section-header">
-      <h2 data-i18n-html="topics_title">ASK GOSTAR <span class="gradient-text">ANYTHING</span></h2>
-      <div class="section-desc" data-i18n="topics_desc">From history to hidden beaches &#8212; GoStar covers it all.</div>
-    </div>
-    <div class="topics-grid">
-      <div class="topic-card reveal"><div class="topic-icon">&#127963;&#65039;</div><h3 data-i18n="t1_title">HISTORY &amp; CULTURE</h3><p data-i18n="t1_desc">Forts, plazas, Taino heritage, colonial stories</p></div>
-      <div class="topic-card reveal"><div class="topic-icon">&#127869;&#65039;</div><h3 data-i18n="t2_title">FOOD &amp; DRINK</h3><p data-i18n="t2_desc">Mofongo, mallorcas, piraguas, local favorites</p></div>
-      <div class="topic-card reveal"><div class="topic-icon">&#127754;</div><h3 data-i18n="t3_title">BEACHES &amp; NATURE</h3><p data-i18n="t3_desc">Flamenco, Culebra, bioluminescent bays, El Yunque</p></div>
-      <div class="topic-card reveal"><div class="topic-icon">&#127926;</div><h3 data-i18n="t4_title">MUSIC &amp; ARTS</h3><p data-i18n="t4_desc">Bomba, plena, reggaeton roots, street art</p></div>
-      <div class="topic-card reveal"><div class="topic-icon">&#128205;</div><h3 data-i18n="t5_title">TOWNS &amp; REGIONS</h3><p data-i18n="t5_desc">78 municipalities, each with its own story</p></div>
-      <div class="topic-card reveal"><div class="topic-icon">&#128161;</div><h3 data-i18n="t6_title">LOCAL TIPS</h3><p data-i18n="t6_desc">Hidden gems, safety, getting around, slang</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- FULL EXPERIENCE -->
-<section class="experience-section">
-  <div class="container">
-    <h2 data-i18n-html="exp_title">THE FULL <span class="gradient-text">EXPERIENCE</span></h2>
-    <div class="section-desc" data-i18n="exp_desc">Start a conversation with GoStar right here. Ask about any part of Puerto Rico.</div>
-    <div class="experience-frame reveal">
-      <div class="experience-frame-label" data-i18n="exp_label">LA RUTA &#8212; LIVE</div>
-      <div class="experience-frame-sub" data-i18n="exp_sub">Powered by GoStar Voice AI</div>
-      <div id="laruta-widget-container">
-        <div class="widget-loading">Loading GoStar...</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-banner">
-  <div class="container">
-    <div class="cta-box reveal">
-      <h2 data-i18n-html="cta_title">WANT THE <span class="gradient-text">GPS EXPERIENCE?</span></h2>
-      <p data-i18n="cta_desc">La Ruta is the voice tour. La Voz PR is the full platform &#8212; GPS intelligence, interactive map, real-time guidance, and GoStar by your side wherever you go.</p>
-      <div class="cta-buttons">
-        <a href="app.html" class="btn-launch" data-i18n="cta_btn1">Launch La Voz PR &#9656;</a>
-        <a href="index.html" class="btn-outline" data-i18n="cta_btn2">Learn More</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER BRANDING -->
-<div class="footer-branding">
-  <div class="container">
-    <img src="gostar.png" alt="GoStar Digital" class="footer-logo" />
-    <div class="footer-copyright">Copyright &copy; 2026. GoStar Digital LLC. All Rights Reserved.</div>
-    <div class="footer-legal">
-      <a href="privacy.html">Privacy Policy</a>
-      <span class="footer-legal-divider">|</span>
-      <a href="terms.html">Terms of Use</a>
-    </div>
-  </div>
+<!-- MAIN OVERLAY -->
+<div class="overlay">
+<div class="top-bar">
+<a href="index.html" class="back-link">&#8592; <span class="en show">Back</span><span class="es">Volver</span></a>
+<div class="lang-toggle">
+<button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+<button class="lang-btn" id="btnES" onclick="setLang('es')">ES</button>
+</div>
 </div>
 
-<footer>
-  <div class="container">
-    <div class="footer-content">
-      <div><div class="footer-brand">LA VOZ <span>PR</span></div><div class="footer-company">GoStar Digital LLC &#8212; San Juan, Puerto Rico</div></div>
-    </div>
-  </div>
-</footer>
-
-<!-- FULLSCREEN OVERLAY -->
-<div class="fullscreen-overlay" id="fullscreenOverlay">
-  <button class="fullscreen-close" id="fullscreenClose">&times;</button>
-  <div class="fullscreen-header">
-    <h2>LA <span class="gradient-text">RUTA</span></h2>
-    <p data-i18n="fs_sub">Talk to GoStar about Puerto Rico</p>
-  </div>
-  <div class="fullscreen-widget" id="fullscreen-widget-container"></div>
+<div class="center-block">
+<div class="badge"><span class="pulse"></span> <span class="en show">AI VOICE CONCIERGE</span><span class="es">CONSERJE DE VOZ AI</span></div>
+<div class="title"><span class="gradient-text">LA RUTA</span></div>
+<div class="subtitle"><span class="en show">Tap the mic. Ask GoStar anything.</span><span class="es">Toca el mic. Pregunta lo que quieras.</span></div>
 </div>
 
-<!-- ElevenLabs Widget -->
-<script src="https://elevenlabs.io/convai-widget/index.js" async></script>
+<div class="hint">
+<div class="hint-text"><span class="en show">&#11015; Tap GoStar below to start</span><span class="es">&#11015; Toca GoStar abajo para empezar</span></div>
+</div>
+</div>
+
+<elevenlabs-convai agent-id="agent_5801kjdgm1zwe65843rj9r29zmj1"></elevenlabs-convai>
+
 <script>
-(function() {
-  var AGENT_ID = "agent_5801kjdgm1zwe65843rj9r29zmj1";
+var lang="en";
+var SLIDES=[
+{img:"https://images.unsplash.com/photo-1579687196544-08ae57ab5966?w=1600&q=80",en:"Old San Juan",es:"Viejo San Juan",loc:"San Juan"},
+{img:"https://images.unsplash.com/photo-1584824486509-112e4181ff6b?w=1600&q=80",en:"El Yunque Rainforest",es:"Bosque El Yunque",loc:"Rio Grande"},
+{img:"https://images.unsplash.com/photo-1580237072617-771c3ecc4a24?w=1600&q=80",en:"Flamenco Beach",es:"Playa Flamenco",loc:"Culebra"},
+{img:"https://images.unsplash.com/photo-1548013146-72479768bada?w=1600&q=80",en:"Bioluminescent Bay",es:"Bahia Bioluminiscente",loc:"Vieques"},
+{img:"https://images.unsplash.com/photo-1590523741831-ab7e8b8f9c7f?w=1600&q=80",en:"Caribbean Coastline",es:"Costa del Caribe",loc:"Cabo Rojo"},
+{img:"https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=1600&q=80",en:"Ponce at Sunset",es:"Ponce al Atardecer",loc:"Ponce"},
+{img:"https://images.unsplash.com/photo-1505228395891-9a51e7e86bf6?w=1600&q=80",en:"Tropical Mountains",es:"Montanas Tropicales",loc:"Jayuya"},
+{img:"https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1600&q=80",en:"Surf Paradise",es:"Paraiso del Surf",loc:"Rincon"}
+];
 
-  function createWidget(containerId) {
-    var container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = "";
-    var widget = document.createElement("elevenlabs-convai");
-    widget.setAttribute("agent-id", AGENT_ID);
-    container.appendChild(widget);
-  }
+var current=0;
+var ss=document.getElementById("slideshow");
+var dotsEl=document.getElementById("dots");
+var capsEl=document.getElementById("captions");
 
-  // Load inline widget
-  window.addEventListener("load", function() {
-    createWidget("laruta-widget-container");
-  });
+// Build slides
+SLIDES.forEach(function(s,i){
+var d=document.createElement("div");
+d.className="slide"+(i===0?" active":"");
+d.style.backgroundImage='url('+s.img+')';
+ss.appendChild(d);
 
-  // Fullscreen overlay
-  var orb = document.getElementById("launchOrb");
-  var overlay = document.getElementById("fullscreenOverlay");
-  var closeBtn = document.getElementById("fullscreenClose");
+var c=document.createElement("div");
+c.className="slide-caption"+(i===0?" active":"");
+c.innerHTML='<div class="slide-loc">'+s.loc+'</div><div class="slide-name"><span class="en '+(lang==="en"?"show":"")+'">'+s.en+'</span><span class="es '+(lang==="es"?"show":"")+'">'+s.es+'</span></div>';
+capsEl.appendChild(c);
 
-  orb.addEventListener("click", function() {
-    overlay.classList.add("active");
-    document.body.style.overflow = "hidden";
-    createWidget("fullscreen-widget-container");
-  });
+var dot=document.createElement("div");
+dot.className="dot"+(i===0?" active":"");
+dot.onclick=(function(idx){return function(){goSlide(idx);};})(i);
+dotsEl.appendChild(dot);
+});
 
-  closeBtn.addEventListener("click", function() {
-    overlay.classList.remove("active");
-    document.body.style.overflow = "";
-    document.getElementById("fullscreen-widget-container").innerHTML = "";
-  });
+function goSlide(n){
+document.querySelectorAll(".slide").forEach(function(s,i){s.classList.toggle("active",i===n);});
+document.querySelectorAll(".slide-caption").forEach(function(s,i){s.classList.toggle("active",i===n);});
+document.querySelectorAll(".dot").forEach(function(d,i){d.classList.toggle("active",i===n);});
+current=n;
+}
 
-  // Translations
-  var G = '<span class="gradient-text">';
-  var E = '</span>';
-  var translations = {
-    en: {
-      nav_back: "\u25c2 Home",
-      hero_tag: "Free Voice Tour",
-      hero_sub: "LET GOSTAR SHOW YOU THE ISLAND",
-      hero_desc: "A fully guided voice tour of Puerto Rico. Ask about any town, beach, landmark, or hidden gem \u2014 GoStar knows the island inside out and speaks your language.",
-      orb_hint: "Tap to start your voice tour",
-      about_tag: "What Is La Ruta?",
-      about_title: "YOUR PERSONAL<br>" + G + "VOICE GUIDE" + E,
-      about_p1: "La Ruta is an AI-powered voice experience that lets you explore Puerto Rico through conversation. No screens to stare at, no guides to follow \u2014 just you and GoStar, talking about the island.",
-      about_p2: "Ask about Old San Juan, the bioluminescent bays, the best mofongo in Ponce, the history of El Yunque \u2014 GoStar responds with the knowledge of a local who grew up on every corner of the island.",
-      topics_title: "ASK GOSTAR " + G + "ANYTHING" + E,
-      topics_desc: "From history to hidden beaches \u2014 GoStar covers it all.",
-      t1_title: "HISTORY & CULTURE", t1_desc: "Forts, plazas, Taino heritage, colonial stories",
-      t2_title: "FOOD & DRINK", t2_desc: "Mofongo, mallorcas, piraguas, local favorites",
-      t3_title: "BEACHES & NATURE", t3_desc: "Flamenco, Culebra, bioluminescent bays, El Yunque",
-      t4_title: "MUSIC & ARTS", t4_desc: "Bomba, plena, reggaeton roots, street art",
-      t5_title: "TOWNS & REGIONS", t5_desc: "78 municipalities, each with its own story",
-      t6_title: "LOCAL TIPS", t6_desc: "Hidden gems, safety, getting around, slang",
-      exp_title: "THE FULL " + G + "EXPERIENCE" + E,
-      exp_desc: "Start a conversation with GoStar right here. Ask about any part of Puerto Rico.",
-      exp_label: "LA RUTA \u2014 LIVE",
-      exp_sub: "Powered by GoStar Voice AI",
-      cta_title: "WANT THE " + G + "GPS EXPERIENCE?" + E,
-      cta_desc: "La Ruta is the voice tour. La Voz PR is the full platform \u2014 GPS intelligence, interactive map, real-time guidance, and GoStar by your side wherever you go.",
-      cta_btn1: "Launch La Voz PR \u25b8",
-      cta_btn2: "Learn More",
-      fs_sub: "Talk to GoStar about Puerto Rico"
-    },
-    es: {
-      nav_back: "\u25c2 Inicio",
-      hero_tag: "Tour de Voz Gratis",
-      hero_sub: "DEJA QUE GOSTAR TE MUESTRE LA ISLA",
-      hero_desc: "Un tour de voz guiado por inteligencia artificial de Puerto Rico. Pregunta sobre cualquier pueblo, playa, monumento o joya escondida \u2014 GoStar conoce la isla de punta a punta y habla tu idioma.",
-      orb_hint: "Toca para iniciar tu tour de voz",
-      about_tag: "\u00bfQu\u00e9 es La Ruta?",
-      about_title: "TU GU\u00cdA DE<br>" + G + "VOZ PERSONAL" + E,
-      about_p1: "La Ruta es una experiencia de voz con IA que te permite explorar Puerto Rico a trav\u00e9s de conversaci\u00f3n. Sin pantallas, sin gu\u00edas f\u00edsicos \u2014 solo t\u00fa y GoStar, hablando sobre la isla.",
-      about_p2: "Pregunta sobre el Viejo San Juan, las bah\u00edas bioluminiscentes, el mejor mofongo de Ponce, la historia de El Yunque \u2014 GoStar responde con el conocimiento de un local que creci\u00f3 en cada esquina de la isla.",
-      topics_title: "PREG\u00daNTALE A GOSTAR " + G + "LO QUE QUIERAS" + E,
-      topics_desc: "Desde historia hasta playas escondidas \u2014 GoStar lo cubre todo.",
-      t1_title: "HISTORIA Y CULTURA", t1_desc: "Fuertes, plazas, herencia ta\u00edna, historias coloniales",
-      t2_title: "COMIDA Y BEBIDA", t2_desc: "Mofongo, mallorcas, piraguas, favoritos locales",
-      t3_title: "PLAYAS Y NATURALEZA", t3_desc: "Flamenco, Culebra, bah\u00edas bioluminiscentes, El Yunque",
-      t4_title: "M\u00daSICA Y ARTE", t4_desc: "Bomba, plena, ra\u00edces del reggaet\u00f3n, arte callejero",
-      t5_title: "PUEBLOS Y REGIONES", t5_desc: "78 municipios, cada uno con su propia historia",
-      t6_title: "TIPS LOCALES", t6_desc: "Joyas escondidas, seguridad, c\u00f3mo moverte, jerga",
-      exp_title: "LA EXPERIENCIA " + G + "COMPLETA" + E,
-      exp_desc: "Inicia una conversaci\u00f3n con GoStar aqu\u00ed mismo. Pregunta sobre cualquier parte de Puerto Rico.",
-      exp_label: "LA RUTA \u2014 EN VIVO",
-      exp_sub: "Impulsado por GoStar Voice AI",
-      cta_title: "\u00bfQUIERES LA EXPERIENCIA " + G + "GPS?" + E,
-      cta_desc: "La Ruta es el tour de voz. La Voz PR es la plataforma completa \u2014 inteligencia GPS, mapa interactivo, gu\u00eda en tiempo real, y GoStar a tu lado donde vayas.",
-      cta_btn1: "Activa La Voz PR \u25b8",
-      cta_btn2: "Conoce M\u00e1s",
-      fs_sub: "Habla con GoStar sobre Puerto Rico"
-    }
-  };
+setInterval(function(){goSlide((current+1)%SLIDES.length);},5000);
 
-  function setLang(lang) {
-    var t = translations[lang];
-    var btns = document.querySelectorAll(".lang-btn");
-    for (var i = 0; i < btns.length; i++) { if (btns[i].getAttribute("data-lang") === lang) { btns[i].classList.add("active"); } else { btns[i].classList.remove("active"); } }
-    document.documentElement.lang = lang;
-    var els = document.querySelectorAll("[data-i18n]");
-    for (var i = 0; i < els.length; i++) { var key = els[i].getAttribute("data-i18n"); if (t[key]) { els[i].textContent = t[key]; } }
-    var htmlEls = document.querySelectorAll("[data-i18n-html]");
-    for (var i = 0; i < htmlEls.length; i++) { var key = htmlEls[i].getAttribute("data-i18n-html"); if (t[key]) { htmlEls[i].innerHTML = t[key]; } }
-  }
-
-  document.body.addEventListener("click", function(e) { if (e.target.classList.contains("lang-btn")) { e.preventDefault(); e.stopPropagation(); setLang(e.target.getAttribute("data-lang")); } }, true);
-
-  // Reveal animations
-  var reveals = document.querySelectorAll('.reveal');
-  var observer = new IntersectionObserver(function(entries) {
-    for (var i = 0; i < entries.length; i++) {
-      if (entries[i].isIntersecting) {
-        (function(target, delay) {
-          setTimeout(function() { target.classList.add('visible'); }, delay);
-        })(entries[i].target, i * 80);
-        observer.unobserve(entries[i].target);
-      }
-    }
-  }, { threshold: 0.15 });
-  for (var i = 0; i < reveals.length; i++) { observer.observe(reveals[i]); }
-})();
+function setLang(l){
+lang=l;
+document.getElementById("btnEN").classList.toggle("active",l==="en");
+document.getElementById("btnES").classList.toggle("active",l==="es");
+document.querySelectorAll(".en").forEach(function(e){e.classList.toggle("show",l==="en");});
+document.querySelectorAll(".es").forEach(function(e){e.classList.toggle("show",l==="es");});
+}
 </script>
-
 </body>
 </html>
