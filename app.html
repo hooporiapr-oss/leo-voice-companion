@@ -212,7 +212,7 @@ nav .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: fl
 
   window.addEventListener("load", initWidget);
 
-  // GPS Location
+  // GPS Location — feeds into widget dynamic variables
   var locDot = document.getElementById("locDot");
   var locStatus = document.getElementById("locStatus");
   var locCoords = document.getElementById("locCoords");
@@ -220,15 +220,15 @@ nav .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; display: fl
   if ("geolocation" in navigator) {
     navigator.geolocation.watchPosition(
       function(pos) {
-        var lat = pos.coords.latitude.toFixed(4);
-        var lng = pos.coords.longitude.toFixed(4);
+        currentLat = pos.coords.latitude.toFixed(4);
+        currentLng = pos.coords.longitude.toFixed(4);
         locDot.classList.add("active");
         locStatus.textContent = "Location active";
-        locCoords.textContent = lat + ", " + lng;
+        locCoords.textContent = currentLat + ", " + currentLng;
       },
-      function() {
-        locStatus.textContent = "Location unavailable \u2014 tell GoStar where you are";
-        locCoords.textContent = "";
+      function(err) {
+        locStatus.textContent = "Location denied \u2014 tell GoStar where you are";
+        locCoords.textContent = "Error: " + err.message;
       },
       { enableHighAccuracy: true, maximumAge: 10000 }
     );
