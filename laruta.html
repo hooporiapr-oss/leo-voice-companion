@@ -55,6 +55,8 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
 /* BOTTOM HINT */
 .hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;z-index:5}
 .hint-text{font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase}
+.reconnect{margin-top:20px;font-size:.82rem;color:rgba(255,215,0,.5);letter-spacing:.5px;font-weight:400;animation:softPulse 3s ease-in-out infinite}
+@keyframes softPulse{0%,100%{opacity:.5}50%{opacity:.9}}
 
 /* ELEVENLABS WIDGET - force center */
 elevenlabs-convai{z-index:100!important}
@@ -101,6 +103,7 @@ elevenlabs-convai{z-index:100!important}
 <div class="badge"><span class="pulse"></span> <span class="en show">AI VOICE CONCIERGE</span><span class="es">CONSERJE DE VOZ AI</span></div>
 <div class="title"><span class="gradient-text">LA RUTA</span></div>
 <div class="subtitle"><span class="en show">Tap the mic. Ask GoStar anything.</span><span class="es">Toca el mic. Pregunta lo que quieras.</span></div>
+<div class="reconnect"><span class="en show">Session ended? Just tap the mic again to keep exploring.</span><span class="es">&#191;Se detuvo? Toca el mic otra vez para seguir explorando.</span></div>
 </div>
 
 <div class="hint">
