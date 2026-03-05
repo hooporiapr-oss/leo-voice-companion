@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disclaimer — La Voz PR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --border: #1e1e2e;
+      --gold: #FFD700;
+      --orange: #FF6B35;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --gradient: linear-gradient(135deg, #FFD700, #FF6B35);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 300;
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 36px;
+      width: auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO BAND */
+    .page-hero {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 4rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 50% -20%, rgba(255,215,0,0.07), transparent);
+      pointer-events: none;
+    }
+
+    .page-hero .label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+
+    .page-hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      letter-spacing: 0.04em;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .page-hero p {
+      font-size: 0.95rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* CONTENT */
+    .content-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 4rem 2rem 6rem;
+    }
+
+    .section {
+      margin-bottom: 3rem;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .section:nth-child(1) { animation-delay: 0.05s; }
+    .section:nth-child(2) { animation-delay: 0.1s; }
+    .section:nth-child(3) { animation-delay: 0.15s; }
+    .section:nth-child(4) { animation-delay: 0.2s; }
+    .section:nth-child(5) { animation-delay: 0.25s; }
+    .section:nth-child(6) { animation-delay: 0.3s; }
+    .section:nth-child(7) { animation-delay: 0.35s; }
+    .section:nth-child(8) { animation-delay: 0.4s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 0.08em;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.75rem;
+    }
+
+    .section p {
+      font-size: 0.95rem;
+      color: #c8c8d8;
+      margin-bottom: 0.75rem;
+    }
+
+    .section p:last-child { margin-bottom: 0; }
+
+    .section a {
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,215,0,0.3);
+      transition: border-color 0.2s;
+    }
+
+    .section a:hover { border-color: var(--gold); }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    .meta-bar {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .meta-bar span strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .highlight-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 12px 12px 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.25rem 0;
+      font-size: 0.9rem;
+      color: #c8c8d8;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--gold); }
+
+    .footer-copy {
+      font-size: 0.78rem;
+      color: #55556a;
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .page-hero { padding: 3rem 1.25rem 2rem; }
+      .content-wrap { padding: 2.5rem 1.25rem 4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="lavozpr-logo.png" alt="La Voz PR" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="act60.html">Act 60</a></li>
+      <li><a href="laruta.html">La Ruta</a></li>
+      <li><a href="terms.html">Terms</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="page-hero">
+    <div class="label">Legal Information</div>
+    <h1>Disclaimer</h1>
+    <p>Please read this disclaimer carefully before using La Voz PR or relying on any information provided through our platform.</p>
+  </section>
+
+  <!-- CONTENT -->
+  <main class="content-wrap">
+
+    <div class="meta-bar">
+      <span><strong>Effective Date:</strong> March 2026</span>
+      <span><strong>Platform:</strong> lavozpr.com</span>
+      <span><strong>Operator:</strong> GoStar Digital LLC</span>
+    </div>
+
+    <div class="section">
+      <h2>General Disclaimer</h2>
+      <p>La Voz PR is an AI-powered information and discovery platform operated by GoStar Digital LLC, a Puerto Rico-based company. The content, responses, and information provided through this platform — including via our AI voice guide Leo and any text-based assistants — are for general informational and educational purposes only.</p>
+      <p>Nothing on La Voz PR constitutes professional legal, financial, tax, investment, immigration, or real estate advice. All information should be independently verified before being relied upon for any decision-making purpose.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section">
+      <h2>Not Legal or Tax Advice</h2>
+      <p>La Voz PR provides general information about Puerto Rico's Act 60 Export Services Act, Individual Investors Act, and related incentive programs as a public service. This information is provided for educational purposes only.</p>
+      <div class="highlight-box">
+        Nothing on this platform — including AI-generated responses about Act 60 or any other Puerto Rico incentive — constitutes legal or tax advice. You should always consult a licensed Puerto Rico attorney and qualified tax professional before making any relocation, business, or investment decisions.
+      </div>
+      <p>Laws, regulations, and administrative requirements change. GoStar Digital LLC makes no representations regarding the current accuracy or completeness of any Act 60 or incentive-related information on this platform.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section">
+      <h2>AI-Generated Content</h2>
+      <p>Responses generated by Leo and other AI assistants on this platform are produced by large language models and may contain errors, outdated information, or inaccuracies. AI responses should not be treated as authoritative statements of fact or law.</p>
+      <p>GoStar Digital LLC does not guarantee the accuracy, completeness, or timeliness of any AI-generated response. Users are solely responsible for verifying any information before acting on it.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section">
+      <h2>No Professional Relationship</h2>
+      <p>Use of La Voz PR does not create an attorney-client relationship, financial advisory relationship, or any other professional relationship between the user and GoStar Digital LLC or any third party referenced on the platform.</p>
+      <p>Referrals, directory listings, or mentions of attorneys, real estate brokers, schools, relocation services, or other professionals on this platform do not constitute an endorsement of those professionals. Users are responsible for conducting their own due diligence.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section">
+      <h2>Third-Party Information</h2>
+      <p>La Voz PR may reference or link to third-party websites, services, or resources. GoStar Digital LLC has no control over such third-party content and is not responsible for its accuracy, legality, or availability. Inclusion of any third-party link or reference does not imply endorsement.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section">
+      <h2>Limitation of Liability</h2>
+      <p>To the fullest extent permitted by applicable law, GoStar Digital LLC, its officers, directors, employees, partners, and agents shall not be liable for any direct, indirect, incidental, consequential, special, or punitive damages arising out of or related to your use of — or inability to use — La Voz PR or any content provided through the platform.</p>
+      <p>This includes, without limitation, any errors or omissions in AI-generated content, decisions made based on platform information, or any reliance on Act 60 or other incentive program details provided herein.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section">
+      <h2>Accuracy of Municipal & Geographic Information</h2>
+      <p>Information about Puerto Rico's 78 municipalities, their amenities, communities, and characteristics is provided for general exploration purposes only. Neighborhood conditions, business availability, infrastructure, and services may change. Always conduct in-person visits and independent research before making residential or investment decisions in any municipality.</p>
+    </div>
+
+    <hr class="divider" />
+
+    <div class="section">
+      <h2>Changes to This Disclaimer</h2>
+      <p>GoStar Digital LLC reserves the right to update or modify this disclaimer at any time without prior notice. Continued use of La Voz PR following any changes constitutes your acceptance of the updated disclaimer. The effective date at the top of this page reflects the most recent revision.</p>
+      <p>For questions about this disclaimer, contact us at <a href="mailto:hello@lavozpr.com">hello@lavozpr.com</a>.</p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <nav class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="act60.html">Act 60</a>
+      <a href="laruta.html">La Ruta</a>
+      <a href="disclaimer.html">Disclaimer</a>
+      <a href="terms.html">Terms of Use</a>
+    </nav>
+    <p class="footer-copy">© 2026 GoStar Digital LLC — La Voz PR. Puerto Rico's Destination Platform.</p>
+  </footer>
+
+</body>
+</html>
