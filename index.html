@@ -330,7 +330,10 @@ return '<a href="'+h.link+'" class="hl-card">'+regionBadge+'<div class="hl-icon"
 function renderMunis(filter){
 var grid=document.getElementById("muniGrid");
 var list=filter?MUNIS.filter(function(m){return m.toLowerCase().indexOf(filter.toLowerCase())>-1;}):MUNIS;
-grid.innerHTML=list.map(function(m){return '<a href="laruta.html" class="muni-card">'+m+'</a>';}).join("");
+grid.innerHTML=list.map(function(m){
+var url='laruta.html?muni='+encodeURIComponent(m);
+return '<a href="'+url+'" class="muni-card">'+m+'</a>';
+}).join("");
 }
 function filterMunis(){renderMunis(document.getElementById("muniSearch").value);}
 function toggleMenu(){document.getElementById("mobMenu").classList.toggle("open");var b=document.getElementById("hamburgerBtn");b.innerHTML=document.getElementById("mobMenu").classList.contains("open")?"\u2715":"\u2630";}
