@@ -35,8 +35,9 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);ov
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:13px 0;background:rgba(7,7,12,.92);backdrop-filter:blur(28px);border-bottom:1px solid var(--border)}
 nav .container{display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.45rem;letter-spacing:3px;text-decoration:none;color:var(--text);white-space:nowrap}
-.nav-logo span{color:var(--gold)}
+.nav-logo{display:flex;align-items:center;text-decoration:none}
+.nav-logo img{height:36px;width:auto;object-fit:contain}
+@media(max-width:480px){.nav-logo img{height:28px}}
 .nav-right{display:flex;align-items:center;gap:10px}
 .nav-link{font-size:.72rem;color:var(--dim);text-decoration:none;transition:color .3s;letter-spacing:.5px}
 .nav-link:hover{color:var(--gold)}
@@ -185,8 +186,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
 /* FOOTER */
 .footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
-.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px}
-.footer-logo span{color:var(--gold)}
+.footer-logo{margin-bottom:8px}
 .footer-sub{font-size:.67rem;color:var(--dim);margin-top:4px}
 .footer-links{margin-top:14px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
 .footer-links a{font-size:.7rem;color:var(--dim);text-decoration:none;transition:color .3s}
@@ -236,7 +236,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 <!-- NAV -->
 <nav>
 <div class="container">
-  <a href="index.html" class="nav-logo">LA <span>VOZ</span> PR</a>
+  <a href="index.html" class="nav-logo"><img src="lavozpr-logo.png" alt="La Voz PR"></a>
   <div class="nav-right">
     <a href="#why" class="nav-link desk-lang"><span class="en show">Why PR</span><span class="es">Por Qué PR</span></a>
     <a href="#act60" class="nav-link desk-lang"><span class="en show">Act 60</span><span class="es">Ley 60</span></a>
@@ -482,7 +482,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
 <!-- FOOTER -->
 <footer class="footer">
-<div class="footer-logo">LA <span>VOZ</span> PR</div>
+<div class="footer-logo"><img src="lavozpr-logo.png" alt="La Voz PR" style="height:48px;width:auto;opacity:.85"></div>
 <div class="footer-sub"><span class="en show">Puerto Rico's Destination Platform — GoStar Digital LLC</span><span class="es">La Plataforma de Destino de Puerto Rico — GoStar Digital LLC</span></div>
 <div class="footer-links">
   <a href="act60.html">Act 60</a>
