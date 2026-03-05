@@ -3,20 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gallery &#8212; La Voz PR | Puerto Rico Through AI Art</title>
+<title>Gallery — La Voz PR | Puerto Rico Through AI Art</title>
 <meta name="description" content="Stunning AI-generated Puerto Rico imagery. Tap any image and ask La Voz about it. The most beautiful way to explore the island.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{--dark:#05050a;--card:#0c0c14;--gold:#FFD700;--orange:#FF6B35;--teal:#00D9A5;--text:#e8e8ec;--dim:#5a5a6a;--gradient:linear-gradient(135deg,#FFD700,#FF6B35)}
+:root{
+  --dark:#05050a;--card:#0c0c14;--gold:#FFD700;--orange:#FF6B35;
+  --teal:#00D9A5;--text:#e8e8ec;--dim:#5a5a6a;
+  --gradient:linear-gradient(135deg,#FFD700,#FF6B35)
+}
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-webkit-font-smoothing:antialiased}
 .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.en,.es{display:none}.en.show,.es.show{display:inline}
+.en,.es{display:none}
+.en.show,.es.show{display:inline}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,10,.75);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,215,0,.04)}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,5,10,.8);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,215,0,.04)}
 .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;text-decoration:none;color:var(--text)}
 .nav-logo span{color:var(--gold)}
 .nav-right{display:flex;align-items:center;gap:12px}
@@ -27,180 +32,73 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:fl
 .lang-btn.active{background:rgba(255,215,0,.1);color:var(--gold)}
 
 /* HERO */
-.hero{padding:160px 24px 80px;text-align:center;position:relative;overflow:hidden}
+.hero{padding:160px 24px 72px;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,215,0,.05) 0%,transparent 65%);pointer-events:none}
 .hero-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.1);border-radius:50px;font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:24px}
 .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,10vw,6.5rem);line-height:.85;letter-spacing:6px;margin-bottom:16px}
 .hero-sub{font-size:1rem;color:var(--dim);font-weight:300;max-width:460px;line-height:1.7;margin:0 auto}
 
-/* GALLERY GRID */
-.gallery-section{padding:64px 32px 80px;max-width:1400px;margin:0 auto}
-.gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:20px;
-}
+/* GRID */
+.gallery-section{padding:56px 28px 80px;max-width:1400px;margin:0 auto}
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 
 /* CARD */
-.tour-card{
-  position:relative;
-  border-radius:16px;
-  overflow:hidden;
-  cursor:pointer;
-  background:var(--card);
-  border:1px solid rgba(255,255,255,.04);
-  transition:transform .4s cubic-bezier(.25,.46,.45,.94), box-shadow .4s ease;
-}
-.tour-card:hover{
-  transform:translateY(-6px) scale(1.01);
-  box-shadow:0 24px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(255,215,0,.08);
-}
+.tour-card{position:relative;border-radius:16px;overflow:hidden;background:var(--card);border:1px solid rgba(255,255,255,.04);transition:transform .4s cubic-bezier(.25,.46,.45,.94),box-shadow .4s ease}
+.tour-card:hover{transform:translateY(-6px) scale(1.01);box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 1px rgba(255,215,0,.08)}
 
-/* 2:3 PORTRAIT RATIO */
-.card-img-wrap{
-  position:relative;
-  width:100%;
-  padding-bottom:150%; /* 2:3 ratio = height is 150% of width */
-  overflow:hidden;
-}
-.card-img{
-  position:absolute;
-  inset:0;
-  background-size:cover;
-  background-position:center top;
-  transition:transform 6s ease-out;
-}
-.tour-card:hover .card-img{transform:scale(1.06)}
+/* 2:3 portrait — real img tag */
+.card-img-wrap{position:relative;width:100%;aspect-ratio:2/3;overflow:hidden;cursor:zoom-in;display:block}
+.card-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform 6s ease-out;pointer-events:none}
+.tour-card:hover .card-img-wrap img{transform:scale(1.06)}
+.card-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(5,5,10,.96) 0%,rgba(5,5,10,.5) 28%,rgba(5,5,10,.06) 52%,transparent 72%);pointer-events:none}
 
-/* Gradient overlay — bottom third only */
-.card-img::after{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:linear-gradient(
-    to top,
-    rgba(5,5,10,.95) 0%,
-    rgba(5,5,10,.6) 28%,
-    rgba(5,5,10,.1) 55%,
-    transparent 75%
-  );
-}
+/* badges inside wrap */
+.card-num{position:absolute;top:12px;left:12px;z-index:2;font-family:'Bebas Neue',sans-serif;font-size:.72rem;letter-spacing:2px;color:rgba(255,255,255,.4);background:rgba(5,5,10,.55);backdrop-filter:blur(8px);padding:3px 8px;border-radius:4px;border:1px solid rgba(255,255,255,.07);pointer-events:none}
+.card-live{position:absolute;top:12px;right:12px;z-index:2;font-size:.52rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--teal);background:rgba(0,217,165,.08);border:1px solid rgba(0,217,165,.2);padding:3px 8px;border-radius:4px;pointer-events:none}
 
-/* Tour number badge — top left */
-.card-num{
-  position:absolute;
-  top:14px;
-  left:14px;
-  z-index:3;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:.75rem;
-  letter-spacing:2px;
-  color:rgba(255,255,255,.35);
-  background:rgba(5,5,10,.45);
-  backdrop-filter:blur(8px);
-  padding:3px 8px;
-  border-radius:4px;
-  border:1px solid rgba(255,255,255,.06);
-}
-
-/* Live badge for wired agents */
-.card-live{
-  position:absolute;
-  top:14px;
-  right:14px;
-  z-index:3;
-  font-size:.52rem;
-  font-weight:700;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  color:var(--teal);
-  background:rgba(0,217,165,.08);
-  border:1px solid rgba(0,217,165,.2);
-  padding:3px 8px;
-  border-radius:4px;
-}
-
-/* Text overlay — sits over gradient */
-.card-body{
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  z-index:3;
-  padding:20px 16px 18px;
-}
-.card-region{
-  font-size:.55rem;
-  font-weight:700;
-  letter-spacing:2.5px;
-  text-transform:uppercase;
-  color:var(--teal);
-  margin-bottom:5px;
-}
-.card-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:1.15rem;
-  letter-spacing:1.5px;
-  line-height:1;
-  margin-bottom:7px;
-  color:#fff;
-}
-.card-desc{
-  font-size:.72rem;
-  color:rgba(255,255,255,.45);
-  line-height:1.55;
-  margin-bottom:12px;
-  display:-webkit-box;
-  -webkit-line-clamp:2;
-  -webkit-box-orient:vertical;
-  overflow:hidden;
-}
-.card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
-.card-tag{
-  font-size:.52rem;
-  padding:3px 7px;
-  border-radius:4px;
-  background:rgba(255,255,255,.04);
-  color:rgba(255,255,255,.3);
-  border:1px solid rgba(255,255,255,.06);
-  letter-spacing:.3px;
-}
-.card-cta{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:9px 20px;
-  background:var(--gradient);
-  color:var(--dark);
-  font-family:'Bebas Neue',sans-serif;
-  font-size:.72rem;
-  letter-spacing:1.5px;
-  border-radius:50px;
-  text-decoration:none;
-  transition:opacity .2s, transform .2s;
-  width:100%;
-  justify-content:center;
-}
+/* card body */
+.card-body{padding:14px 14px 16px}
+.card-region{font-size:.55rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin-bottom:5px}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1.5px;line-height:1;margin-bottom:7px;color:#fff}
+.card-desc{font-size:.72rem;color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:10px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.card-tag{font-size:.52rem;padding:3px 7px;border-radius:4px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.06);letter-spacing:.3px}
+.card-cta{display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 20px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:.72rem;letter-spacing:1.5px;border-radius:50px;text-decoration:none;transition:opacity .2s,transform .2s}
 .card-cta:hover{opacity:.88;transform:translateY(-1px)}
+.card-soon .card-cta{background:rgba(255,255,255,.04);color:var(--dim);border:1px solid rgba(255,255,255,.06);pointer-events:none}
 
-/* Coming soon state */
-.card-soon .card-cta{
-  background:rgba(255,255,255,.04);
-  color:var(--dim);
-  border:1px solid rgba(255,255,255,.06);
-  cursor:default;
-  pointer-events:none;
+/* LIGHTBOX */
+#lightbox{
+  display:none;position:fixed;inset:0;z-index:1000;
+  background:rgba(5,5,10,.96);backdrop-filter:blur(18px);
+  align-items:center;justify-content:center;flex-direction:column;
+  padding:20px;cursor:zoom-out;
 }
-.card-soon .card-img::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background:rgba(5,5,10,.35);
-  z-index:1;
+#lightbox.open{display:flex;animation:lbIn .25s ease-out}
+@keyframes lbIn{from{opacity:0}to{opacity:1}}
+#lb-img{
+  max-height:82vh;max-width:88vw;width:auto;height:auto;
+  border-radius:12px;object-fit:contain;
+  box-shadow:0 40px 100px rgba(0,0,0,.9);
+  animation:lbScale .3s cubic-bezier(.25,.46,.45,.94);
+  display:block;cursor:default;
 }
+@keyframes lbScale{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+#lb-close{
+  position:fixed;top:18px;right:20px;
+  width:42px;height:42px;border-radius:50%;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  color:#fff;font-size:1.1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,transform .2s;z-index:1001;
+}
+#lb-close:hover{background:rgba(255,255,255,.2);transform:scale(1.1)}
+#lb-caption{margin-top:16px;text-align:center;animation:lbScale .35s .08s both;cursor:default}
+#lb-region{font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+#lb-title{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:2px;color:#fff}
 
 /* BOTTOM CTA */
-.bottom-cta{padding:80px 24px 120px;text-align:center;position:relative}
+.bottom-cta{padding:80px 24px 100px;text-align:center;position:relative}
 .bottom-cta::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:1px;height:60px;background:linear-gradient(transparent,rgba(255,215,0,.15))}
 .bottom-cta h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:4px;margin-bottom:12px}
 .bottom-cta p{color:var(--dim);font-size:.95rem;max-width:440px;margin:0 auto 32px;line-height:1.7}
@@ -219,102 +117,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:fl
 /* ANIMATIONS */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .reveal{animation:fadeInUp .7s ease-out both}
-.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}
-.card-hidden{opacity:0;transform:translateY(28px);transition:opacity .65s ease-out,transform .65s ease-out}
-.card-visible{opacity:1;transform:translateY(0)}
-
-/* LIGHTBOX */
-.lightbox{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:999;
-  background:rgba(5,5,10,0);
-  backdrop-filter:blur(0px);
-  align-items:center;
-  justify-content:center;
-  transition:background .35s ease, backdrop-filter .35s ease;
-}
-.lightbox.open{
-  display:flex;
-  background:rgba(5,5,10,.95);
-  backdrop-filter:blur(20px);
-  animation:lbFadeIn .3s ease-out forwards;
-}
-@keyframes lbFadeIn{from{opacity:0}to{opacity:1}}
-.lb-img{
-  max-height:92vh;
-  max-width:92vw;
-  width:auto;
-  height:auto;
-  border-radius:12px;
-  object-fit:contain;
-  box-shadow:0 40px 100px rgba(0,0,0,.8);
-  animation:lbSlideIn .35s cubic-bezier(.25,.46,.45,.94) forwards;
-}
-@keyframes lbSlideIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
-.lb-close{
-  position:fixed;
-  top:20px;
-  right:24px;
-  z-index:1001;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.1);
-  color:#fff;
-  font-size:1.4rem;
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  cursor:pointer;
-  transition:background .2s, transform .2s;
-  line-height:1;
-}
-.lb-close:hover{background:rgba(255,255,255,.14);transform:scale(1.1)}
-.lb-caption{
-  position:fixed;
-  bottom:24px;
-  left:50%;
-  transform:translateX(-50%);
-  text-align:center;
-  z-index:1001;
-  pointer-events:none;
-}
-.lb-caption-region{
-  font-size:.58rem;
-  font-weight:700;
-  letter-spacing:2.5px;
-  text-transform:uppercase;
-  color:var(--teal);
-  margin-bottom:4px;
-}
-.lb-caption-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:1.3rem;
-  letter-spacing:2px;
-  color:#fff;
-  white-space:nowrap;
-}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}
+.card-hidden{opacity:0;transform:translateY(28px);transition:opacity .6s ease-out,transform .6s ease-out}
+.card-visible{opacity:1!important;transform:translateY(0)!important}
 
 /* RESPONSIVE */
-@media(max-width:1100px){
-  .gallery-grid{grid-template-columns:repeat(3,1fr)}
-}
+@media(max-width:1100px){.gallery-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:768px){
-  .gallery-grid{grid-template-columns:repeat(2,1fr);gap:14px}
-  .gallery-section{padding:40px 16px 60px}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .gallery-section{padding:36px 14px 60px}
   nav{padding:10px 16px}
   .nav-link{display:none}
   .card-title{font-size:1rem}
-  .card-desc{font-size:.68rem}
-  .card-body{padding:14px 12px 14px}
+  .card-body{padding:12px 10px 12px}
 }
 @media(max-width:420px){
-  .gallery-grid{grid-template-columns:1fr 1fr;gap:10px}
-  .card-title{font-size:.9rem}
-  .card-cta{font-size:.65rem;padding:8px 14px}
+  .gallery-grid{gap:8px}
+  .card-title{font-size:.88rem}
+  .card-cta{font-size:.65rem;padding:8px 12px}
 }
 </style>
 </head>
@@ -364,48 +184,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:fl
   </div>
 </section>
 
-<div class="footer">
+<footer class="footer">
   <div class="footer-text">LA VOZ <span>PR</span></div>
   <div class="footer-sub">
     <span class="en show">Puerto Rico's Digital Concierge</span>
     <span class="es">Conserje Digital de Puerto Rico</span>
     &#8212; GoStar Digital LLC
   </div>
-</div>
+</footer>
 
 <!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <button class="lb-close" onclick="closeLightbox()">&#x2715;</button>
-  <img class="lb-img" id="lbImg" src="" alt="">
-  <div class="lb-caption">
-    <div class="lb-caption-region" id="lbRegion"></div>
-    <div class="lb-caption-title" id="lbTitle"></div>
+<div id="lightbox">
+  <button id="lb-close" aria-label="Close">&#x2715;</button>
+  <img id="lb-img" src="" alt="">
+  <div id="lb-caption">
+    <div id="lb-region"></div>
+    <div id="lb-title"></div>
   </div>
 </div>
 
 <script>
-function openLightbox(imgUrl, region, title) {
-  var lb = document.getElementById('lightbox');
-  var lbImg = document.getElementById('lbImg');
-  lbImg.src = '';
-  lbImg.src = imgUrl;
-  document.getElementById('lbRegion').textContent = region;
-  document.getElementById('lbTitle').textContent = title;
-  lb.classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox(e) {
-  if (e && e.target === document.getElementById('lbImg')) return; // clicking image itself doesn't close
-  var lb = document.getElementById('lightbox');
-  lb.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeLightbox();
-});
-
 var lang = "en";
 var BASE = "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/gallery/";
 
@@ -452,46 +250,76 @@ var TOURS = [
     tags:["Zipline","Adventure","Mountains","Adrenaline"]}
 ];
 
+/* LIGHTBOX */
+function openLightbox(imgUrl, region, title) {
+  document.getElementById('lb-img').src = imgUrl;
+  document.getElementById('lb-region').textContent = region;
+  document.getElementById('lb-title').textContent = title;
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lb-img').src = '';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if (e.target === this) closeLightbox();
+});
+document.getElementById('lb-close').addEventListener('click', closeLightbox);
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+/* RENDER */
 function renderGallery() {
-  var c = document.getElementById("galleryContainer");
+  var c = document.getElementById('galleryContainer');
   c.innerHTML = TOURS.map(function(t, i) {
     var num = String(i + 1).padStart(2, '0');
     var hasAgent = !!t.agent;
+    var imgUrl = BASE + t.id + '.png';
+    var tourName = lang === 'en' ? t.en.name : t.es.name;
+    var safeName = tourName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
     var link = hasAgent
       ? 'tour.html?agent=' + t.agent + '&name=' + encodeURIComponent(t.en.name)
       : 'laruta.html';
     var cardClass = 'tour-card card-hidden' + (!hasAgent ? ' card-soon' : '');
-    var ctaTextEN = hasAgent ? 'START TOUR &#9656;' : 'COMING SOON';
-    var ctaTextES = hasAgent ? 'INICIAR TOUR &#9656;' : 'PRÓXIMAMENTE';
+    var ctaEN = hasAgent ? 'START TOUR &#9656;' : 'COMING SOON';
+    var ctaES = hasAgent ? 'INICIAR TOUR &#9656;' : 'PRÓXIMAMENTE';
+    var eShow = lang === 'en' ? 'show' : '';
+    var sShow = lang === 'es' ? 'show' : '';
 
-    return '<div class="' + cardClass + '">' +
-      '<div class="card-img-wrap" onclick="openLightbox(\'' + BASE + t.id + '.png\',\'' + t.region + '\',\'' + (lang === 'en' ? t.en.name : t.es.name).replace(/'/g,"&#39;") + '\')" style="cursor:zoom-in">' +
-        '<div class="card-img" style="background-image:url(' + BASE + t.id + '.png)"></div>' +
-      '</div>' +
-      '<span class="card-num">' + num + '</span>' +
-      (hasAgent ? '<span class="card-live">LIVE</span>' : '') +
-      '<div class="card-body">' +
-        '<div class="card-region">' + t.region + '</div>' +
-        '<div class="card-title">' +
-          '<span class="en ' + (lang === 'en' ? 'show' : '') + '">' + t.en.name + '</span>' +
-          '<span class="es ' + (lang === 'es' ? 'show' : '') + '">' + t.es.name + '</span>' +
-        '</div>' +
-        '<div class="card-desc">' +
-          '<span class="en ' + (lang === 'en' ? 'show' : '') + '">' + t.en.desc + '</span>' +
-          '<span class="es ' + (lang === 'es' ? 'show' : '') + '">' + t.es.desc + '</span>' +
-        '</div>' +
-        '<div class="card-tags">' + t.tags.map(function(tag) {
-          return '<span class="card-tag">' + tag + '</span>';
-        }).join('') + '</div>' +
-        '<a href="' + link + '" class="card-cta">' +
-          '<span class="en ' + (lang === 'en' ? 'show' : '') + '">' + ctaTextEN + '</span>' +
-          '<span class="es ' + (lang === 'es' ? 'show' : '') + '">' + ctaTextES + '</span>' +
-        '</a>' +
-      '</div>' +
-    '</div>';
+    return [
+      '<div class="' + cardClass + '">',
+        '<div class="card-img-wrap" onclick="openLightbox(\'' + imgUrl + '\',\'' + t.region + '\',\'' + safeName + '\')">',
+          '<img src="' + imgUrl + '" alt="' + tourName + '" loading="lazy">',
+          '<span class="card-num">' + num + '</span>',
+          hasAgent ? '<span class="card-live">LIVE</span>' : '',
+        '</div>',
+        '<div class="card-body">',
+          '<div class="card-region">' + t.region + '</div>',
+          '<div class="card-title">',
+            '<span class="en ' + eShow + '">' + t.en.name + '</span>',
+            '<span class="es ' + sShow + '">' + t.es.name + '</span>',
+          '</div>',
+          '<div class="card-desc">',
+            '<span class="en ' + eShow + '">' + t.en.desc + '</span>',
+            '<span class="es ' + sShow + '">' + t.es.desc + '</span>',
+          '</div>',
+          '<div class="card-tags">',
+            t.tags.map(function(tag){ return '<span class="card-tag">'+tag+'</span>'; }).join(''),
+          '</div>',
+          '<a href="' + link + '" class="card-cta">',
+            '<span class="en ' + eShow + '">' + ctaEN + '</span>',
+            '<span class="es ' + sShow + '">' + ctaES + '</span>',
+          '</a>',
+        '</div>',
+      '</div>'
+    ].join('');
   }).join('');
 
-  // Staggered scroll reveal
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(e) {
       if (e.isIntersecting) {
@@ -499,20 +327,20 @@ function renderGallery() {
         observer.unobserve(e.target);
       }
     });
-  }, { threshold: 0.08 });
+  }, {threshold: 0.06});
 
   document.querySelectorAll('.card-hidden').forEach(function(el, i) {
-    el.style.transitionDelay = (i * 0.06) + 's';
+    el.style.transitionDelay = (i * 0.055) + 's';
     observer.observe(el);
   });
 }
 
 function setLang(l) {
   lang = l;
-  document.getElementById("btnEN").classList.toggle("active", l === "en");
-  document.getElementById("btnES").classList.toggle("active", l === "es");
-  document.querySelectorAll(".en").forEach(function(e) { e.classList.toggle("show", l === "en"); });
-  document.querySelectorAll(".es").forEach(function(e) { e.classList.toggle("show", l === "es"); });
+  document.getElementById('btnEN').classList.toggle('active', l === 'en');
+  document.getElementById('btnES').classList.toggle('active', l === 'es');
+  document.querySelectorAll('.en').forEach(function(e){ e.classList.toggle('show', l==='en'); });
+  document.querySelectorAll('.es').forEach(function(e){ e.classList.toggle('show', l==='es'); });
   renderGallery();
 }
 
