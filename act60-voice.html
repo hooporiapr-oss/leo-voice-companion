@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Ask La Voz — Act 60 Puerto Rico</title>
+<meta name="description" content="Talk to La Voz about Puerto Rico's Act 60 tax incentives. 0% capital gains. 4% corporate tax. Ask anything.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --dark:#07070c;
+  --card:#0f0f18;
+  --gold:#FFD700;
+  --orange:#FF6B35;
+  --teal:#00D9A5;
+  --text:#e8e8ec;
+  --dim:#6a6a7a;
+  --dim2:#4a4a5a;
+  --border:rgba(255,255,255,.06);
+  --border-gold:rgba(255,215,0,.15);
+  --gradient:linear-gradient(135deg,#FFD700,#FF6B35);
+}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--dark);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* FULL SCREEN APP LAYOUT */
+.app{
+  display:flex;
+  flex-direction:column;
+  height:100dvh;
+  max-width:700px;
+  margin:0 auto;
+  position:relative;
+}
+
+/* HEADER */
+.hdr{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px 18px;
+  background:rgba(7,7,12,.95);
+  backdrop-filter:blur(20px);
+  -webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  flex-shrink:0;
+  z-index:10;
+}
+.hdr-back{
+  text-decoration:none;
+  font-size:22px;
+  color:var(--dim);
+  padding:2px 6px;
+  border-radius:8px;
+  transition:color .2s;
+}
+.hdr-back:hover{color:var(--gold)}
+.hdr-logo{height:32px;width:auto;object-fit:contain}
+.hdr-info{flex:1}
+.hdr-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.15rem;
+  letter-spacing:2px;
+  background:var(--gradient);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hdr-sub{font-size:.65rem;color:var(--dim);font-weight:500;letter-spacing:.5px}
+.hdr-lang{
+  display:flex;
+  border-radius:8px;
+  overflow:hidden;
+  border:1px solid var(--border);
+}
+.hdr-lang-btn{
+  padding:5px 10px;
+  font-size:.62rem;
+  font-weight:700;
+  letter-spacing:1px;
+  background:transparent;
+  color:var(--dim);
+  border:none;
+  cursor:pointer;
+  transition:all .2s;
+  font-family:'Outfit',sans-serif;
+}
+.hdr-lang-btn.active{background:rgba(255,215,0,.1);color:var(--gold)}
+.hdr-share{
+  width:36px;height:36px;
+  border-radius:50%;
+  background:rgba(255,255,255,.04);
+  border:1px solid var(--border);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;
+  transition:all .2s;
+  flex-shrink:0;
+}
+.hdr-share:hover{background:rgba(255,215,0,.08);border-color:var(--border-gold)}
+
+/* WIDGET AREA — fills remaining space */
+.widget-area{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+  padding:20px;
+}
+
+/* Ambient glow behind widget */
+.widget-area::before{
+  content:'';
+  position:absolute;
+  width:500px;height:500px;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(255,215,0,.06) 0%,rgba(255,107,53,.03) 40%,transparent 70%);
+  pointer-events:none;
+}
+
+/* Info text above widget */
+.widget-intro{
+  text-align:center;
+  margin-bottom:24px;
+  position:relative;
+  z-index:1;
+}
+.widget-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:5px 14px;
+  background:rgba(0,217,165,.07);
+  border:1px solid rgba(0,217,165,.15);
+  border-radius:50px;
+  font-size:.6rem;
+  font-weight:700;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--teal);
+  margin-bottom:14px;
+}
+.widget-badge .dot{
+  width:5px;height:5px;
+  border-radius:50%;
+  background:var(--teal);
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.widget-heading{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.6rem,5vw,2.4rem);
+  letter-spacing:2px;
+  margin-bottom:6px;
+}
+.widget-heading .grad{
+  background:var(--gradient);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.widget-sub{
+  font-size:.8rem;
+  color:var(--dim);
+  line-height:1.5;
+  max-width:400px;
+  margin:0 auto;
+}
+
+/* ElevenLabs widget container */
+.widget-box{
+  position:relative;
+  z-index:1;
+  width:100%;
+  max-width:500px;
+}
+.widget-box elevenlabs-convai{
+  display:block;
+  width:100%;
+}
+
+/* Back to Act 60 link */
+.widget-footer{
+  margin-top:24px;
+  text-align:center;
+  position:relative;
+  z-index:1;
+}
+.widget-footer a{
+  font-size:.72rem;
+  color:var(--dim);
+  text-decoration:none;
+  letter-spacing:.5px;
+  transition:color .2s;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.widget-footer a:hover{color:var(--gold)}
+
+/* Disclaimer bar */
+.disc-bar{
+  flex-shrink:0;
+  background:rgba(255,107,53,.06);
+  border-top:1px solid rgba(255,107,53,.1);
+  padding:8px 16px;
+  text-align:center;
+}
+.disc-bar p{font-size:.58rem;color:var(--dim2);line-height:1.4;max-width:600px;margin:0 auto}
+.disc-bar a{color:var(--dim2);text-decoration:underline;transition:color .2s}
+.disc-bar a:hover{color:var(--orange)}
+
+/* EN/ES */
+.en,.es{display:none}
+.en.show,.es.show{display:inline}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+  background:var(--card);color:var(--text);
+  padding:10px 24px;border-radius:50px;
+  font-size:.78rem;font-weight:600;
+  border:1px solid var(--border-gold);
+  opacity:0;transition:opacity .3s;
+  pointer-events:none;z-index:999;
+}
+.toast.show{opacity:1}
+
+/* Chrome banner */
+.chrome-banner{
+  display:none;
+  text-align:center;
+  padding:16px 20px;
+  background:rgba(255,215,0,.06);
+  border:1px solid var(--border-gold);
+  border-radius:16px;
+  margin-bottom:16px;
+  max-width:400px;
+  width:100%;
+  position:relative;
+  z-index:1;
+}
+.is-chrome .chrome-banner{display:block}
+.is-chrome .widget-box{display:none}
+.chrome-banner-icon{font-size:1.6rem;margin-bottom:6px}
+.chrome-banner-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1.5px;margin-bottom:4px;color:var(--gold)}
+.chrome-banner-text{font-size:.72rem;color:var(--dim);line-height:1.5}
+.chrome-banner-text span{color:var(--gold);font-weight:600}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="app">
+  <div class="hdr">
+    <a href="act60.html" class="hdr-back">&larr;</a>
+    <img src="act60-logo.png" class="hdr-logo" alt="Act 60 — La Voz PR">
+    <div class="hdr-info">
+      <div class="hdr-name">ASK LA VOZ</div>
+      <div class="hdr-sub"><span class="en show">Act 60 Tax Incentives</span><span class="es">Incentivos Ley 60</span></div>
+    </div>
+    <div class="hdr-lang">
+      <button class="hdr-lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+      <button class="hdr-lang-btn" id="btnES" onclick="setLang('es')">ES</button>
+    </div>
+    <button class="hdr-share" onclick="doShare()">&#128228;</button>
+  </div>
+
+  <!-- WIDGET AREA -->
+  <div class="widget-area">
+    <!-- Chrome banner -->
+    <div class="chrome-banner">
+      <div class="chrome-banner-icon">&#127908;</div>
+      <div class="chrome-banner-title"><span class="en show">Voice works best in Safari</span><span class="es">La voz funciona mejor en Safari</span></div>
+      <div class="chrome-banner-text"><span class="en show">Open <span>lavozpr.com/act60-voice.html</span> in Safari for the full experience.</span><span class="es">Abre <span>lavozpr.com/act60-voice.html</span> en Safari para la experiencia completa.</span></div>
+    </div>
+
+    <!-- Intro text -->
+    <div class="widget-intro">
+      <div class="widget-badge"><span class="dot"></span><span class="en show">ACT 60 AI GUIDE</span><span class="es">GU&Iacute;A IA LEY 60</span></div>
+      <div class="widget-heading">
+        <span class="en show">ASK <span class="grad">ANYTHING.</span></span>
+        <span class="es">PREGUNTA <span class="grad">TODO.</span></span>
+      </div>
+      <div class="widget-sub">
+        <span class="en show">Capital gains, corporate tax, municipalities, the decree process — La Voz knows Act 60 inside and out.</span>
+        <span class="es">Ganancias de capital, impuesto corporativo, municipios, el proceso del decreto — La Voz conoce la Ley 60 a fondo.</span>
+      </div>
+    </div>
+
+    <!-- ElevenLabs Widget -->
+    <div class="widget-box">
+      <elevenlabs-convai agent-id="agent_3101kjzm3xrsf709ebwc0vs3yxav" variant="expanded"></elevenlabs-convai>
+    </div>
+
+    <!-- Back link -->
+    <div class="widget-footer">
+      <a href="act60.html"><span class="en show">&larr; Back to Act 60 Overview</span><span class="es">&larr; Volver a la Ley 60</span></a>
+    </div>
+  </div>
+
+  <!-- Persistent disclaimer -->
+  <div class="disc-bar">
+    <p><span class="en show">&#9888;&#65039; <strong>Educational only.</strong> La Voz PR is not a law firm or tax advisor. <a href="disclaimer.html">Full disclaimer</a></span><span class="es">&#9888;&#65039; <strong>Solo educativo.</strong> La Voz PR no es firma legal ni asesor tributario. <a href="disclaimer.html">Aviso legal</a></span></p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ElevenLabs Widget Script -->
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+
+<script>
+/* Chrome detection */
+var isChrome = /CriOS|EdgiOS|EdgA|Edg/i.test(navigator.userAgent) || (/Chrome/i.test(navigator.userAgent) && /Mobile/i.test(navigator.userAgent) && !/Safari/i.test(navigator.userAgent));
+if(isChrome){document.querySelector('.app').classList.add('is-chrome');}
+
+/* Language toggle */
+var lang = 'en';
+function setLang(l){
+  lang = l;
+  document.getElementById('btnEN').classList.toggle('active', l === 'en');
+  document.getElementById('btnES').classList.toggle('active', l === 'es');
+  var en = document.querySelectorAll('.en');
+  var es = document.querySelectorAll('.es');
+  for(var i=0;i<en.length;i++){if(l==='en'){en[i].classList.add('show')}else{en[i].classList.remove('show')}}
+  for(var j=0;j<es.length;j++){if(l==='es'){es[j].classList.add('show')}else{es[j].classList.remove('show')}}
+}
+setLang('en');
+
+/* Share */
+function doShare(){
+  var url = window.location.href;
+  var t = lang === 'es'
+    ? 'Preguntale a La Voz sobre la Ley 60 de Puerto Rico. 0% ganancias de capital. 4% corporativo. ' + url
+    : 'Ask La Voz about Puerto Rico Act 60. 0% capital gains. 4% corporate tax. ' + url;
+  if(navigator.share){navigator.share({title:'Act 60 — La Voz PR',text:t,url:url}).catch(function(){});}
+  else{navigator.clipboard.writeText(t).then(function(){showToast(lang==='es'?'Enlace copiado!':'Link copied!')}).catch(function(){});}
+}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.className='toast show';setTimeout(function(){t.className='toast'},2500);}
+</script>
+</body>
+</html>
