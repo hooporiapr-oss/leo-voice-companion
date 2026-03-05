@@ -223,6 +223,81 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:fl
 .card-hidden{opacity:0;transform:translateY(28px);transition:opacity .65s ease-out,transform .65s ease-out}
 .card-visible{opacity:1;transform:translateY(0)}
 
+/* LIGHTBOX */
+.lightbox{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:999;
+  background:rgba(5,5,10,0);
+  backdrop-filter:blur(0px);
+  align-items:center;
+  justify-content:center;
+  transition:background .35s ease, backdrop-filter .35s ease;
+}
+.lightbox.open{
+  display:flex;
+  background:rgba(5,5,10,.95);
+  backdrop-filter:blur(20px);
+  animation:lbFadeIn .3s ease-out forwards;
+}
+@keyframes lbFadeIn{from{opacity:0}to{opacity:1}}
+.lb-img{
+  max-height:92vh;
+  max-width:92vw;
+  width:auto;
+  height:auto;
+  border-radius:12px;
+  object-fit:contain;
+  box-shadow:0 40px 100px rgba(0,0,0,.8);
+  animation:lbSlideIn .35s cubic-bezier(.25,.46,.45,.94) forwards;
+}
+@keyframes lbSlideIn{from{opacity:0;transform:scale(.93)}to{opacity:1;transform:scale(1)}}
+.lb-close{
+  position:fixed;
+  top:20px;
+  right:24px;
+  z-index:1001;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.1);
+  color:#fff;
+  font-size:1.4rem;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition:background .2s, transform .2s;
+  line-height:1;
+}
+.lb-close:hover{background:rgba(255,255,255,.14);transform:scale(1.1)}
+.lb-caption{
+  position:fixed;
+  bottom:24px;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  z-index:1001;
+  pointer-events:none;
+}
+.lb-caption-region{
+  font-size:.58rem;
+  font-weight:700;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--teal);
+  margin-bottom:4px;
+}
+.lb-caption-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.3rem;
+  letter-spacing:2px;
+  color:#fff;
+  white-space:nowrap;
+}
+
 /* RESPONSIVE */
 @media(max-width:1100px){
   .gallery-grid{grid-template-columns:repeat(3,1fr)}
@@ -298,7 +373,39 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:fl
   </div>
 </div>
 
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lb-close" onclick="closeLightbox()">&#x2715;</button>
+  <img class="lb-img" id="lbImg" src="" alt="">
+  <div class="lb-caption">
+    <div class="lb-caption-region" id="lbRegion"></div>
+    <div class="lb-caption-title" id="lbTitle"></div>
+  </div>
+</div>
+
 <script>
+function openLightbox(imgUrl, region, title) {
+  var lb = document.getElementById('lightbox');
+  var lbImg = document.getElementById('lbImg');
+  lbImg.src = '';
+  lbImg.src = imgUrl;
+  document.getElementById('lbRegion').textContent = region;
+  document.getElementById('lbTitle').textContent = title;
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox(e) {
+  if (e && e.target === document.getElementById('lbImg')) return; // clicking image itself doesn't close
+  var lb = document.getElementById('lightbox');
+  lb.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
 var lang = "en";
 var BASE = "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/gallery/";
 
@@ -358,7 +465,7 @@ function renderGallery() {
     var ctaTextES = hasAgent ? 'INICIAR TOUR &#9656;' : 'PRÓXIMAMENTE';
 
     return '<div class="' + cardClass + '">' +
-      '<div class="card-img-wrap">' +
+      '<div class="card-img-wrap" onclick="openLightbox(\'' + BASE + t.id + '.png\',\'' + t.region + '\',\'' + (lang === 'en' ? t.en.name : t.es.name).replace(/'/g,"&#39;") + '\')" style="cursor:zoom-in">' +
         '<div class="card-img" style="background-image:url(' + BASE + t.id + '.png)"></div>' +
       '</div>' +
       '<span class="card-num">' + num + '</span>' +
