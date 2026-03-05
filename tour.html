@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>La Voz PR &#8212; Tour Experience</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<script src="https://elevenlabs.io/convai-widget/index.js" async></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--gold:#FFD700;--orange:#FF6B35;--dark:#07070c;--text:#f0f0f4;--dim:#8a8a9a;--gradient:linear-gradient(135deg,#FFD700,#FF6B35)}
+html,body{height:100%;overflow:hidden}
+body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-font-smoothing:antialiased}
+.bg{position:fixed;inset:0;background:radial-gradient(ellipse at center bottom,rgba(255,215,0,.06) 0%,rgba(7,7,12,1) 70%)}
+.overlay{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px}
+.top-bar{position:absolute;top:0;left:0;right:0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;z-index:10}
+.back-link{display:flex;align-items:center;gap:6px;font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none;transition:color .3s}
+.back-link:hover{color:var(--gold)}
+.lang-toggle{display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
+.lang-btn{padding:4px 8px;font-size:.62rem;font-weight:600;letter-spacing:1px;background:transparent;color:rgba(255,255,255,.4);border:none;cursor:pointer;transition:all .2s}
+.lang-btn.active{background:rgba(255,215,0,.12);color:var(--gold)}
+.center-block{margin-bottom:80px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.15);border-radius:50px;font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.badge .pulse{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.2rem,8vw,4rem);line-height:.9;letter-spacing:4px;margin-bottom:12px}
+.gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.subtitle{font-size:.9rem;color:rgba(255,255,255,.45);letter-spacing:.5px;font-weight:300;max-width:400px;margin:0 auto}
+.en,.es{display:none}.en.show,.es.show{display:inline}
+.reconnect{margin-top:16px;font-size:.78rem;color:rgba(255,215,0,.5);animation:softPulse 3s ease-in-out infinite}
+@keyframes softPulse{0%,100%{opacity:.5}50%{opacity:.9}}
+.hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;z-index:5}
+.hint-text{font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase}
+.widget-wrap{position:fixed;bottom:24px;left:0;right:0;display:flex;justify-content:center;z-index:100;pointer-events:none}
+.widget-wrap elevenlabs-convai{pointer-events:auto}
+elevenlabs-convai{z-index:100!important}
+.browser-notice{display:none;position:fixed;top:0;left:0;right:0;z-index:200;padding:10px 40px 10px 20px;background:rgba(255,215,0,.12);border-bottom:1px solid rgba(255,215,0,.2);text-align:center;font-size:.8rem;color:var(--gold);backdrop-filter:blur(16px)}
+.browser-notice strong{color:#fff}
+.notice-close{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.4);font-size:1.1rem;cursor:pointer;padding:4px 8px}
+.notice-close:hover{color:#fff}
+@media(max-width:768px){.title{font-size:clamp(1.8rem,7vw,3rem)}.center-block{margin-bottom:100px}}
+@media(max-width:380px){.title{font-size:1.8rem}}
+</style>
+</head>
+<body>
+<div class="bg"></div>
+
+<div class="browser-notice" id="browserNotice">
+<span class="en show">For the best voice experience, open in <strong>Safari</strong></span>
+<span class="es">Para la mejor experiencia de voz, abre en <strong>Safari</strong></span>
+<button class="notice-close" onclick="document.getElementById('browserNotice').style.display='none'">&times;</button>
+</div>
+
+<div class="overlay">
+<div class="top-bar">
+<a href="gallery.html" class="back-link">&#8592; <span class="en show">Gallery</span><span class="es">Galeria</span></a>
+<div class="lang-toggle">
+<button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+<button class="lang-btn" id="btnES" onclick="setLang('es')">ES</button>
+</div>
+</div>
+<div class="center-block">
+<div class="badge"><span class="pulse"></span> LA VOZ PR TOUR</div>
+<div class="title"><span class="gradient-text" id="tourName"></span></div>
+<div class="subtitle"><span class="en show">La Voz is ready to tell you the story. Tap the mic.</span><span class="es">La Voz esta lista para contarte la historia. Toca el mic.</span></div>
+<div class="reconnect"><span class="en show">Session ended? Tap the mic again to continue.</span><span class="es">&#191;Se detuvo? Toca el mic otra vez para continuar.</span></div>
+</div>
+<div class="hint">
+<div class="hint-text"><span class="en show">&#11015; Tap La Voz below to start</span><span class="es">&#11015; Toca La Voz abajo para empezar</span></div>
+</div>
+</div>
+
+<div class="widget-wrap" id="widgetWrap"></div>
+
+<script>
+var lang="en";
+var params=new URLSearchParams(window.location.search);
+var agentId=params.get("agent");
+var tourName=params.get("name")||"Tour Experience";
+
+document.getElementById("tourName").textContent=tourName;
+document.title="La Voz PR — "+tourName;
+
+if(agentId){
+var el=document.createElement("elevenlabs-convai");
+el.setAttribute("agent-id",agentId);
+document.getElementById("widgetWrap").appendChild(el);
+}
+
+function centerWidget(){
+var el=document.querySelector('elevenlabs-convai');
+if(!el||!el.shadowRoot)return setTimeout(centerWidget,500);
+var style=document.createElement('style');
+style.textContent='div[style*="fixed"]{left:50%!important;right:auto!important;transform:translateX(-50%)!important;bottom:0!important;}';
+el.shadowRoot.appendChild(style);
+}
+centerWidget();
+
+(function(){
+var ua=navigator.userAgent;
+var isSafari=/Safari/.test(ua)&&!/Chrome/.test(ua)&&!/CriOS/.test(ua)&&!/EdgiOS/.test(ua)&&!/Edg/.test(ua);
+if(!isSafari){document.getElementById('browserNotice').style.display='block';}
+})();
+
+function setLang(l){
+lang=l;
+document.getElementById("btnEN").classList.toggle("active",l==="en");
+document.getElementById("btnES").classList.toggle("active",l==="es");
+document.querySelectorAll(".en").forEach(function(e){e.classList.toggle("show",l==="en");});
+document.querySelectorAll(".es").forEach(function(e){e.classList.toggle("show",l==="es");});
+}
+</script>
+</body>
+</html>
