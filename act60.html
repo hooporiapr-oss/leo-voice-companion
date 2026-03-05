@@ -406,6 +406,12 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 <div class="disc-modal-overlay" id="discModal" style="display:none">
   <div class="disc-modal">
     <div class="disc-modal-icon">&#9888;&#65039;</div>
+    <div style="text-align:center;margin-bottom:14px">
+      <div class="lang-toggle" style="display:inline-flex">
+        <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btnES" onclick="setLang('es')">ES</button>
+      </div>
+    </div>
     <div class="disc-modal-title">
       <span class="en show">Before You Continue</span><span class="es">Antes de Continuar</span>
     </div>
@@ -419,8 +425,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
       <p><span class="en show"><strong>AI limitations.</strong> La Voz is powered by AI and can make errors. Do not rely solely on AI responses for any decision.</span><span class="es"><strong>Limitaciones de IA.</strong> La Voz es impulsada por IA y puede cometer errores. No dependa &uacute;nicamente de las respuestas de IA para ninguna decisi&oacute;n.</span></p>
       <p><span class="en show"><strong>Laws change.</strong> Act 60 and its requirements may change at any time. Always verify current law.</span><span class="es"><strong>Las leyes cambian.</strong> La Ley 60 y sus requisitos pueden cambiar en cualquier momento. Verifique siempre la ley vigente.</span></p>
     </div>
-    <button class="disc-modal-agree" onclick="(function(){try{sessionStorage.setItem('lavozpr_disc','1')}catch(e){}document.getElementById('discModal').style.display='none';document.body.style.overflow=''})()">
-      <span class="en show">I UNDERSTAND — CONTINUE TO LA VOZ PR</span><span class="es">ENTIENDO — CONTINUAR A LA VOZ PR</span>
+    <button class="disc-modal-agree" onclick="(function(){try{sessionStorage.setItem('lavozpr_disc','1')}catch(e){}document.getElementById('discModal').style.display='none';document.body.style.overflow='';window.location.href='act60-voice.html'})()">
+      <span class="en show">I UNDERSTAND — CONTINUE TO LA VOZ PR<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">For Educational Purposes Only</span></span><span class="es">ENTIENDO — CONTINUAR A LA VOZ PR<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">Solo con Fines Educativos</span></span>
     </button>
     <a href="index.html" class="disc-modal-leave">
       <span class="en show">Take me back — I need professional advice first</span><span class="es">Regresar — necesito consejo profesional primero</span>
