@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Act 60 Puerto Rico &#8212; Ask La Voz</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Act 60 Puerto Rico — Ask La Voz</title>
 <meta name="description" content="Puerto Rico's Act 60 tax incentives explained by La Voz. 0% capital gains. 4% corporate tax. US passport intact. Ask La Voz everything.">
 <meta property="og:title" content="Act 60 Puerto Rico — Ask La Voz">
 <meta property="og:description" content="0% capital gains. 4% corporate tax. US passport intact. The most powerful tax incentive in America. La Voz knows everything.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* ===== RESET ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+/* ===== DESIGN TOKENS ===== */
 :root{
   --dark:#07070c;
   --card:#0f0f18;
@@ -25,24 +29,62 @@
   --gradient-teal:linear-gradient(135deg,#00D9A5,#00b88a);
   --border:rgba(255,255,255,.06);
   --border-gold:rgba(255,215,0,.15);
+  --radius-lg:24px;
+  --radius-md:18px;
+  --radius-card:22px;
+  --radius-pill:50px;
 }
+
+/* ===== BASE ===== */
 html{scroll-behavior:smooth}
-body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--dark);
+  color:var(--text);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
 
-/* BG */
-.bg-noise{position:fixed;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
-.bg-g1{position:fixed;width:900px;height:900px;top:-400px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,215,0,.06) 0%,transparent 70%);pointer-events:none;z-index:0}
-.bg-g2{position:fixed;width:600px;height:600px;bottom:-200px;right:-150px;background:radial-gradient(circle,rgba(0,217,165,.04) 0%,transparent 70%);pointer-events:none;z-index:0}
-.bg-g3{position:fixed;width:400px;height:400px;top:40%;left:-100px;background:radial-gradient(circle,rgba(255,107,53,.03) 0%,transparent 70%);pointer-events:none;z-index:0}
+/* ===== AMBIENT BACKGROUNDS ===== */
+.bg-noise{
+  position:fixed;inset:0;opacity:.025;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.bg-glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%}
+.bg-glow--gold{width:900px;height:900px;top:-400px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,215,0,.06) 0%,transparent 70%)}
+.bg-glow--teal{width:600px;height:600px;bottom:-200px;right:-150px;background:radial-gradient(circle,rgba(0,217,165,.04) 0%,transparent 70%)}
+.bg-glow--orange{width:400px;height:400px;top:40%;left:-100px;background:radial-gradient(circle,rgba(255,107,53,.03) 0%,transparent 70%)}
 
+/* ===== LAYOUT ===== */
 .container{max-width:1100px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+
+/* ===== UTILITY ===== */
 .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .teal-text{background:var(--gradient-teal);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.en,.es{display:none}.en.show,.es.show{display:inline}
-.en-block,.es-block{display:none}.en-block.show,.es-block.show{display:block}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 0;background:rgba(7,7,12,.92);backdrop-filter:blur(28px);border-bottom:1px solid var(--border)}
+/* ===== BILINGUAL TOGGLE ===== */
+.en,.es{display:none}
+.en.show,.es.show{display:inline}
+.en-block,.es-block{display:none}
+.en-block.show,.es-block.show{display:block}
+
+/* ===== SECTION HEADINGS ===== */
+.section-label{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.2rem);letter-spacing:3px;margin-bottom:16px}
+.section-sub{color:var(--dim);font-size:.95rem;line-height:1.7;max-width:580px;margin:0 auto}
+
+/* ============================================
+   NAV
+   ============================================ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:14px 0;
+  background:rgba(7,7,12,.92);
+  backdrop-filter:blur(28px);
+  -webkit-backdrop-filter:blur(28px);
+  border-bottom:1px solid var(--border);
+}
 nav .container{display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;text-decoration:none}
 .nav-logo img{height:38px;width:auto;object-fit:contain}
@@ -50,118 +92,269 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .nav-link{font-size:.72rem;color:var(--dim);text-decoration:none;letter-spacing:.5px;transition:color .3s}
 .nav-link:hover{color:var(--gold)}
 .lang-toggle{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
-.lang-btn{padding:5px 11px;font-size:.68rem;font-weight:700;letter-spacing:1px;background:transparent;color:var(--dim);border:none;cursor:pointer;transition:all .2s}
+.lang-btn{padding:5px 11px;font-size:.68rem;font-weight:700;letter-spacing:1px;background:transparent;color:var(--dim);border:none;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
 .lang-btn.active{background:rgba(255,215,0,.1);color:var(--gold)}
-.nav-cta{padding:9px 22px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s;white-space:nowrap}
+.nav-cta{
+  padding:9px 22px;
+  background:var(--gradient);
+  color:var(--dark);
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.85rem;
+  letter-spacing:2px;
+  border-radius:var(--radius-pill);
+  text-decoration:none;
+  transition:all .3s;
+  white-space:nowrap;
+}
 .nav-cta:hover{transform:scale(1.04);box-shadow:0 4px 24px rgba(255,215,0,.25)}
 
-/* HERO */
+/* ============================================
+   HERO
+   ============================================ */
 .hero{padding:140px 0 80px;text-align:center;position:relative}
-
-/* THREE NUMBERS */
-.three-numbers{display:flex;justify-content:center;gap:0;margin-bottom:56px;position:relative}
-.three-numbers::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,.04),rgba(0,217,165,.03));border:1px solid var(--border-gold);border-radius:24px}
-.num-block{flex:1;padding:36px 24px;text-align:center;position:relative}
-.num-block:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border-gold)}
-.num-value{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,5.5rem);line-height:.85;letter-spacing:2px;margin-bottom:8px}
-.num-label{font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);line-height:1.4}
-.num-block:nth-child(1) .num-value{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.num-block:nth-child(2) .num-value{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.num-block:nth-child(3) .num-value{color:var(--teal)}
-
-.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(0,217,165,.07);border:1px solid rgba(0,217,165,.15);border-radius:50px;font-size:.68rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin-bottom:28px}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 18px;
+  background:rgba(0,217,165,.07);
+  border:1px solid rgba(0,217,165,.15);
+  border-radius:var(--radius-pill);
+  font-size:.68rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);
+  margin-bottom:28px;
+}
 .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
-
 .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,9vw,7rem);line-height:.88;letter-spacing:3px;margin-bottom:20px}
 .hero-sub{font-size:1.1rem;color:var(--dim);max-width:580px;margin:0 auto 48px;line-height:1.75;font-weight:300}
 
-/* WIDGET SECTION */
-.widget-section{padding:0 0 80px;text-align:center}
-.widget-wrap{max-width:700px;margin:0 auto;background:var(--card);border:1px solid var(--border-gold);border-radius:28px;padding:40px 32px 36px;position:relative;overflow:hidden}
-.widget-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient)}
-.widget-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-.widget-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:6px}
-.widget-desc{font-size:.85rem;color:var(--dim);margin-bottom:28px;line-height:1.6}
-.widget-inner{border-radius:16px;overflow:hidden;min-height:80px;display:flex;align-items:center;justify-content:center;width:100%}
+/* THREE NUMBERS BLOCK */
+.three-numbers{
+  display:flex;justify-content:center;gap:0;margin-bottom:56px;position:relative;
+}
+.three-numbers::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,215,0,.04),rgba(0,217,165,.03));
+  border:1px solid var(--border-gold);
+  border-radius:var(--radius-lg);
+}
+.num-block{flex:1;padding:36px 24px;text-align:center;position:relative}
+.num-block:not(:last-child)::after{
+  content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border-gold);
+}
+.num-value{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,8vw,5.5rem);
+  line-height:.85;letter-spacing:2px;margin-bottom:8px;
+}
+.num-label{font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);line-height:1.4}
+.num-block:nth-child(1) .num-value,
+.num-block:nth-child(2) .num-value{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.num-block:nth-child(3) .num-value{color:var(--teal)}
 
-/* WHO IS THIS FOR */
+/* ============================================
+   AI VOICE SECTION (IFRAME)
+   ============================================ */
+.voice-section{padding:0 0 80px;text-align:center}
+.voice-wrap{
+  max-width:700px;margin:0 auto;
+  background:var(--card);
+  border:1px solid var(--border-gold);
+  border-radius:28px;
+  padding:40px 32px 36px;
+  position:relative;
+  overflow:hidden;
+}
+.voice-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient)}
+.voice-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.voice-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:6px}
+.voice-desc{font-size:.85rem;color:var(--dim);margin-bottom:28px;line-height:1.6}
+.voice-iframe-box{
+  border-radius:16px;
+  overflow:hidden;
+  background:var(--dark);
+  border:1px solid var(--border);
+}
+.voice-iframe-box iframe{
+  display:block;
+  width:100%;
+  height:400px;
+  border:none;
+  border-radius:16px;
+}
+
+/* ============================================
+   WHO IS THIS FOR — 3-CARD GRID
+   ============================================ */
 .for-section{padding:80px 0;border-top:1px solid var(--border)}
 .for-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
-.for-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:32px 24px;position:relative;overflow:hidden;transition:all .35s}
+.for-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-card);
+  padding:32px 24px;position:relative;overflow:hidden;transition:all .35s;
+}
 .for-card:hover{border-color:var(--border-gold);transform:translateY(-4px)}
 .for-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient);opacity:0;transition:opacity .35s}
 .for-card:hover::before{opacity:1}
 .for-icon{font-size:2rem;margin-bottom:14px}
 .for-type{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1.5px;margin-bottom:8px;color:var(--text)}
 .for-benefit{font-size:.78rem;color:var(--dim);line-height:1.6;margin-bottom:16px}
-.for-tag{display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:50px;background:rgba(255,215,0,.08);color:var(--gold);border:1px solid var(--border-gold)}
+.for-tag{
+  display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:4px 12px;border-radius:var(--radius-pill);
+  background:rgba(255,215,0,.08);color:var(--gold);border:1px solid var(--border-gold);
+}
 
-/* ACT 60 BREAKDOWN */
+/* ============================================
+   ACT 60 BREAKDOWN — 2-CARD GRID
+   ============================================ */
 .breakdown-section{padding:80px 0;border-top:1px solid var(--border)}
 .breakdown-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
-.breakdown-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:36px 28px;position:relative;overflow:hidden;transition:all .35s}
+.breakdown-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-card);
+  padding:36px 28px;position:relative;overflow:hidden;transition:all .35s;
+}
 .breakdown-card:hover{border-color:rgba(255,255,255,.1)}
-.breakdown-card.gold-card{border-color:var(--border-gold)}
-.breakdown-card.teal-card{border-color:rgba(0,217,165,.15)}
-.breakdown-card.gold-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient)}
-.breakdown-card.teal-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient-teal)}
+.breakdown-card.gold-accent{border-color:var(--border-gold)}
+.breakdown-card.teal-accent{border-color:rgba(0,217,165,.15)}
+.breakdown-card.gold-accent::before,
+.breakdown-card.teal-accent::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.breakdown-card.gold-accent::before{background:var(--gradient)}
+.breakdown-card.teal-accent::before{background:var(--gradient-teal)}
 .bd-label{font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
-.bd-label.gold{color:var(--gold)}.bd-label.teal{color:var(--teal)}
+.bd-label.gold{color:var(--gold)}
+.bd-label.teal{color:var(--teal)}
 .bd-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;margin-bottom:6px}
 .bd-former{font-size:.7rem;color:var(--dim);margin-bottom:20px;letter-spacing:.5px}
 .bd-items{list-style:none}
-.bd-items li{font-size:.84rem;color:var(--dim);padding:8px 0;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:flex-start;gap:10px;line-height:1.5}
+.bd-items li{
+  font-size:.84rem;color:var(--dim);padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  display:flex;align-items:flex-start;gap:10px;line-height:1.5;
+}
 .bd-items li:last-child{border-bottom:none}
 .bd-items li::before{content:'→';color:var(--gold);font-size:.75rem;margin-top:2px;flex-shrink:0}
-.breakdown-card.teal-card .bd-items li::before{color:var(--teal)}
+.teal-accent .bd-items li::before{color:var(--teal)}
 
-/* MUNICIPALITIES */
+/* ============================================
+   MUNICIPALITIES — 6-CARD GRID
+   ============================================ */
 .muni-section{padding:80px 0;border-top:1px solid var(--border)}
 .muni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:40px}
-.muni-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:24px;transition:all .3s;cursor:pointer}
+.muni-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
+  padding:24px;transition:all .3s;cursor:default;
+}
 .muni-card:hover{border-color:var(--border-gold);transform:translateY(-3px)}
 .muni-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
 .muni-name{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1.5px}
-.muni-vibe{font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:50px;background:rgba(255,215,0,.07);color:var(--gold);border:1px solid var(--border-gold);white-space:nowrap}
+.muni-vibe{
+  font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  padding:3px 10px;border-radius:var(--radius-pill);
+  background:rgba(255,215,0,.07);color:var(--gold);border:1px solid var(--border-gold);
+  white-space:nowrap;
+}
 .muni-desc{font-size:.8rem;color:var(--dim);line-height:1.55;margin-bottom:12px}
 .muni-price{font-size:.68rem;color:var(--teal);font-weight:600;letter-spacing:.5px}
 
-/* PROCESS */
+/* ============================================
+   PROCESS — 4-STEP GRID
+   ============================================ */
 .process-section{padding:80px 0;border-top:1px solid var(--border)}
-.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px;position:relative}
-.process-steps::before{content:'';position:absolute;top:28px;left:12%;right:12%;height:1px;background:linear-gradient(90deg,var(--gold),var(--orange),var(--teal));opacity:.2}
-.step-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 20px;text-align:center;position:relative}
-.step-num{width:48px;height:48px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--dark);margin:0 auto 16px;position:relative;z-index:1}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px;position:relative}
+.process-grid::before{
+  content:'';position:absolute;top:28px;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,var(--gold),var(--orange),var(--teal));opacity:.2;
+}
+.step-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
+  padding:28px 20px;text-align:center;position:relative;
+}
+.step-num{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--gradient);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--dark);
+  margin:0 auto 16px;position:relative;z-index:1;
+}
 .step-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1.5px;margin-bottom:8px}
 .step-desc{font-size:.76rem;color:var(--dim);line-height:1.55}
 
-/* PARTNER CTA */
+/* ============================================
+   PARTNER CTA
+   ============================================ */
 .partner-section{padding:80px 0;border-top:1px solid var(--border)}
-.partner-card{background:linear-gradient(135deg,rgba(255,215,0,.05),rgba(0,217,165,.04));border:1px solid var(--border-gold);border-radius:28px;padding:60px 40px;text-align:center;position:relative;overflow:hidden}
+.partner-card{
+  background:linear-gradient(135deg,rgba(255,215,0,.05),rgba(0,217,165,.04));
+  border:1px solid var(--border-gold);border-radius:28px;
+  padding:60px 40px;text-align:center;position:relative;overflow:hidden;
+}
 .partner-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--orange),var(--teal))}
 .partner-card h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:3px;margin-bottom:16px}
 .partner-card p{color:var(--dim);font-size:.95rem;max-width:520px;margin:0 auto 32px;line-height:1.7}
 .btn-grid{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
-.btn-primary{padding:15px 38px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{
+  padding:15px 38px;background:var(--gradient);color:var(--dark);
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;
+  border-radius:var(--radius-pill);text-decoration:none;transition:all .3s;
+  display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;
+}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,215,0,.25)}
-.btn-secondary{padding:15px 38px;background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
+.btn-secondary{
+  padding:15px 38px;background:transparent;border:1px solid rgba(255,255,255,.1);
+  color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;
+  border-radius:var(--radius-pill);text-decoration:none;transition:all .3s;
+  display:inline-flex;align-items:center;gap:8px;
+}
 .btn-secondary:hover{border-color:var(--border-gold);color:var(--gold)}
 
-/* DISCLAIMER SECTION */
-.disclaimer-section{background:rgba(255,107,53,.04);border-top:1px solid rgba(255,107,53,.15);border-bottom:1px solid rgba(255,107,53,.15);padding:48px 0}
+/* ============================================
+   DISCLAIMER SECTION (FULL)
+   ============================================ */
+.disclaimer-section{
+  background:rgba(255,107,53,.04);
+  border-top:1px solid rgba(255,107,53,.15);
+  border-bottom:1px solid rgba(255,107,53,.15);
+  padding:48px 0;
+}
 .disc-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
 .disc-icon{font-size:1.6rem}
 .disc-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--orange)}
-.disc-body p{font-size:.78rem;color:var(--dim);line-height:1.7;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.04)}
+.disc-body p{
+  font-size:.78rem;color:var(--dim);line-height:1.7;
+  margin-bottom:14px;padding-bottom:14px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
 .disc-body p:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
 .disc-body strong{color:rgba(232,232,236,.6)}
-.disc-summary{background:rgba(255,107,53,.06);border:1px solid rgba(255,107,53,.12);border-radius:12px;padding:16px 20px !important;border-bottom:none !important}
+.disc-summary{
+  background:rgba(255,107,53,.06);
+  border:1px solid rgba(255,107,53,.12);
+  border-radius:12px;
+  padding:16px 20px !important;
+  border-bottom:none !important;
+}
 .disc-summary strong{color:var(--orange)}
 
-/* DISCLAIMER MODAL */
-.disc-modal-overlay{position:fixed;inset:0;background:rgba(7,7,12,.96);backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
-.disc-modal{background:var(--card);border:1px solid rgba(255,107,53,.25);border-radius:24px;max-width:600px;width:100%;padding:40px 36px;position:relative;max-height:90vh;overflow-y:auto;z-index:10000}
+/* ============================================
+   DISCLAIMER MODAL (FIRST VISIT)
+   ============================================ */
+.disc-modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(7,7,12,.96);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  z-index:9999;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+}
+.disc-modal{
+  background:var(--card);
+  border:1px solid rgba(255,107,53,.25);
+  border-radius:var(--radius-lg);
+  max-width:600px;width:100%;
+  padding:40px 36px;
+  position:relative;
+  max-height:90vh;overflow-y:auto;
+  z-index:10000;
+}
 .disc-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:24px 24px 0 0}
 .disc-modal-icon{font-size:2.5rem;text-align:center;margin-bottom:12px}
 .disc-modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;text-align:center;margin-bottom:6px;color:var(--text)}
@@ -170,16 +363,32 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .disc-modal-body p{margin-bottom:10px}
 .disc-modal-body p:last-child{margin-bottom:0}
 .disc-modal-body strong{color:rgba(232,232,236,.7)}
-.disc-modal-agree{width:100%;padding:14px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;border-radius:50px;border:none;cursor:pointer;transition:all .3s;margin-bottom:10px}
+.disc-modal-agree{
+  width:100%;padding:14px;
+  background:var(--gradient);color:var(--dark);
+  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;
+  border-radius:var(--radius-pill);border:none;cursor:pointer;
+  transition:all .3s;margin-bottom:10px;
+}
 .disc-modal-agree:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,215,0,.25)}
-.disc-modal-leave{width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.08);color:var(--dim);font-family:'Outfit',sans-serif;font-size:.78rem;border-radius:50px;cursor:pointer;transition:all .3s;text-decoration:none;display:block;text-align:center}
+.disc-modal-leave{
+  width:100%;padding:12px;
+  background:transparent;border:1px solid rgba(255,255,255,.08);
+  color:var(--dim);font-family:'Outfit',sans-serif;font-size:.78rem;
+  border-radius:var(--radius-pill);cursor:pointer;
+  transition:all .3s;text-decoration:none;display:block;text-align:center;
+}
 .disc-modal-leave:hover{border-color:rgba(255,107,53,.3);color:var(--orange)}
 
-/* PERSISTENT DISCLAIMER BAR */
+/* ============================================
+   PERSISTENT DISCLAIMER BAR
+   ============================================ */
 .disc-bar{background:rgba(255,107,53,.07);border-top:1px solid rgba(255,107,53,.12);padding:10px 0;text-align:center}
 .disc-bar p{font-size:.65rem;color:var(--dim2);line-height:1.5;max-width:900px;margin:0 auto}
 
-/* FOOTER */
+/* ============================================
+   FOOTER
+   ============================================ */
 .footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
 .footer-logo{margin-bottom:8px}
 .footer-logo img{height:48px;width:auto;opacity:.9}
@@ -193,68 +402,80 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .footer-legal-links a:hover{color:var(--gold)}
 .footer-legal-links .sep{color:var(--dim2);margin:0 8px}
 
-/* SECTION LABELS */
-.section-label{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
-.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.2rem);letter-spacing:3px;margin-bottom:16px}
-.section-sub{color:var(--dim);font-size:.95rem;line-height:1.7;max-width:580px;margin:0 auto}
-
-/* ANIMATIONS */
+/* ============================================
+   ANIMATIONS
+   ============================================ */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 .fade-up{animation:fadeInUp .7s ease-out both}
 .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
 
-/* MOBILE */
+/* ============================================
+   RESPONSIVE
+   ============================================ */
 @media(max-width:768px){
   nav .nav-link{display:none}
   .three-numbers{flex-direction:column;gap:0}
   .num-block:not(:last-child)::after{right:10%;left:10%;top:auto;bottom:0;width:auto;height:1px}
   .for-grid{grid-template-columns:1fr}
   .breakdown-grid{grid-template-columns:1fr}
-  .process-steps{grid-template-columns:1fr 1fr}
-  .process-steps::before{display:none}
+  .process-grid{grid-template-columns:1fr 1fr}
+  .process-grid::before{display:none}
   .muni-grid{grid-template-columns:1fr}
   .partner-card{padding:40px 24px}
   .hero{padding:110px 0 60px}
-  .widget-wrap{padding:28px 20px}
+  .voice-wrap{padding:28px 20px}
+  .voice-iframe-box iframe{height:350px}
+  .disc-modal{padding:32px 24px}
 }
 @media(max-width:480px){
-  .process-steps{grid-template-columns:1fr}
-  .three-numbers{border-radius:18px}
+  .process-grid{grid-template-columns:1fr}
+  .three-numbers::before{border-radius:18px}
+  .voice-iframe-box iframe{height:320px}
 }
 </style>
 </head>
 <body>
 
-<!-- DISCLAIMER MODAL — first visit only -->
-<div class="disc-modal-overlay" id="discModal">
+<!-- ===== DISCLAIMER MODAL — FIRST VISIT ONLY ===== -->
+<div class="disc-modal-overlay" id="discModal" style="display:none">
   <div class="disc-modal">
-    <div class="disc-modal-icon">⚠️</div>
-    <div class="disc-modal-title"><span class="en show">Before You Continue</span><span class="es">Antes de Continuar</span></div>
-    <div class="disc-modal-sub"><span class="en show">Important Legal Notice</span><span class="es">Aviso Legal Importante</span></div>
+    <div class="disc-modal-icon">&#9888;&#65039;</div>
+    <div class="disc-modal-title">
+      <span class="en show">Before You Continue</span><span class="es">Antes de Continuar</span>
+    </div>
+    <div class="disc-modal-sub">
+      <span class="en show">Important Legal Notice</span><span class="es">Aviso Legal Importante</span>
+    </div>
     <div class="disc-modal-body">
-      <p><span class="en show"><strong>For educational purposes only.</strong> All information on this platform — including from La Voz AI — is general information, not legal, tax, or financial advice.</span><span class="es"><strong>Solo con fines educativos.</strong> Toda la información en esta plataforma — incluyendo de La Voz IA — es información general, no asesoramiento legal, tributario ni financiero.</span></p>
-      <p><span class="en show"><strong>We are not lawyers or tax advisors.</strong> La Voz PR and GoStar Digital LLC are not law firms, tax advisory firms, or financial advisors. We do not establish professional relationships of any kind.</span><span class="es"><strong>No somos abogados ni asesores tributarios.</strong> La Voz PR y GoStar Digital LLC no son firmas de abogados, asesores tributarios ni asesores financieros. No establecemos relaciones profesionales de ningún tipo.</span></p>
-      <p><span class="en show"><strong>Always consult a qualified professional.</strong> Act 60 is complex legislation. Your situation is unique. Before making any relocation, tax, or financial decision, consult a licensed Puerto Rico attorney and certified CPA.</span><span class="es"><strong>Consulte siempre a un profesional calificado.</strong> La Ley 60 es legislación compleja. Su situación es única. Antes de tomar cualquier decisión de reubicación, tributaria o financiera, consulte a un abogado licenciado de Puerto Rico y un CPA certificado.</span></p>
-      <p><span class="en show"><strong>AI limitations.</strong> La Voz is powered by AI and can make errors. Do not rely solely on AI responses for any decision.</span><span class="es"><strong>Limitaciones de IA.</strong> La Voz es impulsada por IA y puede cometer errores. No dependa únicamente de las respuestas de IA para ninguna decisión.</span></p>
+      <p><span class="en show"><strong>For educational purposes only.</strong> All information on this platform — including from La Voz AI — is general information, not legal, tax, or financial advice.</span><span class="es"><strong>Solo con fines educativos.</strong> Toda la informaci&oacute;n en esta plataforma — incluyendo de La Voz IA — es informaci&oacute;n general, no asesoramiento legal, tributario ni financiero.</span></p>
+      <p><span class="en show"><strong>We are not lawyers or tax advisors.</strong> La Voz PR and GoStar Digital LLC are not law firms, tax advisory firms, or financial advisors. We do not establish professional relationships of any kind.</span><span class="es"><strong>No somos abogados ni asesores tributarios.</strong> La Voz PR y GoStar Digital LLC no son firmas de abogados, asesores tributarios ni asesores financieros. No establecemos relaciones profesionales de ning&uacute;n tipo.</span></p>
+      <p><span class="en show"><strong>Always consult a qualified professional.</strong> Act 60 is complex legislation. Your situation is unique. Before making any relocation, tax, or financial decision, consult a licensed Puerto Rico attorney and certified CPA.</span><span class="es"><strong>Consulte siempre a un profesional calificado.</strong> La Ley 60 es legislaci&oacute;n compleja. Su situaci&oacute;n es &uacute;nica. Antes de tomar cualquier decisi&oacute;n de reubicaci&oacute;n, tributaria o financiera, consulte a un abogado licenciado de Puerto Rico y un CPA certificado.</span></p>
+      <p><span class="en show"><strong>AI limitations.</strong> La Voz is powered by AI and can make errors. Do not rely solely on AI responses for any decision.</span><span class="es"><strong>Limitaciones de IA.</strong> La Voz es impulsada por IA y puede cometer errores. No dependa &uacute;nicamente de las respuestas de IA para ninguna decisi&oacute;n.</span></p>
       <p><span class="en show"><strong>Laws change.</strong> Act 60 and its requirements may change at any time. Always verify current law.</span><span class="es"><strong>Las leyes cambian.</strong> La Ley 60 y sus requisitos pueden cambiar en cualquier momento. Verifique siempre la ley vigente.</span></p>
     </div>
-    <button class="disc-modal-agree" onclick="(function(){try{sessionStorage.setItem('lavozpr_disc','1');}catch(e){}document.getElementById('discModal').style.display='none';document.body.style.overflow='';})()"><span class="en show">I UNDERSTAND — CONTINUE TO LA VOZ PR</span><span class="es">ENTIENDO — CONTINUAR A LA VOZ PR</span></button>
-    <a href="index.html" class="disc-modal-leave"><span class="en show">Take me back — I need professional advice first</span><span class="es">Regresar — necesito consejo profesional primero</span></a>
+    <button class="disc-modal-agree" onclick="(function(){try{sessionStorage.setItem('lavozpr_disc','1')}catch(e){}document.getElementById('discModal').style.display='none';document.body.style.overflow=''})()">
+      <span class="en show">I UNDERSTAND — CONTINUE TO LA VOZ PR</span><span class="es">ENTIENDO — CONTINUAR A LA VOZ PR</span>
+    </button>
+    <a href="index.html" class="disc-modal-leave">
+      <span class="en show">Take me back — I need professional advice first</span><span class="es">Regresar — necesito consejo profesional primero</span>
+    </a>
   </div>
 </div>
-<div class="bg-noise"></div>
-<div class="bg-g1"></div>
-<div class="bg-g2"></div>
-<div class="bg-g3"></div>
 
-<!-- NAV -->
+<!-- ===== AMBIENT BACKGROUNDS ===== -->
+<div class="bg-noise"></div>
+<div class="bg-glow bg-glow--gold"></div>
+<div class="bg-glow bg-glow--teal"></div>
+<div class="bg-glow bg-glow--orange"></div>
+
+<!-- ===== NAV ===== -->
 <nav>
   <div class="container">
     <a href="index.html" class="nav-logo">
       <img src="act60-logo.png" alt="Act 60 — La Voz PR">
     </a>
     <div class="nav-right">
-      <a href="#who" class="nav-link"><span class="en show">Who It's For</span><span class="es">Para Quién</span></a>
+      <a href="#who" class="nav-link"><span class="en show">Who It's For</span><span class="es">Para Qui&eacute;n</span></a>
       <a href="#breakdown" class="nav-link"><span class="en show">The Law</span><span class="es">La Ley</span></a>
       <a href="#municipalities" class="nav-link"><span class="en show">Municipalities</span><span class="es">Municipios</span></a>
       <div class="lang-toggle">
@@ -266,17 +487,20 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ===== HERO ===== -->
 <section class="hero">
   <div class="container">
-    <div class="hero-badge fade-up"><span class="dot"></span><span class="en show">PUERTO RICO ACT 60 TAX INCENTIVES</span><span class="es">INCENTIVOS DE LA LEY 60 DE PUERTO RICO</span></div>
+    <div class="hero-badge fade-up">
+      <span class="dot"></span>
+      <span class="en show">PUERTO RICO ACT 60 TAX INCENTIVES</span><span class="es">INCENTIVOS DE LA LEY 60 DE PUERTO RICO</span>
+    </div>
     <h1 class="fade-up d1">
       <span class="en show">THE MOST POWERFUL<br><span class="gradient-text">TAX INCENTIVE</span><br>IN AMERICA.</span>
-      <span class="es">EL INCENTIVO CONTRIBUTIVO<br><span class="gradient-text">MÁS PODEROSO</span><br>DE AMÉRICA.</span>
+      <span class="es">EL INCENTIVO CONTRIBUTIVO<br><span class="gradient-text">M&Aacute;S PODEROSO</span><br>DE AM&Eacute;RICA.</span>
     </h1>
     <p class="hero-sub fade-up d2">
       <span class="en show">Zero percent capital gains. Four percent corporate tax. Full US citizenship. One island that changes everything. La Voz knows Act 60 inside and out — ask anything.</span>
-      <span class="es">Cero por ciento en ganancias de capital. Cuatro por ciento de impuesto corporativo. Ciudadanía americana completa. Una isla que lo cambia todo. La Voz conoce la Ley 60 a fondo — pregunta lo que quieras.</span>
+      <span class="es">Cero por ciento en ganancias de capital. Cuatro por ciento de impuesto corporativo. Ciudadan&iacute;a americana completa. Una isla que lo cambia todo. La Voz conoce la Ley 60 a fondo — pregunta lo que quieras.</span>
     </p>
 
     <!-- THREE NUMBERS -->
@@ -287,181 +511,263 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
       </div>
       <div class="num-block">
         <div class="num-value">4%</div>
-        <div class="num-label"><span class="en show">Corporate Tax Rate<br>for export services</span><span class="es">Tasa Corporativa<br>para servicios de exportación</span></div>
+        <div class="num-label"><span class="en show">Corporate Tax Rate<br>for export services</span><span class="es">Tasa Corporativa<br>para servicios de exportaci&oacute;n</span></div>
       </div>
       <div class="num-block">
-        <div class="num-value" style="font-size:clamp(1.8rem,4vw,3rem);padding-top:10px">🇵🇷<br>🇺🇸</div>
-        <div class="num-label"><span class="en show">US Citizenship<br>fully intact</span><span class="es">Ciudadanía Americana<br>completamente intacta</span></div>
+        <div class="num-value" style="font-size:clamp(1.8rem,4vw,3rem);padding-top:10px">&#127477;&#127479;<br>&#127482;&#127480;</div>
+        <div class="num-label"><span class="en show">US Citizenship<br>fully intact</span><span class="es">Ciudadan&iacute;a Americana<br>completamente intacta</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- LA VOZ WIDGET -->
-<section class="widget-section" id="ask">
+<!-- ===== AI VOICE SECTION ===== -->
+<section class="voice-section" id="ask">
   <div class="container">
-    <div class="widget-wrap fade-up">
-      <div class="widget-eyebrow"><span class="en show">YOUR ACT 60 GUIDE</span><span class="es">TU GUÍA DE LA LEY 60</span></div>
-      <div class="widget-title"><span class="en show">Ask La Voz <span class="gradient-text">Anything.</span></span><span class="es">Pregúntale a La Voz <span class="gradient-text">Todo.</span></span></div>
-      <div class="widget-desc">
-        <span class="en show">Which chapter fits your situation? Which municipality matches your lifestyle? What does the decree process actually look like? La Voz has the answers.</span>
-        <span class="es">¿Qué capítulo aplica a tu situación? ¿Qué municipio se adapta a tu estilo de vida? ¿Cómo es el proceso del decreto realmente? La Voz tiene las respuestas.</span>
+    <div class="voice-wrap fade-up">
+      <div class="voice-eyebrow"><span class="en show">YOUR ACT 60 GUIDE</span><span class="es">TU GU&Iacute;A DE LA LEY 60</span></div>
+      <div class="voice-title">
+        <span class="en show">Ask La Voz <span class="gradient-text">Anything.</span></span>
+        <span class="es">Preg&uacute;ntale a La Voz <span class="gradient-text">Todo.</span></span>
       </div>
-      <div class="widget-inner">
-        <iframe src="https://elevenlabs.io/convai/converse?agent_id=agent_0001kjz3fnayfbyv80c0dmb4srsb" width="100%" height="400" frameborder="0" allow="microphone" style="border-radius:16px;display:block;border:none"></iframe>
+      <div class="voice-desc">
+        <span class="en show">Which chapter fits your situation? Which municipality matches your lifestyle? What does the decree process actually look like? La Voz has the answers.</span>
+        <span class="es">&iquest;Qu&eacute; cap&iacute;tulo aplica a tu situaci&oacute;n? &iquest;Qu&eacute; municipio se adapta a tu estilo de vida? &iquest;C&oacute;mo es el proceso del decreto realmente? La Voz tiene las respuestas.</span>
+      </div>
+      <div class="voice-iframe-box">
+        <iframe
+          src="https://elevenlabs.io/convai/converse?agent_id=agent_0001kjz3fnayfbyv80c0dmb4srsb"
+          allow="microphone"
+          loading="lazy"
+          title="La Voz AI — Act 60 Guide"
+        ></iframe>
       </div>
     </div>
   </div>
 </section>
 
-<!-- WHO IS THIS FOR -->
+<!-- ===== WHO IS THIS FOR ===== -->
 <section class="for-section" id="who">
   <div class="container" style="text-align:center">
-    <div class="section-label"><span class="en show">WHO ACT 60 IS FOR</span><span class="es">PARA QUIÉN ES LA LEY 60</span></div>
-    <div class="section-title"><span class="en show">YOUR PROFILE. <span class="gradient-text">YOUR CHAPTER.</span></span><span class="es">TU PERFIL. <span class="gradient-text">TU CAPÍTULO.</span></span></div>
-    <p class="section-sub"><span class="en show">Act 60 has two powerful chapters. One for investors. One for businesses. Many people qualify for both.</span><span class="es">La Ley 60 tiene dos capítulos poderosos. Uno para inversionistas. Uno para empresas. Muchos califican para ambos.</span></p>
+    <div class="section-label"><span class="en show">WHO ACT 60 IS FOR</span><span class="es">PARA QUI&Eacute;N ES LA LEY 60</span></div>
+    <div class="section-title"><span class="en show">YOUR PROFILE. <span class="gradient-text">YOUR CHAPTER.</span></span><span class="es">TU PERFIL. <span class="gradient-text">TU CAP&Iacute;TULO.</span></span></div>
+    <p class="section-sub"><span class="en show">Act 60 has two powerful chapters. One for investors. One for businesses. Many people qualify for both.</span><span class="es">La Ley 60 tiene dos cap&iacute;tulos poderosos. Uno para inversionistas. Uno para empresas. Muchos califican para ambos.</span></p>
+
     <div class="for-grid">
+      <!-- Card 1: Investors -->
       <div class="for-card">
-        <div class="for-icon">📈</div>
-        <div class="for-type"><span class="en show">INVESTORS & TRADERS</span><span class="es">INVERSIONISTAS Y TRADERS</span></div>
-        <div class="for-benefit"><span class="en show">Crypto holders, stock traders, real estate investors, hedge fund managers. Move to Puerto Rico and pay zero percent on capital gains from assets acquired after residency. The tax savings on one liquidity event can fund your entire lifestyle.</span><span class="es">Tenedores de cripto, traders de acciones, inversionistas en bienes raíces, gestores de fondos. Múdate a Puerto Rico y paga cero por ciento en ganancias de capital de activos adquiridos después de residir. El ahorro en un solo evento de liquidez puede financiar todo tu estilo de vida.</span></div>
-        <span class="for-tag"><span class="en show">Individual Investors Chapter</span><span class="es">Capítulo Inversionistas Individuales</span></span>
+        <div class="for-icon">&#128200;</div>
+        <div class="for-type"><span class="en show">INVESTORS &amp; TRADERS</span><span class="es">INVERSIONISTAS Y TRADERS</span></div>
+        <div class="for-benefit"><span class="en show">Crypto holders, stock traders, real estate investors, hedge fund managers. Move to Puerto Rico and pay zero percent on capital gains from assets acquired after residency. The tax savings on one liquidity event can fund your entire lifestyle.</span><span class="es">Tenedores de cripto, traders de acciones, inversionistas en bienes ra&iacute;ces, gestores de fondos. M&uacute;date a Puerto Rico y paga cero por ciento en ganancias de capital de activos adquiridos despu&eacute;s de residir. El ahorro en un solo evento de liquidez puede financiar todo tu estilo de vida.</span></div>
+        <span class="for-tag"><span class="en show">Individual Investors Chapter</span><span class="es">Cap&iacute;tulo Inversionistas Individuales</span></span>
       </div>
+      <!-- Card 2: Business Owners -->
       <div class="for-card">
-        <div class="for-icon">💼</div>
-        <div class="for-type"><span class="en show">BUSINESS OWNERS & PROFESSIONALS</span><span class="es">DUEÑOS DE NEGOCIO Y PROFESIONALES</span></div>
-        <div class="for-benefit"><span class="en show">Consultants, attorneys, doctors, tech founders, financial advisors, remote executives. Relocate your export services business to Puerto Rico and pay four percent corporate tax — compared to up to 37% on the mainland. The math is staggering.</span><span class="es">Consultores, abogados, médicos, fundadores de tech, asesores financieros, ejecutivos remotos. Relocaliza tu negocio de servicios de exportación a Puerto Rico y paga cuatro por ciento de impuesto corporativo — comparado con hasta 37% en el continente.</span></div>
-        <span class="for-tag"><span class="en show">Export Services Chapter</span><span class="es">Capítulo Servicios de Exportación</span></span>
+        <div class="for-icon">&#128188;</div>
+        <div class="for-type"><span class="en show">BUSINESS OWNERS &amp; PROFESSIONALS</span><span class="es">DUE&Ntilde;OS DE NEGOCIO Y PROFESIONALES</span></div>
+        <div class="for-benefit"><span class="en show">Consultants, attorneys, doctors, tech founders, financial advisors, remote executives. Relocate your export services business to Puerto Rico and pay four percent corporate tax — compared to up to 37% on the mainland. The math is staggering.</span><span class="es">Consultores, abogados, m&eacute;dicos, fundadores de tech, asesores financieros, ejecutivos remotos. Relocaliza tu negocio de servicios de exportaci&oacute;n a Puerto Rico y paga cuatro por ciento de impuesto corporativo — comparado con hasta 37% en el continente.</span></div>
+        <span class="for-tag"><span class="en show">Export Services Chapter</span><span class="es">Cap&iacute;tulo Servicios de Exportaci&oacute;n</span></span>
       </div>
+      <!-- Card 3: Families -->
       <div class="for-card">
-        <div class="for-icon">🏡</div>
-        <div class="for-type"><span class="en show">FAMILIES RELOCATING</span><span class="es">FAMILIAS EN REUBICACIÓN</span></div>
-        <div class="for-benefit"><span class="en show">Families who want year-round sunshine, a lower cost of living than New York or Miami, excellent private schools, and a culturally rich bilingual environment — while keeping every benefit of US citizenship. Puerto Rico is not a sacrifice. It's an upgrade.</span><span class="es">Familias que quieren sol todo el año, costo de vida menor que Nueva York o Miami, excelentes escuelas privadas y un ambiente bilingüe culturalmente rico — manteniendo todos los beneficios de la ciudadanía americana. Puerto Rico no es un sacrificio. Es una mejora.</span></div>
-        <span class="for-tag"><span class="en show">Both Chapters Available</span><span class="es">Ambos Capítulos Disponibles</span></span>
+        <div class="for-icon">&#127969;</div>
+        <div class="for-type"><span class="en show">FAMILIES RELOCATING</span><span class="es">FAMILIAS EN REUBICACI&Oacute;N</span></div>
+        <div class="for-benefit"><span class="en show">Families who want year-round sunshine, a lower cost of living than New York or Miami, excellent private schools, and a culturally rich bilingual environment — while keeping every benefit of US citizenship. Puerto Rico is not a sacrifice. It's an upgrade.</span><span class="es">Familias que quieren sol todo el a&ntilde;o, costo de vida menor que Nueva York o Miami, excelentes escuelas privadas y un ambiente biling&uuml;e culturalmente rico — manteniendo todos los beneficios de la ciudadan&iacute;a americana. Puerto Rico no es un sacrificio. Es una mejora.</span></div>
+        <span class="for-tag"><span class="en show">Both Chapters Available</span><span class="es">Ambos Cap&iacute;tulos Disponibles</span></span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ACT 60 BREAKDOWN -->
+<!-- ===== ACT 60 BREAKDOWN ===== -->
 <section class="breakdown-section" id="breakdown">
   <div class="container" style="text-align:center">
-    <div class="section-label"><span class="en show">THE TWO CHAPTERS</span><span class="es">LOS DOS CAPÍTULOS</span></div>
+    <div class="section-label"><span class="en show">THE TWO CHAPTERS</span><span class="es">LOS DOS CAP&Iacute;TULOS</span></div>
     <div class="section-title"><span class="en show">ACT 60 <span class="gradient-text">EXPLAINED.</span></span><span class="es">LEY 60 <span class="gradient-text">EXPLICADA.</span></span></div>
-    <p class="section-sub"><span class="en show">Two powerful chapters. Both require bona fide Puerto Rico residency. Both lock in your rate for 20 years via a government decree.</span><span class="es">Dos capítulos poderosos. Ambos requieren residencia bona fide en Puerto Rico. Ambos fijan tu tasa por 20 años mediante un decreto gubernamental.</span></p>
+    <p class="section-sub"><span class="en show">Two powerful chapters. Both require bona fide Puerto Rico residency. Both lock in your rate for 20 years via a government decree.</span><span class="es">Dos cap&iacute;tulos poderosos. Ambos requieren residencia bona fide en Puerto Rico. Ambos fijan tu tasa por 20 a&ntilde;os mediante un decreto gubernamental.</span></p>
+
     <div class="breakdown-grid">
-      <div class="breakdown-card gold-card">
+      <!-- GOLD: Individual Investors -->
+      <div class="breakdown-card gold-accent" style="text-align:left">
         <div class="bd-label gold"><span class="en show">FORMERLY ACT 22</span><span class="es">ANTES LEY 22</span></div>
         <div class="bd-title"><span class="en show">Individual Investors</span><span class="es">Inversionistas Individuales</span></div>
-        <div class="bd-former"><span class="en show">Chapter 2 of Act 60 of 2019</span><span class="es">Capítulo 2 de la Ley 60 de 2019</span></div>
+        <div class="bd-former"><span class="en show">Chapter 2 of Act 60 of 2019</span><span class="es">Cap&iacute;tulo 2 de la Ley 60 de 2019</span></div>
         <ul class="bd-items">
-          <li><span class="en show">0% tax on Puerto Rico-sourced capital gains</span><span class="es">0% de impuesto sobre ganancias de capital de fuente puertorriqueña</span></li>
+          <li><span class="en show">0% tax on Puerto Rico-sourced capital gains</span><span class="es">0% de impuesto sobre ganancias de capital de fuente puertorrique&ntilde;a</span></li>
           <li><span class="en show">0% on dividends and interest from PR sources</span><span class="es">0% sobre dividendos e intereses de fuentes de PR</span></li>
-          <li><span class="en show">0% on long-term gains on assets acquired after residency</span><span class="es">0% en ganancias a largo plazo de activos adquiridos después de residir</span></li>
-          <li><span class="en show">$10,000 annual charitable donation to PR nonprofits</span><span class="es">$10,000 de donación caritativa anual a organizaciones sin fines de lucro de PR</span></li>
+          <li><span class="en show">0% on long-term gains on assets acquired after residency</span><span class="es">0% en ganancias a largo plazo de activos adquiridos despu&eacute;s de residir</span></li>
+          <li><span class="en show">$10,000 annual charitable donation to PR nonprofits</span><span class="es">$10,000 de donaci&oacute;n caritativa anual a organizaciones sin fines de lucro de PR</span></li>
           <li><span class="en show">$5,000 annual decree maintenance fee</span><span class="es">$5,000 de cuota anual de mantenimiento del decreto</span></li>
           <li><span class="en show">Must own residential property in Puerto Rico</span><span class="es">Debe poseer propiedad residencial en Puerto Rico</span></li>
-          <li><span class="en show">Must establish bona fide residency — 183+ days per year</span><span class="es">Debe establecer residencia bona fide — 183+ días al año</span></li>
-          <li><span class="en show">Decree locks in benefits for 20 years</span><span class="es">El decreto fija los beneficios por 20 años</span></li>
+          <li><span class="en show">Must establish bona fide residency — 183+ days per year</span><span class="es">Debe establecer residencia bona fide — 183+ d&iacute;as al a&ntilde;o</span></li>
+          <li><span class="en show">Decree locks in benefits for 20 years</span><span class="es">El decreto fija los beneficios por 20 a&ntilde;os</span></li>
         </ul>
       </div>
-      <div class="breakdown-card teal-card">
+      <!-- TEAL: Export Services -->
+      <div class="breakdown-card teal-accent" style="text-align:left">
         <div class="bd-label teal"><span class="en show">FORMERLY ACT 20</span><span class="es">ANTES LEY 20</span></div>
-        <div class="bd-title"><span class="en show">Export Services</span><span class="es">Servicios de Exportación</span></div>
-        <div class="bd-former"><span class="en show">Chapter 3 of Act 60 of 2019</span><span class="es">Capítulo 3 de la Ley 60 de 2019</span></div>
+        <div class="bd-title"><span class="en show">Export Services</span><span class="es">Servicios de Exportaci&oacute;n</span></div>
+        <div class="bd-former"><span class="en show">Chapter 3 of Act 60 of 2019</span><span class="es">Cap&iacute;tulo 3 de la Ley 60 de 2019</span></div>
         <ul class="bd-items">
-          <li><span class="en show">4% fixed income tax rate on export services income</span><span class="es">4% de tasa fija de impuesto sobre ingresos de servicios de exportación</span></li>
-          <li><span class="en show">100% tax exemption on dividends from eligible businesses</span><span class="es">100% de exención contributiva sobre dividendos de negocios elegibles</span></li>
-          <li><span class="en show">50% exemption on municipal taxes</span><span class="es">50% de exención en impuestos municipales</span></li>
+          <li><span class="en show">4% fixed income tax rate on export services income</span><span class="es">4% de tasa fija de impuesto sobre ingresos de servicios de exportaci&oacute;n</span></li>
+          <li><span class="en show">100% tax exemption on dividends from eligible businesses</span><span class="es">100% de exenci&oacute;n contributiva sobre dividendos de negocios elegibles</span></li>
+          <li><span class="en show">50% exemption on municipal taxes</span><span class="es">50% de exenci&oacute;n en impuestos municipales</span></li>
           <li><span class="en show">Must employ at least one full-time PR resident</span><span class="es">Debe emplear al menos un residente de PR a tiempo completo</span></li>
-          <li><span class="en show">Eligible: consulting, tech, finance, marketing, legal, medical, and more</span><span class="es">Elegibles: consultoría, tecnología, finanzas, mercadeo, legal, médico y más</span></li>
+          <li><span class="en show">Eligible: consulting, tech, finance, marketing, legal, medical, and more</span><span class="es">Elegibles: consultor&iacute;a, tecnolog&iacute;a, finanzas, mercadeo, legal, m&eacute;dico y m&aacute;s</span></li>
           <li><span class="en show">Services must be provided to clients outside Puerto Rico</span><span class="es">Los servicios deben prestarse a clientes fuera de Puerto Rico</span></li>
           <li><span class="en show">Must establish bona fide residency in Puerto Rico</span><span class="es">Debe establecer residencia bona fide en Puerto Rico</span></li>
-          <li><span class="en show">Decree locks in your 4% rate for 20 years</span><span class="es">El decreto fija tu tasa de 4% por 20 años</span></li>
+          <li><span class="en show">Decree locks in your 4% rate for 20 years</span><span class="es">El decreto fija tu tasa de 4% por 20 a&ntilde;os</span></li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- MUNICIPALITIES -->
+<!-- ===== MUNICIPALITIES ===== -->
 <section class="muni-section" id="municipalities">
   <div class="container" style="text-align:center">
-    <div class="section-label"><span class="en show">WHERE ACT 60 RESIDENTS LIVE</span><span class="es">DÓNDE VIVEN LOS RESIDENTES DE LA LEY 60</span></div>
+    <div class="section-label"><span class="en show">WHERE ACT 60 RESIDENTS LIVE</span><span class="es">D&Oacute;NDE VIVEN LOS RESIDENTES DE LA LEY 60</span></div>
     <div class="section-title"><span class="en show">FIND YOUR <span class="gradient-text">TOWN.</span></span><span class="es">ENCUENTRA TU <span class="gradient-text">PUEBLO.</span></span></div>
-    <p class="section-sub"><span class="en show">78 municipalities. Each one a different lifestyle. Ask La Voz which town matches your profile — or explore the top Act 60 destinations below.</span><span class="es">78 municipios. Cada uno con un estilo de vida diferente. Pregúntale a La Voz qué pueblo se adapta a tu perfil — o explora los destinos principales de la Ley 60.</span></p>
+    <p class="section-sub"><span class="en show">78 municipalities. Each one a different lifestyle. Ask La Voz which town matches your profile — or explore the top Act 60 destinations below.</span><span class="es">78 municipios. Cada uno con un estilo de vida diferente. Preg&uacute;ntale a La Voz qu&eacute; pueblo se adapta a tu perfil — o explora los destinos principales de la Ley 60.</span></p>
+
     <div class="muni-grid">
-      <div class="muni-card"><div class="muni-top"><span class="muni-name">Dorado</span><span class="muni-vibe"><span class="en show">Luxury</span><span class="es">Lujo</span></span></div><div class="muni-desc"><span class="en show">Premier gated communities. Ritz-Carlton Reserve. World-class golf. Highest concentration of Act 60 residents. Best private schools. 30 min from San Juan.</span><span class="es">Comunidades privadas de primer nivel. Ritz-Carlton Reserve. Golf de clase mundial. Mayor concentración de residentes de Ley 60. Las mejores escuelas privadas.</span></div><div class="muni-price">$500K — $5M+</div></div>
-      <div class="muni-card"><div class="muni-top"><span class="muni-name">Rincón</span><span class="muni-vibe"><span class="en show">Lifestyle</span><span class="es">Estilo de Vida</span></span></div><div class="muni-desc"><span class="en show">Surf capital of the Caribbean. Legendary sunsets. Strong English-speaking expat community. Best for remote workers, entrepreneurs, and creatives. Growing Act 60 hub.</span><span class="es">Capital del surf del Caribe. Atardeceres legendarios. Sólida comunidad de expats. Ideal para trabajadores remotos, emprendedores y creativos.</span></div><div class="muni-price">$300K — $1.5M</div></div>
-      <div class="muni-card"><div class="muni-top"><span class="muni-name">San Juan</span><span class="muni-vibe"><span class="en show">Urban</span><span class="es">Urbano</span></span></div><div class="muni-desc"><span class="en show">Condado, Miramar, Old San Juan. Best restaurant scene. Walkable. SJU airport minutes away. For professionals who want city energy with island weather.</span><span class="es">Condado, Miramar, Viejo San Juan. Mejor escena gastronómica. Caminable. A minutos del aeropuerto. Para profesionales que quieren energía de ciudad con clima isleño.</span></div><div class="muni-price">$300K — $2M+</div></div>
-      <div class="muni-card"><div class="muni-top"><span class="muni-name">Aguadilla</span><span class="muni-vibe"><span class="en show">Affordable</span><span class="es">Accesible</span></span></div><div class="muni-desc"><span class="en show">BQN airport with direct US flights. Lower cost of living. Growing expat community. Beautiful northwest coast. All the lifestyle at a fraction of the price.</span><span class="es">Aeropuerto BQN con vuelos directos a EE.UU. Menor costo de vida. Creciente comunidad de expats. Hermosa costa noroeste. Todo el estilo de vida a menor costo.</span></div><div class="muni-price">$150K — $600K</div></div>
-      <div class="muni-card"><div class="muni-top"><span class="muni-name">Guaynabo</span><span class="muni-vibe"><span class="en show">Families</span><span class="es">Familias</span></span></div><div class="muni-desc"><span class="en show">Suburban San Juan. Excellent schools. Safe. Corporate headquarters. Modern infrastructure. Best for executives and families prioritizing safety and education.</span><span class="es">San Juan suburbano. Excelentes escuelas. Seguro. Sede corporativa. Infraestructura moderna. Ideal para ejecutivos y familias que priorizan seguridad y educación.</span></div><div class="muni-price">$250K — $800K</div></div>
-      <div class="muni-card"><div class="muni-top"><span class="muni-name">Isabela</span><span class="muni-vibe"><span class="en show">Authentic</span><span class="es">Auténtico</span></span></div><div class="muni-desc"><span class="en show">Agricultural. Quiet. Stunning northwest coastline. Surf at Jobos. Genuine local culture. Very affordable. For those escaping mainland noise entirely.</span><span class="es">Agrícola. Tranquilo. Impresionante costa noroeste. Surf en Jobos. Cultura local genuina. Muy accesible. Para quienes escapan completamente del ruido continental.</span></div><div class="muni-price">$120K — $500K</div></div>
+      <!-- Dorado -->
+      <div class="muni-card">
+        <div class="muni-top">
+          <span class="muni-name">Dorado</span>
+          <span class="muni-vibe"><span class="en show">Luxury</span><span class="es">Lujo</span></span>
+        </div>
+        <div class="muni-desc"><span class="en show">Premier gated communities. Ritz-Carlton Reserve. World-class golf. Highest concentration of Act 60 residents. Best private schools. 30 min from San Juan.</span><span class="es">Comunidades privadas de primer nivel. Ritz-Carlton Reserve. Golf de clase mundial. Mayor concentraci&oacute;n de residentes de Ley 60. Las mejores escuelas privadas.</span></div>
+        <div class="muni-price">$500K — $5M+</div>
+      </div>
+      <!-- Rincon -->
+      <div class="muni-card">
+        <div class="muni-top">
+          <span class="muni-name">Rinc&oacute;n</span>
+          <span class="muni-vibe"><span class="en show">Lifestyle</span><span class="es">Estilo de Vida</span></span>
+        </div>
+        <div class="muni-desc"><span class="en show">Surf capital of the Caribbean. Legendary sunsets. Strong English-speaking expat community. Best for remote workers, entrepreneurs, and creatives. Growing Act 60 hub.</span><span class="es">Capital del surf del Caribe. Atardeceres legendarios. S&oacute;lida comunidad de expats. Ideal para trabajadores remotos, emprendedores y creativos.</span></div>
+        <div class="muni-price">$300K — $1.5M</div>
+      </div>
+      <!-- San Juan -->
+      <div class="muni-card">
+        <div class="muni-top">
+          <span class="muni-name">San Juan</span>
+          <span class="muni-vibe"><span class="en show">Urban</span><span class="es">Urbano</span></span>
+        </div>
+        <div class="muni-desc"><span class="en show">Condado, Miramar, Old San Juan. Best restaurant scene. Walkable. SJU airport minutes away. For professionals who want city energy with island weather.</span><span class="es">Condado, Miramar, Viejo San Juan. Mejor escena gastron&oacute;mica. Caminable. A minutos del aeropuerto. Para profesionales que quieren energ&iacute;a de ciudad con clima isle&ntilde;o.</span></div>
+        <div class="muni-price">$300K — $2M+</div>
+      </div>
+      <!-- Aguadilla -->
+      <div class="muni-card">
+        <div class="muni-top">
+          <span class="muni-name">Aguadilla</span>
+          <span class="muni-vibe"><span class="en show">Affordable</span><span class="es">Accesible</span></span>
+        </div>
+        <div class="muni-desc"><span class="en show">BQN airport with direct US flights. Lower cost of living. Growing expat community. Beautiful northwest coast. All the lifestyle at a fraction of the price.</span><span class="es">Aeropuerto BQN con vuelos directos a EE.UU. Menor costo de vida. Creciente comunidad de expats. Hermosa costa noroeste. Todo el estilo de vida a menor costo.</span></div>
+        <div class="muni-price">$150K — $600K</div>
+      </div>
+      <!-- Guaynabo -->
+      <div class="muni-card">
+        <div class="muni-top">
+          <span class="muni-name">Guaynabo</span>
+          <span class="muni-vibe"><span class="en show">Families</span><span class="es">Familias</span></span>
+        </div>
+        <div class="muni-desc"><span class="en show">Suburban San Juan. Excellent schools. Safe. Corporate headquarters. Modern infrastructure. Best for executives and families prioritizing safety and education.</span><span class="es">San Juan suburbano. Excelentes escuelas. Seguro. Sede corporativa. Infraestructura moderna. Ideal para ejecutivos y familias que priorizan seguridad y educaci&oacute;n.</span></div>
+        <div class="muni-price">$250K — $800K</div>
+      </div>
+      <!-- Isabela -->
+      <div class="muni-card">
+        <div class="muni-top">
+          <span class="muni-name">Isabela</span>
+          <span class="muni-vibe"><span class="en show">Authentic</span><span class="es">Aut&eacute;ntico</span></span>
+        </div>
+        <div class="muni-desc"><span class="en show">Agricultural. Quiet. Stunning northwest coastline. Surf at Jobos. Genuine local culture. Very affordable. For those escaping mainland noise entirely.</span><span class="es">Agr&iacute;cola. Tranquilo. Impresionante costa noroeste. Surf en Jobos. Cultura local genuina. Muy accesible. Para quienes escapan completamente del ruido continental.</span></div>
+        <div class="muni-price">$120K — $500K</div>
+      </div>
     </div>
+
     <div style="margin-top:32px">
-      <a href="#ask" class="btn-primary">🎙️ <span class="en show">ASK LA VOZ WHICH TOWN FITS YOU</span><span class="es">PREGUNTA A LA VOZ QUÉ PUEBLO TE CONVIENE</span></a>
+      <a href="#ask" class="btn-primary">&#127908; <span class="en show">ASK LA VOZ WHICH TOWN FITS YOU</span><span class="es">PREGUNTA A LA VOZ QU&Eacute; PUEBLO TE CONVIENE</span></a>
     </div>
   </div>
 </section>
 
-<!-- PROCESS -->
+<!-- ===== PROCESS ===== -->
 <section class="process-section">
   <div class="container" style="text-align:center">
     <div class="section-label"><span class="en show">THE DECREE PROCESS</span><span class="es">EL PROCESO DEL DECRETO</span></div>
-    <div class="section-title"><span class="en show">HOW TO <span class="gradient-text">GET STARTED.</span></span><span class="es">CÓMO <span class="gradient-text">COMENZAR.</span></span></div>
-    <p class="section-sub"><span class="en show">The Act 60 decree process is straightforward. Most people complete it in 3–6 months. Here's the path.</span><span class="es">El proceso del decreto de la Ley 60 es directo. La mayoría lo completa en 3–6 meses. Aquí está el camino.</span></p>
-    <div class="process-steps">
-      <div class="step-card"><div class="step-num">01</div><div class="step-title"><span class="en show">TALK TO LA VOZ</span><span class="es">HABLA CON LA VOZ</span></div><div class="step-desc"><span class="en show">Understand which chapter fits your situation. Get clarity on what life actually looks like in Puerto Rico.</span><span class="es">Entiende qué capítulo se adapta a tu situación. Obtén claridad sobre cómo es la vida en Puerto Rico.</span></div></div>
-      <div class="step-card"><div class="step-num">02</div><div class="step-title"><span class="en show">HIRE AN ATTORNEY</span><span class="es">CONTRATA UN ABOGADO</span></div><div class="step-desc"><span class="en show">Work with a qualified Act 60 attorney to file your application with DDEC — the Puerto Rico Department of Economic Development.</span><span class="es">Trabaja con un abogado calificado de Ley 60 para presentar tu solicitud ante el DDEC.</span></div></div>
-      <div class="step-card"><div class="step-num">03</div><div class="step-title"><span class="en show">ESTABLISH RESIDENCY</span><span class="es">ESTABLECE RESIDENCIA</span></div><div class="step-desc"><span class="en show">Move to Puerto Rico, meet the 183-day requirement, and build your closer connection — license, bank, doctors, community.</span><span class="es">Múdate a Puerto Rico, cumple el requisito de 183 días y construye tu conexión más cercana — licencia, banco, médicos, comunidad.</span></div></div>
-      <div class="step-card"><div class="step-num">04</div><div class="step-title"><span class="en show">RECEIVE YOUR DECREE</span><span class="es">RECIBE TU DECRETO</span></div><div class="step-desc"><span class="en show">Your decree is a contract with the Puerto Rico government that locks in your tax rate for 20 years. The island is now yours.</span><span class="es">Tu decreto es un contrato con el gobierno de Puerto Rico que fija tu tasa contributiva por 20 años. La isla ahora es tuya.</span></div></div>
-    </div>
-  </div>
-</section>
+    <div class="section-title"><span class="en show">HOW TO <span class="gradient-text">GET STARTED.</span></span><span class="es">C&Oacute;MO <span class="gradient-text">COMENZAR.</span></span></div>
+    <p class="section-sub"><span class="en show">The Act 60 decree process is straightforward. Most people complete it in 3–6 months. Here's the path.</span><span class="es">El proceso del decreto de la Ley 60 es directo. La mayor&iacute;a lo completa en 3–6 meses. Aqu&iacute; est&aacute; el camino.</span></p>
 
-<!-- PARTNER CTA -->
-<section class="partner-section">
-  <div class="container">
-    <div class="partner-card">
-      <h2><span class="en show">READY TO MAKE <span class="gradient-text">THE MOVE?</span></span><span class="es">¿LISTO PARA <span class="gradient-text">DAR EL PASO?</span></span></h2>
-      <p><span class="en show">Talk to La Voz first. Then we connect you with the right Act 60 attorney, the right real estate broker, and everything else you need to make Puerto Rico yours.</span><span class="es">Habla con La Voz primero. Luego te conectamos con el abogado correcto de Ley 60, el corredor de bienes raíces correcto, y todo lo que necesitas para hacer de Puerto Rico tu hogar.</span></p>
-      <div class="btn-grid">
-        <a href="#ask" class="btn-primary">🎙️ <span class="en show">TALK TO LA VOZ</span><span class="es">HABLA CON LA VOZ</span></a>
-        <a href="/cdn-cgi/l/email-protection#d3b0bcbda7b2b0a793b4bca0a7b2a1b7bab4baa7b2bffdb0bcbeeca0a6b1b9b6b0a7ee92b0a7f3e5e3f383b2a1a7bdb6a1a0bbbaa3" class="btn-secondary">📧 <span class="en show">PARTNER WITH US</span><span class="es">SÉ NUESTRO SOCIO</span></a>
-        <a href="index.html" class="btn-secondary">🗺️ <span class="en show">EXPLORE 78 TOWNS</span><span class="es">EXPLORA 78 PUEBLOS</span></a>
+    <div class="process-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-title"><span class="en show">TALK TO LA VOZ</span><span class="es">HABLA CON LA VOZ</span></div>
+        <div class="step-desc"><span class="en show">Understand which chapter fits your situation. Get clarity on what life actually looks like in Puerto Rico.</span><span class="es">Entiende qu&eacute; cap&iacute;tulo se adapta a tu situaci&oacute;n. Obt&eacute;n claridad sobre c&oacute;mo es la vida en Puerto Rico.</span></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-title"><span class="en show">HIRE AN ATTORNEY</span><span class="es">CONTRATA UN ABOGADO</span></div>
+        <div class="step-desc"><span class="en show">Work with a qualified Act 60 attorney to file your application with DDEC — the Puerto Rico Department of Economic Development.</span><span class="es">Trabaja con un abogado calificado de Ley 60 para presentar tu solicitud ante el DDEC.</span></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-title"><span class="en show">ESTABLISH RESIDENCY</span><span class="es">ESTABLECE RESIDENCIA</span></div>
+        <div class="step-desc"><span class="en show">Move to Puerto Rico, meet the 183-day requirement, and build your closer connection — license, bank, doctors, community.</span><span class="es">M&uacute;date a Puerto Rico, cumple el requisito de 183 d&iacute;as y construye tu conexi&oacute;n m&aacute;s cercana — licencia, banco, m&eacute;dicos, comunidad.</span></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-title"><span class="en show">RECEIVE YOUR DECREE</span><span class="es">RECIBE TU DECRETO</span></div>
+        <div class="step-desc"><span class="en show">Your decree is a contract with the Puerto Rico government that locks in your tax rate for 20 years. The island is now yours.</span><span class="es">Tu decreto es un contrato con el gobierno de Puerto Rico que fija tu tasa contributiva por 20 a&ntilde;os. La isla ahora es tuya.</span></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FULL LEGAL DISCLAIMER SECTION -->
+<!-- ===== PARTNER CTA ===== -->
+<section class="partner-section">
+  <div class="container">
+    <div class="partner-card">
+      <h2><span class="en show">READY TO MAKE <span class="gradient-text">THE MOVE?</span></span><span class="es">&iquest;LISTO PARA <span class="gradient-text">DAR EL PASO?</span></span></h2>
+      <p><span class="en show">Talk to La Voz first. Then we connect you with the right Act 60 attorney, the right real estate broker, and everything else you need to make Puerto Rico yours.</span><span class="es">Habla con La Voz primero. Luego te conectamos con el abogado correcto de Ley 60, el corredor de bienes ra&iacute;ces correcto, y todo lo que necesitas para hacer de Puerto Rico tu hogar.</span></p>
+      <div class="btn-grid">
+        <a href="#ask" class="btn-primary">&#127908; <span class="en show">TALK TO LA VOZ</span><span class="es">HABLA CON LA VOZ</span></a>
+        <a href="mailto:info@lavozpr.com" class="btn-secondary">&#128231; <span class="en show">PARTNER WITH US</span><span class="es">S&Eacute; NUESTRO SOCIO</span></a>
+        <a href="index.html" class="btn-secondary">&#128506; <span class="en show">EXPLORE 78 TOWNS</span><span class="es">EXPLORA 78 PUEBLOS</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FULL LEGAL DISCLAIMER SECTION ===== -->
 <div class="disclaimer-section">
   <div class="container">
     <div class="disc-header">
-      <div class="disc-icon">⚠️</div>
+      <div class="disc-icon">&#9888;&#65039;</div>
       <div class="disc-title"><span class="en show">IMPORTANT LEGAL DISCLAIMER</span><span class="es">AVISO LEGAL IMPORTANTE</span></div>
     </div>
     <div class="disc-body">
-      <p><span class="en show"><strong>For Educational Purposes Only.</strong> All information provided by La Voz PR — including through its AI voice agent, this website, and any related materials — is intended solely for general informational and educational purposes. Nothing on this platform constitutes legal advice, tax advice, financial advice, investment advice, or professional counsel of any kind.</span><span class="es"><strong>Solo con Fines Educativos.</strong> Toda la información proporcionada por La Voz PR — incluyendo a través de su agente de voz de IA, este sitio web y materiales relacionados — está destinada únicamente a fines informativos y educativos generales. Nada en esta plataforma constituye asesoramiento legal, tributario, financiero, de inversión ni ningún tipo de consejo profesional.</span></p>
-      <p><span class="en show"><strong>Not a Law Firm. Not a Tax Advisory.</strong> La Voz PR and GoStar Digital LLC are not law firms, tax advisory firms, accounting firms, financial advisory firms, or real estate brokerages. We do not represent clients, we do not establish attorney-client relationships, and we do not provide professional services of any kind. No information communicated by La Voz — including through its AI voice agent — should be relied upon as professional advice.</span><span class="es"><strong>No Somos Firma Legal ni Asesores Tributarios.</strong> La Voz PR y GoStar Digital LLC no son firmas de abogados, asesores tributarios, firmas contables, asesores financieros ni corredores de bienes raíces. No representamos clientes, no establecemos relaciones abogado-cliente y no prestamos servicios profesionales de ningún tipo.</span></p>
-      <p><span class="en show"><strong>Consult a Qualified Professional.</strong> Puerto Rico's Act 60 Incentives Code is complex legislation with specific requirements, eligibility criteria, compliance obligations, and legal consequences. Every individual's financial, tax, and personal situation is unique. You must consult with a licensed attorney, certified public accountant, and/or qualified tax professional before making any decisions related to relocation, tax planning, business restructuring, property purchase, or decree application.</span><span class="es"><strong>Consulte a un Profesional Calificado.</strong> El Código de Incentivos Ley 60 de Puerto Rico es legislación compleja con requisitos específicos, criterios de elegibilidad, obligaciones de cumplimiento y consecuencias legales. La situación financiera, tributaria y personal de cada individuo es única. Debe consultar con un abogado licenciado, contador público certificado y/o profesional tributario calificado antes de tomar decisiones relacionadas con reubicación, planificación tributaria, reestructuración empresarial, compra de propiedad o solicitud de decreto.</span></p>
-      <p><span class="en show"><strong>AI Voice Agent Limitations.</strong> La Voz is powered by artificial intelligence. AI systems can make errors, provide incomplete information, misinterpret questions, and cannot account for your specific personal circumstances. Responses from La Voz are not reviewed by attorneys or tax professionals. Do not make any legal, financial, or relocation decisions based solely on information provided by La Voz or any AI system.</span><span class="es"><strong>Limitaciones del Agente de Voz de IA.</strong> La Voz está impulsada por inteligencia artificial. Los sistemas de IA pueden cometer errores, proporcionar información incompleta, malinterpretar preguntas y no pueden tener en cuenta sus circunstancias personales específicas. Las respuestas de La Voz no son revisadas por abogados ni profesionales tributarios. No tome decisiones legales, financieras ni de reubicación basándose únicamente en información proporcionada por La Voz o cualquier sistema de IA.</span></p>
-      <p><span class="en show"><strong>Tax Laws Are Subject to Change.</strong> Puerto Rico's tax incentive laws, including Act 60, its implementing regulations, eligibility requirements, and government policies are subject to change at any time by legislative action, regulatory update, or executive order. Information on this platform may not reflect the most current legal requirements. Always verify current law with a qualified professional.</span><span class="es"><strong>Las Leyes Contributivas Están Sujetas a Cambios.</strong> Las leyes de incentivos contributivos de Puerto Rico, incluyendo la Ley 60, sus reglamentos, criterios de elegibilidad y políticas gubernamentales están sujetos a cambios en cualquier momento. La información en esta plataforma puede no reflejar los requisitos legales más recientes. Verifique siempre la ley vigente con un profesional calificado.</span></p>
-      <p><span class="en show"><strong>No Guarantees.</strong> La Voz PR makes no representations, warranties, or guarantees — express or implied — regarding the accuracy, completeness, timeliness, or suitability of any information provided. Use of this platform and reliance on any information is entirely at your own risk.</span><span class="es"><strong>Sin Garantías.</strong> La Voz PR no hace representaciones, garantías ni promesas — expresas o implícitas — sobre la exactitud, integridad, actualidad o idoneidad de ninguna información proporcionada. El uso de esta plataforma y la dependencia de cualquier información es completamente bajo su propio riesgo.</span></p>
-      <p><span class="en show"><strong>Third-Party Partners.</strong> Any businesses, professionals, or services referenced or recommended by La Voz PR are independent third parties. La Voz PR and GoStar Digital LLC do not endorse, warrant, or guarantee the services of any third party. You are solely responsible for independently verifying the credentials, qualifications, and suitability of any professional or service provider you engage.</span><span class="es"><strong>Socios Externos.</strong> Cualquier negocio, profesional o servicio referenciado o recomendado por La Voz PR son terceros independientes. La Voz PR y GoStar Digital LLC no avalan, garantizan ni aseguran los servicios de ningún tercero. Usted es únicamente responsable de verificar independientemente las credenciales, calificaciones e idoneidad de cualquier profesional o proveedor de servicios.</span></p>
-      <p class="disc-summary"><span class="en show">La Voz PR is an information and discovery platform. We help people learn about Puerto Rico. We are not lawyers, tax advisors, or financial professionals. Always consult qualified professionals before making any decisions. <strong>By using this platform you acknowledge and agree to these terms.</strong></span><span class="es">La Voz PR es una plataforma de información y descubrimiento. Ayudamos a las personas a aprender sobre Puerto Rico. No somos abogados, asesores tributarios ni profesionales financieros. Siempre consulte profesionales calificados antes de tomar cualquier decisión. <strong>Al usar esta plataforma, usted reconoce y acepta estos términos.</strong></span></p>
+      <p><span class="en show"><strong>For Educational Purposes Only.</strong> All information provided by La Voz PR — including through its AI voice agent, this website, and any related materials — is intended solely for general informational and educational purposes. Nothing on this platform constitutes legal advice, tax advice, financial advice, investment advice, or professional counsel of any kind.</span><span class="es"><strong>Solo con Fines Educativos.</strong> Toda la informaci&oacute;n proporcionada por La Voz PR — incluyendo a trav&eacute;s de su agente de voz de IA, este sitio web y materiales relacionados — est&aacute; destinada &uacute;nicamente a fines informativos y educativos generales. Nada en esta plataforma constituye asesoramiento legal, tributario, financiero, de inversi&oacute;n ni ning&uacute;n tipo de consejo profesional.</span></p>
+      <p><span class="en show"><strong>Not a Law Firm. Not a Tax Advisory.</strong> La Voz PR and GoStar Digital LLC are not law firms, tax advisory firms, accounting firms, financial advisory firms, or real estate brokerages. We do not represent clients, we do not establish attorney-client relationships, and we do not provide professional services of any kind. No information communicated by La Voz — including through its AI voice agent — should be relied upon as professional advice.</span><span class="es"><strong>No Somos Firma Legal ni Asesores Tributarios.</strong> La Voz PR y GoStar Digital LLC no son firmas de abogados, asesores tributarios, firmas contables, asesores financieros ni corredores de bienes ra&iacute;ces. No representamos clientes, no establecemos relaciones abogado-cliente y no prestamos servicios profesionales de ning&uacute;n tipo.</span></p>
+      <p><span class="en show"><strong>Consult a Qualified Professional.</strong> Puerto Rico's Act 60 Incentives Code is complex legislation with specific requirements, eligibility criteria, compliance obligations, and legal consequences. Every individual's financial, tax, and personal situation is unique. You must consult with a licensed attorney, certified public accountant, and/or qualified tax professional before making any decisions related to relocation, tax planning, business restructuring, property purchase, or decree application.</span><span class="es"><strong>Consulte a un Profesional Calificado.</strong> El C&oacute;digo de Incentivos Ley 60 de Puerto Rico es legislaci&oacute;n compleja con requisitos espec&iacute;ficos, criterios de elegibilidad, obligaciones de cumplimiento y consecuencias legales. La situaci&oacute;n financiera, tributaria y personal de cada individuo es &uacute;nica. Debe consultar con un abogado licenciado, contador p&uacute;blico certificado y/o profesional tributario calificado antes de tomar decisiones relacionadas con reubicaci&oacute;n, planificaci&oacute;n tributaria, reestructuraci&oacute;n empresarial, compra de propiedad o solicitud de decreto.</span></p>
+      <p><span class="en show"><strong>AI Voice Agent Limitations.</strong> La Voz is powered by artificial intelligence. AI systems can make errors, provide incomplete information, misinterpret questions, and cannot account for your specific personal circumstances. Responses from La Voz are not reviewed by attorneys or tax professionals. Do not make any legal, financial, or relocation decisions based solely on information provided by La Voz or any AI system.</span><span class="es"><strong>Limitaciones del Agente de Voz de IA.</strong> La Voz est&aacute; impulsada por inteligencia artificial. Los sistemas de IA pueden cometer errores, proporcionar informaci&oacute;n incompleta, malinterpretar preguntas y no pueden tener en cuenta sus circunstancias personales espec&iacute;ficas. Las respuestas de La Voz no son revisadas por abogados ni profesionales tributarios. No tome decisiones legales, financieras ni de reubicaci&oacute;n bas&aacute;ndose &uacute;nicamente en informaci&oacute;n proporcionada por La Voz o cualquier sistema de IA.</span></p>
+      <p><span class="en show"><strong>Tax Laws Are Subject to Change.</strong> Puerto Rico's tax incentive laws, including Act 60, its implementing regulations, eligibility requirements, and government policies are subject to change at any time by legislative action, regulatory update, or executive order. Information on this platform may not reflect the most current legal requirements. Always verify current law with a qualified professional.</span><span class="es"><strong>Las Leyes Contributivas Est&aacute;n Sujetas a Cambios.</strong> Las leyes de incentivos contributivos de Puerto Rico, incluyendo la Ley 60, sus reglamentos, criterios de elegibilidad y pol&iacute;ticas gubernamentales est&aacute;n sujetos a cambios en cualquier momento. La informaci&oacute;n en esta plataforma puede no reflejar los requisitos legales m&aacute;s recientes. Verifique siempre la ley vigente con un profesional calificado.</span></p>
+      <p><span class="en show"><strong>No Guarantees.</strong> La Voz PR makes no representations, warranties, or guarantees — express or implied — regarding the accuracy, completeness, timeliness, or suitability of any information provided. Use of this platform and reliance on any information is entirely at your own risk.</span><span class="es"><strong>Sin Garant&iacute;as.</strong> La Voz PR no hace representaciones, garant&iacute;as ni promesas — expresas o impl&iacute;citas — sobre la exactitud, integridad, actualidad o idoneidad de ninguna informaci&oacute;n proporcionada. El uso de esta plataforma y la dependencia de cualquier informaci&oacute;n es completamente bajo su propio riesgo.</span></p>
+      <p><span class="en show"><strong>Third-Party Partners.</strong> Any businesses, professionals, or services referenced or recommended by La Voz PR are independent third parties. La Voz PR and GoStar Digital LLC do not endorse, warrant, or guarantee the services of any third party. You are solely responsible for independently verifying the credentials, qualifications, and suitability of any professional or service provider you engage.</span><span class="es"><strong>Socios Externos.</strong> Cualquier negocio, profesional o servicio referenciado o recomendado por La Voz PR son terceros independientes. La Voz PR y GoStar Digital LLC no avalan, garantizan ni aseguran los servicios de ning&uacute;n tercero. Usted es &uacute;nicamente responsable de verificar independientemente las credenciales, calificaciones e idoneidad de cualquier profesional o proveedor de servicios.</span></p>
+      <p class="disc-summary"><span class="en show">La Voz PR is an information and discovery platform. We help people learn about Puerto Rico. We are not lawyers, tax advisors, or financial professionals. Always consult qualified professionals before making any decisions. <strong>By using this platform you acknowledge and agree to these terms.</strong></span><span class="es">La Voz PR es una plataforma de informaci&oacute;n y descubrimiento. Ayudamos a las personas a aprender sobre Puerto Rico. No somos abogados, asesores tributarios ni profesionales financieros. Siempre consulte profesionales calificados antes de tomar cualquier decisi&oacute;n. <strong>Al usar esta plataforma, usted reconoce y acepta estos t&eacute;rminos.</strong></span></p>
     </div>
   </div>
 </div>
 
-<!-- PERSISTENT DISCLAIMER BAR -->
+<!-- ===== PERSISTENT DISCLAIMER BAR ===== -->
 <div class="disc-bar">
   <div class="container">
-    <p><span class="en show">⚠️ <strong>Educational purposes only.</strong> La Voz PR is not a law firm, tax advisor, or financial professional. Nothing on this platform constitutes legal or tax advice. Always consult a qualified attorney and CPA before making any decisions. Tax laws are subject to change.</span><span class="es">⚠️ <strong>Solo con fines educativos.</strong> La Voz PR no es firma legal, asesor tributario ni profesional financiero. Nada en esta plataforma constituye asesoramiento legal o tributario. Consulte siempre con un abogado calificado y CPA antes de tomar decisiones. Las leyes contributivas están sujetas a cambios.</span></p>
+    <p><span class="en show">&#9888;&#65039; <strong>Educational purposes only.</strong> La Voz PR is not a law firm, tax advisor, or financial professional. Nothing on this platform constitutes legal or tax advice. Always consult a qualified attorney and CPA before making any decisions. Tax laws are subject to change.</span><span class="es">&#9888;&#65039; <strong>Solo con fines educativos.</strong> La Voz PR no es firma legal, asesor tributario ni profesional financiero. Nada en esta plataforma constituye asesoramiento legal o tributario. Consulte siempre con un abogado calificado y CPA antes de tomar decisiones. Las leyes contributivas est&aacute;n sujetas a cambios.</span></p>
   </div>
 </div>
 
-<!-- FOOTER -->
+<!-- ===== FOOTER ===== -->
 <footer class="footer">
   <div class="footer-logo">
     <img src="act60-logo.png" alt="Act 60 — La Voz PR">
@@ -470,37 +776,59 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   <div class="footer-links">
     <a href="index.html"><span class="en show">Home</span><span class="es">Inicio</span></a>
     <a href="laruta.html">La Ruta</a>
-    <a href="/cdn-cgi/l/email-protection#2a4945445e4b495e6a4d45595e4b584e434d435e4b4604494547"><span class="en show">Contact</span><span class="es">Contacto</span></a>
+    <a href="mailto:info@lavozpr.com"><span class="en show">Contact</span><span class="es">Contacto</span></a>
   </div>
   <div class="footer-legal">Copyright &copy; 2026. GoStar Digital LLC. All Rights Reserved.</div>
   <div class="footer-legal-links">
     <a href="disclaimer.html"><span class="en show">Disclaimer</span><span class="es">Aviso Legal</span></a>
     <span class="sep">|</span>
-    <a href="terms.html"><span class="en show">Terms</span><span class="es">Términos</span></a>
+    <a href="terms.html"><span class="en show">Terms</span><span class="es">T&eacute;rminos</span></a>
   </div>
 </footer>
 
-
+<!-- ===== JAVASCRIPT ===== -->
 <script>
+/* --- Language Toggle --- */
 var lang = 'en';
-
-function acceptDisclaimer(){
-  try{sessionStorage.setItem('lavozpr_disc','1');}catch(e){}
-  document.getElementById('discModal').style.display='none';
-  document.body.style.overflow='';
-}
-function checkDisclaimer(){
-  var accepted=false;
-  try{accepted=sessionStorage.getItem('lavozpr_disc')==='1';}catch(e){}
-  if(!accepted){
-    document.getElementById('discModal').style.display='flex';
-    document.body.style.overflow='hidden';
-  }
-}
-checkDisclaimer();
 
 function setLang(l) {
   lang = l;
   document.getElementById('btnEN').classList.toggle('active', l === 'en');
   document.getElementById('btnES').classList.toggle('active', l === 'es');
-  document.querySelectorAll('.en').forEach(function(e){ e.classList.toggle('show
+
+  var enEls = document.querySelectorAll('.en');
+  var esEls = document.querySelectorAll('.es');
+  var enBlocks = document.querySelectorAll('.en-block');
+  var esBlocks = document.querySelectorAll('.es-block');
+
+  for (var i = 0; i < enEls.length; i++) {
+    if (l === 'en') { enEls[i].classList.add('show'); } else { enEls[i].classList.remove('show'); }
+  }
+  for (var j = 0; j < esEls.length; j++) {
+    if (l === 'es') { esEls[j].classList.add('show'); } else { esEls[j].classList.remove('show'); }
+  }
+  for (var k = 0; k < enBlocks.length; k++) {
+    if (l === 'en') { enBlocks[k].classList.add('show'); } else { enBlocks[k].classList.remove('show'); }
+  }
+  for (var m = 0; m < esBlocks.length; m++) {
+    if (l === 'es') { esBlocks[m].classList.add('show'); } else { esBlocks[m].classList.remove('show'); }
+  }
+}
+
+/* --- Disclaimer Modal (first visit) --- */
+function checkDisclaimer() {
+  var accepted = false;
+  try { accepted = sessionStorage.getItem('lavozpr_disc') === '1'; } catch(e) {}
+  if (!accepted) {
+    document.getElementById('discModal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+}
+checkDisclaimer();
+
+/* --- Initialize language on load --- */
+setLang('en');
+</script>
+
+</body>
+</html>
