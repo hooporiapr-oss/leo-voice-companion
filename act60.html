@@ -173,9 +173,36 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .btn-secondary{padding:15px 38px;background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
 .btn-secondary:hover{border-color:var(--border-gold);color:var(--gold)}
 
-/* DISCLAIMER */
-.disclaimer{padding:32px 0;text-align:center;border-top:1px solid var(--border)}
-.disclaimer p{font-size:.68rem;color:var(--dim2);max-width:640px;margin:0 auto;line-height:1.6}
+/* DISCLAIMER SECTION */
+.disclaimer-section{background:rgba(255,107,53,.04);border-top:1px solid rgba(255,107,53,.15);border-bottom:1px solid rgba(255,107,53,.15);padding:48px 0}
+.disc-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.disc-icon{font-size:1.6rem}
+.disc-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--orange)}
+.disc-body p{font-size:.78rem;color:var(--dim);line-height:1.7;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.04)}
+.disc-body p:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.disc-body strong{color:rgba(232,232,236,.6)}
+.disc-summary{background:rgba(255,107,53,.06);border:1px solid rgba(255,107,53,.12);border-radius:12px;padding:16px 20px !important;border-bottom:none !important}
+.disc-summary strong{color:var(--orange)}
+
+/* DISCLAIMER MODAL */
+.disc-modal-overlay{position:fixed;inset:0;background:rgba(7,7,12,.96);backdrop-filter:blur(12px);z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px}
+.disc-modal{background:var(--card);border:1px solid rgba(255,107,53,.25);border-radius:24px;max-width:600px;width:100%;padding:40px 36px;position:relative;max-height:90vh;overflow-y:auto}
+.disc-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:24px 24px 0 0}
+.disc-modal-icon{font-size:2.5rem;text-align:center;margin-bottom:12px}
+.disc-modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;text-align:center;margin-bottom:6px;color:var(--text)}
+.disc-modal-sub{font-size:.75rem;color:var(--dim);text-align:center;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
+.disc-modal-body{font-size:.82rem;color:var(--dim);line-height:1.7;margin-bottom:24px}
+.disc-modal-body p{margin-bottom:10px}
+.disc-modal-body p:last-child{margin-bottom:0}
+.disc-modal-body strong{color:rgba(232,232,236,.7)}
+.disc-modal-agree{width:100%;padding:14px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;border-radius:50px;border:none;cursor:pointer;transition:all .3s;margin-bottom:10px}
+.disc-modal-agree:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,215,0,.25)}
+.disc-modal-leave{width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.08);color:var(--dim);font-family:'Outfit',sans-serif;font-size:.78rem;border-radius:50px;cursor:pointer;transition:all .3s;text-decoration:none;display:block;text-align:center}
+.disc-modal-leave:hover{border-color:rgba(255,107,53,.3);color:var(--orange)}
+
+/* PERSISTENT DISCLAIMER BAR */
+.disc-bar{background:rgba(255,107,53,.07);border-top:1px solid rgba(255,107,53,.12);padding:10px 0;text-align:center}
+.disc-bar p{font-size:.65rem;color:var(--dim2);line-height:1.5;max-width:900px;margin:0 auto}
 
 /* FOOTER */
 .footer{padding:32px 0;text-align:center;border-top:1px solid var(--border)}
@@ -217,6 +244,24 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </style>
 </head>
 <body>
+
+<!-- DISCLAIMER MODAL — first visit only -->
+<div class="disc-modal-overlay" id="discModal">
+  <div class="disc-modal">
+    <div class="disc-modal-icon">⚠️</div>
+    <div class="disc-modal-title"><span class="en show">Before You Continue</span><span class="es">Antes de Continuar</span></div>
+    <div class="disc-modal-sub"><span class="en show">Important Legal Notice</span><span class="es">Aviso Legal Importante</span></div>
+    <div class="disc-modal-body">
+      <p><span class="en show"><strong>For educational purposes only.</strong> All information on this platform — including from La Voz AI — is general information, not legal, tax, or financial advice.</span><span class="es"><strong>Solo con fines educativos.</strong> Toda la información en esta plataforma — incluyendo de La Voz IA — es información general, no asesoramiento legal, tributario ni financiero.</span></p>
+      <p><span class="en show"><strong>We are not lawyers or tax advisors.</strong> La Voz PR and GoStar Digital LLC are not law firms, tax advisory firms, or financial advisors. We do not establish professional relationships of any kind.</span><span class="es"><strong>No somos abogados ni asesores tributarios.</strong> La Voz PR y GoStar Digital LLC no son firmas de abogados, asesores tributarios ni asesores financieros. No establecemos relaciones profesionales de ningún tipo.</span></p>
+      <p><span class="en show"><strong>Always consult a qualified professional.</strong> Act 60 is complex legislation. Your situation is unique. Before making any relocation, tax, or financial decision, consult a licensed Puerto Rico attorney and certified CPA.</span><span class="es"><strong>Consulte siempre a un profesional calificado.</strong> La Ley 60 es legislación compleja. Su situación es única. Antes de tomar cualquier decisión de reubicación, tributaria o financiera, consulte a un abogado licenciado de Puerto Rico y un CPA certificado.</span></p>
+      <p><span class="en show"><strong>AI limitations.</strong> La Voz is powered by AI and can make errors. Do not rely solely on AI responses for any decision.</span><span class="es"><strong>Limitaciones de IA.</strong> La Voz es impulsada por IA y puede cometer errores. No dependa únicamente de las respuestas de IA para ninguna decisión.</span></p>
+      <p><span class="en show"><strong>Laws change.</strong> Act 60 and its requirements may change at any time. Always verify current law.</span><span class="es"><strong>Las leyes cambian.</strong> La Ley 60 y sus requisitos pueden cambiar en cualquier momento. Verifique siempre la ley vigente.</span></p>
+    </div>
+    <button class="disc-modal-agree" onclick="acceptDisclaimer()"><span class="en show">I UNDERSTAND — CONTINUE TO LA VOZ PR</span><span class="es">ENTIENDO — CONTINUAR A LA VOZ PR</span></button>
+    <a href="index.html" class="disc-modal-leave"><span class="en show">Take me back — I need professional advice first</span><span class="es">Regresar — necesito consejo profesional primero</span></a>
+  </div>
+</div>
 <div class="bg-noise"></div>
 <div class="bg-g1"></div>
 <div class="bg-g2"></div>
@@ -407,10 +452,30 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   </div>
 </section>
 
-<!-- DISCLAIMER -->
-<div class="disclaimer">
+<!-- FULL LEGAL DISCLAIMER SECTION -->
+<div class="disclaimer-section">
   <div class="container">
-    <p><span class="en show">La Voz PR provides general information about Puerto Rico's Act 60 Incentives Code for educational purposes only. This is not legal or tax advice. Every individual's situation is unique. Always consult a qualified attorney and tax professional before making any relocation or financial decisions. Tax laws are subject to change.</span><span class="es">La Voz PR proporciona información general sobre el Código de Incentivos Ley 60 de Puerto Rico únicamente con fines educativos. Esto no es asesoramiento legal ni tributario. La situación de cada individuo es única. Siempre consulte con un abogado calificado y un profesional de impuestos antes de tomar decisiones de reubicación o financieras.</span></p>
+    <div class="disc-header">
+      <div class="disc-icon">⚠️</div>
+      <div class="disc-title"><span class="en show">IMPORTANT LEGAL DISCLAIMER</span><span class="es">AVISO LEGAL IMPORTANTE</span></div>
+    </div>
+    <div class="disc-body">
+      <p><span class="en show"><strong>For Educational Purposes Only.</strong> All information provided by La Voz PR — including through its AI voice agent, this website, and any related materials — is intended solely for general informational and educational purposes. Nothing on this platform constitutes legal advice, tax advice, financial advice, investment advice, or professional counsel of any kind.</span><span class="es"><strong>Solo con Fines Educativos.</strong> Toda la información proporcionada por La Voz PR — incluyendo a través de su agente de voz de IA, este sitio web y materiales relacionados — está destinada únicamente a fines informativos y educativos generales. Nada en esta plataforma constituye asesoramiento legal, tributario, financiero, de inversión ni ningún tipo de consejo profesional.</span></p>
+      <p><span class="en show"><strong>Not a Law Firm. Not a Tax Advisory.</strong> La Voz PR and GoStar Digital LLC are not law firms, tax advisory firms, accounting firms, financial advisory firms, or real estate brokerages. We do not represent clients, we do not establish attorney-client relationships, and we do not provide professional services of any kind. No information communicated by La Voz — including through its AI voice agent — should be relied upon as professional advice.</span><span class="es"><strong>No Somos Firma Legal ni Asesores Tributarios.</strong> La Voz PR y GoStar Digital LLC no son firmas de abogados, asesores tributarios, firmas contables, asesores financieros ni corredores de bienes raíces. No representamos clientes, no establecemos relaciones abogado-cliente y no prestamos servicios profesionales de ningún tipo.</span></p>
+      <p><span class="en show"><strong>Consult a Qualified Professional.</strong> Puerto Rico's Act 60 Incentives Code is complex legislation with specific requirements, eligibility criteria, compliance obligations, and legal consequences. Every individual's financial, tax, and personal situation is unique. You must consult with a licensed attorney, certified public accountant, and/or qualified tax professional before making any decisions related to relocation, tax planning, business restructuring, property purchase, or decree application.</span><span class="es"><strong>Consulte a un Profesional Calificado.</strong> El Código de Incentivos Ley 60 de Puerto Rico es legislación compleja con requisitos específicos, criterios de elegibilidad, obligaciones de cumplimiento y consecuencias legales. La situación financiera, tributaria y personal de cada individuo es única. Debe consultar con un abogado licenciado, contador público certificado y/o profesional tributario calificado antes de tomar decisiones relacionadas con reubicación, planificación tributaria, reestructuración empresarial, compra de propiedad o solicitud de decreto.</span></p>
+      <p><span class="en show"><strong>AI Voice Agent Limitations.</strong> La Voz is powered by artificial intelligence. AI systems can make errors, provide incomplete information, misinterpret questions, and cannot account for your specific personal circumstances. Responses from La Voz are not reviewed by attorneys or tax professionals. Do not make any legal, financial, or relocation decisions based solely on information provided by La Voz or any AI system.</span><span class="es"><strong>Limitaciones del Agente de Voz de IA.</strong> La Voz está impulsada por inteligencia artificial. Los sistemas de IA pueden cometer errores, proporcionar información incompleta, malinterpretar preguntas y no pueden tener en cuenta sus circunstancias personales específicas. Las respuestas de La Voz no son revisadas por abogados ni profesionales tributarios. No tome decisiones legales, financieras ni de reubicación basándose únicamente en información proporcionada por La Voz o cualquier sistema de IA.</span></p>
+      <p><span class="en show"><strong>Tax Laws Are Subject to Change.</strong> Puerto Rico's tax incentive laws, including Act 60, its implementing regulations, eligibility requirements, and government policies are subject to change at any time by legislative action, regulatory update, or executive order. Information on this platform may not reflect the most current legal requirements. Always verify current law with a qualified professional.</span><span class="es"><strong>Las Leyes Contributivas Están Sujetas a Cambios.</strong> Las leyes de incentivos contributivos de Puerto Rico, incluyendo la Ley 60, sus reglamentos, criterios de elegibilidad y políticas gubernamentales están sujetos a cambios en cualquier momento. La información en esta plataforma puede no reflejar los requisitos legales más recientes. Verifique siempre la ley vigente con un profesional calificado.</span></p>
+      <p><span class="en show"><strong>No Guarantees.</strong> La Voz PR makes no representations, warranties, or guarantees — express or implied — regarding the accuracy, completeness, timeliness, or suitability of any information provided. Use of this platform and reliance on any information is entirely at your own risk.</span><span class="es"><strong>Sin Garantías.</strong> La Voz PR no hace representaciones, garantías ni promesas — expresas o implícitas — sobre la exactitud, integridad, actualidad o idoneidad de ninguna información proporcionada. El uso de esta plataforma y la dependencia de cualquier información es completamente bajo su propio riesgo.</span></p>
+      <p><span class="en show"><strong>Third-Party Partners.</strong> Any businesses, professionals, or services referenced or recommended by La Voz PR are independent third parties. La Voz PR and GoStar Digital LLC do not endorse, warrant, or guarantee the services of any third party. You are solely responsible for independently verifying the credentials, qualifications, and suitability of any professional or service provider you engage.</span><span class="es"><strong>Socios Externos.</strong> Cualquier negocio, profesional o servicio referenciado o recomendado por La Voz PR son terceros independientes. La Voz PR y GoStar Digital LLC no avalan, garantizan ni aseguran los servicios de ningún tercero. Usted es únicamente responsable de verificar independientemente las credenciales, calificaciones e idoneidad de cualquier profesional o proveedor de servicios.</span></p>
+      <p class="disc-summary"><span class="en show">La Voz PR is an information and discovery platform. We help people learn about Puerto Rico. We are not lawyers, tax advisors, or financial professionals. Always consult qualified professionals before making any decisions. <strong>By using this platform you acknowledge and agree to these terms.</strong></span><span class="es">La Voz PR es una plataforma de información y descubrimiento. Ayudamos a las personas a aprender sobre Puerto Rico. No somos abogados, asesores tributarios ni profesionales financieros. Siempre consulte profesionales calificados antes de tomar cualquier decisión. <strong>Al usar esta plataforma, usted reconoce y acepta estos términos.</strong></span></p>
+    </div>
+  </div>
+</div>
+
+<!-- PERSISTENT DISCLAIMER BAR -->
+<div class="disc-bar">
+  <div class="container">
+    <p><span class="en show">⚠️ <strong>Educational purposes only.</strong> La Voz PR is not a law firm, tax advisor, or financial professional. Nothing on this platform constitutes legal or tax advice. Always consult a qualified attorney and CPA before making any decisions. Tax laws are subject to change.</span><span class="es">⚠️ <strong>Solo con fines educativos.</strong> La Voz PR no es firma legal, asesor tributario ni profesional financiero. Nada en esta plataforma constituye asesoramiento legal o tributario. Consulte siempre con un abogado calificado y CPA antes de tomar decisiones. Las leyes contributivas están sujetas a cambios.</span></p>
   </div>
 </div>
 
@@ -429,6 +494,23 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
 <script>
 var lang = 'en';
+
+// DISCLAIMER MODAL
+function acceptDisclaimer(){
+  try{sessionStorage.setItem('lavozpr_disc','1');}catch(e){}
+  document.getElementById('discModal').style.display='none';
+  document.body.style.overflow='';
+}
+function checkDisclaimer(){
+  var accepted=false;
+  try{accepted=sessionStorage.getItem('lavozpr_disc')==='1';}catch(e){}
+  if(!accepted){
+    document.getElementById('discModal').style.display='flex';
+    document.body.style.overflow='hidden';
+  }
+}
+checkDisclaimer();
+
 function setLang(l) {
   lang = l;
   document.getElementById('btnEN').classList.toggle('active', l === 'en');
