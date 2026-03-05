@@ -232,28 +232,57 @@ if (muniParam && MUNI_PROMPTS[muniParam]) {
 }
 
 // ── STARTER CARD CLICK ────────────────────────────────────────────────────
-// Clicking the card finds the ElevenLabs widget button and clicks it to open
-// the voice session. The prompt text is shown on screen so the user can speak
-// it — or the widget will pick it up if chat mode is available.
+// ── STARTER CARD CLICK ────────────────────────────────────────────────────
+// Strategy: tap the card → show a "SAY THIS" overlay above the widget so
+// the user sees the prompt the moment La Voz picks up. Simultaneously try
+// to programmatically open the widget session.
 document.getElementById('muniPromptBtn').addEventListener('click', function() {
   var widget = document.querySelector('elevenlabs-convai');
   if (!widget) return;
 
-  // Hide starter card immediately
-  document.getElementById('muniStarter').style.display = 'none';
+  // Swap card for a floating "say this" reminder pinned above the widget
+  var starter = document.getElementById('muniStarter');
+  if (muniPromptText) {
+    starter.innerHTML =
+      '<div style="font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,215,0,.6);margin-bottom:6px">' +
+        '<span class="en show">SAY THIS TO LA VOZ &#128071;</span>' +
+        '<span class="es">DI ESTO A LA VOZ &#128071;</span>' +
+      '</div>' +
+      '<div style="font-size:.82rem;color:rgba(255,255,255,.75);line-height:1.5;max-width:300px;background:rgba(0,0,0,.5);padding:10px 16px;border-radius:12px;border:1px solid rgba(255,215,0,.15);backdrop-filter:blur(12px)">' +
+        muniPromptText +
+      '</div>';
+    starter.style.marginTop = '12px';
+    // Re-show in case hidden
+    starter.style.display = 'flex';
+  } else {
+    starter.style.display = 'none';
+  }
 
-  function tryClick(attempts) {
+  // Try to programmatically click the widget's trigger button
+  function tryOpenWidget(attempts) {
     if (attempts <= 0) return;
     var sr = widget.shadowRoot;
-    if (!sr) { setTimeout(function(){tryClick(attempts-1);}, 400); return; }
+    if (!sr) { setTimeout(function(){ tryOpenWidget(attempts - 1); }, 300); return; }
 
-    // ElevenLabs renders a single trigger button — grab it
-    var btn = sr.querySelector('button');
-    if (!btn) { setTimeout(function(){tryClick(attempts-1);}, 400); return; }
+    // Collect ALL buttons across nested shadow roots
+    var allBtns = [];
+    function harvest(root) {
+      root.querySelectorAll('button').forEach(function(b){ allBtns.push(b); });
+      root.querySelectorAll('*').forEach(function(el){
+        if (el.shadowRoot) harvest(el.shadowRoot);
+      });
+    }
+    harvest(sr);
 
-    btn.click();
+    if (!allBtns.length) { setTimeout(function(){ tryOpenWidget(attempts - 1); }, 300); return; }
+
+    // Click the first button (ElevenLabs widget has one main orb/mic trigger)
+    var btn = allBtns[0];
+    ['pointerdown','mousedown','pointerup','mouseup','click'].forEach(function(type){
+      btn.dispatchEvent(new PointerEvent(type, {bubbles:true, cancelable:true, composed:true, view:window}));
+    });
   }
-  tryClick(10);
+  tryOpenWidget(20);
 });
 
 // ── FORCE-CENTER WIDGET ───────────────────────────────────────────────────
