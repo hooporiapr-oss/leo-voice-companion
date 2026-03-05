@@ -523,7 +523,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
       <p><span class="en show"><strong>AI limitations.</strong> La Voz is powered by AI and can make errors. Do not rely solely on AI responses for any decision.</span><span class="es"><strong>Limitaciones de IA.</strong> La Voz es impulsada por IA y puede cometer errores. No dependa &uacute;nicamente de las respuestas de IA para ninguna decisi&oacute;n.</span></p>
       <p><span class="en show"><strong>Laws change.</strong> Act 60 and its requirements may change at any time. Always verify current law.</span><span class="es"><strong>Las leyes cambian.</strong> La Ley 60 y sus requisitos pueden cambiar en cualquier momento. Verifique siempre la ley vigente.</span></p>
     </div>
-    <button class="disc-modal-agree" onclick="(function(){try{sessionStorage.setItem('lavozpr_disc','1')}catch(e){}document.getElementById('discModal').style.display='none';document.body.style.overflow='';activateVoice()})()">
+    <button class="disc-modal-agree" onclick="(function(){try{sessionStorage.setItem('lavozpr_disc','1')}catch(e){}document.getElementById('discModal').style.display='none';document.body.style.overflow='';window.location.href='act60-voice.html'})()">
       <span class="en show">I UNDERSTAND — CONTINUE TO LA VOZ PR<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">For Educational Purposes Only</span></span><span class="es">ENTIENDO — CONTINUAR A LA VOZ PR<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">Solo con Fines Educativos</span></span>
     </button>
     <a href="index.html" class="disc-modal-leave">
@@ -587,9 +587,9 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
     <!-- BIG CTAs -->
     <div class="hero-cta-group fade-up d4">
-      <button class="hero-cta" onclick="scrollToVoice()">
+      <a href="act60-voice.html" class="hero-cta">
         &#127908; <span class="en show">ASK LA VOZ ABOUT ACT 60</span><span class="es">PREGUNTA A LA VOZ SOBRE LEY 60</span>
-      </button>
+      </a>
       <a href="laruta.html" class="hero-ruta">
         &#128506; <span class="en show">EXPLORE LA RUTA — THIS IS PUERTO RICO!</span><span class="es">EXPLORA LA RUTA — &iexcl;ESTO ES PUERTO RICO!</span>
       </a>
@@ -606,24 +606,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   </div>
 </section>
 
-<!-- ===== VOICE SECTION (SHOWS AFTER DISCLAIMER) ===== -->
-<section class="voice-section" id="voiceSection">
-  <div class="container">
-    <div class="safari-banner" id="safariBanner">
-      <span class="en show">&#9888;&#65039; For the best voice experience, please use <strong>Google Chrome</strong>.</span>
-      <span class="es">&#9888;&#65039; Para la mejor experiencia de voz, use <strong>Google Chrome</strong>.</span>
-    </div>
-    <div class="voice-label"><span class="en show">LA VOZ — ACT 60 EXPERT</span><span class="es">LA VOZ — EXPERTA EN LEY 60</span></div>
-    <div class="voice-wrapper">
-      <div class="voice-glow"></div>
-      <div id="voiceWidget"></div>
-    </div>
-    <div class="voice-disclaimer-bar">
-      <span class="en show">&#9888;&#65039; <strong>Educational purposes only.</strong> La Voz PR is not a law firm or tax advisor. Always consult a qualified professional.</span>
-      <span class="es">&#9888;&#65039; <strong>Solo con fines educativos.</strong> La Voz PR no es firma legal ni asesor tributario. Consulte siempre a un profesional calificado.</span>
-    </div>
-  </div>
-</section>
 
 
 
@@ -666,66 +648,6 @@ function setLang(l) {
     if (l === 'es') { esEls[b].classList.add('show'); } else { esEls[b].classList.remove('show'); }
   }
 }
-
-/* --- Voice Widget Injection --- */
-var voiceLoaded = false;
-
-function activateVoice() {
-  document.getElementById('voiceSection').classList.add('active');
-
-  if (!voiceLoaded) {
-    voiceLoaded = true;
-    /* Inject the ElevenLabs widget */
-    var widget = document.getElementById('voiceWidget');
-    var el = document.createElement('elevenlabs-convai');
-    el.setAttribute('agent-id', 'agent_3101kjzm3xrsf709ebwc0vs3yxav');
-    el.setAttribute('variant', 'expanded');
-    widget.appendChild(el);
-
-    var script = document.createElement('script');
-    script.src = 'https://elevenlabs.io/convai-widget/index.js';
-    script.async = true;
-    script.type = 'text/javascript';
-    document.body.appendChild(script);
-  }
-
-  /* Scroll to voice */
-  setTimeout(function() {
-    document.getElementById('voiceSection').scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 300);
-}
-
-/* --- Scroll to Voice (checks disclaimer first) --- */
-function scrollToVoice() {
-  var accepted = false;
-  try { accepted = sessionStorage.getItem('lavozpr_disc') === '1'; } catch(e) {}
-
-  if (!accepted) {
-    document.getElementById('discModal').style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  } else {
-    activateVoice();
-  }
-}
-
-/* --- Safari Detection --- */
-(function() {
-  var ua = navigator.userAgent;
-  var isSafari = /^((?!chrome|android).)*safari/i.test(ua);
-  var isIOS = /iPad|iPhone|iPod/.test(ua);
-  if (isSafari || isIOS) {
-    document.getElementById('safariBanner').style.display = 'block';
-  }
-})();
-
-/* --- Check if already accepted --- */
-(function() {
-  var accepted = false;
-  try { accepted = sessionStorage.getItem('lavozpr_disc') === '1'; } catch(e) {}
-  if (accepted) {
-    activateVoice();
-  }
-})();
 
 /* --- Initialize language --- */
 setLang('en');
