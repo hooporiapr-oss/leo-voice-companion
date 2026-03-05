@@ -12,7 +12,7 @@
 :root{
   --dark:#07070c;--card:#0f0f18;--card2:#131320;
   --gold:#FFD700;--orange:#FF6B35;--teal:#00D9A5;
-  --text:#e8e8ec;--dim:#6a6a7a;--dim2:#4a4a5a;
+  --text:#e8e8ec;--dim:#d0d0da;--dim2:#6a6a7a;
   --gradient:linear-gradient(135deg,#FFD700,#FF6B35);
   --gradient-teal:linear-gradient(135deg,#00D9A5,#00b88a);
   --border:rgba(255,255,255,.05);
@@ -39,17 +39,17 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .nav-logo img{height:36px;width:auto;object-fit:contain}
 @media(max-width:480px){.nav-logo img{height:28px}}
 .nav-right{display:flex;align-items:center;gap:10px}
-.nav-link{font-size:.72rem;color:var(--dim);text-decoration:none;transition:color .3s;letter-spacing:.5px}
+.nav-link{font-size:.72rem;color:var(--dim2);text-decoration:none;transition:color .3s;letter-spacing:.5px}
 .nav-link:hover{color:var(--gold)}
 .lang-toggle{display:flex;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.06)}
-.lang-btn{padding:5px 10px;font-size:.68rem;font-weight:700;letter-spacing:1px;background:transparent;color:var(--dim);border:none;cursor:pointer;transition:all .2s}
+.lang-btn{padding:5px 10px;font-size:.68rem;font-weight:700;letter-spacing:1px;background:transparent;color:var(--dim2);border:none;cursor:pointer;transition:all .2s}
 .lang-btn.active{background:rgba(255,215,0,.1);color:var(--gold)}
 .nav-cta{padding:9px 22px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s}
 .nav-cta:hover{transform:scale(1.04);box-shadow:0 4px 24px rgba(255,215,0,.22)}
 .hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;color:var(--text);font-size:1.4rem;line-height:1}
 .mob-menu{display:none;position:fixed;top:50px;left:0;right:0;background:rgba(7,7,12,.97);backdrop-filter:blur(24px);border-bottom:1px solid var(--border-gold);padding:16px 24px;z-index:99;flex-direction:column;gap:2px;text-align:center}
 .mob-menu.open{display:flex}
-.mob-menu a{font-size:.9rem;color:var(--dim);text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border);transition:color .3s}
+.mob-menu a{font-size:.9rem;color:var(--dim2);text-decoration:none;padding:12px 0;border-bottom:1px solid var(--border);transition:color .3s}
 .mob-menu a:last-child{border-bottom:none}
 .mob-menu a.mob-cta{color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:1rem}
 .mob-lang{padding:12px 0}
@@ -79,7 +79,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .hero-stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:2px;line-height:1}
 .hero-stat-num.g{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero-stat-num.t{color:var(--teal)}
-.hero-stat-label{font-size:.58rem;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;line-height:1.45}
+.hero-stat-label{font-size:.58rem;color:var(--dim2);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;line-height:1.45}
 
 /* SECTION SHARED */
 .section{padding:100px 0}
@@ -92,7 +92,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .quote-strip::before,.quote-strip::after{content:'';position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.1),transparent)}
 .quote-strip::before{top:0}.quote-strip::after{bottom:0}
 .quote-text{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,4vw,2.8rem);letter-spacing:3px;max-width:860px;margin:0 auto;line-height:1.1}
-.quote-attr{font-size:.7rem;color:var(--dim);margin-top:14px;letter-spacing:2px;text-transform:uppercase}
+.quote-attr{font-size:.7rem;color:var(--dim2);margin-top:14px;letter-spacing:2px;text-transform:uppercase}
 
 /* WHY PR */
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -113,7 +113,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .act60-num:not(:last-child)::after{content:'';position:absolute;right:0;top:15%;bottom:15%;width:1px;background:var(--border-gold)}
 .act60-val{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,5rem);line-height:.85;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:10px}
 .act60-val.t{background:var(--gradient-teal);-webkit-background-clip:text;background-clip:text}
-.act60-lbl{font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);line-height:1.5}
+.act60-lbl{font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim2);line-height:1.5}
 .act60-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:40px}
 .act60-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:30px 26px;position:relative;overflow:hidden;transition:all .35s}
 .act60-card:hover{transform:translateY(-3px)}
@@ -187,9 +187,9 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 /* FOOTER */
 .footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
 .footer-logo{margin-bottom:8px}
-.footer-sub{font-size:.67rem;color:var(--dim);margin-top:4px}
+.footer-sub{font-size:.67rem;color:var(--dim2);margin-top:4px}
 .footer-links{margin-top:14px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
-.footer-links a{font-size:.7rem;color:var(--dim);text-decoration:none;transition:color .3s}
+.footer-links a{font-size:.7rem;color:var(--dim2);text-decoration:none;transition:color .3s}
 .footer-links a:hover{color:var(--gold)}
 
 /* REVEAL */
