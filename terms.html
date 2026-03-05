@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms of Use — La Voz PR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0a0a0f; --surface: #12121a; --border: #1e1e2e;
+      --gold: #FFD700; --orange: #FF6B35; --text: #e8e8f0; --muted: #888899;
+      --gradient: linear-gradient(135deg, #FFD700, #FF6B35);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Outfit', sans-serif; font-weight: 300; line-height: 1.75; min-height: 100vh; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10,10,15,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+    .nav-logo img { height: 36px; width: auto; }
+    .nav-right { display: flex; align-items: center; gap: 2rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.85rem; font-weight: 400; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    .lang-toggle { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 3px; gap: 2px; }
+    .lang-btn { padding: 4px 14px; border-radius: 16px; font-family: 'Outfit', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border: none; cursor: pointer; transition: all 0.25s ease; background: transparent; color: var(--muted); }
+    .lang-btn.active { background: var(--gradient); color: #0a0a0f; }
+    .lang-btn:not(.active):hover { color: var(--text); }
+
+    .page-hero { background: var(--surface); border-bottom: 1px solid var(--border); padding: 4rem 2rem 3rem; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% -20%, rgba(255,107,53,0.07), transparent); pointer-events: none; }
+    .page-hero .label { font-family: 'Bebas Neue', sans-serif; font-size: 0.8rem; letter-spacing: 0.25em; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.75rem; }
+    .page-hero h1 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 8vw, 5.5rem); letter-spacing: 0.04em; color: var(--text); line-height: 1; margin-bottom: 1rem; }
+    .page-hero p { font-size: 0.95rem; color: var(--muted); max-width: 520px; margin: 0 auto; }
+
+    .toc-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1.25rem 2rem; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; justify-content: center; }
+    .toc-bar a { color: var(--muted); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; white-space: nowrap; }
+    .toc-bar a:hover { color: var(--gold); }
+
+    .content-wrap { max-width: 820px; margin: 0 auto; padding: 4rem 2rem 6rem; }
+    .section { margin-bottom: 3rem; animation: fadeUp 0.5s ease both; scroll-margin-top: 80px; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    .section:nth-child(1){animation-delay:.04s}.section:nth-child(2){animation-delay:.08s}.section:nth-child(3){animation-delay:.12s}.section:nth-child(4){animation-delay:.16s}.section:nth-child(5){animation-delay:.20s}.section:nth-child(6){animation-delay:.24s}.section:nth-child(7){animation-delay:.28s}.section:nth-child(8){animation-delay:.32s}.section:nth-child(9){animation-delay:.36s}.section:nth-child(10){animation-delay:.40s}.section:nth-child(11){animation-delay:.44s}.section:nth-child(12){animation-delay:.48s}
+    .section h2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.08em; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.75rem; }
+    .section p { font-size: 0.95rem; color: #c8c8d8; margin-bottom: 0.75rem; }
+    .section p:last-child { margin-bottom: 0; }
+    .section ul { margin: 0.75rem 0 0.75rem 1.25rem; color: #c8c8d8; font-size: 0.95rem; }
+    .section ul li { margin-bottom: 0.4rem; padding-left: 0.25rem; }
+    .section a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(255,215,0,0.3); transition: border-color 0.2s; }
+    .section a:hover { border-color: var(--gold); }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+    .meta-bar { display: flex; gap: 2rem; flex-wrap: wrap; font-size: 0.8rem; color: var(--muted); margin-bottom: 3rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
+    .meta-bar span strong { color: var(--text); font-weight: 500; }
+    .highlight-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--orange); border-radius: 0 12px 12px 0; padding: 1.25rem 1.5rem; margin: 1.25rem 0; font-size: 0.9rem; color: #c8c8d8; }
+
+    /* BILINGUAL SWITCHING */
+    .en, .es { display: none; }
+    body.lang-en .en { display: block; }
+    body.lang-es .es { display: block; }
+    span.en, span.es { display: none; }
+    body.lang-en span.en { display: inline; }
+    body.lang-es span.es { display: inline; }
+
+    footer { background: var(--surface); border-top: 1px solid var(--border); padding: 2.5rem 2rem; text-align: center; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: 0.78rem; color: #55556a; }
+
+    @media (max-width: 600px) { .nav-links { display: none; } .toc-bar { display: none; } .page-hero { padding: 3rem 1.25rem 2rem; } .content-wrap { padding: 2.5rem 1.25rem 4rem; } }
+  </style>
+</head>
+<body class="lang-en">
+
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="lavozpr-logo.png" alt="La Voz PR" /></a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="index.html"><span class="en">Home</span><span class="es">Inicio</span></a></li>
+        <li><a href="act60.html">Act 60</a></li>
+        <li><a href="laruta.html">La Ruta</a></li>
+        <li><a href="disclaimer.html"><span class="en">Disclaimer</span><span class="es">Aviso Legal</span></a></li>
+      </ul>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="label en">Legal Information</div>
+    <div class="label es">Información Legal</div>
+    <h1><span class="en">Terms of Use</span><span class="es">Términos de Uso</span></h1>
+    <p class="en">By accessing or using La Voz PR, you agree to these terms. Please read them carefully.</p>
+    <p class="es">Al acceder o usar La Voz PR, usted acepta estos términos. Por favor léalos detenidamente.</p>
+  </section>
+
+  <!-- TOC -->
+  <div class="toc-bar">
+    <a href="#acceptance"><span class="en">Acceptance</span><span class="es">Aceptación</span></a>
+    <a href="#platform"><span class="en">Platform</span><span class="es">Plataforma</span></a>
+    <a href="#accounts"><span class="en">Accounts</span><span class="es">Cuentas</span></a>
+    <a href="#access-codes"><span class="en">Access Codes</span><span class="es">Códigos</span></a>
+    <a href="#conduct"><span class="en">Conduct</span><span class="es">Conducta</span></a>
+    <a href="#ip"><span class="en">Intellectual Property</span><span class="es">Prop. Intelectual</span></a>
+    <a href="#disclaimers"><span class="en">Disclaimers</span><span class="es">Avisos</span></a>
+    <a href="#liability"><span class="en">Liability</span><span class="es">Responsabilidad</span></a>
+    <a href="#payments"><span class="en">Payments</span><span class="es">Pagos</span></a>
+    <a href="#termination"><span class="en">Termination</span><span class="es">Terminación</span></a>
+    <a href="#governing-law"><span class="en">Governing Law</span><span class="es">Ley Aplicable</span></a>
+    <a href="#contact"><span class="en">Contact</span><span class="es">Contacto</span></a>
+  </div>
+
+  <main class="content-wrap">
+
+    <div class="meta-bar">
+      <span><strong><span class="en">Effective Date</span><span class="es">Fecha de Vigencia</span>:</strong> <span class="en">March 2026</span><span class="es">Marzo 2026</span></span>
+      <span><strong><span class="en">Platform</span><span class="es">Plataforma</span>:</strong> lavozpr.com</span>
+      <span><strong><span class="en">Operator</span><span class="es">Operador</span>:</strong> GoStar Digital LLC</span>
+    </div>
+
+    <!-- 1 -->
+    <div class="section" id="acceptance">
+      <div class="en">
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing or using La Voz PR (lavozpr.com), including any features, AI assistants, content, or paid services offered through the platform, you agree to be bound by these Terms of Use and our <a href="disclaimer.html">Disclaimer</a>. If you do not agree to these terms, you may not use the platform.</p>
+        <p>These terms constitute a legally binding agreement between you and GoStar Digital LLC ("Company," "we," "us," or "our"), a Puerto Rico limited liability company. We reserve the right to update these terms at any time. Continued use of the platform after any update constitutes your acceptance of the revised terms.</p>
+      </div>
+      <div class="es">
+        <h2>1. Aceptación de los Términos</h2>
+        <p>Al acceder o usar La Voz PR (lavozpr.com), incluyendo cualquier función, asistente de IA, contenido o servicios de pago ofrecidos a través de la plataforma, usted acepta quedar vinculado por estos Términos de Uso y nuestro <a href="disclaimer.html">Aviso Legal</a>. Si no acepta estos términos, no puede usar la plataforma.</p>
+        <p>Estos términos constituyen un acuerdo legalmente vinculante entre usted y GoStar Digital LLC ("Compañía," "nosotros" o "nuestro"), una compañía de responsabilidad limitada de Puerto Rico. Nos reservamos el derecho de actualizar estos términos en cualquier momento. El uso continuado de la plataforma tras cualquier actualización constituye su aceptación de los términos revisados.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 2 -->
+    <div class="section" id="platform">
+      <div class="en">
+        <h2>2. About the Platform</h2>
+        <p>La Voz PR is Puerto Rico's AI-powered destination platform, providing information about Puerto Rico's 78 municipalities, Act 60 tax incentive programs, and relocation resources. The platform includes AI voice and text assistants, sponsored content, and curated partner directories.</p>
+        <div class="highlight-box">La Voz PR is an information and discovery platform. Nothing on this platform constitutes legal, tax, financial, or investment advice. See our full <a href="disclaimer.html">Disclaimer</a> for details.</div>
+      </div>
+      <div class="es">
+        <h2>2. Sobre la Plataforma</h2>
+        <p>La Voz PR es la plataforma de destino de Puerto Rico impulsada por IA, que proporciona información sobre los 78 municipios de Puerto Rico, los programas de incentivos fiscales de la Ley 60 y recursos de reubicación. La plataforma incluye asistentes de voz y texto de IA, contenido patrocinado y directorios de socios seleccionados.</p>
+        <div class="highlight-box">La Voz PR es una plataforma de información y descubrimiento. Nada en esta plataforma constituye asesoramiento legal, fiscal, financiero o de inversión. Consulte nuestro <a href="disclaimer.html">Aviso Legal</a> completo para más detalles.</div>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 3 -->
+    <div class="section" id="accounts">
+      <div class="en">
+        <h2>3. User Accounts & Access</h2>
+        <p>Certain features of La Voz PR require an access code or active subscription. You are responsible for maintaining the confidentiality of any access credentials and for all activity that occurs under your account or code.</p>
+        <p>You agree to provide accurate information when registering or purchasing access, and to notify us promptly if you believe your credentials have been compromised.</p>
+      </div>
+      <div class="es">
+        <h2>3. Cuentas de Usuario y Acceso</h2>
+        <p>Ciertas funciones de La Voz PR requieren un código de acceso o una suscripción activa. Usted es responsable de mantener la confidencialidad de sus credenciales de acceso y de toda la actividad que ocurra bajo su cuenta o código.</p>
+        <p>Usted acepta proporcionar información precisa al registrarse o comprar acceso, y notificarnos de inmediato si cree que sus credenciales han sido comprometidas.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 4 -->
+    <div class="section" id="access-codes">
+      <div class="en">
+        <h2>4. Access Codes & Subscriptions</h2>
+        <p>La Voz PR offers tiered access including free trials, day passes, weekend passes, and Explorer subscriptions. Access codes are non-transferable unless explicitly designated for group or bulk use.</p>
+        <ul>
+          <li><strong>Free Trial:</strong> Limited access for evaluation purposes. No payment required.</li>
+          <li><strong>Day Pass / Weekend Pass:</strong> Single-use, time-limited access. Non-refundable once redeemed.</li>
+          <li><strong>Explorer Subscription:</strong> Recurring monthly or annual subscription subject to cancellation policy.</li>
+          <li><strong>Sponsored Pins (B2B):</strong> Business placement terms governed by separate partner agreement.</li>
+        </ul>
+        <p>We reserve the right to modify, suspend, or discontinue any access tier with reasonable notice.</p>
+      </div>
+      <div class="es">
+        <h2>4. Códigos de Acceso y Suscripciones</h2>
+        <p>La Voz PR ofrece acceso escalonado que incluye pruebas gratuitas, pases de día, pases de fin de semana y suscripciones Explorer. Los códigos de acceso son intransferibles a menos que estén explícitamente designados para uso grupal o masivo.</p>
+        <ul>
+          <li><strong>Prueba Gratuita:</strong> Acceso limitado para evaluación. No requiere pago.</li>
+          <li><strong>Pase de Día / Pase de Fin de Semana:</strong> Acceso de uso único y tiempo limitado. No reembolsable una vez canjeado.</li>
+          <li><strong>Suscripción Explorer:</strong> Suscripción mensual o anual recurrente sujeta a política de cancelación.</li>
+          <li><strong>Pines Patrocinados (B2B):</strong> Términos de colocación empresarial regidos por acuerdo de socio independiente.</li>
+        </ul>
+        <p>Nos reservamos el derecho de modificar, suspender o descontinuar cualquier nivel de acceso con aviso razonable.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 5 -->
+    <div class="section" id="conduct">
+      <div class="en">
+        <h2>5. Acceptable Use</h2>
+        <p>You agree not to use La Voz PR to:</p>
+        <ul>
+          <li>Violate any applicable law or regulation</li>
+          <li>Attempt to reverse engineer, scrape, or copy platform content or AI responses at scale</li>
+          <li>Share, resell, or redistribute access codes without authorization</li>
+          <li>Attempt to circumvent access controls or subscription requirements</li>
+          <li>Use the platform to harass, defraud, or harm other users or third parties</li>
+          <li>Submit false or misleading information to any platform form or AI assistant</li>
+          <li>Use automated bots or scripts to access or interact with the platform</li>
+        </ul>
+        <p>We reserve the right to suspend or terminate access for any user who violates these terms, without refund.</p>
+      </div>
+      <div class="es">
+        <h2>5. Uso Aceptable</h2>
+        <p>Usted acepta no usar La Voz PR para:</p>
+        <ul>
+          <li>Violar ninguna ley o regulación aplicable</li>
+          <li>Intentar realizar ingeniería inversa, extraer o copiar contenido de la plataforma o respuestas de IA a escala</li>
+          <li>Compartir, revender o redistribuir códigos de acceso sin autorización</li>
+          <li>Intentar eludir controles de acceso o requisitos de suscripción</li>
+          <li>Usar la plataforma para acosar, defraudar o dañar a otros usuarios o terceros</li>
+          <li>Enviar información falsa o engañosa a cualquier formulario de la plataforma o asistente de IA</li>
+          <li>Usar bots automatizados o scripts para acceder o interactuar con la plataforma</li>
+        </ul>
+        <p>Nos reservamos el derecho de suspender o cancelar el acceso de cualquier usuario que viole estos términos, sin reembolso.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 6 -->
+    <div class="section" id="ip">
+      <div class="en">
+        <h2>6. Intellectual Property</h2>
+        <p>All content on La Voz PR — including but not limited to the Leo character, platform design, logo marks, AI system prompts, copy, municipal guides, Act 60 guides, and the La Ruta experience — is the intellectual property of GoStar Digital LLC and is protected by applicable copyright and trademark laws.</p>
+        <p>You may not reproduce, distribute, publicly display, or create derivative works from any platform content without our prior written consent. Personal, non-commercial use of information discovered on the platform is permitted.</p>
+      </div>
+      <div class="es">
+        <h2>6. Propiedad Intelectual</h2>
+        <p>Todo el contenido de La Voz PR — incluyendo, entre otros, el personaje Leo, el diseño de la plataforma, las marcas de logotipos, los prompts del sistema de IA, los textos, las guías municipales, las guías de la Ley 60 y la experiencia La Ruta — es propiedad intelectual de GoStar Digital LLC y está protegido por las leyes de derechos de autor y marcas registradas aplicables.</p>
+        <p>No puede reproducir, distribuir, exhibir públicamente ni crear obras derivadas de ningún contenido de la plataforma sin nuestro consentimiento previo por escrito. Se permite el uso personal y no comercial de la información descubierta en la plataforma.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 7 -->
+    <div class="section" id="disclaimers">
+      <div class="en">
+        <h2>7. Disclaimers</h2>
+        <p>La Voz PR is provided on an "as is" and "as available" basis without warranties of any kind, express or implied. We do not warrant that the platform will be uninterrupted, error-free, or free of harmful components.</p>
+        <p>AI-generated content may contain errors, inaccuracies, or outdated information. We make no representation as to the accuracy, completeness, or fitness for a particular purpose of any AI-generated response. See our <a href="disclaimer.html">Disclaimer</a> for full details.</p>
+      </div>
+      <div class="es">
+        <h2>7. Avisos Legales</h2>
+        <p>La Voz PR se proporciona "tal cual" y "según disponibilidad" sin garantías de ningún tipo, expresas o implícitas. No garantizamos que la plataforma sea ininterrumpida, libre de errores o de componentes dañinos.</p>
+        <p>El contenido generado por IA puede contener errores, imprecisiones o información desactualizada. No hacemos ninguna representación sobre la exactitud, integridad o idoneidad para un propósito particular de ninguna respuesta generada por IA. Consulte nuestro <a href="disclaimer.html">Aviso Legal</a> para más detalles.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 8 -->
+    <div class="section" id="liability">
+      <div class="en">
+        <h2>8. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by applicable law, GoStar Digital LLC shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, goodwill, or other intangible losses arising from your use of — or inability to use — La Voz PR.</p>
+        <p>Our total aggregate liability for any claims arising from use of the platform shall not exceed the amount paid by you to GoStar Digital LLC in the twelve months preceding the claim.</p>
+      </div>
+      <div class="es">
+        <h2>8. Limitación de Responsabilidad</h2>
+        <p>En la máxima medida permitida por la ley aplicable, GoStar Digital LLC no será responsable de ningún daño indirecto, incidental, especial, consecuente o punitivo, incluyendo pérdida de ganancias, datos, buena voluntad u otras pérdidas intangibles que surjan de su uso — o imposibilidad de uso — de La Voz PR.</p>
+        <p>Nuestra responsabilidad total agregada por cualquier reclamación derivada del uso de la plataforma no excederá el monto pagado por usted a GoStar Digital LLC en los doce meses anteriores a la reclamación.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 9 -->
+    <div class="section" id="payments">
+      <div class="en">
+        <h2>9. Payments & Refunds</h2>
+        <p>All payments are processed securely through Stripe. By completing a purchase, you authorize GoStar Digital LLC to charge the applicable fee to your payment method.</p>
+        <p>Access codes and time-limited passes are non-refundable once redeemed. Subscription charges are non-refundable for the current billing period but you may cancel future renewals at any time. For billing questions, contact <a href="mailto:hello@lavozpr.com">hello@lavozpr.com</a>.</p>
+      </div>
+      <div class="es">
+        <h2>9. Pagos y Reembolsos</h2>
+        <p>Todos los pagos se procesan de forma segura a través de Stripe. Al completar una compra, usted autoriza a GoStar Digital LLC a cobrar la tarifa correspondiente a su método de pago.</p>
+        <p>Los códigos de acceso y los pases de tiempo limitado no son reembolsables una vez canjeados. Los cargos de suscripción no son reembolsables para el período de facturación actual, pero puede cancelar las renovaciones futuras en cualquier momento. Para consultas de facturación, contáctenos en <a href="mailto:hello@lavozpr.com">hello@lavozpr.com</a>.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 10 -->
+    <div class="section" id="termination">
+      <div class="en">
+        <h2>10. Termination</h2>
+        <p>We reserve the right to suspend or terminate your access to La Voz PR at any time, with or without cause, with or without notice. Grounds for termination include violation of these terms, suspected fraud, or misuse of access credentials.</p>
+        <p>You may discontinue use of the platform at any time. Provisions that by their nature should survive termination — including intellectual property, disclaimers, and limitation of liability — shall survive.</p>
+      </div>
+      <div class="es">
+        <h2>10. Terminación</h2>
+        <p>Nos reservamos el derecho de suspender o cancelar su acceso a La Voz PR en cualquier momento, con o sin causa, con o sin previo aviso. Los motivos de terminación incluyen violación de estos términos, sospecha de fraude o uso indebido de credenciales de acceso.</p>
+        <p>Puede dejar de usar la plataforma en cualquier momento. Las disposiciones que por su naturaleza deban sobrevivir a la terminación — incluyendo propiedad intelectual, avisos legales y limitación de responsabilidad — sobrevivirán.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 11 -->
+    <div class="section" id="governing-law">
+      <div class="en">
+        <h2>11. Governing Law & Disputes</h2>
+        <p>These Terms of Use shall be governed by and construed in accordance with the laws of the Commonwealth of Puerto Rico and applicable federal law, without regard to conflict of law principles.</p>
+        <p>Any dispute arising from these terms or your use of La Voz PR shall be resolved first through good-faith negotiation. If unresolved, disputes shall be submitted to binding arbitration in San Juan, Puerto Rico, under applicable arbitration rules, except that either party may seek injunctive relief in a court of competent jurisdiction.</p>
+      </div>
+      <div class="es">
+        <h2>11. Ley Aplicable y Resolución de Disputas</h2>
+        <p>Estos Términos de Uso se regirán e interpretarán de conformidad con las leyes del Estado Libre Asociado de Puerto Rico y la ley federal aplicable, sin tener en cuenta los principios de conflicto de leyes.</p>
+        <p>Cualquier disputa que surja de estos términos o de su uso de La Voz PR se resolverá primero mediante negociación de buena fe. Si no se resuelve, las disputas se someterán a arbitraje vinculante en San Juan, Puerto Rico, bajo las reglas de arbitraje aplicables, excepto que cualquiera de las partes puede solicitar medidas cautelares ante un tribunal de jurisdicción competente.</p>
+      </div>
+    </div>
+    <hr class="divider" />
+
+    <!-- 12 -->
+    <div class="section" id="contact">
+      <div class="en">
+        <h2>12. Contact</h2>
+        <p>For questions, concerns, or requests related to these Terms of Use, please contact us:</p>
+        <p><strong>GoStar Digital LLC</strong><br />Puerto Rico<br /><a href="mailto:hello@lavozpr.com">hello@lavozpr.com</a><br /><a href="https://lavozpr.com">lavozpr.com</a></p>
+      </div>
+      <div class="es">
+        <h2>12. Contacto</h2>
+        <p>Para preguntas, inquietudes o solicitudes relacionadas con estos Términos de Uso, contáctenos:</p>
+        <p><strong>GoStar Digital LLC</strong><br />Puerto Rico<br /><a href="mailto:hello@lavozpr.com">hello@lavozpr.com</a><br /><a href="https://lavozpr.com">lavozpr.com</a></p>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <nav class="footer-links">
+      <a href="index.html"><span class="en">Home</span><span class="es">Inicio</span></a>
+      <a href="act60.html">Act 60</a>
+      <a href="laruta.html">La Ruta</a>
+      <a href="disclaimer.html"><span class="en">Disclaimer</span><span class="es">Aviso Legal</span></a>
+      <a href="terms.html"><span class="en">Terms of Use</span><span class="es">Términos de Uso</span></a>
+    </nav>
+    <p class="footer-copy">© 2026 GoStar Digital LLC — La Voz PR. <span class="en">Puerto Rico's Destination Platform.</span><span class="es">La Plataforma de Destino de Puerto Rico.</span></p>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.body.className = 'lang-' + lang;
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+      document.documentElement.lang = lang;
+      localStorage.setItem('lavozpr-lang', lang);
+    }
+    const saved = localStorage.getItem('lavozpr-lang');
+    if (saved === 'es') setLang('es');
+  </script>
+</body>
+</html>
