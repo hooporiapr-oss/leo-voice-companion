@@ -97,7 +97,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .muni-letter-btn{
   width:34px;height:34px;border-radius:8px;
   background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
-  color:var(--dim);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;
+  color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1px;
   cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;
 }
 .muni-letter-btn:hover{border-color:rgba(255,215,0,.3);color:var(--gold)}
@@ -106,12 +106,12 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .muni-group{margin-bottom:32px}
 .muni-group-label{
   font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:4px;
-  color:var(--gold);opacity:.15;margin-bottom:12px;line-height:1;
+  color:var(--text);opacity:.25;margin-bottom:12px;line-height:1;
   transition:all .3s;
 }
-.muni-group.active .muni-group-label{opacity:1;font-size:3rem}
+.muni-group.active .muni-group-label{opacity:1;font-size:3rem;color:var(--gold)}
 .muni-group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
-.muni-card{padding:14px;background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:14px;text-align:center;font-size:.78rem;color:var(--dim);transition:all .3s;text-decoration:none;display:block}
+.muni-card{padding:14px;background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:14px;text-align:center;font-size:.78rem;color:var(--text);transition:all .3s;text-decoration:none;display:block}
 .muni-card:hover{border-color:rgba(255,215,0,.15);color:var(--gold);transform:translateY(-2px)}
 .muni-group.hidden{display:none}
 .final-cta{padding:100px 0;text-align:center}
@@ -407,7 +407,6 @@ document.getElementById("btnEN2").classList.toggle("active",l==="en");
 document.getElementById("btnES2").classList.toggle("active",l==="es");
 document.querySelectorAll(".en").forEach(function(e){e.classList.toggle("show",l==="en");});
 document.querySelectorAll(".es").forEach(function(e){e.classList.toggle("show",l==="es");});
-document.getElementById("muniSearch").placeholder=l==="en"?"Search municipalities...":"Buscar municipios...";
 renderHL();
 }
 renderHL();buildMuniNav();renderMuniGroups(null);
