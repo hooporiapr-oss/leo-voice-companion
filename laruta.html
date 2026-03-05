@@ -7,7 +7,7 @@
 <meta name="description" content="Ask La Voz about any spot in Puerto Rico. Voice-powered AI concierge covering all 78 municipalities.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script src="https://elevenlabs.io/convai-widget/index.js" async></script>
+<script src="https://elevenlabs.io/convai-widget/index.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--gold:#FFD700;--orange:#FF6B35;--dark:#07070c;--text:#f0f0f4;--dim:#8a8a9a;--gradient:linear-gradient(135deg,#FFD700,#FF6B35)}
@@ -245,13 +245,24 @@ if (muniParam && MUNI_PROMPTS[muniParam]) {
   banner.classList.add('show');
 }
 
-// ── INJECT WIDGET WITH OPTIONAL first-message ─────────────────────────────
+// ── INJECT WIDGET ─────────────────────────────────────────────────────────
+// override-config first_message requires "First message" override to be
+// enabled in the agent's ElevenLabs Security tab.
+// dynamic-variables injects {{municipality}} into the system prompt — add
+// "The user is exploring: {{municipality}}" to La Ruta's system prompt.
 var mount = document.getElementById('widgetMount');
 var widget = document.createElement('elevenlabs-convai');
 widget.setAttribute('agent-id', 'agent_5801kjdgm1zwe65843rj9r29zmj1');
-if (firstMessage) {
-  widget.setAttribute('first-message', firstMessage);
+
+if (firstMessage && muniParam) {
+  widget.setAttribute('override-config', JSON.stringify({
+    agent: { firstMessage: firstMessage }
+  }));
+  widget.setAttribute('dynamic-variables', JSON.stringify({
+    municipality: muniParam
+  }));
 }
+
 mount.appendChild(widget);
 
 // ── FORCE-CENTER WIDGET ───────────────────────────────────────────────────
