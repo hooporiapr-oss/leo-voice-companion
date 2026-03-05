@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gallery &#8212; La Voz PR | Puerto Rico Through AI Art</title>
-<meta name="description" content="Stunning AI-generated Puerto Rico imagery. Tap any image and ask GoStar about it. The most beautiful way to explore the island.">
+<meta name="description" content="Stunning AI-generated Puerto Rico imagery. Tap any image and ask La Voz about it. The most beautiful way to explore the island.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -108,7 +108,7 @@ nav{padding:10px 16px}
 <section class="hero">
 <div class="hero-badge reveal">LA VOZ PR GALLERY</div>
 <h1 class="reveal d1"><span class="gradient-text">THE ISLAND</span><br>IN FOCUS</h1>
-<p class="hero-sub reveal d2"><span class="en show">Every image is a destination. Tap any one and ask GoStar to tell you the story.</span><span class="es">Cada imagen es un destino. Toca cualquiera y pide a GoStar que te cuente la historia.</span></p>
+<p class="hero-sub reveal d2"><span class="en show">Every image is a destination. Tap any one and ask La Voz to tell you the story.</span><span class="es">Cada imagen es un destino. Toca cualquiera y pide a La Voz que te cuente la historia.</span></p>
 <div class="scroll-hint reveal d3">&#11015; <span class="en show">SCROLL TO EXPLORE</span><span class="es">DESPLAZA PARA EXPLORAR</span></div>
 </section>
 
@@ -116,9 +116,9 @@ nav{padding:10px 16px}
 
 <section class="bottom-cta">
 <h2><span class="en show">READY TO <span class="gradient-text">EXPLORE?</span></span><span class="es">&#191;LISTO PARA <span class="gradient-text">EXPLORAR?</span></span></h2>
-<p><span class="en show">Every destination above is one conversation away. Tap the mic and GoStar takes you there by voice.</span><span class="es">Cada destino esta a una conversacion de distancia. Toca el mic y GoStar te lleva por voz.</span></p>
+<p><span class="en show">Every destination above is one conversation away. Tap the mic and La Voz takes you there by voice.</span><span class="es">Cada destino esta a una conversacion de distancia. Toca el mic y La Voz te lleva por voz.</span></p>
 <div class="bottom-cta-links">
-<a href="laruta.html" class="btn-gold"><span class="en show">TALK TO GOSTAR</span><span class="es">HABLA CON GOSTAR</span> &#9656;</a>
+<a href="laruta.html" class="btn-gold"><span class="en show">TALK TO LA VOZ</span><span class="es">HABLA CON LA VOZ</span> &#9656;</a>
 <a href="index.html" class="btn-outline"><span class="en show">78 MUNICIPALITIES</span><span class="es">78 MUNICIPIOS</span></a>
 </div>
 </section>
@@ -148,7 +148,7 @@ function renderGallery(){
 var c=document.getElementById("galleryContainer");
 c.innerHTML=TOURS.map(function(t,i){
 var num=String(i+1).padStart(2,'0');
-return '<div class="gallery-item"><div class="gallery-img" style="background-image:url('+BASE+t.id+'.png)"></div><div class="gallery-number">'+num+'</div><div class="gallery-content"><div class="gallery-region">'+t.region+'</div><div class="gallery-title"><span class="en '+(lang==="en"?"show":"")+'">'+t.en.name+'</span><span class="es '+(lang==="es"?"show":"")+'">'+t.es.name+'</span></div><div class="gallery-desc"><span class="en '+(lang==="en"?"show":"")+'">'+t.en.desc+'</span><span class="es '+(lang==="es"?"show":"")+'">'+t.es.desc+'</span></div><div class="gallery-tags">'+t.tags.map(function(tag){return '<span class="gallery-tag">'+tag+'</span>';}).join('')+'</div><a href="laruta.html" class="gallery-cta"><span class="en '+(lang==="en"?"show":"")+'">ASK GOSTAR</span><span class="es '+(lang==="es"?"show":"")+'">PREGUNTA A GOSTAR</span> &#9656;</a></div><div class="gallery-watermark">LA VOZ PR &#8212; lavozpr.com</div></div>';
+return '<div class="gallery-item"><div class="gallery-img" style="background-image:url('+BASE+t.id+'.png)"></div><div class="gallery-number">'+num+'</div><div class="gallery-content"><div class="gallery-region">'+t.region+'</div><div class="gallery-title"><span class="en '+(lang==="en"?"show":"")+'">'+t.en.name+'</span><span class="es '+(lang==="es"?"show":"")+'">'+t.es.name+'</span></div><div class="gallery-desc"><span class="en '+(lang==="en"?"show":"")+'">'+t.en.desc+'</span><span class="es '+(lang==="es"?"show":"")+'">'+t.es.desc+'</span></div><div class="gallery-tags">'+t.tags.map(function(tag){return '<span class="gallery-tag">'+tag+'</span>';}).join('')+'</div><a href="laruta.html" class="gallery-cta"><span class="en '+(lang==="en"?"show":"")+'">ASK LA VOZ</span><span class="es '+(lang==="es"?"show":"")+'">PREGUNTA A LA VOZ</span> &#9656;</a></div><div class="gallery-watermark">LA VOZ PR &#8212; lavozpr.com</div></div>';
 }).join('');
 }
 
