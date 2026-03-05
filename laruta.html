@@ -224,11 +224,12 @@ var muniParam = urlParams.get('muni');
 var muniPromptText = null;
 
 if (muniParam && MUNI_PROMPTS[muniParam]) {
-  var langPref = (navigator.language||'').startsWith('es') ? 'es' : 'en';
-  muniPromptText = MUNI_PROMPTS[muniParam][langPref];
   document.getElementById('muniStarter').classList.add('show');
   document.getElementById('muniName').textContent = muniParam;
-  document.getElementById('muniPromptMsg').textContent = muniPromptText;
+  document.getElementById('muniPromptMsg').innerHTML =
+    '<span class="en show">' + MUNI_PROMPTS[muniParam].en + '</span>' +
+    '<span class="es">' + MUNI_PROMPTS[muniParam].es + '</span>';
+  muniPromptText = MUNI_PROMPTS[muniParam].en;
 }
 
 // ── STARTER CARD CLICK ────────────────────────────────────────────────────
@@ -249,10 +250,10 @@ document.getElementById('muniPromptBtn').addEventListener('click', function() {
         '<span class="es">DI ESTO A LA VOZ &#128071;</span>' +
       '</div>' +
       '<div style="font-size:.82rem;color:rgba(255,255,255,.75);line-height:1.5;max-width:300px;background:rgba(0,0,0,.5);padding:10px 16px;border-radius:12px;border:1px solid rgba(255,215,0,.15);backdrop-filter:blur(12px)">' +
-        muniPromptText +
+        '<span class="en ' + (lang==='en'?'show':'') + '">' + MUNI_PROMPTS[muniParam].en + '</span>' +
+        '<span class="es ' + (lang==='es'?'show':'') + '">' + MUNI_PROMPTS[muniParam].es + '</span>' +
       '</div>';
     starter.style.marginTop = '12px';
-    // Re-show in case hidden
     starter.style.display = 'flex';
   } else {
     starter.style.display = 'none';
@@ -344,8 +345,6 @@ function setLang(l){
   document.querySelectorAll(".es").forEach(function(e){e.classList.toggle("show",l==="es");});
   if(muniParam&&MUNI_PROMPTS[muniParam]){
     muniPromptText=MUNI_PROMPTS[muniParam][l];
-    var el=document.getElementById('muniPromptMsg');
-    if(el) el.textContent=muniPromptText;
   }
 }
 </script>
