@@ -151,34 +151,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .num-block:nth-child(3) .num-value{color:var(--teal)}
 
 /* ============================================
-   AI VOICE SECTION (IFRAME)
-   ============================================ */
-.voice-section{padding:0 0 80px;text-align:center}
-.voice-wrap{
-  max-width:700px;margin:0 auto;
-  background:var(--card);
-  border:1px solid var(--border-gold);
-  border-radius:28px;
-  padding:40px 32px 36px;
-  position:relative;
-  overflow:hidden;
-}
-.voice-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gradient)}
-.voice-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-.voice-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:6px}
-.voice-desc{font-size:.85rem;color:var(--dim);margin-bottom:28px;line-height:1.6}
-.voice-widget-box{
-  min-height:100px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.voice-widget-box elevenlabs-convai{
-  display:block;
-  width:100%;
-}
-
-/* ============================================
    WHO IS THIS FOR — 3-CARD GRID
    ============================================ */
 .for-section{padding:80px 0;border-top:1px solid var(--border)}
@@ -420,7 +392,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   .muni-grid{grid-template-columns:1fr}
   .partner-card{padding:40px 24px}
   .hero{padding:110px 0 60px}
-  .voice-wrap{padding:28px 20px}
   .disc-modal{padding:32px 24px}
 }
 @media(max-width:480px){
@@ -477,7 +448,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
         <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
         <button class="lang-btn" id="btnES" onclick="setLang('es')">ES</button>
       </div>
-      <a href="#ask" class="nav-cta"><span class="en show">ASK LA VOZ</span><span class="es">PREGUNTA</span></a>
+      <a href="act60-voice.html" class="nav-cta"><span class="en show">ASK LA VOZ</span><span class="es">PREGUNTA</span></a>
     </div>
   </div>
 </nav>
@@ -511,26 +482,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
       <div class="num-block">
         <div class="num-value" style="font-size:clamp(1.8rem,4vw,3rem);padding-top:10px">&#127477;&#127479;<br>&#127482;&#127480;</div>
         <div class="num-label"><span class="en show">US Citizenship<br>fully intact</span><span class="es">Ciudadan&iacute;a Americana<br>completamente intacta</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== AI VOICE SECTION ===== -->
-<section class="voice-section" id="ask">
-  <div class="container">
-    <div class="voice-wrap fade-up">
-      <div class="voice-eyebrow"><span class="en show">YOUR ACT 60 GUIDE</span><span class="es">TU GU&Iacute;A DE LA LEY 60</span></div>
-      <div class="voice-title">
-        <span class="en show">Ask La Voz <span class="gradient-text">Anything.</span></span>
-        <span class="es">Preg&uacute;ntale a La Voz <span class="gradient-text">Todo.</span></span>
-      </div>
-      <div class="voice-desc">
-        <span class="en show">Which chapter fits your situation? Which municipality matches your lifestyle? What does the decree process actually look like? La Voz has the answers.</span>
-        <span class="es">&iquest;Qu&eacute; cap&iacute;tulo aplica a tu situaci&oacute;n? &iquest;Qu&eacute; municipio se adapta a tu estilo de vida? &iquest;C&oacute;mo es el proceso del decreto realmente? La Voz tiene las respuestas.</span>
-      </div>
-      <div class="voice-widget-box">
-        <elevenlabs-convai agent-id="agent_3101kjzm3xrsf709ebwc0vs3yxav" variant="expanded"></elevenlabs-convai>
       </div>
     </div>
   </div>
@@ -678,7 +629,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
     </div>
 
     <div style="margin-top:32px">
-      <a href="#ask" class="btn-primary">&#127908; <span class="en show">ASK LA VOZ WHICH TOWN FITS YOU</span><span class="es">PREGUNTA A LA VOZ QU&Eacute; PUEBLO TE CONVIENE</span></a>
+      <a href="act60-voice.html" class="btn-primary">&#127908; <span class="en show">ASK LA VOZ WHICH TOWN FITS YOU</span><span class="es">PREGUNTA A LA VOZ QU&Eacute; PUEBLO TE CONVIENE</span></a>
     </div>
   </div>
 </section>
@@ -722,7 +673,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
       <h2><span class="en show">READY TO MAKE <span class="gradient-text">THE MOVE?</span></span><span class="es">&iquest;LISTO PARA <span class="gradient-text">DAR EL PASO?</span></span></h2>
       <p><span class="en show">Talk to La Voz first. Then we connect you with the right Act 60 attorney, the right real estate broker, and everything else you need to make Puerto Rico yours.</span><span class="es">Habla con La Voz primero. Luego te conectamos con el abogado correcto de Ley 60, el corredor de bienes ra&iacute;ces correcto, y todo lo que necesitas para hacer de Puerto Rico tu hogar.</span></p>
       <div class="btn-grid">
-        <a href="#ask" class="btn-primary">&#127908; <span class="en show">TALK TO LA VOZ</span><span class="es">HABLA CON LA VOZ</span></a>
+        <a href="act60-voice.html" class="btn-primary">&#127908; <span class="en show">TALK TO LA VOZ</span><span class="es">HABLA CON LA VOZ</span></a>
         <a href="mailto:info@lavozpr.com" class="btn-secondary">&#128231; <span class="en show">PARTNER WITH US</span><span class="es">S&Eacute; NUESTRO SOCIO</span></a>
         <a href="index.html" class="btn-secondary">&#128506; <span class="en show">EXPLORE 78 TOWNS</span><span class="es">EXPLORA 78 PUEBLOS</span></a>
       </div>
@@ -820,8 +771,6 @@ checkDisclaimer();
 setLang('en');
 </script>
 
-<!-- ElevenLabs Convai Widget — loaded last, async -->
-<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 
 </body>
 </html>
