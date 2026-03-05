@@ -83,7 +83,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .widget-eyebrow{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
 .widget-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;margin-bottom:6px}
 .widget-desc{font-size:.85rem;color:var(--dim);margin-bottom:28px;line-height:1.6}
-.widget-inner{border-radius:16px;overflow:hidden;min-height:80px;display:flex;align-items:center;justify-content:center}
+.widget-inner{border-radius:16px;overflow:hidden;min-height:80px;display:flex;align-items:center;justify-content:center;width:100%}
+.widget-inner elevenlabs-convai{display:block;margin:0 auto}
 
 /* WHO IS THIS FOR */
 .for-section{padding:80px 0;border-top:1px solid var(--border)}
@@ -427,7 +428,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
       <p><span class="en show">Talk to La Voz first. Then we connect you with the right Act 60 attorney, the right real estate broker, and everything else you need to make Puerto Rico yours.</span><span class="es">Habla con La Voz primero. Luego te conectamos con el abogado correcto de Ley 60, el corredor de bienes raíces correcto, y todo lo que necesitas para hacer de Puerto Rico tu hogar.</span></p>
       <div class="btn-grid">
         <a href="#ask" class="btn-primary">🎙️ <span class="en show">TALK TO LA VOZ</span><span class="es">HABLA CON LA VOZ</span></a>
-        <a href="mailto:contact@gostardigital.com?subject=Act 60 Partnership" class="btn-secondary">📧 <span class="en show">PARTNER WITH US</span><span class="es">SÉ NUESTRO SOCIO</span></a>
+        <a href="/cdn-cgi/l/email-protection#d3b0bcbda7b2b0a793b4bca0a7b2a1b7bab4baa7b2bffdb0bcbeeca0a6b1b9b6b0a7ee92b0a7f3e5e3f383b2a1a7bdb6a1a0bbbaa3" class="btn-secondary">📧 <span class="en show">PARTNER WITH US</span><span class="es">SÉ NUESTRO SOCIO</span></a>
         <a href="index.html" class="btn-secondary">🗺️ <span class="en show">EXPLORE 78 TOWNS</span><span class="es">EXPLORA 78 PUEBLOS</span></a>
       </div>
     </div>
@@ -470,7 +471,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   <div class="footer-links">
     <a href="index.html"><span class="en show">Home</span><span class="es">Inicio</span></a>
     <a href="laruta.html">La Ruta</a>
-    <a href="mailto:contact@gostardigital.com"><span class="en show">Contact</span><span class="es">Contacto</span></a>
+    <a href="/cdn-cgi/l/email-protection#2a4945445e4b495e6a4d45595e4b584e434d435e4b4604494547"><span class="en show">Contact</span><span class="es">Contacto</span></a>
   </div>
   <div class="footer-legal">Copyright &copy; 2026. GoStar Digital LLC. All Rights Reserved.</div>
   <div class="footer-legal-links">
@@ -480,7 +481,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   </div>
 </footer>
 
-<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" type="text/javascript"></script>
 
 <script>
 var lang = 'en';
@@ -504,10 +505,4 @@ function setLang(l) {
   lang = l;
   document.getElementById('btnEN').classList.toggle('active', l === 'en');
   document.getElementById('btnES').classList.toggle('active', l === 'es');
-  document.querySelectorAll('.en').forEach(function(e){ e.classList.toggle('show', l === 'en'); });
-  document.querySelectorAll('.es').forEach(function(e){ e.classList.toggle('show', l === 'es'); });
-}
-document.querySelectorAll('.en').forEach(function(e){ e.classList.add('show'); });
-</script>
-</body>
-</html>
+  document.querySelectorAll('.en').forEach(function(e){ e.classList.toggle('show
