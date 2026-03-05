@@ -21,7 +21,6 @@
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 
-/* BG */
 .bg-noise{position:fixed;inset:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");pointer-events:none;z-index:0}
 .bg-g1{position:fixed;width:1000px;height:1000px;top:-500px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,215,0,.055) 0%,transparent 65%);pointer-events:none;z-index:0}
 .bg-g2{position:fixed;width:700px;height:700px;bottom:-300px;right:-200px;background:radial-gradient(circle,rgba(0,217,165,.04) 0%,transparent 65%);pointer-events:none;z-index:0}
@@ -32,7 +31,6 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);ov
 .teal-text{color:var(--teal)}
 .en,.es{display:none}.en.show,.es.show{display:inline}
 
-/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:13px 0;background:rgba(7,7,12,.92);backdrop-filter:blur(28px);border-bottom:1px solid var(--border)}
 nav .container{display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;text-decoration:none}
@@ -54,7 +52,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .mob-menu a.mob-cta{color:var(--gold);font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:1rem}
 .mob-lang{padding:12px 0}
 
-/* HERO */
 .hero{padding:160px 0 100px;text-align:center;position:relative}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 20px;background:rgba(0,217,165,.07);border:1px solid rgba(0,217,165,.14);border-radius:50px;font-size:.68rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:32px}
 .hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
@@ -64,7 +61,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .hero-sub{font-size:1.1rem;line-height:1.85;color:var(--dim);max-width:560px;margin:32px auto 48px;font-weight:300}
 .hero-ctas{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:72px}
 
-/* BUTTONS */
 .btn-primary{padding:15px 38px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,215,0,.25)}
 .btn-secondary{padding:15px 38px;background:transparent;border:1px solid rgba(255,255,255,.1);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
@@ -72,7 +68,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .btn-teal{padding:15px 38px;background:var(--gradient-teal);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;border-radius:50px;text-decoration:none;transition:all .3s;display:inline-flex;align-items:center;gap:8px}
 .btn-teal:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,217,165,.25)}
 
-/* HERO STATS */
 .hero-stats{display:flex;justify-content:center;gap:0;max-width:720px;margin:0 auto;background:rgba(255,255,255,.02);border:1px solid var(--border-gold);border-radius:20px;overflow:hidden}
 .hero-stat{flex:1;padding:28px 16px;text-align:center;position:relative}
 .hero-stat:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border-gold)}
@@ -81,20 +76,17 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .hero-stat-num.t{color:var(--teal)}
 .hero-stat-label{font-size:.58rem;color:var(--dim2);letter-spacing:1.5px;text-transform:uppercase;margin-top:6px;line-height:1.45}
 
-/* SECTION SHARED */
 .section{padding:100px 0}
 .section-label{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
 .section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.5rem);letter-spacing:3px;margin-bottom:18px}
 .section-sub{color:var(--dim);font-size:1rem;line-height:1.75;max-width:600px;margin:0 auto 48px}
 
-/* QUOTE STRIP */
 .quote-strip{padding:68px 0;text-align:center;position:relative}
 .quote-strip::before,.quote-strip::after{content:'';position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.1),transparent)}
 .quote-strip::before{top:0}.quote-strip::after{bottom:0}
 .quote-text{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.5rem,4vw,2.8rem);letter-spacing:3px;max-width:860px;margin:0 auto;line-height:1.1}
 .quote-attr{font-size:.7rem;color:var(--dim2);margin-top:14px;letter-spacing:2px;text-transform:uppercase}
 
-/* WHY PR */
 .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .why-card{background:var(--card);border:1px solid var(--border);border-radius:22px;padding:36px 26px;position:relative;overflow:hidden;transition:all .4s}
 .why-card:hover{border-color:var(--border-gold);transform:translateY(-4px)}
@@ -105,7 +97,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .why-title{font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:1.5px;margin-bottom:10px}
 .why-desc{font-size:.84rem;color:var(--dim);line-height:1.65}
 
-/* ACT 60 */
 .act60-section{padding:100px 0;position:relative}
 .act60-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.15),transparent)}
 .act60-numbers{display:flex;justify-content:center;gap:0;margin:48px auto;max-width:800px;background:rgba(255,215,0,.03);border:1px solid var(--border-gold);border-radius:24px;overflow:hidden}
@@ -137,7 +128,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .act60-cta-wrap p{color:var(--dim);font-size:.9rem;max-width:500px;margin:0 auto 28px;line-height:1.75}
 .cta-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
 
-/* LA RUTA */
 .laruta-section{padding:100px 0;text-align:center;position:relative}
 .laruta-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,217,165,.15),transparent)}
 .laruta-card{background:var(--card);border:1px solid rgba(0,217,165,.1);border-radius:28px;padding:56px 40px;max-width:820px;margin:40px auto 0;position:relative;overflow:hidden}
@@ -147,7 +137,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .ls-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1.5px;margin-bottom:8px}
 .ls-desc{font-size:.8rem;color:var(--dim);line-height:1.6}
 
-/* PARTNERS */
 .partner-section{padding:100px 0;text-align:center;position:relative}
 .partner-section::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(255,215,0,.1),transparent)}
 .ph-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:44px}
@@ -159,7 +148,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .ph-type{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:1.5px;margin-bottom:8px}
 .ph-desc{font-size:.8rem;color:var(--dim);line-height:1.55}
 
-/* MUNICIPALITIES */
 .muni-section{padding:100px 0}
 .muni-letter-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:28px}
 .muni-letter-btn{width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:1rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
@@ -173,7 +161,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .muni-card{padding:14px;background:var(--card);border:1px solid rgba(255,255,255,.05);border-radius:14px;text-align:center;font-size:.78rem;color:var(--text);transition:all .3s;text-decoration:none;display:block}
 .muni-card:hover{border-color:var(--border-gold);color:var(--gold);transform:translateY(-2px)}
 
-/* FINAL CTA */
 .final-cta{padding:100px 0}
 .fc-card{background:linear-gradient(135deg,rgba(255,215,0,.05),rgba(0,217,165,.03));border:1px solid var(--border-gold);border-radius:28px;padding:64px 40px;max-width:820px;margin:0 auto;text-align:center;position:relative;overflow:hidden}
 .fc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--orange),var(--teal))}
@@ -184,20 +171,22 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .disc-bar{background:rgba(255,107,53,.05);border-top:1px solid rgba(255,107,53,.1);padding:10px 0;text-align:center}
 .disc-bar p{font-size:.63rem;color:var(--dim2);line-height:1.5;max-width:900px;margin:0 auto;padding:0 16px}
 
-/* FOOTER */
 .footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
 .footer-logo{margin-bottom:8px}
 .footer-sub{font-size:.67rem;color:var(--dim2);margin-top:4px}
 .footer-links{margin-top:14px;display:flex;justify-content:center;gap:24px;flex-wrap:wrap}
 .footer-links a{font-size:.7rem;color:var(--dim2);text-decoration:none;transition:color .3s}
 .footer-links a:hover{color:var(--gold)}
+.footer-legal{margin-top:14px;font-size:.67rem;color:var(--dim2)}
+.footer-legal-links{margin-top:8px;font-size:.67rem}
+.footer-legal-links a{color:var(--dim2);text-decoration:none;transition:color .3s}
+.footer-legal-links a:hover{color:var(--gold)}
+.footer-legal-links .sep{color:var(--dim2);margin:0 8px}
 
-/* REVEAL */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .reveal{animation:fadeInUp .7s ease-out both}
 .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
 
-/* MOBILE */
 @media(max-width:768px){
   .nav-link,.nav-cta,.desk-lang{display:none}
   .hamburger{display:block}
@@ -233,7 +222,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 <div class="bg-g2"></div>
 <div class="bg-g3"></div>
 
-<!-- NAV -->
 <nav>
 <div class="container">
   <a href="index.html" class="nav-logo"><img src="lavozpr-logo.png" alt="La Voz PR"></a>
@@ -250,7 +238,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </div>
 </nav>
 
-<!-- MOBILE MENU -->
 <div class="mob-menu" id="mobMenu">
   <a href="laruta.html" class="mob-cta"><span class="en show">Ask La Voz</span><span class="es">Pregunta a La Voz</span></a>
   <a href="act60.html">Act 60</a>
@@ -261,7 +248,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   <div class="mob-lang"><div class="lang-toggle"><button class="lang-btn active" id="btnEN2" onclick="setLang('en')">EN</button><button class="lang-btn" id="btnES2" onclick="setLang('es')">ES</button></div></div>
 </div>
 
-<!-- HERO -->
 <section class="hero">
 <div class="container">
   <div class="hero-eyebrow reveal"><span class="dot"></span><span class="en show">PUERTO RICO — DESTINATION</span><span class="es">PUERTO RICO — DESTINO</span></div>
@@ -298,7 +284,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </div>
 </section>
 
-<!-- QUOTE -->
 <div class="quote-strip">
 <div class="container">
   <div class="quote-text reveal">
@@ -309,7 +294,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </div>
 </div>
 
-<!-- WHY PUERTO RICO -->
 <section class="section" id="why">
 <div class="container" style="text-align:center">
   <div class="section-label reveal"><span class="en show">WHY PUERTO RICO</span><span class="es">POR QUÉ PUERTO RICO</span></div>
@@ -338,13 +322,11 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </div>
 </section>
 
-<!-- ACT 60 — FULL SECTION -->
 <section class="act60-section" id="act60">
 <div class="container" style="text-align:center">
   <div class="section-label reveal"><span class="en show">THE BIGGEST OPPORTUNITY IN AMERICA</span><span class="es">LA MAYOR OPORTUNIDAD EN AMÉRICA</span></div>
   <div class="section-title reveal d1"><span class="en show">ACT 60. <span class="gradient-text">THE LAW THAT CHANGES LIVES.</span></span><span class="es">LEY 60. <span class="gradient-text">LA LEY QUE CAMBIA VIDAS.</span></span></div>
   <p class="section-sub reveal d2"><span class="en show">Puerto Rico's Incentives Code is the most powerful combination of tax benefits available to US citizens anywhere in the country. Zero percent capital gains. Four percent corporate tax. Your passport and citizenship fully intact. No other state or territory comes close.</span><span class="es">El Código de Incentivos de Puerto Rico es la combinación más poderosa de beneficios contributivos disponibles para ciudadanos americanos. Cero por ciento en ganancias de capital. Cuatro por ciento corporativo. Tu pasaporte y ciudadanía intactos. Ningún estado o territorio se compara.</span></p>
-
   <div class="act60-numbers reveal d3">
     <div class="act60-num">
       <div class="act60-val">0%</div>
@@ -359,7 +341,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
       <div class="act60-lbl"><span class="en show">Years locked in<br>by government decree</span><span class="es">Años garantizados<br>por decreto gubernamental</span></div>
     </div>
   </div>
-
   <div class="act60-grid">
     <div class="act60-card gold">
       <div class="act60-tag gold"><span class="en show">FORMERLY ACT 22 — INDIVIDUAL INVESTORS</span><span class="es">ANTES LEY 22 — INVERSIONISTAS INDIVIDUALES</span></div>
@@ -388,7 +369,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
       </ul>
     </div>
   </div>
-
   <div class="act60-cta-wrap reveal">
     <h3><span class="en show">NOT SURE WHICH CHAPTER FITS YOU?<br><span class="gradient-text">ASK LA VOZ.</span></span><span class="es">¿NO SABES QUÉ CAPÍTULO TE CONVIENE?<br><span class="gradient-text">PREGUNTA A LA VOZ.</span></span></h3>
     <p><span class="en show">La Voz knows Act 60 inside and out. Tell La Voz your situation — investor, business owner, or professional thinking about the move — and La Voz walks you through exactly what's possible for you.</span><span class="es">La Voz conoce la Ley 60 a fondo. Cuéntale tu situación — inversionista, dueño de negocio o profesional pensando en mudarse — y La Voz te explica exactamente qué es posible para ti.</span></p>
@@ -400,7 +380,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </div>
 </section>
 
-<!-- LA RUTA -->
 <section class="laruta-section" id="laruta">
 <div class="container" style="text-align:center">
   <div class="section-label reveal"><span class="en show">YOUR GUIDE TO THE ISLAND</span><span class="es">TU GUÍA DE LA ISLA</span></div>
@@ -429,7 +408,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </div>
 </section>
 
-<!-- PARTNERS -->
 <section class="partner-section" id="partners">
 <div class="container" style="text-align:center">
   <div class="section-label reveal"><span class="en show">PARTNER WITH LA VOZ PR</span><span class="es">SÉ SOCIO DE LA VOZ PR</span></div>
@@ -447,7 +425,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </div>
 </section>
 
-<!-- 78 MUNICIPALITIES -->
 <section class="muni-section" id="municipalities">
 <div class="container" style="text-align:center">
   <div class="section-label reveal"><span class="en show">78 MUNICIPALITIES — 78 WORLDS</span><span class="es">78 MUNICIPIOS — 78 MUNDOS</span></div>
@@ -458,7 +435,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </div>
 </section>
 
-<!-- FINAL CTA -->
 <section class="final-cta">
 <div class="container">
   <div class="fc-card reveal">
@@ -473,7 +449,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 </div>
 </section>
 
-<!-- DISCLAIMER BAR -->
 <div class="disc-bar">
   <div class="container">
     <p><span class="en show">⚠️ La Voz PR is an information platform. Nothing on this site constitutes legal, tax, or financial advice. Act 60 information is for educational purposes only. Always consult a qualified attorney and CPA before making any relocation or financial decisions. GoStar Digital LLC is not a law firm or tax advisory.</span><span class="es">⚠️ La Voz PR es una plataforma de información. Nada en este sitio constituye asesoramiento legal, tributario ni financiero. La información sobre la Ley 60 es solo con fines educativos. Consulte siempre a un abogado calificado y CPA antes de tomar decisiones de reubicación o financieras. GoStar Digital LLC no es una firma legal ni asesora tributaria.</span></p>
@@ -482,14 +457,20 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
 <!-- FOOTER -->
 <footer class="footer">
-<div class="footer-logo"><img src="lavozpr-logo.png" alt="La Voz PR" style="height:48px;width:auto;opacity:.85"></div>
-<div class="footer-sub"><span class="en show">Puerto Rico's Destination Platform — GoStar Digital LLC</span><span class="es">La Plataforma de Destino de Puerto Rico — GoStar Digital LLC</span></div>
-<div class="footer-links">
-  <a href="act60.html">Act 60</a>
-  <a href="laruta.html">La Ruta</a>
-  <a href="#partners"><span class="en show">Partners</span><span class="es">Socios</span></a>
-  <a href="mailto:contact@gostardigital.com"><span class="en show">Contact</span><span class="es">Contacto</span></a>
-</div>
+  <div class="footer-logo"><img src="lavozpr-logo.png" alt="La Voz PR" style="height:48px;width:auto;opacity:.85"></div>
+  <div class="footer-sub"><span class="en show">Puerto Rico's Destination Platform — GoStar Digital LLC</span><span class="es">La Plataforma de Destino de Puerto Rico — GoStar Digital LLC</span></div>
+  <div class="footer-links">
+    <a href="act60.html">Act 60</a>
+    <a href="laruta.html">La Ruta</a>
+    <a href="#partners"><span class="en show">Partners</span><span class="es">Socios</span></a>
+    <a href="mailto:contact@gostardigital.com"><span class="en show">Contact</span><span class="es">Contacto</span></a>
+  </div>
+  <div class="footer-legal">Copyright &copy; 2026. GoStar Digital LLC. All Rights Reserved.</div>
+  <div class="footer-legal-links">
+    <a href="disclaimer.html"><span class="en show">Disclaimer</span><span class="es">Aviso Legal</span></a>
+    <span class="sep">|</span>
+    <a href="terms.html"><span class="en show">Terms</span><span class="es">Términos</span></a>
+  </div>
 </footer>
 
 <script>
