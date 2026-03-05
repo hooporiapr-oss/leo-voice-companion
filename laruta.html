@@ -52,6 +52,25 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
 .subtitle{font-size:.95rem;color:rgba(255,255,255,.5);letter-spacing:1px;font-weight:300;text-shadow:0 2px 12px rgba(0,0,0,.5)}
 .en,.es{display:none}.en.show,.es.show{display:inline}
 
+/* MUNICIPALITY CONTEXT BANNER */
+.muni-banner{
+  display:none;
+  align-items:center;
+  gap:8px;
+  margin-top:14px;
+  padding:6px 16px;
+  background:rgba(255,215,0,.07);
+  border:1px solid rgba(255,215,0,.15);
+  border-radius:50px;
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+.muni-banner.show{display:inline-flex}
+.muni-banner-icon{font-size:.8rem}
+
 /* BOTTOM HINT */
 .hint{position:absolute;bottom:20px;left:0;right:0;text-align:center;z-index:5}
 .hint-text{font-size:.65rem;color:rgba(255,255,255,.3);letter-spacing:2px;text-transform:uppercase}
@@ -62,7 +81,7 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
 .notice-close{position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:rgba(255,255,255,.4);font-size:1.1rem;cursor:pointer;padding:4px 8px}
 .notice-close:hover{color:#fff}
 
-/* ELEVENLABS WIDGET - force center */
+/* ELEVENLABS WIDGET */
 elevenlabs-convai{z-index:100!important}
 .widget-wrap{position:fixed;bottom:24px;left:0;right:0;display:flex;justify-content:center;z-index:100;pointer-events:none}
 .widget-wrap elevenlabs-convai{pointer-events:auto}
@@ -104,14 +123,19 @@ elevenlabs-convai{z-index:100!important}
 </div>
 
 <div class="center-block">
-<div class="badge"><span class="pulse"></span> <span class="en show">AI VOICE CONCIERGE</span><span class="es">CONSERJE DE VOZ AI</span></div>
-<div class="title"><span class="gradient-text">LA RUTA</span></div>
-<div class="subtitle"><span class="en show">Tap the mic. Ask La Voz anything.</span><span class="es">Toca el mic. Pregunta a La Voz lo que quieras.</span></div>
-<div class="reconnect"><span class="en show">Session ended? Just tap the mic again to keep exploring.</span><span class="es">&#191;Se detuvo? Toca el mic otra vez para seguir explorando.</span></div>
+  <div class="badge"><span class="pulse"></span> <span class="en show">AI VOICE CONCIERGE</span><span class="es">CONSERJE DE VOZ AI</span></div>
+  <div class="title"><span class="gradient-text">LA RUTA</span></div>
+  <div class="subtitle"><span class="en show">Tap the mic. Ask La Voz anything.</span><span class="es">Toca el mic. Pregunta a La Voz lo que quieras.</span></div>
+  <!-- Municipality context banner — shown when arriving from a muni card -->
+  <div class="muni-banner" id="muniBanner">
+    <span class="muni-banner-icon">&#128205;</span>
+    <span id="muniBannerText"></span>
+  </div>
+  <div class="reconnect"><span class="en show">Session ended? Just tap the mic again to keep exploring.</span><span class="es">&#191;Se detuvo? Toca el mic otra vez para seguir explorando.</span></div>
 </div>
 
 <div class="hint">
-<div class="hint-text"><span class="en show">&#11015; Tap La Voz below to start</span><span class="es">&#11015; Toca La Voz abajo para empezar</span></div>
+  <div class="hint-text"><span class="en show">&#11015; Tap La Voz below to start</span><span class="es">&#11015; Toca La Voz abajo para empezar</span></div>
 </div>
 </div>
 
@@ -120,79 +144,184 @@ elevenlabs-convai{z-index:100!important}
 <span class="es">Para la mejor experiencia de voz, abre esta pagina en <strong>Safari</strong></span>
 <button class="notice-close" onclick="document.getElementById('browserNotice').style.display='none'">&times;</button>
 </div>
-<elevenlabs-convai agent-id="agent_5801kjdgm1zwe65843rj9r29zmj1"></elevenlabs-convai>
-</div>
+
+<!-- Widget injected dynamically below -->
+<div id="widgetMount"></div>
 
 <script>
-// Force-center the ElevenLabs widget button by overriding shadow DOM styles
-function centerWidget(){
-var el=document.querySelector('elevenlabs-convai');
-if(!el||!el.shadowRoot)return setTimeout(centerWidget,500);
-var style=document.createElement('style');
-style.textContent='div[style*="fixed"]{left:50%!important;right:auto!important;transform:translateX(-50%)!important;bottom:0!important;}';
-el.shadowRoot.appendChild(style);
+// ── MUNICIPALITY STARTER PROMPTS ──────────────────────────────────────────
+var MUNI_PROMPTS = {
+  "Adjuntas":      {en:"Tell me everything about Adjuntas — the mountains, coffee farms, and why they call it the Switzerland of Puerto Rico.",es:"Cuéntame todo sobre Adjuntas — las montañas, las fincas de café, y por qué le llaman la Suiza de Puerto Rico."},
+  "Aguada":        {en:"Tell me about Aguada — where Columbus may have first landed and what makes it special today.",es:"Cuéntame sobre Aguada — donde Colón pudo haber llegado primero y qué la hace especial hoy."},
+  "Aguadilla":     {en:"Tell me about Aguadilla — the surf, the old Ramey Air Force Base, and the best things to do there.",es:"Cuéntame sobre Aguadilla — el surf, la antigua Base Ramey y las mejores cosas que hacer allí."},
+  "Aguas Buenas":  {en:"Tell me about Aguas Buenas — the caves, the history, and what visitors should know.",es:"Cuéntame sobre Aguas Buenas — las cuevas, la historia y lo que los visitantes deben saber."},
+  "Aibonito":      {en:"Tell me about Aibonito — the flower festival, the mountain air, and the canyon.",es:"Cuéntame sobre Aibonito — el festival de flores, la brisa de montaña y el cañón."},
+  "Arecibo":       {en:"Tell me about Arecibo — the observatory, the caves of Camuy, the lighthouse, and the coast.",es:"Cuéntame sobre Arecibo — el observatorio, las cuevas de Camuy, el faro y la costa."},
+  "Arroyo":        {en:"Tell me about Arroyo — the southern coast, the old train history, and what to see there.",es:"Cuéntame sobre Arroyo — la costa sur, la historia del tren antiguo y qué ver allí."},
+  "Barceloneta":   {en:"Tell me about Barceloneta — the outlet shopping, the northern coast, and local highlights.",es:"Cuéntame sobre Barceloneta — las tiendas outlet, la costa norte y los atractivos locales."},
+  "Barranquitas":  {en:"Tell me about Barranquitas — the birthplace of Luis Muñoz Rivera, the mountains, and the crafts fair.",es:"Cuéntame sobre Barranquitas — el pueblo natal de Luis Muñoz Rivera, las montañas y la feria de artesanías."},
+  "Bayamon":       {en:"Tell me about Bayamón — Puerto Rico's second largest city, the parks, the stadium, and local culture.",es:"Cuéntame sobre Bayamón — la segunda ciudad más grande de Puerto Rico, los parques, el estadio y la cultura local."},
+  "Cabo Rojo":     {en:"Tell me about Cabo Rojo — Los Morrillos lighthouse, the pink salt flats, La Playuela beach, and the best seafood.",es:"Cuéntame sobre Cabo Rojo — el faro Los Morrillos, las salinas rosadas, Playa La Playuela y los mejores mariscos."},
+  "Caguas":        {en:"Tell me about Caguas — the Taino heritage, the botanical garden, and the heart of Puerto Rico's interior.",es:"Cuéntame sobre Caguas — la herencia taína, el jardín botánico y el corazón del interior de Puerto Rico."},
+  "Camuy":         {en:"Tell me about Camuy — the famous Camuy Caves, the river, and what makes this town unique.",es:"Cuéntame sobre Camuy — las famosas Cuevas de Camuy, el río y qué hace único este pueblo."},
+  "Canovanas":     {en:"Tell me about Canóvanas — the horse racing track, the folklore of El Chupacabras, and local culture.",es:"Cuéntame sobre Canóvanas — el hipódromo, el folclor del Chupacabras y la cultura local."},
+  "Carolina":      {en:"Tell me about Carolina — birthplace of Roberto Clemente, the beaches, and the Luis A. Ferré airport area.",es:"Cuéntame sobre Carolina — el pueblo natal de Roberto Clemente, las playas y el área del aeropuerto."},
+  "Catano":        {en:"Tell me about Cataño — the Bacardí rum factory, the ferry from Old San Juan, and Palo Seco.",es:"Cuéntame sobre Cataño — la fábrica de ron Bacardí, el ferry desde el Viejo San Juan y Palo Seco."},
+  "Cayey":         {en:"Tell me about Cayey — the famous Guavate pork highway, the university town, and mountain culture.",es:"Cuéntame sobre Cayey — la famosa ruta del lechón en Guavate, la ciudad universitaria y la cultura de montaña."},
+  "Ceiba":         {en:"Tell me about Ceiba — the Roosevelt Roads Naval Station history, ferries to Vieques and Culebra, and local beaches.",es:"Cuéntame sobre Ceiba — la historia de la Base Naval Roosevelt Roads, los ferries a Vieques y Culebra, y las playas locales."},
+  "Ciales":        {en:"Tell me about Ciales — the mountain coffee, the rivers, and the hidden beauty of this interior town.",es:"Cuéntame sobre Ciales — el café de montaña, los ríos y la belleza escondida de este pueblo interior."},
+  "Cidra":         {en:"Tell me about Cidra — the lakes, the cool mountain climate, and why it's called the City of Eternal Spring.",es:"Cuéntame sobre Cidra — los lagos, el fresco clima de montaña y por qué la llaman la Ciudad de la Eterna Primavera."},
+  "Coamo":         {en:"Tell me about Coamo — the thermal hot springs, the oldest town in Puerto Rico, and San Blas race history.",es:"Cuéntame sobre Coamo — las aguas termales, uno de los pueblos más antiguos de Puerto Rico y la historia de la carrera San Blas."},
+  "Comerio":       {en:"Tell me about Comerío — the rivers, the countryside, and the heart of Puerto Rico's central mountains.",es:"Cuéntame sobre Comerío — los ríos, el campo y el corazón de las montañas centrales de Puerto Rico."},
+  "Corozal":       {en:"Tell me about Corozal — the scenic mountain roads, the local festivals, and the agricultural traditions.",es:"Cuéntame sobre Corozal — los caminos escénicos de montaña, los festivales locales y las tradiciones agrícolas."},
+  "Culebra":       {en:"Tell me about Culebra — Flamenco Beach, snorkeling spots, sea turtles, and how to get there from the mainland.",es:"Cuéntame sobre Culebra — Playa Flamenco, lugares de snorkel, tortugas marinas y cómo llegar desde la isla grande."},
+  "Dorado":        {en:"Tell me about Dorado — the luxury resorts, the famous golf courses, the beaches, and the pineapple heritage.",es:"Cuéntame sobre Dorado — los resorts de lujo, los famosos campos de golf, las playas y la herencia de la piña."},
+  "Fajardo":       {en:"Tell me about Fajardo — the ferry terminal to Culebra and Vieques, Las Cabezas de San Juan, and Seven Seas beach.",es:"Cuéntame sobre Fajardo — la terminal de ferry a Culebra y Vieques, Las Cabezas de San Juan y la playa Seven Seas."},
+  "Florida":       {en:"Tell me about Florida — Puerto Rico's smallest municipality, its charm, and what makes it worth a visit.",es:"Cuéntame sobre Florida — el municipio más pequeño de Puerto Rico, su encanto y por qué vale la pena visitarlo."},
+  "Guanica":       {en:"Tell me about Guánica — the dry forest, the world-class diving and snorkeling, and the historic 1898 landing site.",es:"Cuéntame sobre Guánica — el bosque seco, el buceo y snorkel de clase mundial y el sitio histórico del desembarco de 1898."},
+  "Guayama":       {en:"Tell me about Guayama — the City of Witches, the architecture, the paso fino horses, and southern coastal culture.",es:"Cuéntame sobre Guayama — la Ciudad de las Brujas, la arquitectura, los caballos paso fino y la cultura costera del sur."},
+  "Guayanilla":    {en:"Tell me about Guayanilla — the southern coast, the mangroves, and the energy and petrochemical history.",es:"Cuéntame sobre Guayanilla — la costa sur, los manglares y la historia energética y petroquímica."},
+  "Guaynabo":      {en:"Tell me about Guaynabo — the Caparra ruins, the first European settlement in Puerto Rico, and modern city life.",es:"Cuéntame sobre Guaynabo — las ruinas de Caparra, el primer asentamiento europeo en Puerto Rico y la vida urbana moderna."},
+  "Gurabo":        {en:"Tell me about Gurabo — the growing eastern municipality, its nature areas, and local culture.",es:"Cuéntame sobre Gurabo — el creciente municipio del este, sus áreas naturales y la cultura local."},
+  "Hatillo":       {en:"Tell me about Hatillo — the Christmas mask festival, the dairy farms, and the northern coast.",es:"Cuéntame sobre Hatillo — el festival de máscaras navideñas, las fincas lecheras y la costa norte."},
+  "Hormigueros":   {en:"Tell me about Hormigueros — the famous Monserrate basilica, the miracles, and the religious pilgrimage tradition.",es:"Cuéntame sobre Hormigueros — la famosa basílica de Monserrate, los milagros y la tradición de peregrinación religiosa."},
+  "Humacao":       {en:"Tell me about Humacao — Palmas del Mar, the nature reserve, the eastern coast, and local highlights.",es:"Cuéntame sobre Humacao — Palmas del Mar, la reserva natural, la costa este y los atractivos locales."},
+  "Isabela":       {en:"Tell me about Isabela — Jobos Beach surfing, the Blue Hole, Guajataca Tunnel, and the dramatic northwest cliffs.",es:"Cuéntame sobre Isabela — el surf en Playa Jobos, el Blue Hole, el Túnel de Guajataca y los dramáticos acantilados del noroeste."},
+  "Jayuya":        {en:"Tell me about Jayuya — the heart of Taino indigenous culture, Cerro Punta, coffee farms, and mountain heritage.",es:"Cuéntame sobre Jayuya — el corazón de la cultura indígena taína, el Cerro Punta, las fincas de café y la herencia de montaña."},
+  "Juana Diaz":    {en:"Tell me about Juana Díaz — the morcilla black pudding capital, the carnival, and southern Puerto Rico culture.",es:"Cuéntame sobre Juana Díaz — la capital de la morcilla, el carnaval y la cultura del sur de Puerto Rico."},
+  "Juncos":        {en:"Tell me about Juncos — the eastern town, its history, and what travelers should explore nearby.",es:"Cuéntame sobre Juncos — el pueblo del este, su historia y lo que los viajeros deben explorar en los alrededores."},
+  "Lajas":         {en:"Tell me about Lajas — the Phosphorescent Bay at La Parguera, the fishing village, and the wetlands.",es:"Cuéntame sobre Lajas — la Bahía Fosforescente de La Parguera, el pueblo pesquero y los humedales."},
+  "Lares":         {en:"Tell me about Lares — the Grito de Lares independence revolt, the ice cream flavors, and mountain culture.",es:"Cuéntame sobre Lares — el Grito de Lares, los sabores de helado y la cultura de montaña."},
+  "Las Marias":    {en:"Tell me about Las Marías — the coffee and citrus farming heritage, the rivers, and mountain life.",es:"Cuéntame sobre Las Marías — la herencia cafetalera y citrícola, los ríos y la vida de montaña."},
+  "Las Piedras":   {en:"Tell me about Las Piedras — the eastern municipality, its pineapple fields, and local traditions.",es:"Cuéntame sobre Las Piedras — el municipio del este, sus campos de piña y las tradiciones locales."},
+  "Loiza":         {en:"Tell me about Loíza — the heart of Afro-Puerto Rican culture, bomba drums, vejigante masks, Piñones kioscos, and 400 years of living heritage.",es:"Cuéntame sobre Loíza — el corazón de la cultura afropuertorriqueña, tambores de bomba, máscaras vejigantes, los kioscos de Piñones y 400 años de herencia viva."},
+  "Luquillo":      {en:"Tell me about Luquillo — the famous kioskos, the balneario beach, El Yunque nearby, and the food scene.",es:"Cuéntame sobre Luquillo — los famosos kioskos, el balneario, la cercanía a El Yunque y la escena gastronómica."},
+  "Manati":        {en:"Tell me about Manatí — the northern coast, the manatees, the beaches, and the agricultural history.",es:"Cuéntame sobre Manatí — la costa norte, los manatíes, las playas y la historia agrícola."},
+  "Maricao":       {en:"Tell me about Maricao — the coffee capital of Puerto Rico, the fish hatchery, and mountain trails.",es:"Cuéntame sobre Maricao — la capital del café de Puerto Rico, la piscifactoría y los senderos de montaña."},
+  "Maunabo":       {en:"Tell me about Maunabo — the southeastern coast, the lighthouse, the leatherback turtles, and local beaches.",es:"Cuéntame sobre Maunabo — la costa sureste, el faro, las tortugas laúd y las playas locales."},
+  "Mayaguez":      {en:"Tell me about Mayagüez — the Zoo, the tuna industry, the university, Cabo Rojo nearby, and west coast culture.",es:"Cuéntame sobre Mayagüez — el zoológico, la industria del atún, la universidad, la cercanía a Cabo Rojo y la cultura de la costa oeste."},
+  "Moca":          {en:"Tell me about Moca — the lacemaking capital of Puerto Rico, the mundillo craft tradition, and local highlights.",es:"Cuéntame sobre Moca — la capital del mundillo de encajes de Puerto Rico, la tradición artesanal y los atractivos locales."},
+  "Morovis":       {en:"Tell me about Morovis — the mountain roads, paso fino horse culture, and central Puerto Rico traditions.",es:"Cuéntame sobre Morovis — los caminos de montaña, la cultura del caballo paso fino y las tradiciones del centro de Puerto Rico."},
+  "Naguabo":       {en:"Tell me about Naguabo — the east coast fishing town, Cayo Santiago monkey island, and the local food.",es:"Cuéntame sobre Naguabo — el pueblo pesquero de la costa este, la isla de los monos Cayo Santiago y la comida local."},
+  "Naranjito":     {en:"Tell me about Naranjito — the mountain town, the oranges it's named for, and central island culture.",es:"Cuéntame sobre Naranjito — el pueblo de montaña, las naranjas que le dan nombre y la cultura del centro de la isla."},
+  "Orocovis":      {en:"Tell me about Orocovis — the geographic center of Puerto Rico, the zip lines, the mountains, and paragliding.",es:"Cuéntame sobre Orocovis — el centro geográfico de Puerto Rico, las tirolesas, las montañas y el parapente."},
+  "Patillas":      {en:"Tell me about Patillas — the Caribbean Switzerland, the reservoir, the green mountains meeting the sea.",es:"Cuéntame sobre Patillas — la Suiza del Caribe, el embalse y las montañas verdes que se encuentran con el mar."},
+  "Penuelas":      {en:"Tell me about Peñuelas — the southern coast, the mango festival, and the mangrove wetlands.",es:"Cuéntame sobre Peñuelas — la costa sur, el festival del mango y los humedales de manglar."},
+  "Ponce":         {en:"Tell me about Ponce — La Perla del Sur, Parque de Bombas, Museo de Arte, Plaza Las Delicias, and the proud southern culture.",es:"Cuéntame sobre Ponce — La Perla del Sur, el Parque de Bombas, el Museo de Arte, la Plaza Las Delicias y la orgullosa cultura sureña."},
+  "Quebradillas":  {en:"Tell me about Quebradillas — the dramatic cliffs, Guajataca Lake, the northwest coast, and local beaches.",es:"Cuéntame sobre Quebradillas — los dramáticos acantilados, el Lago Guajataca, la costa noroeste y las playas locales."},
+  "Rincon":        {en:"Tell me about Rincón — the surf capital of the Caribbean, world-class waves, whale watching in winter, and the sunset scene.",es:"Cuéntame sobre Rincón — la capital del surf del Caribe, las olas de clase mundial, el avistamiento de ballenas en invierno y los atardeceres."},
+  "Rio Grande":    {en:"Tell me about Río Grande — El Yunque National Rainforest, the waterfalls, hiking trails, and the north coast.",es:"Cuéntame sobre Río Grande — el Bosque Nacional El Yunque, las cascadas, los senderos y la costa norte."},
+  "Sabana Grande": {en:"Tell me about Sabana Grande — the Virgen del Pozo apparition site, the religious history, and local culture.",es:"Cuéntame sobre Sabana Grande — el sitio de la aparición de la Virgen del Pozo, la historia religiosa y la cultura local."},
+  "Salinas":       {en:"Tell me about Salinas — the seafood capital of Puerto Rico, the southern coast, the fishing community, and the mojo isleño sauce.",es:"Cuéntame sobre Salinas — la capital de los mariscos de Puerto Rico, la costa sur, la comunidad pesquera y la salsa mojo isleño."},
+  "San German":    {en:"Tell me about San Germán — the second oldest city in Puerto Rico, the Porta Coeli chapel, and the colonial architecture.",es:"Cuéntame sobre San Germán — la segunda ciudad más antigua de Puerto Rico, la capilla Porta Coeli y la arquitectura colonial."},
+  "San Juan":      {en:"Tell me about San Juan — Old San Juan, El Morro, the forts, the beaches of Condado and Isla Verde, the food scene, and nightlife.",es:"Cuéntame sobre San Juan — el Viejo San Juan, El Morro, los fuertes, las playas de Condado e Isla Verde, la gastronomía y la vida nocturna."},
+  "San Lorenzo":   {en:"Tell me about San Lorenzo — the coffee heritage, the rivers, and the culture of this eastern mountain town.",es:"Cuéntame sobre San Lorenzo — la herencia cafetalera, los ríos y la cultura de este pueblo de montaña del este."},
+  "San Sebastian": {en:"Tell me about San Sebastián — the Festival de la Novilla, the mountains, the rivers, and the artisan culture.",es:"Cuéntame sobre San Sebastián — el Festival de la Novilla, las montañas, los ríos y la cultura artesanal."},
+  "Santa Isabel":  {en:"Tell me about Santa Isabel — the agricultural heartland of the south, the salt flats, and coastal life.",es:"Cuéntame sobre Santa Isabel — el corazón agrícola del sur, las salinas y la vida costera."},
+  "Toa Alta":      {en:"Tell me about Toa Alta — the northern municipality, the Dorado beach corridor nearby, and local community.",es:"Cuéntame sobre Toa Alta — el municipio del norte, el corredor de playas de Dorado cercano y la comunidad local."},
+  "Toa Baja":      {en:"Tell me about Toa Baja — the northern coast, the mangroves, Levittown, and the communities along the bay.",es:"Cuéntame sobre Toa Baja — la costa norte, los manglares, Levittown y las comunidades a lo largo de la bahía."},
+  "Trujillo Alto": {en:"Tell me about Trujillo Alto — the mountain reservoir, the suburban community east of San Juan, and local culture.",es:"Cuéntame sobre Trujillo Alto — el embalse de montaña, la comunidad suburbana al este de San Juan y la cultura local."},
+  "Utuado":        {en:"Tell me about Utuado — the Taino ceremonial ball courts, the zip lines, the Dos Bocas Lake, and mountain adventure.",es:"Cuéntame sobre Utuado — los bateyes ceremoniales taínos, las tirolesas, el Lago Dos Bocas y la aventura de montaña."},
+  "Vega Alta":     {en:"Tell me about Vega Alta — the northern coast, the beaches, and the community between Dorado and Manatí.",es:"Cuéntame sobre Vega Alta — la costa norte, las playas y la comunidad entre Dorado y Manatí."},
+  "Vega Baja":     {en:"Tell me about Vega Baja — the balneario beach, the northern coast lagoons, and local culture.",es:"Cuéntame sobre Vega Baja — el balneario, las lagunas de la costa norte y la cultura local."},
+  "Vieques":       {en:"Tell me about Vieques — the bioluminescent bay, wild horses on pristine beaches, Flamenco Beach, and untouched island life.",es:"Cuéntame sobre Vieques — la bahía bioluminiscente, caballos salvajes en playas prístinas, Playa Flamenco y la vida isleña intacta."},
+  "Villalba":      {en:"Tell me about Villalba — the Toa Vaca reservoir, the mountain scenery, and central Puerto Rico traditions.",es:"Cuéntame sobre Villalba — el embalse Toa Vaca, el paisaje de montaña y las tradiciones del centro de Puerto Rico."},
+  "Yabucoa":       {en:"Tell me about Yabucoa — the southeastern coast, the sugar cane history, and the beaches and mangroves.",es:"Cuéntame sobre Yabucoa — la costa sureste, la historia de la caña de azúcar y las playas y manglares."},
+  "Yauco":         {en:"Tell me about Yauco — the Coffee Capital of Puerto Rico, the colorful painted houses, and the mountain coffee culture.",es:"Cuéntame sobre Yauco — la Capital del Café de Puerto Rico, las casas pintadas de colores y la cultura cafetalera de montaña."}
+};
+
+// ── READ URL PARAM ────────────────────────────────────────────────────────
+var urlParams = new URLSearchParams(window.location.search);
+var muniParam = urlParams.get('muni');
+var firstMessage = null;
+
+if (muniParam && MUNI_PROMPTS[muniParam]) {
+  var langPref = navigator.language && navigator.language.startsWith('es') ? 'es' : 'en';
+  firstMessage = MUNI_PROMPTS[muniParam][langPref];
+  // Show the municipality banner
+  var banner = document.getElementById('muniBanner');
+  var bannerText = document.getElementById('muniBannerText');
+  bannerText.textContent = muniParam.toUpperCase();
+  banner.classList.add('show');
+}
+
+// ── INJECT WIDGET WITH OPTIONAL first-message ─────────────────────────────
+var mount = document.getElementById('widgetMount');
+var widget = document.createElement('elevenlabs-convai');
+widget.setAttribute('agent-id', 'agent_5801kjdgm1zwe65843rj9r29zmj1');
+if (firstMessage) {
+  widget.setAttribute('first-message', firstMessage);
+}
+mount.appendChild(widget);
+
+// ── FORCE-CENTER WIDGET ───────────────────────────────────────────────────
+function centerWidget() {
+  var el = document.querySelector('elevenlabs-convai');
+  if (!el || !el.shadowRoot) return setTimeout(centerWidget, 500);
+  var style = document.createElement('style');
+  style.textContent = 'div[style*="fixed"]{left:50%!important;right:auto!important;transform:translateX(-50%)!important;bottom:0!important;}';
+  el.shadowRoot.appendChild(style);
 }
 centerWidget();
 
-// Show Safari notice for Chrome/Edge users on iOS/Mac
-(function(){
-var ua=navigator.userAgent;
-var isSafari=/Safari/.test(ua)&&!/Chrome/.test(ua)&&!/CriOS/.test(ua)&&!/EdgiOS/.test(ua)&&!/Edg/.test(ua);
-if(!isSafari){document.getElementById('browserNotice').style.display='block';}
+// ── SAFARI NOTICE ─────────────────────────────────────────────────────────
+(function() {
+  var ua = navigator.userAgent;
+  var isSafari = /Safari/.test(ua) && !/Chrome/.test(ua) && !/CriOS/.test(ua) && !/EdgiOS/.test(ua) && !/Edg/.test(ua);
+  if (!isSafari) { document.getElementById('browserNotice').style.display = 'block'; }
 })();
 </script>
 
 <script>
-var lang="en";
-var SLIDES=[
-{img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/001.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
-{img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/002.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
-{img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/003.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
-{img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/004.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
-{img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/005.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
-{img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/006.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
-{img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/007.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
-{img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/008.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"}
+var lang = "en";
+var SLIDES = [
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/001.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/002.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/003.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/004.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/005.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/006.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/007.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/008.png",en:"Puerto Rico",es:"Puerto Rico",loc:"La Isla"}
 ];
 
-var current=0;
-var ss=document.getElementById("slideshow");
-var dotsEl=document.getElementById("dots");
-var capsEl=document.getElementById("captions");
+var current = 0;
+var ss = document.getElementById("slideshow");
+var dotsEl = document.getElementById("dots");
+var capsEl = document.getElementById("captions");
 
-// Build slides
-SLIDES.forEach(function(s,i){
-var d=document.createElement("div");
-d.className="slide"+(i===0?" active":"");
-d.style.backgroundImage='url('+s.img+')';
-ss.appendChild(d);
+SLIDES.forEach(function(s, i) {
+  var d = document.createElement("div");
+  d.className = "slide" + (i === 0 ? " active" : "");
+  d.style.backgroundImage = 'url(' + s.img + ')';
+  ss.appendChild(d);
 
-var c=document.createElement("div");
-c.className="slide-caption"+(i===0?" active":"");
-c.innerHTML='<div class="slide-loc">'+s.loc+'</div><div class="slide-name"><span class="en '+(lang==="en"?"show":"")+'">'+s.en+'</span><span class="es '+(lang==="es"?"show":"")+'">'+s.es+'</span></div>';
-capsEl.appendChild(c);
+  var c = document.createElement("div");
+  c.className = "slide-caption" + (i === 0 ? " active" : "");
+  c.innerHTML = '<div class="slide-loc">' + s.loc + '</div><div class="slide-name"><span class="en ' + (lang === "en" ? "show" : "") + '">' + s.en + '</span><span class="es ' + (lang === "es" ? "show" : "") + '">' + s.es + '</span></div>';
+  capsEl.appendChild(c);
 
-var dot=document.createElement("div");
-dot.className="dot"+(i===0?" active":"");
-dot.onclick=(function(idx){return function(){goSlide(idx);};})(i);
-dotsEl.appendChild(dot);
+  var dot = document.createElement("div");
+  dot.className = "dot" + (i === 0 ? " active" : "");
+  dot.onclick = (function(idx) { return function() { goSlide(idx); }; })(i);
+  dotsEl.appendChild(dot);
 });
 
-function goSlide(n){
-document.querySelectorAll(".slide").forEach(function(s,i){s.classList.toggle("active",i===n);});
-document.querySelectorAll(".slide-caption").forEach(function(s,i){s.classList.toggle("active",i===n);});
-document.querySelectorAll(".dot").forEach(function(d,i){d.classList.toggle("active",i===n);});
-current=n;
+function goSlide(n) {
+  document.querySelectorAll(".slide").forEach(function(s, i) { s.classList.toggle("active", i === n); });
+  document.querySelectorAll(".slide-caption").forEach(function(s, i) { s.classList.toggle("active", i === n); });
+  document.querySelectorAll(".dot").forEach(function(d, i) { d.classList.toggle("active", i === n); });
+  current = n;
 }
 
-setInterval(function(){goSlide((current+1)%SLIDES.length);},5000);
+setInterval(function() { goSlide((current + 1) % SLIDES.length); }, 5000);
 
-function setLang(l){
-lang=l;
-document.getElementById("btnEN").classList.toggle("active",l==="en");
-document.getElementById("btnES").classList.toggle("active",l==="es");
-document.querySelectorAll(".en").forEach(function(e){e.classList.toggle("show",l==="en");});
-document.querySelectorAll(".es").forEach(function(e){e.classList.toggle("show",l==="es");});
+function setLang(l) {
+  lang = l;
+  document.getElementById("btnEN").classList.toggle("active", l === "en");
+  document.getElementById("btnES").classList.toggle("active", l === "es");
+  document.querySelectorAll(".en").forEach(function(e) { e.classList.toggle("show", l === "en"); });
+  document.querySelectorAll(".es").forEach(function(e) { e.classList.toggle("show", l === "es"); });
 }
 </script>
 </body>
