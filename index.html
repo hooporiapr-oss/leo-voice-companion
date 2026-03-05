@@ -188,6 +188,39 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .hero-ruta:hover{border-color:rgba(0,217,165,.5);background:rgba(0,217,165,.06);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,217,165,.15)}
 .hero-ruta-sub{font-size:.6rem;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:-4px}
 
+/* REGION CARDS */
+.region-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
+.region-card{
+  background:var(--card);border:1px solid var(--border);border-radius:16px;
+  padding:20px 16px;cursor:pointer;transition:all .3s;text-align:left;position:relative;overflow:hidden;
+}
+.region-card:hover{border-color:var(--border-gold);transform:translateY(-2px)}
+.region-card.open{border-color:rgba(0,217,165,.2)}
+.region-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s}
+.region-card:hover::before,.region-card.open::before{opacity:1}
+.region-card:nth-child(1)::before,.region-card:nth-child(2)::before,.region-card:nth-child(3)::before{background:var(--gradient)}
+.region-card:nth-child(4)::before,.region-card:nth-child(5)::before,.region-card:nth-child(6)::before{background:var(--gradient-teal)}
+.region-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.region-emoji{font-size:1.4rem}
+.region-count{font-size:.55rem;font-weight:700;letter-spacing:1.5px;color:var(--dim2);text-transform:uppercase}
+.region-name{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:1.5px;margin-bottom:4px}
+.region-vibe{font-size:.68rem;color:var(--dim);line-height:1.45}
+.region-arrow{font-size:.7rem;color:var(--dim2);transition:transform .3s;margin-top:8px;display:block;text-align:right}
+.region-card.open .region-arrow{transform:rotate(180deg);color:var(--teal)}
+.region-towns{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--border)}
+.region-card.open .region-towns{display:block}
+.region-towns-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.region-town{padding:8px 6px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);border-radius:8px;text-align:center;font-size:.68rem;color:var(--text);text-decoration:none;transition:all .25s;display:block}
+.region-town:hover{border-color:var(--border-gold);color:var(--gold);transform:translateY(-1px)}
+@media(max-width:768px){
+  .region-grid{grid-template-columns:1fr 1fr}
+  .region-towns-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:480px){
+  .region-grid{grid-template-columns:1fr}
+  .region-towns-grid{grid-template-columns:1fr 1fr}
+}
+
 /* MUNICIPALITY A-Z GRID */
 .muni-explorer{margin-top:48px;width:100%;max-width:900px}
 .muni-letter-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:20px}
@@ -597,7 +630,13 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
       <!-- MUNICIPALITY A-Z EXPLORER -->
       <div class="muni-explorer">
-        <div style="font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:12px"><span class="en show">Find your municipality — tap any letter</span><span class="es">Encuentra tu municipio — toca cualquier letra</span></div>
+
+        <!-- 6 REGION CARDS -->
+        <div style="font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px"><span class="en show">Explore Puerto Rico by Region</span><span class="es">Explora Puerto Rico por Regi&oacute;n</span></div>
+        <div class="region-grid" id="regionGrid"></div>
+
+        <!-- A-Z SECONDARY -->
+        <div style="margin-top:36px;font-size:.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim2);margin-bottom:10px"><span class="en show">Or browse A–Z</span><span class="es">O busca por letra</span></div>
         <div class="muni-letter-nav" id="muniLetterNav"></div>
         <div id="muniGrid"></div>
       </div>
@@ -647,10 +686,65 @@ function setLang(l) {
   for (var b = 0; b < esEls.length; b++) {
     if (l === 'es') { esEls[b].classList.add('show'); } else { esEls[b].classList.remove('show'); }
   }
+  if (typeof renderRegions === 'function') renderRegions();
 }
 
 /* --- Initialize language --- */
-setLang('en');
+/* setLang called after all data is loaded — see bottom */
+
+/* --- Region Data --- */
+var REGIONS = [
+  { id:'north', emoji:'\u{1F30A}', nameEN:'North Coast', nameES:'Costa Norte', count:18,
+    vibeEN:'San Juan, Dorado, Arecibo — the Atlantic coast powerhouse.',
+    vibeES:'San Juan, Dorado, Arecibo — la potencia de la costa atl\u00e1ntica.',
+    towns:['Arecibo','Barceloneta','Bayamon','Camuy','Carolina','Catano','Dorado','Florida','Guaynabo','Hatillo','Loiza','Manati','San Juan','Toa Alta','Toa Baja','Trujillo Alto','Vega Alta','Vega Baja']},
+  { id:'south', emoji:'\u2600\uFE0F', nameEN:'South Coast', nameES:'Costa Sur', count:11,
+    vibeEN:'Ponce, Coamo, Guayama — Caribbean sun and southern pride.',
+    vibeES:'Ponce, Coamo, Guayama — sol caribe\u00f1o y orgullo sure\u00f1o.',
+    towns:['Arroyo','Coamo','Guayama','Guayanilla','Juana Diaz','Patillas','Penuelas','Ponce','Salinas','Santa Isabel','Villalba']},
+  { id:'west', emoji:'\u{1F3C4}', nameEN:'West Coast', nameES:'Costa Oeste', count:19,
+    vibeEN:'Rinc\u00f3n, Cabo Rojo, Aguadilla — surf, sunsets, and salt flats.',
+    vibeES:'Rinc\u00f3n, Cabo Rojo, Aguadilla — surf, atardeceres y salinas.',
+    towns:['Aguada','Aguadilla','Cabo Rojo','Guanica','Hormigueros','Isabela','Lajas','Lares','Las Marias','Maricao','Mayaguez','Moca','Quebradillas','Rincon','Sabana Grande','San German','San Sebastian','Yauco']},
+  { id:'east', emoji:'\u{1F334}', nameEN:'East Coast', nameES:'Costa Este', count:14,
+    vibeEN:'El Yunque, Fajardo, Luquillo — rainforest meets Caribbean blue.',
+    vibeES:'El Yunque, Fajardo, Luquillo — bosque tropical y azul caribe\u00f1o.',
+    towns:['Caguas','Canovanas','Ceiba','Fajardo','Gurabo','Humacao','Juncos','Las Piedras','Luquillo','Maunabo','Naguabo','Rio Grande','San Lorenzo','Yabucoa']},
+  { id:'central', emoji:'\u26F0\uFE0F', nameEN:'Central Mountains', nameES:'La Monta\u00f1a', count:14,
+    vibeEN:'Jayuya, Utuado, Adjuntas — coffee, caves, and the heart of the island.',
+    vibeES:'Jayuya, Utuado, Adjuntas — caf\u00e9, cuevas y el coraz\u00f3n de la isla.',
+    towns:['Adjuntas','Aguas Buenas','Aibonito','Barranquitas','Cayey','Ciales','Cidra','Comerio','Corozal','Jayuya','Morovis','Naranjito','Orocovis','Utuado']},
+  { id:'islands', emoji:'\u{1F3DD}\uFE0F', nameEN:'Offshore Islands', nameES:'Las Islas', count:2,
+    vibeEN:'Vieques & Culebra — bioluminescent bays and untouched beaches.',
+    vibeES:'Vieques y Culebra — bah\u00edas bioluminiscentes y playas intactas.',
+    towns:['Culebra','Vieques']}
+];
+
+function renderRegions() {
+  var grid = document.getElementById('regionGrid');
+  var isEN = lang === 'en';
+  grid.innerHTML = REGIONS.map(function(r) {
+    var towns = r.towns.map(function(t) {
+      return '<a href="laruta.html?muni=' + encodeURIComponent(t) + '" class="region-town">' + t + '</a>';
+    }).join('');
+    return '<div class="region-card" onclick="toggleRegion(this)">' +
+      '<div class="region-top"><span class="region-emoji">' + r.emoji + '</span><span class="region-count">' + r.count + ' ' + (isEN ? 'towns' : 'pueblos') + '</span></div>' +
+      '<div class="region-name">' + (isEN ? r.nameEN : r.nameES) + '</div>' +
+      '<div class="region-vibe">' + (isEN ? r.vibeEN : r.vibeES) + '</div>' +
+      '<span class="region-arrow">\u25BC</span>' +
+      '<div class="region-towns"><div class="region-towns-grid">' + towns + '</div></div>' +
+    '</div>';
+  }).join('');
+}
+
+function toggleRegion(card) {
+  if (event.target.closest('.region-town')) return;
+  var wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.region-card').forEach(function(c){ c.classList.remove('open'); });
+  if (!wasOpen) card.classList.add('open');
+}
+
+renderRegions();
 
 /* --- Municipality A-Z Grid --- */
 var MUNIS=["Adjuntas","Aguada","Aguadilla","Aguas Buenas","Aibonito","Arecibo","Arroyo","Barceloneta","Barranquitas","Bayamon","Cabo Rojo","Caguas","Camuy","Canovanas","Carolina","Catano","Cayey","Ceiba","Ciales","Cidra","Coamo","Comerio","Corozal","Culebra","Dorado","Fajardo","Florida","Guanica","Guayama","Guayanilla","Guaynabo","Gurabo","Hatillo","Hormigueros","Humacao","Isabela","Jayuya","Juana Diaz","Juncos","Lajas","Lares","Las Marias","Las Piedras","Loiza","Luquillo","Manati","Maricao","Maunabo","Mayaguez","Moca","Morovis","Naguabo","Naranjito","Orocovis","Patillas","Penuelas","Ponce","Quebradillas","Rincon","Rio Grande","Sabana Grande","Salinas","San German","San Juan","San Lorenzo","San Sebastian","Santa Isabel","Toa Alta","Toa Baja","Trujillo Alto","Utuado","Vega Alta","Vega Baja","Vieques","Villalba","Yabucoa","Yauco"];
@@ -700,6 +794,9 @@ renderMuniGroups(null);
 
 /* Start collapsed — only letter nav visible, no towns until tapped */
 document.getElementById('muniGrid').style.display = 'none';
+
+/* --- Initialize language (must be last) --- */
+setLang('en');
 </script>
 
 </body>
