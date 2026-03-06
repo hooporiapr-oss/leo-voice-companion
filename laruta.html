@@ -98,6 +98,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-we
   border-radius:var(--radius) var(--radius) var(--radius) 4px;
   padding:14px 18px;box-shadow:var(--shadow);
 }
+.listen-btn{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:8px 16px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-pill);font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
+.listen-btn:hover{background:#B5522A;transform:scale(1.02)}
+.listen-btn.playing{background:var(--teal)}
+.listen-btn.loading{opacity:.5;pointer-events:none}
 
 .typing-wrap{display:flex;gap:12px;animation:msgIn .35s ease both;position:relative;z-index:1}
 .typing-dots{display:flex;gap:5px;padding:8px 0}
@@ -192,14 +196,16 @@ function sendMessage(){
   .then(function(d){
     removeTyping(typing);
     var reply=d.reply||(d.content&&d.content[0]&&d.content[0].text)||null;
-    if(reply){addMessage('bot',reply);chatHistory.push({role:'assistant',content:reply});}
+    if(reply){addMessage('bot',reply,true);chatHistory.push({role:'assistant',content:reply});}
     else{addMessage('bot',lang==='en'?'Sorry, I had trouble with that. Try again.':'Disculpa, tuve un problema. Intenta de nuevo.');}
     document.getElementById('chatSend').disabled=false;
   })
   .catch(function(){removeTyping(typing);addMessage('bot',lang==='en'?'Connection error. Please try again.':'Error de conexi\u00f3n. Intenta de nuevo.');document.getElementById('chatSend').disabled=false;});
 }
 
-function addMessage(role,text){
+var currentAudio=null;
+
+function addMessage(role,text,showListen){
   var c=document.getElementById('chatMessages');
   var msg=document.createElement('div');msg.className='msg '+role;
   var avatar=document.createElement('div');avatar.className='msg-avatar';
@@ -209,8 +215,29 @@ function addMessage(role,text){
   name.textContent=role==='user'?(lang==='en'?'You':'T\u00fa'):'La Voz';
   var bubble=document.createElement('div');bubble.className='msg-bubble';bubble.textContent=text;
   content.appendChild(name);content.appendChild(bubble);
+  if(showListen&&role==='bot'){
+    var btn=document.createElement('button');btn.className='listen-btn';
+    btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');
+    btn.onclick=function(){playVoice(text,btn);};
+    content.appendChild(btn);
+  }
   msg.appendChild(avatar);msg.appendChild(content);
   c.appendChild(msg);c.scrollTop=c.scrollHeight;
+}
+
+function playVoice(text,btn){
+  if(currentAudio){currentAudio.pause();currentAudio=null;document.querySelectorAll('.listen-btn.playing').forEach(function(b){b.classList.remove('playing');b.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');});}
+  btn.classList.add('loading');btn.innerHTML='&#9203; '+(lang==='en'?'Loading...':'Cargando...');
+  fetch(API_BASE+'/api/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
+  .then(function(r){if(!r.ok)throw new Error('TTS error');return r.blob();})
+  .then(function(blob){
+    var url=URL.createObjectURL(blob);var audio=new Audio(url);currentAudio=audio;
+    btn.classList.remove('loading');btn.classList.add('playing');
+    btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
+    audio.play();
+    audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;URL.revokeObjectURL(url);};
+  })
+  .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);});
 }
 
 function showTyping(){
