@@ -371,8 +371,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
             <div class="chat-msg bot">
               <div class="chat-msg-name">La Voz</div>
               <div class="chat-msg-bubble">
-                <span class="en show">Welcome to Puerto Rico! I'm La Voz. Ask me about Act 60, any of the 78 municipalities, where to eat, where to live, or anything about this island. What do you want to know?</span>
-                <span class="es">&iexcl;Bienvenido a Puerto Rico! Soy La Voz. Preg&uacute;ntame sobre la Ley 60, cualquiera de los 78 municipios, d&oacute;nde comer, d&oacute;nde vivir, o cualquier cosa sobre esta isla. &iquest;Qu&eacute; quieres saber?</span>
+                <span class="en show">Welcome to La Voz PR — Puerto Rico's voice guide. I'm La Voz. You can ask me anything about this island — Act 60 tax incentives, any of the 78 municipalities, where to eat, where to live, the best beaches, the real culture. Just type your question below and I'll answer. And if you want to hear my voice on any response, tap the speaker button. What do you want to know?</span>
+                <span class="es">Bienvenido a La Voz PR — la gu&iacute;a de voz de Puerto Rico. Soy La Voz. Puedes preguntarme lo que quieras sobre esta isla — incentivos de la Ley 60, cualquiera de los 78 municipios, d&oacute;nde comer, d&oacute;nde vivir, las mejores playas, la cultura real. Escribe tu pregunta abajo y te respondo. Y si quieres escuchar mi voz en cualquier respuesta, toca el bot&oacute;n del parlante. &iquest;Qu&eacute; quieres saber?</span>
               </div>
             </div>
           </div>
@@ -686,6 +686,39 @@ document.getElementById('muniGrid').style.display = 'none';
 
 /* --- Initialize language (must be last) --- */
 setLang('en');
+
+/* --- Auto-play La Voz welcome message --- */
+(function() {
+  var welcomeEN = "Welcome to La Voz PR — Puerto Rico's voice guide. I'm La Voz. You can ask me anything about this island — Act 60 tax incentives, any of the 78 municipalities, where to eat, where to live, the best beaches, the real culture. Just type your question below and I'll answer. And if you want to hear my voice on any response, tap the speaker button. What do you want to know?";
+  var welcomeES = "Bienvenido a La Voz PR — la guía de voz de Puerto Rico. Soy La Voz. Puedes preguntarme lo que quieras sobre esta isla — incentivos de la Ley 60, cualquiera de los 78 municipios, dónde comer, dónde vivir, las mejores playas, la cultura real. Escribe tu pregunta abajo y te respondo. Y si quieres escuchar mi voz en cualquier respuesta, toca el botón del parlante. Qué quieres saber?";
+  var welcomeText = lang === 'es' ? welcomeES : welcomeEN;
+
+  /* Small delay to let page render, then play Leo's voice */
+  setTimeout(function() {
+    fetch(API_BASE + '/api/tts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: welcomeText })
+    })
+    .then(function(res) {
+      if (!res.ok) throw new Error('TTS error');
+      return res.blob();
+    })
+    .then(function(blob) {
+      var url = URL.createObjectURL(blob);
+      var audio = new Audio(url);
+      currentAudio = audio;
+      audio.play().catch(function() {
+        /* Browser blocked autoplay — that's ok, user will use Listen buttons */
+      });
+      audio.onended = function() {
+        currentAudio = null;
+        URL.revokeObjectURL(url);
+      };
+    })
+    .catch(function() { /* Silent fail — chat still works */ });
+  }, 800);
+})();
 </script>
 
 </body>
