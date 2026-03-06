@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Ask La Voz About Act 60 | La Voz PR</title>
-<meta name="description" content="Ask La Voz everything about Puerto Rico's Act 60 tax incentives. AI voice guide on 0% capital gains, 4% corporate tax, and relocating to Puerto Rico.">
+<meta name="description" content="Ask La Voz everything about Puerto Rico's Act 60 tax incentives. AI guide on 0% capital gains, 4% corporate tax, and relocating to Puerto Rico.">
 <meta property="og:title" content="Ask La Voz About Act 60 | La Voz PR">
 <meta property="og:description" content="0% capital gains. 4% corporate tax. US passport intact. Ask La Voz everything about Act 60.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,16 +14,10 @@
 :root{--gold:#FFD700;--orange:#FF6B35;--teal:#00D9A5;--dark:#07070c;--text:#f0f0f4;--dim:#8a8a9a;--dim2:#5a5a6a;--gradient:linear-gradient(135deg,#FFD700,#FF6B35);--gradient-teal:linear-gradient(135deg,#00D9A5,#00b88a);--border:rgba(255,255,255,.06);--border-gold:rgba(255,215,0,.15);--radius-pill:50px}
 html,body{height:100%;margin:0}
 body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-
-/* AMBIENT GLOWS */
 .bg-glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%}
 .bg-glow--gold{width:900px;height:900px;top:-400px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,215,0,.06) 0%,transparent 70%)}
 .bg-glow--teal{width:500px;height:500px;bottom:-150px;right:-100px;background:radial-gradient(circle,rgba(0,217,165,.04) 0%,transparent 70%)}
-
-/* OVERLAY */
 .overlay{position:relative;z-index:2;min-height:100%;display:flex;flex-direction:column}
-
-/* TOP BAR */
 .top-bar{position:fixed;top:0;left:0;right:0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;z-index:10;background:rgba(7,7,12,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
 .back-link{display:flex;align-items:center;gap:6px;font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none;transition:color .3s;letter-spacing:.5px}
 .back-link:hover{color:var(--gold)}
@@ -33,8 +27,6 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
 .lang-btn.active{background:rgba(255,215,0,.12);color:var(--gold)}
 .share-btn{background:none;border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:4px 8px;font-size:.7rem;color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s}
 .share-btn:hover{border-color:rgba(255,215,0,.3);color:var(--gold)}
-
-/* HEADER */
 .header-block{text-align:center;padding:72px 24px 12px;flex-shrink:0}
 .logo-img{height:44px;width:auto;margin-bottom:14px;opacity:.9}
 .badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.15);border-radius:50px;font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
@@ -44,8 +36,6 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
 .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .subtitle{font-size:.82rem;color:rgba(255,255,255,.4);letter-spacing:1px;font-weight:300}
 .en,.es{display:none}.en.show,.es.show{display:inline}
-
-/* STATS BAR */
 .stats-bar{display:flex;justify-content:center;gap:0;margin:16px auto 0;max-width:420px;background:rgba(255,215,0,.04);border:1px solid var(--border-gold);border-radius:16px;overflow:hidden}
 .stat{flex:1;padding:14px 8px;text-align:center;position:relative}
 .stat:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border-gold)}
@@ -53,13 +43,10 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
 .stat-value.gold{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .stat-value.teal{color:var(--teal)}
 .stat-label{font-size:.5rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--dim);margin-top:2px}
-
-/* CHAT */
 .chat-wrap{flex:1;display:flex;flex-direction:column;padding:8px 16px 40px;max-width:640px;width:100%;margin:0 auto}
 .chat-messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:8px 0;scrollbar-width:thin;scrollbar-color:rgba(255,215,0,.15) transparent}
 .chat-messages::-webkit-scrollbar{width:4px}
 .chat-messages::-webkit-scrollbar-thumb{background:rgba(255,215,0,.15);border-radius:4px}
-
 .chat-msg{max-width:88%;animation:msgIn .3s ease both}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .chat-msg.user{align-self:flex-end}
@@ -67,45 +54,18 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
 .chat-msg-name{font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;padding:0 4px}
 .chat-msg.user .chat-msg-name{color:var(--gold);text-align:right}
 .chat-msg.bot .chat-msg-name{color:var(--teal)}
-.chat-msg-bubble{padding:12px 16px;border-radius:16px;font-size:.88rem;line-height:1.6;backdrop-filter:blur(16px)}
+.chat-msg-bubble{padding:12px 16px;border-radius:16px;font-size:.88rem;line-height:1.6;backdrop-filter:blur(16px);white-space:pre-wrap}
 .chat-msg.user .chat-msg-bubble{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.15);border-bottom-right-radius:4px}
 .chat-msg.bot .chat-msg-bubble{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.08);border-bottom-left-radius:4px}
-
-/* VOICE BUTTON */
-.chat-voice-btn{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  margin-top:8px;padding:10px 20px;
-  background:var(--gradient);border:none;border-radius:var(--radius-pill);
-  font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--dark);cursor:pointer;transition:all .25s;
-  font-family:'Bebas Neue',sans-serif;width:100%;
-}
-.chat-voice-btn:hover{opacity:.9;transform:scale(1.02)}
-.chat-voice-btn.playing{background:linear-gradient(135deg,var(--teal),#00b88a);color:var(--dark)}
-.chat-voice-btn.loading{opacity:.6;pointer-events:none}
-
-/* TYPING DOTS */
 .typing-dots{display:flex;gap:4px;padding:12px 16px}
 .typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:typePulse 1.2s ease-in-out infinite}
 .typing-dots span:nth-child(2){animation-delay:.2s}
 .typing-dots span:nth-child(3){animation-delay:.4s}
 @keyframes typePulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
-
-/* STARTER PROMPTS */
 .starter-prompts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
 .starter-chip{padding:8px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:50px;font-size:.72rem;color:rgba(255,255,255,.7);cursor:pointer;transition:all .25s;backdrop-filter:blur(12px);text-align:center}
 .starter-chip:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
-
-/* INPUT BAR */
-.chat-input-bar{
-  display:flex;align-items:center;gap:0;
-  background:rgba(0,0,0,.5);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  backdrop-filter:blur(16px);
-  overflow:hidden;
-  flex-shrink:0;
-}
+.chat-input-bar{display:flex;align-items:center;gap:0;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);border-radius:20px;backdrop-filter:blur(16px);overflow:hidden;flex-shrink:0}
 .chat-mic{padding:14px 14px;background:transparent;border:none;font-size:1.3rem;cursor:pointer;opacity:.5;transition:all .2s;flex-shrink:0}
 .chat-mic:hover{opacity:.8}
 .chat-mic.listening{opacity:1;animation:micPulse 1s ease-in-out infinite}
@@ -115,31 +75,15 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
 .chat-send{padding:14px 20px;background:var(--gradient);border:none;color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;cursor:pointer;transition:all .2s;border-radius:0 20px 20px 0}
 .chat-send:hover{opacity:.9}
 .chat-send:disabled{opacity:.4;cursor:not-allowed}
-
-/* DISCLAIMER */
 .disc-compact{text-align:center;padding:8px 16px 4px;flex-shrink:0}
 .disc-compact p{font-size:.5rem;color:rgba(255,255,255,.2);line-height:1.4;max-width:500px;margin:0 auto}
-
-@media(max-width:768px){
-  .title{font-size:clamp(2rem,8vw,3.2rem);letter-spacing:3px}
-  .header-block{padding:64px 20px 10px}
-  .stats-bar{max-width:340px}
-}
-@media(max-width:380px){
-  .title{font-size:1.9rem;letter-spacing:2px}
-}
+@media(max-width:768px){.title{font-size:clamp(2rem,8vw,3.2rem);letter-spacing:3px}.header-block{padding:64px 20px 10px}.stats-bar{max-width:340px}}
 </style>
 </head>
 <body>
-
-<!-- AMBIENT GLOWS -->
 <div class="bg-glow bg-glow--gold"></div>
 <div class="bg-glow bg-glow--teal"></div>
-
-<!-- OVERLAY -->
 <div class="overlay">
-
-  <!-- TOP BAR -->
   <div class="top-bar">
     <a href="act60.html" class="back-link">&#8592; <span class="en show">Act 60</span><span class="es">Ley 60</span></a>
     <div class="top-right">
@@ -150,272 +94,103 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
       <button class="share-btn" onclick="shareThis()"><span class="en show">&#8599; Share</span><span class="es">&#8599; Compartir</span></button>
     </div>
   </div>
-
-  <!-- HEADER -->
   <div class="header-block">
     <img src="act60-logo.png" alt="Act 60 — La Voz PR" class="logo-img">
     <div class="badge"><span class="pulse"></span> <span class="en show">ACT 60 AI EXPERT</span><span class="es">EXPERTA AI — LEY 60</span></div>
     <div class="title"><span class="gradient-text"><span class="en show">ASK LA VOZ</span><span class="es">PREGUNTA A LA VOZ</span></span></div>
     <div class="subtitle"><span class="en show">Everything about Act 60 — type or tap the mic</span><span class="es">Todo sobre la Ley 60 — escribe o toca el mic</span></div>
-
-    <!-- STATS BAR -->
     <div class="stats-bar">
-      <div class="stat">
-        <div class="stat-value gold">0%</div>
-        <div class="stat-label"><span class="en show">Capital Gains</span><span class="es">Ganancias Capital</span></div>
-      </div>
-      <div class="stat">
-        <div class="stat-value gold">4%</div>
-        <div class="stat-label"><span class="en show">Corporate Tax</span><span class="es">Impuesto Corp.</span></div>
-      </div>
-      <div class="stat">
-        <div class="stat-value teal">&#127477;&#127479; &#127482;&#127480;</div>
-        <div class="stat-label"><span class="en show">US Citizen</span><span class="es">Ciudadan&iacute;a USA</span></div>
-      </div>
+      <div class="stat"><div class="stat-value gold">0%</div><div class="stat-label"><span class="en show">Capital Gains</span><span class="es">Ganancias Capital</span></div></div>
+      <div class="stat"><div class="stat-value gold">4%</div><div class="stat-label"><span class="en show">Corporate Tax</span><span class="es">Impuesto Corp.</span></div></div>
+      <div class="stat"><div class="stat-value teal">&#127477;&#127479; &#127482;&#127480;</div><div class="stat-label"><span class="en show">US Citizen</span><span class="es">Ciudadan&iacute;a USA</span></div></div>
     </div>
   </div>
-
-  <!-- CHAT -->
   <div class="chat-wrap">
     <div class="chat-messages" id="chatMessages"></div>
-
-    <!-- STARTER PROMPTS -->
     <div class="starter-prompts" id="starterPrompts"></div>
-
-    <!-- INPUT BAR -->
     <div class="chat-input-bar">
       <button class="chat-mic" id="chatMic" onclick="toggleMic()">&#127908;</button>
       <input type="text" class="chat-input" id="chatInput" placeholder="Ask about Act 60..." autocomplete="off">
       <button class="chat-send" id="chatSend" onclick="sendMessage()"><span class="en show">SEND</span><span class="es">ENVIAR</span></button>
     </div>
-
-    <!-- DISCLAIMER -->
     <div class="disc-compact">
       <p><span class="en show">&#9888;&#65039; Educational purposes only. La Voz PR is not a law firm or tax advisor. Always consult a qualified professional before making any decisions. GoStar Digital LLC.</span><span class="es">&#9888;&#65039; Solo con fines educativos. La Voz PR no es firma legal ni asesor tributario. Consulte siempre a un profesional calificado. GoStar Digital LLC.</span></p>
     </div>
   </div>
-
 </div>
-
 <script>
-var lang = 'en';
-var API_BASE = 'https://lavozpr-api.onrender.com';
-var chatHistory = [];
-var currentAudio = null;
+var lang='en',API_BASE='https://lavozpr-api.onrender.com',chatHistory=[];
 
-/* --- Init --- */
-function initPage() {
-  var welcomeEN = "Welcome! I'm La Voz — your Act 60 expert. I know the Individual Investors chapter, the Export Services chapter, residency requirements, the decree process, where to live, and everything in between. What do you want to know about Act 60?";
-  var welcomeES = "\u00a1Bienvenido! Soy La Voz — tu experta en Ley 60. Conozco el cap\u00edtulo de Inversionistas Individuales, el de Servicios de Exportaci\u00f3n, los requisitos de residencia, el proceso del decreto, d\u00f3nde vivir, y todo lo dem\u00e1s. \u00bfQu\u00e9 quieres saber sobre la Ley 60?";
-  addMessage('bot', lang === 'es' ? welcomeES : welcomeEN);
+function initPage(){
+  var wEN="Welcome! I'm La Voz \u2014 your Act 60 expert. I know the Individual Investors chapter, the Export Services chapter, residency requirements, the decree process, where to live, and everything in between. What do you want to know about Act 60?";
+  var wES="\u00a1Bienvenido! Soy La Voz \u2014 tu experta en Ley 60. Conozco el cap\u00edtulo de Inversionistas Individuales, el de Servicios de Exportaci\u00f3n, los requisitos de residencia, el proceso del decreto, d\u00f3nde vivir, y todo lo dem\u00e1s. \u00bfQu\u00e9 quieres saber sobre la Ley 60?";
+  addMessage('bot',lang==='es'?wES:wEN);
   buildStarters();
 }
 
-/* --- Starter Prompts --- */
-function buildStarters() {
-  var container = document.getElementById('starterPrompts');
-  var isEN = lang === 'en';
-  var prompts = isEN
-    ? ['What is Act 60?', '0% capital gains — how?', 'Do I qualify?', 'Best town for Act 60?', '4% corporate tax explained', 'Residency requirements']
-    : ['\u00bfQu\u00e9 es la Ley 60?', '0% ganancias de capital', '\u00bfCalifico para Ley 60?', '\u00bfMejor pueblo para Ley 60?', '4% impuesto corporativo', 'Requisitos de residencia'];
-  container.innerHTML = prompts.map(function(p) {
-    return '<button class="starter-chip" onclick="sendStarter(\'' + p.replace(/'/g, "\\'") + '\')">' + p + '</button>';
-  }).join('');
+function buildStarters(){
+  var c=document.getElementById('starterPrompts'),isEN=lang==='en';
+  var p=isEN?['What is Act 60?','0% capital gains \u2014 how?','Do I qualify?','Best town for Act 60?','4% corporate tax explained','Residency requirements']:['\u00bfQu\u00e9 es la Ley 60?','0% ganancias de capital','\u00bfCalifico para Ley 60?','\u00bfMejor pueblo para Ley 60?','4% impuesto corporativo','Requisitos de residencia'];
+  c.innerHTML=p.map(function(t){return '<button class="starter-chip" onclick="sendStarter(\''+t.replace(/'/g,"\\'")+'\')">' +t+'</button>';}).join('');
 }
 
-/* --- Send Starter --- */
-function sendStarter(text) {
-  document.getElementById('chatInput').value = text;
-  document.getElementById('starterPrompts').style.display = 'none';
-  sendMessage();
-}
+function sendStarter(t){document.getElementById('chatInput').value=t;document.getElementById('starterPrompts').style.display='none';sendMessage();}
 
-/* --- Send Message --- */
-function sendMessage() {
-  var input = document.getElementById('chatInput');
-  var text = input.value.trim();
-  if (!text) return;
-
-  addMessage('user', text);
-  input.value = '';
-  chatHistory.push({ role: 'user', content: text });
-
-  document.getElementById('starterPrompts').style.display = 'none';
-
-  var typingEl = showTyping();
-  document.getElementById('chatSend').disabled = true;
-
-  fetch(API_BASE + '/api/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: chatHistory, context: 'act60' })
+function sendMessage(){
+  var input=document.getElementById('chatInput'),text=input.value.trim();
+  if(!text)return;
+  addMessage('user',text);input.value='';chatHistory.push({role:'user',content:text});
+  document.getElementById('starterPrompts').style.display='none';
+  var typing=showTyping();document.getElementById('chatSend').disabled=true;
+  fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory,context:'act60'})})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    removeTyping(typing);
+    var reply=d.reply||(d.content&&d.content[0]&&d.content[0].text)||null;
+    if(reply){addMessage('bot',reply);chatHistory.push({role:'assistant',content:reply});}
+    else{addMessage('bot',lang==='en'?'Sorry, I had trouble with that. Try again.':'Disculpa, tuve un problema. Intenta de nuevo.');}
+    document.getElementById('chatSend').disabled=false;
   })
-  .then(function(res) { return res.json(); })
-  .then(function(data) {
-    removeTyping(typingEl);
-    var replyText = data.reply || (data.content && data.content[0] && data.content[0].text) || null;
-    if (replyText) {
-      addMessage('bot', replyText, true);
-      chatHistory.push({ role: 'assistant', content: replyText });
-    } else {
-      addMessage('bot', lang === 'en' ? 'Sorry, I had trouble with that. Try again.' : 'Disculpa, tuve un problema. Intenta de nuevo.', true);
-    }
-    document.getElementById('chatSend').disabled = false;
-  })
-  .catch(function() {
-    removeTyping(typingEl);
-    addMessage('bot', lang === 'en' ? 'Connection error. Please try again.' : 'Error de conexi\u00f3n. Intenta de nuevo.', true);
-    document.getElementById('chatSend').disabled = false;
-  });
+  .catch(function(){removeTyping(typing);addMessage('bot',lang==='en'?'Connection error. Please try again.':'Error de conexi\u00f3n. Intenta de nuevo.');document.getElementById('chatSend').disabled=false;});
 }
 
-/* --- Add Message --- */
-function addMessage(role, text, showVoice) {
-  var container = document.getElementById('chatMessages');
-  var msg = document.createElement('div');
-  msg.className = 'chat-msg ' + role;
-
-  var name = document.createElement('div');
-  name.className = 'chat-msg-name';
-  name.textContent = role === 'user' ? (lang === 'en' ? 'You' : 'T\u00fa') : 'La Voz';
-
-  var bubble = document.createElement('div');
-  bubble.className = 'chat-msg-bubble';
-  bubble.textContent = text;
-
-  msg.appendChild(name);
-  msg.appendChild(bubble);
-
-  if (showVoice && role === 'bot') {
-    var voiceBtn = document.createElement('button');
-    voiceBtn.className = 'chat-voice-btn';
-    voiceBtn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
-    voiceBtn.onclick = function() { playVoice(text, voiceBtn); };
-    msg.appendChild(voiceBtn);
-  }
-
-  container.appendChild(msg);
-  container.scrollTop = container.scrollHeight;
+function addMessage(role,text){
+  var c=document.getElementById('chatMessages'),msg=document.createElement('div');
+  msg.className='chat-msg '+role;
+  var name=document.createElement('div');name.className='chat-msg-name';name.textContent=role==='user'?(lang==='en'?'You':'T\u00fa'):'La Voz';
+  var bubble=document.createElement('div');bubble.className='chat-msg-bubble';bubble.textContent=text;
+  msg.appendChild(name);msg.appendChild(bubble);c.appendChild(msg);c.scrollTop=c.scrollHeight;
 }
 
-/* --- Typing Indicator --- */
-function showTyping() {
-  var container = document.getElementById('chatMessages');
-  var msg = document.createElement('div');
-  msg.className = 'chat-msg bot';
-  msg.innerHTML = '<div class="chat-msg-name">La Voz</div><div class="typing-dots"><span></span><span></span><span></span></div>';
-  container.appendChild(msg);
-  container.scrollTop = container.scrollHeight;
-  return msg;
-}
-function removeTyping(el) { if (el && el.parentNode) el.parentNode.removeChild(el); }
+function showTyping(){var c=document.getElementById('chatMessages'),msg=document.createElement('div');msg.className='chat-msg bot';msg.innerHTML='<div class="chat-msg-name">La Voz</div><div class="typing-dots"><span></span><span></span><span></span></div>';c.appendChild(msg);c.scrollTop=c.scrollHeight;return msg;}
+function removeTyping(el){if(el&&el.parentNode)el.parentNode.removeChild(el);}
 
-/* --- Play Voice (OpenAI TTS) --- */
-function playVoice(text, btn) {
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio = null;
-    document.querySelectorAll('.chat-voice-btn.playing').forEach(function(b) { b.classList.remove('playing'); });
-  }
-
-  btn.classList.add('loading');
-  btn.innerHTML = '\u23F3 ' + (lang === 'en' ? 'LOADING...' : 'CARGANDO...');
-
-  fetch(API_BASE + '/api/tts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: text })
-  })
-  .then(function(res) {
-    if (!res.ok) throw new Error('TTS error');
-    return res.blob();
-  })
-  .then(function(blob) {
-    var url = URL.createObjectURL(blob);
-    var audio = new Audio(url);
-    currentAudio = audio;
-    btn.classList.remove('loading');
-    btn.classList.add('playing');
-    btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'PLAYING...' : 'REPRODUCIENDO...');
-    audio.play();
-    audio.onended = function() {
-      btn.classList.remove('playing');
-      btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
-      currentAudio = null;
-      URL.revokeObjectURL(url);
-    };
-  })
-  .catch(function() {
-    btn.classList.remove('loading');
-    btn.innerHTML = '\u274C ERROR';
-    setTimeout(function() {
-      btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
-    }, 2000);
-  });
-}
-
-/* --- Speech Recognition --- */
-var recognition = null;
-var isListening = false;
-
-function toggleMic() {
-  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert(lang === 'en' ? 'Speech recognition not supported in this browser.' : 'Reconocimiento de voz no disponible en este navegador.');
-    return;
-  }
-  var micBtn = document.getElementById('chatMic');
-  if (isListening && recognition) { recognition.stop(); return; }
-
-  recognition = new SpeechRecognition();
-  recognition.lang = lang === 'es' ? 'es-PR' : 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-  recognition.continuous = false;
-
-  micBtn.classList.add('listening');
-  isListening = true;
-
-  recognition.onresult = function(event) {
-    var transcript = event.results[0][0].transcript;
-    document.getElementById('chatInput').value = transcript;
-    micBtn.classList.remove('listening');
-    isListening = false;
-    sendMessage();
-  };
-  recognition.onerror = function() { micBtn.classList.remove('listening'); isListening = false; };
-  recognition.onend = function() { micBtn.classList.remove('listening'); isListening = false; };
+var recognition=null,isListening=false;
+function toggleMic(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){alert(lang==='en'?'Speech recognition not supported.':'Reconocimiento de voz no disponible.');return;}
+  var mic=document.getElementById('chatMic');
+  if(isListening&&recognition){recognition.stop();return;}
+  recognition=new SR();recognition.lang=lang==='es'?'es-PR':'en-US';recognition.interimResults=false;recognition.maxAlternatives=1;recognition.continuous=false;
+  mic.classList.add('listening');isListening=true;
+  recognition.onresult=function(e){var t=e.results[0][0].transcript;document.getElementById('chatInput').value=t;mic.classList.remove('listening');isListening=false;sendMessage();};
+  recognition.onerror=function(){mic.classList.remove('listening');isListening=false;};
+  recognition.onend=function(){mic.classList.remove('listening');isListening=false;};
   recognition.start();
 }
 
-/* --- Enter key --- */
-document.getElementById('chatInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-});
+document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
 
-/* --- Language Toggle --- */
-function setLang(l) {
-  lang = l;
-  document.getElementById('btnEN').classList.toggle('active', l === 'en');
-  document.getElementById('btnES').classList.toggle('active', l === 'es');
-  document.querySelectorAll('.en').forEach(function(e) { e.classList.toggle('show', l === 'en'); });
-  document.querySelectorAll('.es').forEach(function(e) { e.classList.toggle('show', l === 'es'); });
-  document.getElementById('chatInput').placeholder = l === 'en' ? 'Ask about Act 60...' : 'Pregunta sobre Ley 60...';
+function setLang(l){
+  lang=l;document.getElementById('btnEN').classList.toggle('active',l==='en');document.getElementById('btnES').classList.toggle('active',l==='es');
+  document.querySelectorAll('.en').forEach(function(e){e.classList.toggle('show',l==='en');});
+  document.querySelectorAll('.es').forEach(function(e){e.classList.toggle('show',l==='es');});
+  document.getElementById('chatInput').placeholder=l==='en'?'Ask about Act 60...':'Pregunta sobre Ley 60...';
 }
 
-/* --- Share --- */
-function shareThis() {
-  if (navigator.share) {
-    navigator.share({ title: 'Ask La Voz About Act 60', url: window.location.href });
-  } else {
-    navigator.clipboard.writeText(window.location.href);
-    alert(lang === 'en' ? 'Link copied!' : '\u00a1Enlace copiado!');
-  }
-}
+function shareThis(){if(navigator.share){navigator.share({title:'Ask La Voz About Act 60',url:window.location.href});}else{navigator.clipboard.writeText(window.location.href);alert(lang==='en'?'Link copied!':'\u00a1Enlace copiado!');}}
 
-/* --- Init --- */
-setLang('en');
-initPage();
+setLang('en');initPage();
 </script>
 </body>
 </html>
