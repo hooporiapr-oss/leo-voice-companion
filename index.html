@@ -152,13 +152,13 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
 /* Voice button */
 .chat-voice-btn{
-  display:inline-flex;align-items:center;gap:6px;
-  margin-top:8px;padding:5px 14px;
-  background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.15);
-  border-radius:var(--radius-pill);
-  font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--gold);cursor:pointer;transition:all .25s;
-  font-family:'Outfit',sans-serif;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:10px;padding:10px 20px;
+  background:var(--gradient);
+  border:none;border-radius:var(--radius-pill);
+  font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dark);cursor:pointer;transition:all .25s;
+  font-family:'Bebas Neue',sans-serif;width:100%;
 }
 .chat-voice-btn:hover{background:rgba(255,215,0,.15);transform:scale(1.03)}
 .chat-voice-btn.playing{background:rgba(255,215,0,.18);color:#fff;border-color:var(--gold)}
@@ -488,11 +488,13 @@ function sendMessage() {
   .then(function(res) { return res.json(); })
   .then(function(data) {
     removeTyping(typingEl);
-    if (data.reply) {
-      addMessage('bot', data.reply, true);
-      chatHistory.push({ role: 'assistant', content: data.reply });
+    console.log('API response:', JSON.stringify(data));
+    var replyText = data.reply || (data.content && data.content[0] && data.content[0].text) || null;
+    if (replyText) {
+      addMessage('bot', replyText, true);
+      chatHistory.push({ role: 'assistant', content: replyText });
     } else {
-      addMessage('bot', lang === 'en' ? 'Sorry, I had trouble with that. Try again.' : 'Disculpa, tuve un problema. Intenta de nuevo.');
+      addMessage('bot', lang === 'en' ? 'Sorry, I had trouble with that. Try again.' : 'Disculpa, tuve un problema. Intenta de nuevo.', true);
     }
     document.getElementById('chatSend').disabled = false;
   })
