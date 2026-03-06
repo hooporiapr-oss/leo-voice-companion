@@ -105,6 +105,19 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
    CHAT UI
    ============================================ */
 .chat-section{margin-top:48px;width:100%;max-width:640px}
+.chat-start-wrap{text-align:center;margin-bottom:20px}
+.chat-start-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 44px;
+  background:var(--gradient);color:var(--dark);
+  font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;
+  border-radius:var(--radius-pill);border:none;cursor:pointer;
+  transition:all .3s;position:relative;overflow:hidden;
+  animation:startPulse 2.5s ease-in-out infinite;
+}
+.chat-start-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(255,215,0,.3)}
+@keyframes startPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.3)}50%{box-shadow:0 0 24px 8px rgba(255,215,0,.15)}}
+.chat-hidden{display:none}
 .chat-label{font-size:.65rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;text-align:center}
 .chat-box{
   background:var(--card);
@@ -365,8 +378,14 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
       <!-- ===== CHAT UI ===== -->
       <div class="chat-section">
-        <div class="chat-label"><span class="en show">&#128172; ASK LA VOZ ANYTHING</span><span class="es">&#128172; PREGUNTA LO QUE QUIERAS</span></div>
-        <div class="chat-box">
+        <div class="chat-start-wrap" id="chatStartWrap">
+          <button class="chat-start-btn" onclick="startLaVoz()">
+            &#127908; <span class="en show">START LA VOZ</span><span class="es">INICIAR LA VOZ</span>
+          </button>
+        </div>
+        <div class="chat-hidden" id="chatContainer">
+          <div class="chat-label"><span class="en show">&#128172; ASK LA VOZ ANYTHING</span><span class="es">&#128172; PREGUNTA LO QUE QUIERAS</span></div>
+          <div class="chat-box">
           <div class="chat-messages" id="chatMessages">
             <div class="chat-msg bot">
               <div class="chat-msg-name">La Voz</div>
@@ -381,6 +400,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
             <button class="chat-send" id="chatSend" onclick="sendMessage()"><span class="en show">SEND</span><span class="es">ENVIAR</span></button>
           </div>
         </div>
+        </div><!-- end chatContainer -->
       </div>
 
       <!-- MUNICIPALITY EXPLORER -->
@@ -687,38 +707,37 @@ document.getElementById('muniGrid').style.display = 'none';
 /* --- Initialize language (must be last) --- */
 setLang('en');
 
-/* --- Auto-play La Voz welcome message --- */
-(function() {
-  var welcomeEN = "Welcome to La Voz PR — Puerto Rico's voice guide. I'm La Voz. You can ask me anything about this island — Act 60 tax incentives, any of the 78 municipalities, where to eat, where to live, the best beaches, the real culture. Just type your question below and I'll answer. And if you want to hear my voice on any response, tap the speaker button. What do you want to know?";
-  var welcomeES = "Bienvenido a La Voz PR — la guía de voz de Puerto Rico. Soy La Voz. Puedes preguntarme lo que quieras sobre esta isla — incentivos de la Ley 60, cualquiera de los 78 municipios, dónde comer, dónde vivir, las mejores playas, la cultura real. Escribe tu pregunta abajo y te respondo. Y si quieres escuchar mi voz en cualquier respuesta, toca el botón del parlante. Qué quieres saber?";
+/* --- Start La Voz: button tap reveals chat + plays welcome --- */
+function startLaVoz() {
+  document.getElementById('chatStartWrap').style.display = 'none';
+  document.getElementById('chatContainer').classList.remove('chat-hidden');
+  document.getElementById('chatInput').focus();
+
+  var welcomeEN = "Welcome to La Voz PR \u2014 Puerto Rico's voice guide. I'm La Voz. You can ask me anything about this island \u2014 Act 60 tax incentives, any of the 78 municipalities, where to eat, where to live, the best beaches, the real culture. Just type your question below and I'll answer. And if you want to hear my voice on any response, tap the speaker button. What do you want to know?";
+  var welcomeES = "Bienvenido a La Voz PR \u2014 la gu\u00eda de voz de Puerto Rico. Soy La Voz. Puedes preguntarme lo que quieras sobre esta isla \u2014 incentivos de la Ley 60, cualquiera de los 78 municipios, d\u00f3nde comer, d\u00f3nde vivir, las mejores playas, la cultura real. Escribe tu pregunta abajo y te respondo. Y si quieres escuchar mi voz en cualquier respuesta, toca el bot\u00f3n del parlante. Qu\u00e9 quieres saber?";
   var welcomeText = lang === 'es' ? welcomeES : welcomeEN;
 
-  /* Small delay to let page render, then play Leo's voice */
-  setTimeout(function() {
-    fetch(API_BASE + '/api/tts', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: welcomeText })
-    })
-    .then(function(res) {
-      if (!res.ok) throw new Error('TTS error');
-      return res.blob();
-    })
-    .then(function(blob) {
-      var url = URL.createObjectURL(blob);
-      var audio = new Audio(url);
-      currentAudio = audio;
-      audio.play().catch(function() {
-        /* Browser blocked autoplay — that's ok, user will use Listen buttons */
-      });
-      audio.onended = function() {
-        currentAudio = null;
-        URL.revokeObjectURL(url);
-      };
-    })
-    .catch(function() { /* Silent fail — chat still works */ });
-  }, 800);
-})();
+  fetch(API_BASE + '/api/tts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: welcomeText })
+  })
+  .then(function(res) {
+    if (!res.ok) throw new Error('TTS error');
+    return res.blob();
+  })
+  .then(function(blob) {
+    var url = URL.createObjectURL(blob);
+    var audio = new Audio(url);
+    currentAudio = audio;
+    audio.play();
+    audio.onended = function() {
+      currentAudio = null;
+      URL.revokeObjectURL(url);
+    };
+  })
+  .catch(function() {});
+}
 </script>
 
 </body>
