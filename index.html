@@ -4,129 +4,193 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>La Voz PR — Puerto Rico. Act 60. 78 Municipalities.</title>
-<meta name="description" content="Puerto Rico's Act 60 tax incentives. 0% capital gains. 4% corporate tax. US passport intact. Ask La Voz everything.">
+<meta name="description" content="Puerto Rico's Act 60 tax incentives. 0% capital gains. 4% corporate tax. Ask La Voz everything.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Fraunces:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'DM Sans',sans-serif;background:#FAFAF8;color:#1A1A1A;-webkit-font-smoothing:antialiased}
+:root{
+  --deep:#0A1F1A;
+  --deep2:#0E2A22;
+  --emerald:#1B5E45;
+  --emerald-light:#2A7A5A;
+  --gold:#D4A853;
+  --gold-bright:#F0C95C;
+  --gold-dim:rgba(212,168,83,.12);
+  --teal:#3EC9A7;
+  --teal-dim:rgba(62,201,167,.1);
+  --cream:#F5F0E8;
+  --text:#F0EDE5;
+  --text2:rgba(240,237,229,.65);
+  --text3:rgba(240,237,229,.35);
+  --border:rgba(240,237,229,.08);
+  --border2:rgba(240,237,229,.15);
+  --card:rgba(255,255,255,.04);
+  --card2:rgba(255,255,255,.07);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--deep);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(250,250,248,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid #E8E7E3}
+/* AMBIENT */
+.glow{position:fixed;pointer-events:none;border-radius:50%;z-index:0}
+.glow-1{width:800px;height:800px;top:-300px;left:-200px;background:radial-gradient(circle,rgba(27,94,69,.4) 0%,transparent 70%)}
+.glow-2{width:600px;height:600px;bottom:-200px;right:-150px;background:radial-gradient(circle,rgba(212,168,83,.08) 0%,transparent 70%)}
+.glow-3{width:500px;height:500px;top:40%;left:60%;background:radial-gradient(circle,rgba(62,201,167,.06) 0%,transparent 70%)}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,31,26,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
 nav img{height:34px}
 .nav-r{display:flex;align-items:center;gap:12px}
-.nav-cta{padding:8px 20px;background:#C45D2C;color:#fff;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;border-radius:50px;text-decoration:none}
-.nav-cta:hover{background:#B5522A}
-.lnb{padding:6px 12px;font-size:16px;font-weight:600;letter-spacing:.5px;background:transparent;color:#8A8A8A;border:none;cursor:pointer;-webkit-appearance:none}
+.ltog{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--border2)}
+.lnb{padding:6px 12px;font-size:16px;font-weight:600;background:transparent;color:var(--text3);border:none;cursor:pointer;-webkit-appearance:none}
+.nav-cta{padding:9px 22px;background:var(--gold);color:var(--deep);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:700;border-radius:50px;text-decoration:none;letter-spacing:.3px;transition:all .3s}
+.nav-cta:hover{background:var(--gold-bright);transform:scale(1.03);box-shadow:0 4px 20px rgba(212,168,83,.3)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 80px;z-index:1}
+.hero-c{max-width:680px}
+
+/* Decorative line */
+.hero-line{width:48px;height:2px;background:linear-gradient(90deg,var(--gold),var(--teal));margin:0 auto 28px;border-radius:2px}
+
+.badge{display:inline-flex;align-items:center;gap:8px;padding:7px 20px;background:var(--gold-dim);border:1px solid rgba(212,168,83,.2);border-radius:50px;font-size:.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(62,201,167,.4)}50%{opacity:.6;box-shadow:0 0 12px 4px rgba(62,201,167,.15)}}
+
+h1{font-family:'Fraunces',serif;font-size:clamp(2.6rem,7.5vw,5rem);font-weight:900;line-height:.95;letter-spacing:-.03em;margin-bottom:24px}
+h1 .gl{background:linear-gradient(135deg,var(--gold),var(--gold-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{font-size:1.1rem;color:var(--text2);max-width:500px;margin:0 auto 44px;line-height:1.8;font-weight:300}
+
+/* NUMBERS */
+.nums{display:flex;margin-bottom:48px;background:var(--card2);border:1px solid var(--border2);border-radius:20px;overflow:hidden;backdrop-filter:blur(12px)}
+.nm{flex:1;padding:30px 20px;text-align:center;position:relative}
+.nm:not(:last-child)::after{content:'';position:absolute;right:0;top:18%;bottom:18%;width:1px;background:var(--border2)}
+.nm b{display:block;font-family:'Fraunces',serif;font-size:clamp(2.2rem,5.5vw,3.6rem);font-weight:900;line-height:1}
+.nm b.gd{background:linear-gradient(135deg,var(--gold),var(--gold-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nm b.tl{color:var(--teal)}
+.nm span{display:block;margin-top:6px;font-size:.65rem;font-weight:600;letter-spacing:1.2px;text-transform:uppercase;color:var(--text3)}
+
+/* CTAs */
+.ctas{display:flex;flex-direction:column;align-items:center;gap:16px}
+.c1{display:inline-flex;align-items:center;gap:10px;padding:17px 44px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--deep);font-size:1.05rem;font-weight:700;border-radius:50px;text-decoration:none;transition:all .3s;box-shadow:0 4px 24px rgba(212,168,83,.2)}
+.c1:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(212,168,83,.35)}
+.c2{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:rgba(62,201,167,.08);border:1.5px solid rgba(62,201,167,.25);color:var(--teal);font-size:.92rem;font-weight:600;border-radius:50px;text-decoration:none;transition:all .3s}
+.c2:hover{background:rgba(62,201,167,.15);border-color:rgba(62,201,167,.4);transform:translateY(-2px)}
+
+/* DIVIDER */
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:0 auto;max-width:200px}
+
+/* SECTIONS */
+.sec{padding:60px 24px;max-width:900px;margin:0 auto;position:relative;z-index:1}
+.sec-lab{font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:8px;text-align:center}
+.sec-t{font-family:'Fraunces',serif;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:700;text-align:center;margin-bottom:8px}
+.sec-t .gl{background:linear-gradient(135deg,var(--gold),var(--gold-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sec-sub{color:var(--text3);font-size:.9rem;text-align:center;max-width:480px;margin:0 auto 32px;line-height:1.7}
+
+/* REGIONS */
+.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 16px;cursor:pointer;text-align:left;transition:all .3s;position:relative;overflow:hidden}
+.rc:hover{border-color:rgba(212,168,83,.3);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.rc.open{border-color:var(--teal)}
+.rc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--teal));opacity:0;transition:opacity .3s}
+.rc:hover::before,.rc.open::before{opacity:1}
+.rtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.rem{font-size:1.3rem}
+.rcnt{font-size:.55rem;font-weight:600;letter-spacing:1px;color:var(--text3);text-transform:uppercase}
+.rn{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;margin-bottom:4px;color:var(--text)}
+.rv{font-size:.72rem;color:var(--text3);line-height:1.5}
+.ra{font-size:.7rem;color:var(--text3);margin-top:6px;display:block;text-align:right;transition:transform .3s}
+.rc.open .ra{transform:rotate(180deg);color:var(--teal)}
+.rtw{display:none;margin-top:10px;padding-top:10px;border-top:1px solid var(--border)}
+.rc.open .rtw{display:block}
+.rtg{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
+.rt{padding:8px 6px;background:var(--card2);border:1px solid var(--border);border-radius:8px;text-align:center;font-size:.7rem;color:var(--text2);text-decoration:none;font-weight:500;transition:all .25s;display:block}
+.rt:hover{border-color:var(--gold);color:var(--gold)}
+
+/* A-Z */
+.lnav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:16px}
+.lb{width:30px;height:30px;border-radius:8px;background:var(--card);border:1px solid var(--border);color:var(--text2);font-family:'Fraunces',serif;font-size:.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.lb:hover{border-color:var(--gold);color:var(--gold)}
+.lb.on{background:var(--gold);border-color:var(--gold);color:var(--deep)}
+.lb.off{opacity:.15;pointer-events:none}
+.mg{margin-bottom:20px}
+.ml{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:700;opacity:.15;margin-bottom:8px}
+.mg.on .ml{opacity:1;background:linear-gradient(135deg,var(--gold),var(--gold-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mgg{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.mln{padding:10px 8px;background:var(--card);border:1px solid var(--border);border-radius:10px;text-align:center;font-size:.75rem;font-weight:500;color:var(--text2);text-decoration:none;display:block;transition:all .3s}
+.mln:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{padding:48px 24px;text-align:center;border-top:1px solid var(--border);position:relative;z-index:1}
+footer p{font-size:.7rem;color:var(--text3)}
+footer a{color:var(--text3);text-decoration:none}
+footer a:hover{color:var(--gold)}
+.ft-brand{font-family:'Fraunces',serif;font-size:1.1rem;font-weight:700;margin-bottom:4px}
+.ft-brand .gl{background:linear-gradient(135deg,var(--gold),var(--gold-bright));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ft-tag{font-size:.7rem;color:var(--text3);margin-bottom:16px}
+
 .en{}.es{display:none}
 
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/002.png') center/cover no-repeat;z-index:0}
-.hero-bg::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.35)}
-.hero-c{position:relative;z-index:2;max-width:640px}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.15);border-radius:50px;font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#1A7A6A;margin-bottom:24px}
-.dot{width:6px;height:6px;border-radius:50%;background:#1A7A6A;animation:pulse 2s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-h1{font-family:'Fraunces',serif;font-size:clamp(2.4rem,7vw,4.5rem);font-weight:800;line-height:1;letter-spacing:-.03em;margin-bottom:20px;text-shadow:0 2px 12px rgba(255,255,255,.8)}
-h1 .hl{color:#C45D2C}
-.sub{font-size:1.05rem;color:#4A4A4A;max-width:480px;margin:0 auto 36px;line-height:1.75;text-shadow:0 1px 8px rgba(255,255,255,.8)}
-
-.nums{display:flex;margin-bottom:40px;background:#fff;border:1px solid #E8E7E3;border-radius:20px;box-shadow:0 4px 16px rgba(0,0,0,.08);overflow:hidden}
-.num{flex:1;padding:28px 20px;text-align:center;position:relative}
-.num:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:#E8E7E3}
-.num b{display:block;font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3.2rem);font-weight:800;color:#C45D2C}
-.num b.tl{color:#1A7A6A}
-.num span{font-size:.65rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#8A8A8A}
-
-.ctas{display:flex;flex-direction:column;align-items:center;gap:14px}
-.btn1{display:inline-flex;align-items:center;gap:10px;padding:16px 40px;background:#C45D2C;color:#fff;font-size:1rem;font-weight:600;border-radius:50px;text-decoration:none}
-.btn1:hover{background:#B5522A;transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,93,44,.25)}
-.btn2{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#fff;border:1.5px solid #1A7A6A;color:#1A7A6A;font-size:.9rem;font-weight:600;border-radius:50px;text-decoration:none;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-.btn2:hover{background:rgba(26,122,106,.08);transform:translateY(-2px)}
-
-.sec{padding:60px 24px;max-width:900px;margin:0 auto}
-.sec-lab{font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:#1A7A6A;margin-bottom:8px;text-align:center}
-
-.rgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.rcard{background:#fff;border:1px solid #E8E7E3;border-radius:12px;padding:18px 14px;cursor:pointer;text-align:left;transition:all .3s}
-.rcard:hover{border-color:#C45D2C;transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
-.rcard.open{border-color:#1A7A6A}
-.rtop{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.remoji{font-size:1.3rem}
-.rcnt{font-size:.55rem;font-weight:600;letter-spacing:1px;color:#B0B0B0;text-transform:uppercase}
-.rname{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;margin-bottom:4px}
-.rvibe{font-size:.72rem;color:#8A8A8A;line-height:1.5}
-.rarr{font-size:.7rem;color:#B0B0B0;margin-top:6px;display:block;text-align:right;transition:transform .3s}
-.rcard.open .rarr{transform:rotate(180deg);color:#1A7A6A}
-.rtowns{display:none;margin-top:10px;padding-top:10px;border-top:1px solid #E8E7E3}
-.rcard.open .rtowns{display:block}
-.rtgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-.rtown{padding:8px 6px;background:#F2F1ED;border:1px solid #E8E7E3;border-radius:8px;text-align:center;font-size:.7rem;color:#4A4A4A;text-decoration:none;font-weight:500;transition:all .25s;display:block}
-.rtown:hover{border-color:#C45D2C;color:#C45D2C}
-
-.lnav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:16px}
-.lbtn{width:30px;height:30px;border-radius:8px;background:#fff;border:1px solid #E8E7E3;color:#4A4A4A;font-family:'Fraunces',serif;font-size:.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.lbtn:hover{border-color:#C45D2C;color:#C45D2C}
-.lbtn.on{background:#C45D2C;border-color:#C45D2C;color:#fff}
-.lbtn.off{opacity:.2;pointer-events:none}
-.mgrp{margin-bottom:20px}
-.mlab{font-family:'Fraunces',serif;font-size:1.8rem;font-weight:700;opacity:.15;margin-bottom:8px}
-.mgrp.on .mlab{opacity:1;color:#C45D2C}
-.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
-.mlink{padding:10px 8px;background:#fff;border:1px solid #E8E7E3;border-radius:10px;text-align:center;font-size:.75rem;font-weight:500;color:#4A4A4A;text-decoration:none;display:block;transition:all .3s}
-.mlink:hover{border-color:#C45D2C;color:#C45D2C;transform:translateY(-2px)}
-
-footer{padding:40px 24px;text-align:center;border-top:1px solid #E8E7E3}
-footer p{font-size:.7rem;color:#8A8A8A}
-footer a{color:#8A8A8A;text-decoration:none}
-footer a:hover{color:#C45D2C}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.fu{animation:fadeUp .7s ease-out both}
+@keyframes fu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fu .7s ease-out both}
 .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
 
-@media(max-width:768px){.nums{flex-direction:column}.num:not(:last-child)::after{right:10%;left:10%;top:auto;bottom:0;width:auto;height:1px}.rgrid{grid-template-columns:1fr 1fr}nav{padding:12px 16px}}
+@media(max-width:768px){.nums{flex-direction:column}.nm:not(:last-child)::after{right:10%;left:10%;top:auto;bottom:0;width:auto;height:1px}.rgrid{grid-template-columns:1fr 1fr}nav{padding:12px 16px}}
 @media(max-width:480px){.rgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
+<div class="glow glow-1"></div>
+<div class="glow glow-2"></div>
+<div class="glow glow-3"></div>
+
 <nav>
   <a href="index.html"><img src="act60-logo.png" alt="La Voz PR"></a>
   <div class="nav-r">
-    <div style="display:flex;border-radius:8px;overflow:hidden;border:1px solid #E8E7E3"><button type="button" class="lnb" id="bEN" onclick="sl('en')" style="background:rgba(196,93,44,.08);color:#C45D2C">EN</button><button type="button" class="lnb" id="bES" onclick="sl('es')">ES</button></div>
+    <div class="ltog"><button type="button" class="lnb" id="bEN" onclick="sl('en')" style="background:rgba(212,168,83,.12);color:#D4A853">EN</button><button type="button" class="lnb" id="bES" onclick="sl('es')">ES</button></div>
     <a href="laruta.html" class="nav-cta"><span class="en">Ask La Voz</span><span class="es" style="display:none">Pregunta</span></a>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="hero-bg"></div>
   <div class="hero-c">
-    <div class="badge fu"><span class="dot"></span> <span class="en">Talk with us from La Cordillera</span><span class="es" style="display:none">Habla con nosotros desde La Cordillera</span></div>
-    <h1 class="fu d1"><span class="en">The Most Powerful <span class="hl">Tax Incentive</span> in America.</span><span class="es" style="display:none">El Incentivo Contributivo <span class="hl">M&aacute;s Poderoso</span> de Am&eacute;rica.</span></h1>
-    <p class="sub fu d2"><span class="en">Zero percent capital gains. Four percent corporate tax. Full US citizenship. One island that changes everything.</span><span class="es" style="display:none">Cero por ciento en ganancias de capital. Cuatro por ciento de impuesto corporativo. Ciudadan&iacute;a americana completa. Una isla que lo cambia todo.</span></p>
+    <div class="hero-line fu"></div>
+    <div class="badge fu d1"><span class="dot"></span> <span class="en">Talk with us from La Cordillera</span><span class="es" style="display:none">Habla con nosotros desde La Cordillera</span></div>
+    <h1 class="fu d2"><span class="en">The Most Powerful <span class="gl">Tax Incentive</span> in America.</span><span class="es" style="display:none">El Incentivo Contributivo <span class="gl">M&aacute;s Poderoso</span> de Am&eacute;rica.</span></h1>
+    <p class="sub fu d3"><span class="en">Zero percent capital gains. Four percent corporate tax. Full US citizenship. One island that changes everything.</span><span class="es" style="display:none">Cero por ciento en ganancias de capital. Cuatro por ciento de impuesto corporativo. Ciudadan&iacute;a americana completa. Una isla que lo cambia todo.</span></p>
     <div class="nums fu d3">
-      <div class="num"><b>0%</b><span><span class="en">Capital Gains</span><span class="es" style="display:none">Ganancias Capital</span></span></div>
-      <div class="num"><b>4%</b><span><span class="en">Corporate Tax</span><span class="es" style="display:none">Impuesto Corp.</span></span></div>
-      <div class="num"><b class="tl">&#127477;&#127479; &#127482;&#127480;</b><span><span class="en">US Citizenship</span><span class="es" style="display:none">Ciudadan&iacute;a USA</span></span></div>
+      <div class="nm"><b class="gd">0%</b><span><span class="en">Capital Gains</span><span class="es" style="display:none">Ganancias Capital</span></span></div>
+      <div class="nm"><b class="gd">4%</b><span><span class="en">Corporate Tax</span><span class="es" style="display:none">Impuesto Corp.</span></span></div>
+      <div class="nm"><b class="tl">&#127477;&#127479; &#127482;&#127480;</b><span><span class="en">US Citizenship</span><span class="es" style="display:none">Ciudadan&iacute;a USA</span></span></div>
     </div>
     <div class="ctas fu d4">
-      <a href="act60-voice.html" class="btn1"><span class="en">Ask La Voz About Act 60</span><span class="es" style="display:none">Pregunta Sobre Ley 60</span></a>
-      <a href="laruta.html" class="btn2"><span class="en">Explore La Ruta — All 78 Municipalities</span><span class="es" style="display:none">Explora La Ruta — Los 78 Municipios</span></a>
+      <a href="act60-voice.html" class="c1"><span class="en">Ask La Voz About Act 60</span><span class="es" style="display:none">Pregunta Sobre Ley 60</span></a>
+      <a href="laruta.html" class="c2"><span class="en">Explore La Ruta — All 78 Municipalities</span><span class="es" style="display:none">Explora La Ruta — Los 78 Municipios</span></a>
     </div>
   </div>
 </section>
 
+<div class="divider"></div>
+
 <div class="sec">
   <div class="sec-lab"><span class="en">Explore Puerto Rico by Region</span><span class="es" style="display:none">Explora Puerto Rico por Regi&oacute;n</span></div>
+  <div class="sec-t"><span class="en">Find Your <span class="gl">Town.</span></span><span class="es" style="display:none">Encuentra Tu <span class="gl">Pueblo.</span></span></div>
+  <div class="sec-sub"><span class="en">78 municipalities. Each one a different lifestyle.</span><span class="es" style="display:none">78 municipios. Cada uno con un estilo de vida diferente.</span></div>
   <div class="rgrid" id="rg"></div>
-  <div style="margin-top:40px">
-    <div class="sec-lab"><span class="en">Or Browse A-Z</span><span class="es" style="display:none">O Busca por Letra</span></div>
-    <div class="lnav" id="ln"></div>
-    <div id="mg"></div>
-  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec">
+  <div class="sec-lab"><span class="en">Browse A-Z</span><span class="es" style="display:none">Busca por Letra</span></div>
+  <div class="lnav" id="ln"></div>
+  <div id="mgd"></div>
 </div>
 
 <footer>
+  <div class="ft-brand"><span class="gl">La Voz PR</span></div>
+  <div class="ft-tag"><span class="en">Puerto Rico's Voice. GoStar Digital LLC.</span><span class="es" style="display:none">La Voz de Puerto Rico. GoStar Digital LLC.</span></div>
   <p>Copyright &copy; 2026. GoStar Digital LLC. All Rights Reserved.</p>
   <p style="margin-top:8px"><a href="disclaimer.html"><span class="en">Disclaimer</span><span class="es" style="display:none">Aviso Legal</span></a> &nbsp;|&nbsp; <a href="terms.html"><span class="en">Terms</span><span class="es" style="display:none">T&eacute;rminos</span></a></p>
 </footer>
@@ -136,56 +200,53 @@ function sl(l){
   var en=document.querySelectorAll('.en'),es=document.querySelectorAll('.es');
   for(var i=0;i<en.length;i++){en[i].style.display=l==='en'?'inline':'none';}
   for(var j=0;j<es.length;j++){es[j].style.display=l==='es'?'inline':'none';}
-  document.getElementById('bEN').style.background=l==='en'?'rgba(196,93,44,.08)':'transparent';
-  document.getElementById('bEN').style.color=l==='en'?'#C45D2C':'#8A8A8A';
-  document.getElementById('bES').style.background=l==='es'?'rgba(196,93,44,.08)':'transparent';
-  document.getElementById('bES').style.color=l==='es'?'#C45D2C':'#8A8A8A';
+  document.getElementById('bEN').style.background=l==='en'?'rgba(212,168,83,.12)':'transparent';
+  document.getElementById('bEN').style.color=l==='en'?'#D4A853':'rgba(240,237,229,.35)';
+  document.getElementById('bES').style.background=l==='es'?'rgba(212,168,83,.12)':'transparent';
+  document.getElementById('bES').style.color=l==='es'?'#D4A853':'rgba(240,237,229,.35)';
 }
+
 var R=[
-{e:'🌊',n:'North Coast',c:18,v:'San Juan, Dorado, Arecibo',t:['Arecibo','Barceloneta','Bayamon','Camuy','Carolina','Catano','Dorado','Florida','Guaynabo','Hatillo','Loiza','Manati','San Juan','Toa Alta','Toa Baja','Trujillo Alto','Vega Alta','Vega Baja']},
-{e:'☀️',n:'South Coast',c:11,v:'Ponce, Coamo, Guayama',t:['Arroyo','Coamo','Guayama','Guayanilla','Juana Diaz','Patillas','Penuelas','Ponce','Salinas','Santa Isabel','Villalba']},
-{e:'🏄',n:'West Coast',c:19,v:'Rincón, Cabo Rojo, Aguadilla',t:['Aguada','Aguadilla','Cabo Rojo','Guanica','Hormigueros','Isabela','Lajas','Lares','Las Marias','Maricao','Mayaguez','Moca','Quebradillas','Rincon','Sabana Grande','San German','San Sebastian','Yauco']},
-{e:'🌴',n:'East Coast',c:14,v:'Fajardo, Luquillo, Humacao',t:['Caguas','Canovanas','Ceiba','Fajardo','Gurabo','Humacao','Juncos','Las Piedras','Luquillo','Maunabo','Naguabo','Rio Grande','San Lorenzo','Yabucoa']},
-{e:'⛰️',n:'Central Mountains',c:14,v:'Jayuya, Utuado, Adjuntas',t:['Adjuntas','Aguas Buenas','Aibonito','Barranquitas','Cayey','Ciales','Cidra','Comerio','Corozal','Jayuya','Morovis','Naranjito','Orocovis','Utuado']},
-{e:'🏝️',n:'Offshore Islands',c:2,v:'Vieques & Culebra',t:['Culebra','Vieques']}
+{e:'🌊',n:'North Coast',ns:'Costa Norte',c:18,v:'San Juan, Dorado, Arecibo',t:['Arecibo','Barceloneta','Bayamon','Camuy','Carolina','Catano','Dorado','Florida','Guaynabo','Hatillo','Loiza','Manati','San Juan','Toa Alta','Toa Baja','Trujillo Alto','Vega Alta','Vega Baja']},
+{e:'☀️',n:'South Coast',ns:'Costa Sur',c:11,v:'Ponce, Coamo, Guayama',t:['Arroyo','Coamo','Guayama','Guayanilla','Juana Diaz','Patillas','Penuelas','Ponce','Salinas','Santa Isabel','Villalba']},
+{e:'🏄',n:'West Coast',ns:'Costa Oeste',c:19,v:'Rincón, Cabo Rojo, Aguadilla',t:['Aguada','Aguadilla','Cabo Rojo','Guanica','Hormigueros','Isabela','Lajas','Lares','Las Marias','Maricao','Mayaguez','Moca','Quebradillas','Rincon','Sabana Grande','San German','San Sebastian','Yauco']},
+{e:'🌴',n:'East Coast',ns:'Costa Este',c:14,v:'Fajardo, Luquillo, Humacao',t:['Caguas','Canovanas','Ceiba','Fajardo','Gurabo','Humacao','Juncos','Las Piedras','Luquillo','Maunabo','Naguabo','Rio Grande','San Lorenzo','Yabucoa']},
+{e:'⛰️',n:'Central Mountains',ns:'La Montaña',c:14,v:'Jayuya, Utuado, Adjuntas',t:['Adjuntas','Aguas Buenas','Aibonito','Barranquitas','Cayey','Ciales','Cidra','Comerio','Corozal','Jayuya','Morovis','Naranjito','Orocovis','Utuado']},
+{e:'🏝️',n:'Offshore Islands',ns:'Las Islas',c:2,v:'Vieques & Culebra',t:['Culebra','Vieques']}
 ];
 
 var g=document.getElementById('rg');
 g.innerHTML=R.map(function(r,i){
-  var tw=r.t.map(function(t){return '<a href="laruta.html?muni='+encodeURIComponent(t)+'" class="rtown">'+t+'</a>';}).join('');
-  return '<div class="rcard" id="rc'+i+'" onclick="tr('+i+')">'+
-    '<div class="rtop"><span class="remoji">'+r.e+'</span><span class="rcnt">'+r.c+' towns</span></div>'+
-    '<div class="rname">'+r.n+'</div>'+
-    '<div class="rvibe">'+r.v+'</div>'+
-    '<span class="rarr">▼</span>'+
-    '<div class="rtowns"><div class="rtgrid">'+tw+'</div></div></div>';
+  var tw=r.t.map(function(t){return '<a href="laruta.html?muni='+encodeURIComponent(t)+'" class="rt">'+t+'</a>';}).join('');
+  return '<div class="rc" id="rc'+i+'" onclick="tr('+i+')">'+
+    '<div class="rtop"><span class="rem">'+r.e+'</span><span class="rcnt">'+r.c+' towns</span></div>'+
+    '<div class="rn">'+r.n+'</div>'+
+    '<div class="rv">'+r.v+'</div>'+
+    '<span class="ra">▼</span>'+
+    '<div class="rtw"><div class="rtg">'+tw+'</div></div></div>';
 }).join('');
 
 function tr(i){
   var card=document.getElementById('rc'+i);
   var was=card.className.indexOf('open')!==-1;
-  for(var j=0;j<R.length;j++){document.getElementById('rc'+j).className='rcard';}
-  if(!was)card.className='rcard open';
+  for(var j=0;j<R.length;j++){document.getElementById('rc'+j).className='rc';}
+  if(!was)card.className='rc open';
 }
 
 var M=["Adjuntas","Aguada","Aguadilla","Aguas Buenas","Aibonito","Arecibo","Arroyo","Barceloneta","Barranquitas","Bayamon","Cabo Rojo","Caguas","Camuy","Canovanas","Carolina","Catano","Cayey","Ceiba","Ciales","Cidra","Coamo","Comerio","Corozal","Culebra","Dorado","Fajardo","Florida","Guanica","Guayama","Guayanilla","Guaynabo","Gurabo","Hatillo","Hormigueros","Humacao","Isabela","Jayuya","Juana Diaz","Juncos","Lajas","Lares","Las Marias","Las Piedras","Loiza","Luquillo","Manati","Maricao","Maunabo","Mayaguez","Moca","Morovis","Naguabo","Naranjito","Orocovis","Patillas","Penuelas","Ponce","Quebradillas","Rincon","Rio Grande","Sabana Grande","Salinas","San German","San Juan","San Lorenzo","San Sebastian","Santa Isabel","Toa Alta","Toa Baja","Trujillo Alto","Utuado","Vega Alta","Vega Baja","Vieques","Villalba","Yabucoa","Yauco"];
-
 var al=null;
 var lets='ABCDEFGHIJLMNOPQRSTUVWY'.split('');
 var has={};M.forEach(function(m){has[m[0]]=true;});
-var ln=document.getElementById('ln');
-ln.innerHTML=lets.map(function(l){return '<button class="lbtn'+(has[l]?'':' off')+'" onclick="fl(\''+l+'\')">'+l+'</button>';}).join('');
-
-var mgEl=document.getElementById('mg');
-mgEl.style.display='none';
+document.getElementById('ln').innerHTML=lets.map(function(l){return '<button type="button" class="lb'+(has[l]?'':' off')+'" onclick="fl(\''+l+'\')">'+l+'</button>';}).join('');
+var mgd=document.getElementById('mgd');mgd.style.display='none';
 
 function fl(l){
-  if(al===l){al=null;mgEl.style.display='none';var bs=ln.querySelectorAll('.lbtn');for(var i=0;i<bs.length;i++)bs[i].className=bs[i].className.replace(' on','');return;}
-  al=l;mgEl.style.display='block';
-  var bs=ln.querySelectorAll('.lbtn');for(var i=0;i<bs.length;i++){var b=bs[i];b.className=b.textContent===l?(b.className.replace(' on','')+' on'):b.className.replace(' on','');}
+  if(al===l){al=null;mgd.style.display='none';var bs=document.getElementById('ln').querySelectorAll('.lb');for(var i=0;i<bs.length;i++)bs[i].className=bs[i].className.replace(' on','');return;}
+  al=l;mgd.style.display='block';
+  var bs=document.getElementById('ln').querySelectorAll('.lb');for(var i=0;i<bs.length;i++){var b=bs[i];b.className=b.textContent===l?(b.className.replace(' on','')+' on'):b.className.replace(' on','');}
   var gr={};M.forEach(function(m){var f=m[0];if(!gr[f])gr[f]=[];gr[f].push(m);});
-  var cards=gr[l].map(function(m){return '<a href="laruta.html?muni='+encodeURIComponent(m)+'" class="mlink">'+m+'</a>';}).join('');
-  mgEl.innerHTML='<div class="mgrp on"><div class="mlab">'+l+'</div><div class="mgrid">'+cards+'</div></div>';
+  var cards=gr[l].map(function(m){return '<a href="laruta.html?muni='+encodeURIComponent(m)+'" class="mln">'+m+'</a>';}).join('');
+  mgd.innerHTML='<div class="mg on"><div class="ml">'+l+'</div><div class="mgg">'+cards+'</div></div>';
 }
 </script>
 </body>
