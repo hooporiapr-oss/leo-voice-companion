@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>La Ruta &#8212; Talk to La Voz | La Voz PR</title>
-<meta name="description" content="Ask La Voz about any spot in Puerto Rico. AI voice guide covering all 78 municipalities.">
+<meta name="description" content="Ask La Voz about any spot in Puerto Rico. AI guide covering all 78 municipalities.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -12,8 +12,6 @@
 :root{--gold:#FFD700;--orange:#FF6B35;--teal:#00D9A5;--dark:#07070c;--text:#f0f0f4;--dim:#8a8a9a;--dim2:#5a5a6a;--gradient:linear-gradient(135deg,#FFD700,#FF6B35);--border:rgba(255,255,255,.06);--border-gold:rgba(255,215,0,.15);--radius-pill:50px}
 html,body{height:100%;margin:0}
 body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-
-/* SLIDESHOW */
 .slideshow{position:fixed;inset:0;z-index:0}
 .slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s ease-in-out;background-size:cover;background-position:center}
 .slide.active{opacity:1}
@@ -21,19 +19,13 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
 .dots{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:5;display:flex;gap:6px}
 .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:all .4s;cursor:pointer}
 .dot.active{background:var(--gold);transform:scale(1.3)}
-
-/* OVERLAY */
 .overlay{position:relative;z-index:2;min-height:100%;display:flex;flex-direction:column}
-
-/* TOP BAR */
 .top-bar{position:fixed;top:0;left:0;right:0;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;z-index:10;background:rgba(0,0,0,.3);backdrop-filter:blur(12px)}
 .back-link{display:flex;align-items:center;gap:6px;font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none;transition:color .3s;letter-spacing:.5px}
 .back-link:hover{color:var(--gold)}
 .lang-toggle{display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
 .lang-btn{padding:4px 8px;font-size:.62rem;font-weight:600;letter-spacing:1px;background:transparent;color:rgba(255,255,255,.4);border:none;cursor:pointer;transition:all .2s}
 .lang-btn.active{background:rgba(255,215,0,.12);color:var(--gold)}
-
-/* HEADER */
 .header-block{text-align:center;padding:70px 24px 16px;flex-shrink:0}
 .badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.15);border-radius:50px;font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
 .badge .pulse{width:5px;height:5px;border-radius:50%;background:var(--gold);animation:pulse 2s ease-in-out infinite}
@@ -42,17 +34,12 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
 .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .subtitle{font-size:.85rem;color:rgba(255,255,255,.45);letter-spacing:1px;font-weight:300;margin-top:6px;text-shadow:0 2px 12px rgba(0,0,0,.5)}
 .en,.es{display:none}.en.show,.es.show{display:inline}
-
-/* MUNICIPALITY CHIP */
 .muni-chip{display:none;margin:12px auto 0;padding:5px 16px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);border-radius:50px;font-size:.6rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);text-align:center}
 .muni-chip.show{display:inline-block}
-
-/* CHAT */
 .chat-wrap{flex:1;display:flex;flex-direction:column;padding:8px 16px 40px;max-width:640px;width:100%;margin:0 auto}
 .chat-messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:8px 0;scrollbar-width:thin;scrollbar-color:rgba(255,215,0,.15) transparent}
 .chat-messages::-webkit-scrollbar{width:4px}
 .chat-messages::-webkit-scrollbar-thumb{background:rgba(255,215,0,.15);border-radius:4px}
-
 .chat-msg{max-width:88%;animation:msgIn .3s ease both}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .chat-msg.user{align-self:flex-end}
@@ -60,45 +47,18 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
 .chat-msg-name{font-size:.55rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px;padding:0 4px}
 .chat-msg.user .chat-msg-name{color:var(--gold);text-align:right}
 .chat-msg.bot .chat-msg-name{color:var(--teal)}
-.chat-msg-bubble{padding:12px 16px;border-radius:16px;font-size:.88rem;line-height:1.6;backdrop-filter:blur(16px)}
+.chat-msg-bubble{padding:12px 16px;border-radius:16px;font-size:.88rem;line-height:1.6;backdrop-filter:blur(16px);white-space:pre-wrap}
 .chat-msg.user .chat-msg-bubble{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.15);border-bottom-right-radius:4px}
 .chat-msg.bot .chat-msg-bubble{background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.08);border-bottom-left-radius:4px}
-
-/* VOICE BUTTON */
-.chat-voice-btn{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  margin-top:8px;padding:10px 20px;
-  background:var(--gradient);border:none;border-radius:var(--radius-pill);
-  font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--dark);cursor:pointer;transition:all .25s;
-  font-family:'Bebas Neue',sans-serif;width:100%;
-}
-.chat-voice-btn:hover{opacity:.9;transform:scale(1.02)}
-.chat-voice-btn.playing{background:linear-gradient(135deg,var(--teal),#00b88a);color:var(--dark)}
-.chat-voice-btn.loading{opacity:.6;pointer-events:none}
-
-/* TYPING DOTS */
 .typing-dots{display:flex;gap:4px;padding:12px 16px}
 .typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:typePulse 1.2s ease-in-out infinite}
 .typing-dots span:nth-child(2){animation-delay:.2s}
 .typing-dots span:nth-child(3){animation-delay:.4s}
 @keyframes typePulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
-
-/* STARTER PROMPTS */
 .starter-prompts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
 .starter-chip{padding:8px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:50px;font-size:.72rem;color:rgba(255,255,255,.7);cursor:pointer;transition:all .25s;backdrop-filter:blur(12px);text-align:center}
 .starter-chip:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
-
-/* INPUT BAR */
-.chat-input-bar{
-  display:flex;align-items:center;gap:0;
-  background:rgba(0,0,0,.5);
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:20px;
-  backdrop-filter:blur(16px);
-  overflow:hidden;
-  flex-shrink:0;
-}
+.chat-input-bar{display:flex;align-items:center;gap:0;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);border-radius:20px;backdrop-filter:blur(16px);overflow:hidden;flex-shrink:0}
 .chat-mic{padding:14px 14px;background:transparent;border:none;font-size:1.3rem;cursor:pointer;opacity:.5;transition:all .2s;flex-shrink:0}
 .chat-mic:hover{opacity:.8}
 .chat-mic.listening{opacity:1;animation:micPulse 1s ease-in-out infinite}
@@ -108,30 +68,15 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
 .chat-send{padding:14px 20px;background:var(--gradient);border:none;color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;cursor:pointer;transition:all .2s;border-radius:0 20px 20px 0}
 .chat-send:hover{opacity:.9}
 .chat-send:disabled{opacity:.4;cursor:not-allowed}
-
-/* DISCLAIMER */
 .disc-compact{text-align:center;padding:8px 16px 4px;flex-shrink:0}
 .disc-compact p{font-size:.5rem;color:rgba(255,255,255,.2);line-height:1.4;max-width:500px;margin:0 auto}
-
-@media(max-width:768px){
-  .title{font-size:clamp(2rem,9vw,3.5rem);letter-spacing:4px}
-  .header-block{padding:62px 20px 12px}
-}
-@media(max-width:380px){
-  .title{font-size:2rem;letter-spacing:3px}
-}
+@media(max-width:768px){.title{font-size:clamp(2rem,9vw,3.5rem);letter-spacing:4px}.header-block{padding:62px 20px 12px}}
 </style>
 </head>
 <body>
-
-<!-- SLIDESHOW -->
 <div class="slideshow" id="slideshow"></div>
 <div class="dots" id="dots"></div>
-
-<!-- OVERLAY -->
 <div class="overlay">
-
-  <!-- TOP BAR -->
   <div class="top-bar">
     <a href="index.html" class="back-link">&#8592; <span class="en show">Back</span><span class="es">Volver</span></a>
     <div class="lang-toggle">
@@ -139,392 +84,124 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
       <button class="lang-btn" id="btnES" onclick="setLang('es')">ES</button>
     </div>
   </div>
-
-  <!-- HEADER -->
   <div class="header-block">
-    <div class="badge"><span class="pulse"></span> <span class="en show">AI VOICE GUIDE</span><span class="es">GU&Iacute;A DE VOZ AI</span></div>
+    <div class="badge"><span class="pulse"></span> <span class="en show">AI GUIDE</span><span class="es">GU&Iacute;A AI</span></div>
     <div class="title"><span class="gradient-text">LA RUTA</span></div>
     <div class="subtitle"><span class="en show">Ask La Voz about any town in Puerto Rico</span><span class="es">Pregunta a La Voz sobre cualquier pueblo de Puerto Rico</span></div>
     <div class="muni-chip" id="muniChip"></div>
   </div>
-
-  <!-- CHAT -->
   <div class="chat-wrap">
-    <div class="chat-messages" id="chatMessages">
-      <!-- Welcome message inserted by JS -->
-    </div>
-
-    <!-- STARTER PROMPTS -->
+    <div class="chat-messages" id="chatMessages"></div>
     <div class="starter-prompts" id="starterPrompts"></div>
-
-    <!-- INPUT BAR -->
     <div class="chat-input-bar">
       <button class="chat-mic" id="chatMic" onclick="toggleMic()">&#127908;</button>
       <input type="text" class="chat-input" id="chatInput" placeholder="Ask La Voz anything..." autocomplete="off">
       <button class="chat-send" id="chatSend" onclick="sendMessage()"><span class="en show">SEND</span><span class="es">ENVIAR</span></button>
     </div>
-
-    <!-- DISCLAIMER -->
     <div class="disc-compact">
       <p><span class="en show">&#9888;&#65039; Educational purposes only. La Voz PR is not a law firm or tax advisor. GoStar Digital LLC.</span><span class="es">&#9888;&#65039; Solo con fines educativos. La Voz PR no es firma legal ni asesor tributario. GoStar Digital LLC.</span></p>
     </div>
   </div>
-
 </div>
-
 <script>
-var lang = 'en';
-var API_BASE = 'https://lavozpr-api.onrender.com';
-var chatHistory = [];
-var currentAudio = null;
-var muniParam = null;
+var lang='en',API_BASE='https://lavozpr-api.onrender.com',chatHistory=[],muniParam=null;
+var urlParams=new URLSearchParams(window.location.search);muniParam=urlParams.get('muni');
 
-/* --- Municipality Prompts --- */
-var MUNI_PROMPTS = {
-  "Adjuntas":{"en":"Tell me about Adjuntas","es":"Cu\u00e9ntame sobre Adjuntas"},
-  "Aguada":{"en":"Tell me about Aguada","es":"Cu\u00e9ntame sobre Aguada"},
-  "Aguadilla":{"en":"Tell me about Aguadilla","es":"Cu\u00e9ntame sobre Aguadilla"},
-  "Aguas Buenas":{"en":"Tell me about Aguas Buenas","es":"Cu\u00e9ntame sobre Aguas Buenas"},
-  "Aibonito":{"en":"Tell me about Aibonito","es":"Cu\u00e9ntame sobre Aibonito"},
-  "Arecibo":{"en":"Tell me about Arecibo","es":"Cu\u00e9ntame sobre Arecibo"},
-  "Arroyo":{"en":"Tell me about Arroyo","es":"Cu\u00e9ntame sobre Arroyo"},
-  "Barceloneta":{"en":"Tell me about Barceloneta","es":"Cu\u00e9ntame sobre Barceloneta"},
-  "Barranquitas":{"en":"Tell me about Barranquitas","es":"Cu\u00e9ntame sobre Barranquitas"},
-  "Bayamon":{"en":"Tell me about Bayam\u00f3n","es":"Cu\u00e9ntame sobre Bayam\u00f3n"},
-  "Cabo Rojo":{"en":"Tell me about Cabo Rojo","es":"Cu\u00e9ntame sobre Cabo Rojo"},
-  "Caguas":{"en":"Tell me about Caguas","es":"Cu\u00e9ntame sobre Caguas"},
-  "Camuy":{"en":"Tell me about Camuy","es":"Cu\u00e9ntame sobre Camuy"},
-  "Canovanas":{"en":"Tell me about Can\u00f3vanas","es":"Cu\u00e9ntame sobre Can\u00f3vanas"},
-  "Carolina":{"en":"Tell me about Carolina","es":"Cu\u00e9ntame sobre Carolina"},
-  "Catano":{"en":"Tell me about Cata\u00f1o","es":"Cu\u00e9ntame sobre Cata\u00f1o"},
-  "Cayey":{"en":"Tell me about Cayey","es":"Cu\u00e9ntame sobre Cayey"},
-  "Ceiba":{"en":"Tell me about Ceiba","es":"Cu\u00e9ntame sobre Ceiba"},
-  "Ciales":{"en":"Tell me about Ciales","es":"Cu\u00e9ntame sobre Ciales"},
-  "Cidra":{"en":"Tell me about Cidra","es":"Cu\u00e9ntame sobre Cidra"},
-  "Coamo":{"en":"Tell me about Coamo","es":"Cu\u00e9ntame sobre Coamo"},
-  "Comerio":{"en":"Tell me about Comer\u00edo","es":"Cu\u00e9ntame sobre Comer\u00edo"},
-  "Corozal":{"en":"Tell me about Corozal","es":"Cu\u00e9ntame sobre Corozal"},
-  "Culebra":{"en":"Tell me about Culebra","es":"Cu\u00e9ntame sobre Culebra"},
-  "Dorado":{"en":"Tell me about Dorado","es":"Cu\u00e9ntame sobre Dorado"},
-  "Fajardo":{"en":"Tell me about Fajardo","es":"Cu\u00e9ntame sobre Fajardo"},
-  "Florida":{"en":"Tell me about Florida PR","es":"Cu\u00e9ntame sobre Florida PR"},
-  "Guanica":{"en":"Tell me about Gu\u00e1nica","es":"Cu\u00e9ntame sobre Gu\u00e1nica"},
-  "Guayama":{"en":"Tell me about Guayama","es":"Cu\u00e9ntame sobre Guayama"},
-  "Guayanilla":{"en":"Tell me about Guayanilla","es":"Cu\u00e9ntame sobre Guayanilla"},
-  "Guaynabo":{"en":"Tell me about Guaynabo","es":"Cu\u00e9ntame sobre Guaynabo"},
-  "Gurabo":{"en":"Tell me about Gurabo","es":"Cu\u00e9ntame sobre Gurabo"},
-  "Hatillo":{"en":"Tell me about Hatillo","es":"Cu\u00e9ntame sobre Hatillo"},
-  "Hormigueros":{"en":"Tell me about Hormigueros","es":"Cu\u00e9ntame sobre Hormigueros"},
-  "Humacao":{"en":"Tell me about Humacao","es":"Cu\u00e9ntame sobre Humacao"},
-  "Isabela":{"en":"Tell me about Isabela","es":"Cu\u00e9ntame sobre Isabela"},
-  "Jayuya":{"en":"Tell me about Jayuya","es":"Cu\u00e9ntame sobre Jayuya"},
-  "Juana Diaz":{"en":"Tell me about Juana D\u00edaz","es":"Cu\u00e9ntame sobre Juana D\u00edaz"},
-  "Juncos":{"en":"Tell me about Juncos","es":"Cu\u00e9ntame sobre Juncos"},
-  "Lajas":{"en":"Tell me about Lajas","es":"Cu\u00e9ntame sobre Lajas"},
-  "Lares":{"en":"Tell me about Lares","es":"Cu\u00e9ntame sobre Lares"},
-  "Las Marias":{"en":"Tell me about Las Mar\u00edas","es":"Cu\u00e9ntame sobre Las Mar\u00edas"},
-  "Las Piedras":{"en":"Tell me about Las Piedras","es":"Cu\u00e9ntame sobre Las Piedras"},
-  "Loiza":{"en":"Tell me about Lo\u00edza","es":"Cu\u00e9ntame sobre Lo\u00edza"},
-  "Luquillo":{"en":"Tell me about Luquillo","es":"Cu\u00e9ntame sobre Luquillo"},
-  "Manati":{"en":"Tell me about Manat\u00ed","es":"Cu\u00e9ntame sobre Manat\u00ed"},
-  "Maricao":{"en":"Tell me about Maricao","es":"Cu\u00e9ntame sobre Maricao"},
-  "Maunabo":{"en":"Tell me about Maunabo","es":"Cu\u00e9ntame sobre Maunabo"},
-  "Mayaguez":{"en":"Tell me about Mayag\u00fcez","es":"Cu\u00e9ntame sobre Mayag\u00fcez"},
-  "Moca":{"en":"Tell me about Moca","es":"Cu\u00e9ntame sobre Moca"},
-  "Morovis":{"en":"Tell me about Morovis","es":"Cu\u00e9ntame sobre Morovis"},
-  "Naguabo":{"en":"Tell me about Naguabo","es":"Cu\u00e9ntame sobre Naguabo"},
-  "Naranjito":{"en":"Tell me about Naranjito","es":"Cu\u00e9ntame sobre Naranjito"},
-  "Orocovis":{"en":"Tell me about Orocovis","es":"Cu\u00e9ntame sobre Orocovis"},
-  "Patillas":{"en":"Tell me about Patillas","es":"Cu\u00e9ntame sobre Patillas"},
-  "Penuelas":{"en":"Tell me about Pe\u00f1uelas","es":"Cu\u00e9ntame sobre Pe\u00f1uelas"},
-  "Ponce":{"en":"Tell me about Ponce","es":"Cu\u00e9ntame sobre Ponce"},
-  "Quebradillas":{"en":"Tell me about Quebradillas","es":"Cu\u00e9ntame sobre Quebradillas"},
-  "Rincon":{"en":"Tell me about Rinc\u00f3n","es":"Cu\u00e9ntame sobre Rinc\u00f3n"},
-  "Rio Grande":{"en":"Tell me about R\u00edo Grande","es":"Cu\u00e9ntame sobre R\u00edo Grande"},
-  "Sabana Grande":{"en":"Tell me about Sabana Grande","es":"Cu\u00e9ntame sobre Sabana Grande"},
-  "Salinas":{"en":"Tell me about Salinas","es":"Cu\u00e9ntame sobre Salinas"},
-  "San German":{"en":"Tell me about San Germ\u00e1n","es":"Cu\u00e9ntame sobre San Germ\u00e1n"},
-  "San Juan":{"en":"Tell me about San Juan","es":"Cu\u00e9ntame sobre San Juan"},
-  "San Lorenzo":{"en":"Tell me about San Lorenzo","es":"Cu\u00e9ntame sobre San Lorenzo"},
-  "San Sebastian":{"en":"Tell me about San Sebasti\u00e1n","es":"Cu\u00e9ntame sobre San Sebasti\u00e1n"},
-  "Santa Isabel":{"en":"Tell me about Santa Isabel","es":"Cu\u00e9ntame sobre Santa Isabel"},
-  "Toa Alta":{"en":"Tell me about Toa Alta","es":"Cu\u00e9ntame sobre Toa Alta"},
-  "Toa Baja":{"en":"Tell me about Toa Baja","es":"Cu\u00e9ntame sobre Toa Baja"},
-  "Trujillo Alto":{"en":"Tell me about Trujillo Alto","es":"Cu\u00e9ntame sobre Trujillo Alto"},
-  "Utuado":{"en":"Tell me about Utuado","es":"Cu\u00e9ntame sobre Utuado"},
-  "Vega Alta":{"en":"Tell me about Vega Alta","es":"Cu\u00e9ntame sobre Vega Alta"},
-  "Vega Baja":{"en":"Tell me about Vega Baja","es":"Cu\u00e9ntame sobre Vega Baja"},
-  "Vieques":{"en":"Tell me about Vieques","es":"Cu\u00e9ntame sobre Vieques"},
-  "Villalba":{"en":"Tell me about Villalba","es":"Cu\u00e9ntame sobre Villalba"},
-  "Yabucoa":{"en":"Tell me about Yabucoa","es":"Cu\u00e9ntame sobre Yabucoa"},
-  "Yauco":{"en":"Tell me about Yauco","es":"Cu\u00e9ntame sobre Yauco"}
-};
-
-/* --- Read URL param --- */
-var urlParams = new URLSearchParams(window.location.search);
-muniParam = urlParams.get('muni');
-
-/* --- Init page --- */
-function initPage() {
-  var welcomeEN, welcomeES;
-
-  if (muniParam && MUNI_PROMPTS[muniParam]) {
-    /* Municipality-specific */
-    var chip = document.getElementById('muniChip');
-    chip.textContent = '\u{1F4CD} ' + muniParam;
-    chip.classList.add('show');
-    welcomeEN = "Welcome! I'm La Voz. You've selected " + muniParam + ", Puerto Rico. I know this town inside and out — the history, the food, the beaches, the culture, everything. What do you want to know about " + muniParam + "?";
-    welcomeES = "\u00a1Bienvenido! Soy La Voz. Seleccionaste " + muniParam + ", Puerto Rico. Conozco este pueblo a fondo — la historia, la comida, las playas, la cultura, todo. \u00bfQu\u00e9 quieres saber sobre " + muniParam + "?";
-    buildStarterPrompts(muniParam);
-  } else {
-    /* General La Ruta */
-    welcomeEN = "Welcome to La Ruta! I'm La Voz — your guide to all 78 municipalities of Puerto Rico. Pick a town or ask me anything about this island. History, food, beaches, culture, Act 60, where to live — I know it all. What do you want to explore?";
-    welcomeES = "\u00a1Bienvenido a La Ruta! Soy La Voz — tu gu\u00eda de los 78 municipios de Puerto Rico. Elige un pueblo o preg\u00fantame lo que quieras. Historia, comida, playas, cultura, Ley 60, d\u00f3nde vivir — lo s\u00e9 todo. \u00bfQu\u00e9 quieres explorar?";
+function initPage(){
+  var wEN,wES;
+  if(muniParam){
+    var chip=document.getElementById('muniChip');chip.textContent='\u{1F4CD} '+muniParam;chip.classList.add('show');
+    wEN="Welcome! I'm La Voz. You've selected "+muniParam+", Puerto Rico. I know this town inside and out \u2014 the history, the food, the beaches, the culture, everything. What do you want to know about "+muniParam+"?";
+    wES="\u00a1Bienvenido! Soy La Voz. Seleccionaste "+muniParam+", Puerto Rico. Conozco este pueblo a fondo \u2014 la historia, la comida, las playas, la cultura, todo. \u00bfQu\u00e9 quieres saber sobre "+muniParam+"?";
+    buildMuniStarters(muniParam);
+  }else{
+    wEN="Welcome to La Ruta! I'm La Voz \u2014 your guide to all 78 municipalities of Puerto Rico. Pick a town or ask me anything about this island. History, food, beaches, culture, Act 60, where to live \u2014 I know it all. What do you want to explore?";
+    wES="\u00a1Bienvenido a La Ruta! Soy La Voz \u2014 tu gu\u00eda de los 78 municipios de Puerto Rico. Elige un pueblo o preg\u00fantame lo que quieras. Historia, comida, playas, cultura, Ley 60, d\u00f3nde vivir \u2014 lo s\u00e9 todo. \u00bfQu\u00e9 quieres explorar?";
     buildGeneralStarters();
   }
-
-  addMessage('bot', lang === 'es' ? welcomeES : welcomeEN);
+  addMessage('bot',lang==='es'?wES:wEN);
 }
 
-/* --- Starter Prompts (municipality) --- */
-function buildStarterPrompts(muni) {
-  var container = document.getElementById('starterPrompts');
-  var isEN = lang === 'en';
-  var prompts = isEN
-    ? ['Best food in ' + muni, 'History of ' + muni, 'Beaches near ' + muni, 'Where to stay in ' + muni, 'Act 60 in ' + muni]
-    : ['Mejor comida en ' + muni, 'Historia de ' + muni, 'Playas cerca de ' + muni, 'D\u00f3nde hospedarse en ' + muni, 'Ley 60 en ' + muni];
-  container.innerHTML = prompts.map(function(p) {
-    return '<button class="starter-chip" onclick="sendStarter(\'' + p.replace(/'/g, "\\'") + '\')">' + p + '</button>';
-  }).join('');
+function buildMuniStarters(muni){
+  var c=document.getElementById('starterPrompts'),isEN=lang==='en';
+  var p=isEN?['Best food in '+muni,'History of '+muni,'Beaches near '+muni,'Where to stay in '+muni,'Act 60 in '+muni]:['Mejor comida en '+muni,'Historia de '+muni,'Playas cerca de '+muni,'D\u00f3nde hospedarse en '+muni,'Ley 60 en '+muni];
+  c.innerHTML=p.map(function(t){return '<button class="starter-chip" onclick="sendStarter(\''+t.replace(/'/g,"\\'")+'\')">' +t+'</button>';}).join('');
 }
 
-/* --- Starter Prompts (general) --- */
-function buildGeneralStarters() {
-  var container = document.getElementById('starterPrompts');
-  var isEN = lang === 'en';
-  var prompts = isEN
-    ? ['Tell me about Act 60', 'Best beaches in Puerto Rico', 'Where should I live?', 'Tell me about Dorado', 'Best food on the island', 'Tell me about San Juan']
-    : ['Cu\u00e9ntame sobre Ley 60', 'Mejores playas de Puerto Rico', '\u00bfD\u00f3nde debo vivir?', 'Cu\u00e9ntame sobre Dorado', 'Mejor comida de la isla', 'Cu\u00e9ntame sobre San Juan'];
-  container.innerHTML = prompts.map(function(p) {
-    return '<button class="starter-chip" onclick="sendStarter(\'' + p.replace(/'/g, "\\'") + '\')">' + p + '</button>';
-  }).join('');
+function buildGeneralStarters(){
+  var c=document.getElementById('starterPrompts'),isEN=lang==='en';
+  var p=isEN?['Tell me about Act 60','Best beaches in Puerto Rico','Where should I live?','Tell me about Dorado','Best food on the island','Tell me about San Juan']:['Cu\u00e9ntame sobre Ley 60','Mejores playas de Puerto Rico','\u00bfD\u00f3nde debo vivir?','Cu\u00e9ntame sobre Dorado','Mejor comida de la isla','Cu\u00e9ntame sobre San Juan'];
+  c.innerHTML=p.map(function(t){return '<button class="starter-chip" onclick="sendStarter(\''+t.replace(/'/g,"\\'")+'\')">' +t+'</button>';}).join('');
 }
 
-/* --- Send Starter --- */
-function sendStarter(text) {
-  document.getElementById('chatInput').value = text;
-  document.getElementById('starterPrompts').style.display = 'none';
-  sendMessage();
-}
+function sendStarter(t){document.getElementById('chatInput').value=t;document.getElementById('starterPrompts').style.display='none';sendMessage();}
 
-/* --- Send Message --- */
-function sendMessage() {
-  var input = document.getElementById('chatInput');
-  var text = input.value.trim();
-  if (!text) return;
-
-  addMessage('user', text);
-  input.value = '';
-  chatHistory.push({ role: 'user', content: text });
-
-  /* Hide starters after first message */
-  document.getElementById('starterPrompts').style.display = 'none';
-
-  var typingEl = showTyping();
-  document.getElementById('chatSend').disabled = true;
-
-  fetch(API_BASE + '/api/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: chatHistory, municipality: muniParam })
+function sendMessage(){
+  var input=document.getElementById('chatInput'),text=input.value.trim();if(!text)return;
+  addMessage('user',text);input.value='';chatHistory.push({role:'user',content:text});
+  document.getElementById('starterPrompts').style.display='none';
+  var typing=showTyping();document.getElementById('chatSend').disabled=true;
+  fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory,municipality:muniParam})})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    removeTyping(typing);
+    var reply=d.reply||(d.content&&d.content[0]&&d.content[0].text)||null;
+    if(reply){addMessage('bot',reply);chatHistory.push({role:'assistant',content:reply});}
+    else{addMessage('bot',lang==='en'?'Sorry, I had trouble with that. Try again.':'Disculpa, tuve un problema. Intenta de nuevo.');}
+    document.getElementById('chatSend').disabled=false;
   })
-  .then(function(res) { return res.json(); })
-  .then(function(data) {
-    removeTyping(typingEl);
-    var replyText = data.reply || (data.content && data.content[0] && data.content[0].text) || null;
-    if (replyText) {
-      addMessage('bot', replyText, true);
-      chatHistory.push({ role: 'assistant', content: replyText });
-    } else {
-      addMessage('bot', lang === 'en' ? 'Sorry, I had trouble with that. Try again.' : 'Disculpa, tuve un problema. Intenta de nuevo.', true);
-    }
-    document.getElementById('chatSend').disabled = false;
-  })
-  .catch(function() {
-    removeTyping(typingEl);
-    addMessage('bot', lang === 'en' ? 'Connection error. Please try again.' : 'Error de conexi\u00f3n. Intenta de nuevo.', true);
-    document.getElementById('chatSend').disabled = false;
-  });
+  .catch(function(){removeTyping(typing);addMessage('bot',lang==='en'?'Connection error. Please try again.':'Error de conexi\u00f3n. Intenta de nuevo.');document.getElementById('chatSend').disabled=false;});
 }
 
-/* --- Add Message --- */
-function addMessage(role, text, showVoice) {
-  var container = document.getElementById('chatMessages');
-  var msg = document.createElement('div');
-  msg.className = 'chat-msg ' + role;
-
-  var name = document.createElement('div');
-  name.className = 'chat-msg-name';
-  name.textContent = role === 'user' ? (lang === 'en' ? 'You' : 'T\u00fa') : 'La Voz';
-
-  var bubble = document.createElement('div');
-  bubble.className = 'chat-msg-bubble';
-  bubble.textContent = text;
-
-  msg.appendChild(name);
-  msg.appendChild(bubble);
-
-  if (showVoice && role === 'bot') {
-    var voiceBtn = document.createElement('button');
-    voiceBtn.className = 'chat-voice-btn';
-    voiceBtn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
-    voiceBtn.onclick = function() { playVoice(text, voiceBtn); };
-    msg.appendChild(voiceBtn);
-  }
-
-  container.appendChild(msg);
-  container.scrollTop = container.scrollHeight;
+function addMessage(role,text){
+  var c=document.getElementById('chatMessages'),msg=document.createElement('div');msg.className='chat-msg '+role;
+  var name=document.createElement('div');name.className='chat-msg-name';name.textContent=role==='user'?(lang==='en'?'You':'T\u00fa'):'La Voz';
+  var bubble=document.createElement('div');bubble.className='chat-msg-bubble';bubble.textContent=text;
+  msg.appendChild(name);msg.appendChild(bubble);c.appendChild(msg);c.scrollTop=c.scrollHeight;
 }
 
-/* --- Typing Indicator --- */
-function showTyping() {
-  var container = document.getElementById('chatMessages');
-  var msg = document.createElement('div');
-  msg.className = 'chat-msg bot';
-  msg.innerHTML = '<div class="chat-msg-name">La Voz</div><div class="typing-dots"><span></span><span></span><span></span></div>';
-  container.appendChild(msg);
-  container.scrollTop = container.scrollHeight;
-  return msg;
-}
-function removeTyping(el) { if (el && el.parentNode) el.parentNode.removeChild(el); }
+function showTyping(){var c=document.getElementById('chatMessages'),msg=document.createElement('div');msg.className='chat-msg bot';msg.innerHTML='<div class="chat-msg-name">La Voz</div><div class="typing-dots"><span></span><span></span><span></span></div>';c.appendChild(msg);c.scrollTop=c.scrollHeight;return msg;}
+function removeTyping(el){if(el&&el.parentNode)el.parentNode.removeChild(el);}
 
-/* --- Play Voice (OpenAI TTS) --- */
-function playVoice(text, btn) {
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio = null;
-    document.querySelectorAll('.chat-voice-btn.playing').forEach(function(b) { b.classList.remove('playing'); });
-  }
-
-  btn.classList.add('loading');
-  btn.innerHTML = '\u23F3 ' + (lang === 'en' ? 'LOADING...' : 'CARGANDO...');
-
-  fetch(API_BASE + '/api/tts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: text })
-  })
-  .then(function(res) {
-    if (!res.ok) throw new Error('TTS error');
-    return res.blob();
-  })
-  .then(function(blob) {
-    var url = URL.createObjectURL(blob);
-    var audio = new Audio(url);
-    currentAudio = audio;
-    btn.classList.remove('loading');
-    btn.classList.add('playing');
-    btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'PLAYING...' : 'REPRODUCIENDO...');
-    audio.play();
-    audio.onended = function() {
-      btn.classList.remove('playing');
-      btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
-      currentAudio = null;
-      URL.revokeObjectURL(url);
-    };
-  })
-  .catch(function() {
-    btn.classList.remove('loading');
-    btn.innerHTML = '\u274C ERROR';
-    setTimeout(function() {
-      btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
-    }, 2000);
-  });
-}
-
-/* --- Speech Recognition --- */
-var recognition = null;
-var isListening = false;
-
-function toggleMic() {
-  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert(lang === 'en' ? 'Speech recognition not supported in this browser.' : 'Reconocimiento de voz no disponible en este navegador.');
-    return;
-  }
-  var micBtn = document.getElementById('chatMic');
-  if (isListening && recognition) { recognition.stop(); return; }
-
-  recognition = new SpeechRecognition();
-  recognition.lang = lang === 'es' ? 'es-PR' : 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-  recognition.continuous = false;
-
-  micBtn.classList.add('listening');
-  isListening = true;
-
-  recognition.onresult = function(event) {
-    var transcript = event.results[0][0].transcript;
-    document.getElementById('chatInput').value = transcript;
-    micBtn.classList.remove('listening');
-    isListening = false;
-    sendMessage();
-  };
-  recognition.onerror = function() { micBtn.classList.remove('listening'); isListening = false; };
-  recognition.onend = function() { micBtn.classList.remove('listening'); isListening = false; };
+var recognition=null,isListening=false;
+function toggleMic(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){alert(lang==='en'?'Speech recognition not supported.':'Reconocimiento de voz no disponible.');return;}
+  var mic=document.getElementById('chatMic');
+  if(isListening&&recognition){recognition.stop();return;}
+  recognition=new SR();recognition.lang=lang==='es'?'es-PR':'en-US';recognition.interimResults=false;recognition.maxAlternatives=1;recognition.continuous=false;
+  mic.classList.add('listening');isListening=true;
+  recognition.onresult=function(e){var t=e.results[0][0].transcript;document.getElementById('chatInput').value=t;mic.classList.remove('listening');isListening=false;sendMessage();};
+  recognition.onerror=function(){mic.classList.remove('listening');isListening=false;};
+  recognition.onend=function(){mic.classList.remove('listening');isListening=false;};
   recognition.start();
 }
 
-/* --- Enter key --- */
-document.getElementById('chatInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
-});
+document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
 
-/* --- Language Toggle --- */
-function setLang(l) {
-  lang = l;
-  document.getElementById('btnEN').classList.toggle('active', l === 'en');
-  document.getElementById('btnES').classList.toggle('active', l === 'es');
-  document.querySelectorAll('.en').forEach(function(e) { e.classList.toggle('show', l === 'en'); });
-  document.querySelectorAll('.es').forEach(function(e) { e.classList.toggle('show', l === 'es'); });
-  document.getElementById('chatInput').placeholder = l === 'en' ? 'Ask La Voz anything...' : 'Pregunta lo que quieras...';
+function setLang(l){
+  lang=l;document.getElementById('btnEN').classList.toggle('active',l==='en');document.getElementById('btnES').classList.toggle('active',l==='es');
+  document.querySelectorAll('.en').forEach(function(e){e.classList.toggle('show',l==='en');});
+  document.querySelectorAll('.es').forEach(function(e){e.classList.toggle('show',l==='es');});
+  document.getElementById('chatInput').placeholder=l==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';
 }
 
-/* --- Slideshow --- */
-var SLIDES = [
-  { img: "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/001.png" },
-  { img: "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/002.png" },
-  { img: "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/003.png" },
-  { img: "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/004.png" },
-  { img: "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/005.png" },
-  { img: "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/006.png" },
-  { img: "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/007.png" },
-  { img: "https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/008.png" }
+var SLIDES=[
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/001.png"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/002.png"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/003.png"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/004.png"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/005.png"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/006.png"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/007.png"},
+  {img:"https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/008.png"}
 ];
-var current = 0;
-var ss = document.getElementById('slideshow');
-var dotsEl = document.getElementById('dots');
-SLIDES.forEach(function(s, i) {
-  var d = document.createElement('div');
-  d.className = 'slide' + (i === 0 ? ' active' : '');
-  d.style.backgroundImage = 'url(' + s.img + ')';
-  ss.appendChild(d);
-  var dot = document.createElement('div');
-  dot.className = 'dot' + (i === 0 ? ' active' : '');
-  dot.onclick = (function(idx) { return function() { goSlide(idx); }; })(i);
-  dotsEl.appendChild(dot);
-});
-function goSlide(n) {
-  document.querySelectorAll('.slide').forEach(function(s, i) { s.classList.toggle('active', i === n); });
-  document.querySelectorAll('.dot').forEach(function(d, i) { d.classList.toggle('active', i === n); });
-  current = n;
-}
-setInterval(function() { goSlide((current + 1) % SLIDES.length); }, 5000);
+var current=0,ss=document.getElementById('slideshow'),dotsEl=document.getElementById('dots');
+SLIDES.forEach(function(s,i){var d=document.createElement('div');d.className='slide'+(i===0?' active':'');d.style.backgroundImage='url('+s.img+')';ss.appendChild(d);var dot=document.createElement('div');dot.className='dot'+(i===0?' active':'');dot.onclick=(function(idx){return function(){goSlide(idx);};})(i);dotsEl.appendChild(dot);});
+function goSlide(n){document.querySelectorAll('.slide').forEach(function(s,i){s.classList.toggle('active',i===n);});document.querySelectorAll('.dot').forEach(function(d,i){d.classList.toggle('active',i===n);});current=n;}
+setInterval(function(){goSlide((current+1)%SLIDES.length);},5000);
 
-/* --- Init --- */
-setLang('en');
-initPage();
+setLang('en');initPage();
 </script>
 </body>
 </html>
