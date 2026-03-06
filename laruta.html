@@ -259,6 +259,7 @@ function setLang(l){
   document.querySelectorAll('.en').forEach(function(e){e.classList.toggle('show',l==='en');});
   document.querySelectorAll('.es').forEach(function(e){e.classList.toggle('show',l==='es');});
   document.getElementById('chatInput').placeholder=l==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';
+  if(chatHistory.length===0){document.getElementById('chatMessages').innerHTML='';initPage();}
 }
 
 setLang('en');initPage();
