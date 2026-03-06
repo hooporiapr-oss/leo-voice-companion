@@ -96,7 +96,7 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
   </div>
   <div class="header-block">
     <img src="act60-logo.png" alt="Act 60 — La Voz PR" class="logo-img">
-    <div class="badge"><span class="pulse"></span> <span class="en show">ACT 60 AI EXPERT</span><span class="es">EXPERTA AI — LEY 60</span></div>
+    <div class="badge"><span class="pulse"></span> <span class="en show">ACT 60 AI GUIDE</span><span class="es">GU&Iacute;A AI — LEY 60</span></div>
     <div class="title"><span class="gradient-text"><span class="en show">ASK LA VOZ</span><span class="es">PREGUNTA A LA VOZ</span></span></div>
     <div class="subtitle"><span class="en show">Everything about Act 60 — type or tap the mic</span><span class="es">Todo sobre la Ley 60 — escribe o toca el mic</span></div>
     <div class="stats-bar">
@@ -122,7 +122,7 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
 var lang='en',API_BASE='https://lavozpr-api.onrender.com',chatHistory=[];
 
 function initPage(){
-  var wEN="Welcome! I'm La Voz \u2014 your Act 60 expert. I know the Individual Investors chapter, the Export Services chapter, residency requirements, the decree process, where to live, and everything in between. What do you want to know about Act 60?";
+  var wEN="Welcome! I'm La Voz \u2014 your guide to understanding Act 60. I can walk you through the Individual Investors chapter, the Export Services chapter, residency requirements, the decree process, where to live, and everything in between. Remember, always consult a licensed attorney and CPA for your specific situation. What do you want to know about Act 60?";
   var wES="\u00a1Bienvenido! Soy La Voz \u2014 tu experta en Ley 60. Conozco el cap\u00edtulo de Inversionistas Individuales, el de Servicios de Exportaci\u00f3n, los requisitos de residencia, el proceso del decreto, d\u00f3nde vivir, y todo lo dem\u00e1s. \u00bfQu\u00e9 quieres saber sobre la Ley 60?";
   addMessage('bot',lang==='es'?wES:wEN);
   buildStarters();
