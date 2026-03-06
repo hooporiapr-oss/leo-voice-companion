@@ -62,9 +62,6 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
 .typing-dots span:nth-child(2){animation-delay:.2s}
 .typing-dots span:nth-child(3){animation-delay:.4s}
 @keyframes typePulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
-.starter-prompts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
-.starter-chip{padding:8px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:50px;font-size:.72rem;color:rgba(255,255,255,.7);cursor:pointer;transition:all .25s;backdrop-filter:blur(12px);text-align:center}
-.starter-chip:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
 .chat-input-bar{display:flex;align-items:center;gap:0;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);border-radius:20px;backdrop-filter:blur(16px);overflow:hidden;flex-shrink:0}
 .chat-mic{padding:14px 14px;background:transparent;border:none;font-size:1.3rem;cursor:pointer;opacity:.5;transition:all .2s;flex-shrink:0}
 .chat-mic:hover{opacity:.8}
@@ -107,7 +104,6 @@ body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);-w
   </div>
   <div class="chat-wrap">
     <div class="chat-messages" id="chatMessages"></div>
-    <div class="starter-prompts" id="starterPrompts"></div>
     <div class="chat-input-bar">
       <button class="chat-mic" id="chatMic" onclick="toggleMic()">&#127908;</button>
       <input type="text" class="chat-input" id="chatInput" placeholder="Ask about Act 60..." autocomplete="off">
@@ -125,22 +121,12 @@ function initPage(){
   var wEN="Welcome! I'm La Voz \u2014 your guide to understanding Act 60. I can walk you through the Individual Investors chapter, the Export Services chapter, residency requirements, the decree process, where to live, and everything in between. Remember, always consult a licensed attorney and CPA for your specific situation. What do you want to know about Act 60?";
   var wES="\u00a1Bienvenido! Soy La Voz \u2014 tu gu\u00eda para entender la Ley 60. Puedo explicarte el cap\u00edtulo de Inversionistas Individuales, el de Servicios de Exportaci\u00f3n, los requisitos de residencia, el proceso del decreto, d\u00f3nde vivir, y todo lo dem\u00e1s. Recuerda, siempre consulta con un abogado licenciado y CPA para tu situaci\u00f3n espec\u00edfica. \u00bfQu\u00e9 quieres saber sobre la Ley 60?";
   addMessage('bot',lang==='es'?wES:wEN);
-  buildStarters();
 }
-
-function buildStarters(){
-  var c=document.getElementById('starterPrompts'),isEN=lang==='en';
-  var p=isEN?['What is Act 60?','0% capital gains \u2014 how?','Do I qualify?','Best town for Act 60?','4% corporate tax explained','Residency requirements']:['\u00bfQu\u00e9 es la Ley 60?','0% ganancias de capital','\u00bfCalifico para Ley 60?','\u00bfMejor pueblo para Ley 60?','4% impuesto corporativo','Requisitos de residencia'];
-  c.innerHTML=p.map(function(t){return '<button class="starter-chip" onclick="sendStarter(\''+t.replace(/'/g,"\\'")+'\')">' +t+'</button>';}).join('');
-}
-
-function sendStarter(t){document.getElementById('chatInput').value=t;document.getElementById('starterPrompts').style.display='none';sendMessage();}
 
 function sendMessage(){
   var input=document.getElementById('chatInput'),text=input.value.trim();
   if(!text)return;
   addMessage('user',text);input.value='';chatHistory.push({role:'user',content:text});
-  document.getElementById('starterPrompts').style.display='none';
   var typing=showTyping();document.getElementById('chatSend').disabled=true;
   fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory,context:'act60'})})
   .then(function(r){return r.json();})
