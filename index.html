@@ -176,7 +176,21 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
   display:flex;gap:0;
   border-top:1px solid var(--border);
   background:rgba(0,0,0,.2);
+  align-items:center;
 }
+.chat-mic{
+  padding:14px 16px;
+  background:transparent;border:none;
+  font-size:1.3rem;cursor:pointer;
+  transition:all .2s;opacity:.5;
+  flex-shrink:0;
+}
+.chat-mic:hover{opacity:.8}
+.chat-mic.listening{
+  opacity:1;
+  animation:micPulse 1s ease-in-out infinite;
+}
+@keyframes micPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
 .chat-input{
   flex:1;padding:16px 20px;
   background:transparent;border:none;outline:none;
@@ -396,6 +410,7 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
             </div>
           </div>
           <div class="chat-input-bar">
+            <button class="chat-mic" id="chatMic" onclick="toggleMic()">&#127908;</button>
             <input type="text" class="chat-input" id="chatInput" placeholder="Ask La Voz anything..." autocomplete="off">
             <button class="chat-send" id="chatSend" onclick="sendMessage()"><span class="en show">SEND</span><span class="es">ENVIAR</span></button>
           </div>
@@ -604,6 +619,55 @@ document.getElementById('chatInput').addEventListener('keydown', function(e) {
     sendMessage();
   }
 });
+
+/* --- Speech Recognition (Mic Button) --- */
+var recognition = null;
+var isListening = false;
+
+function toggleMic() {
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert(lang === 'en' ? 'Speech recognition not supported in this browser.' : 'Reconocimiento de voz no disponible en este navegador.');
+    return;
+  }
+
+  var micBtn = document.getElementById('chatMic');
+
+  if (isListening && recognition) {
+    recognition.stop();
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = lang === 'es' ? 'es-PR' : 'en-US';
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  recognition.continuous = false;
+
+  micBtn.classList.add('listening');
+  isListening = true;
+
+  recognition.onresult = function(event) {
+    var transcript = event.results[0][0].transcript;
+    document.getElementById('chatInput').value = transcript;
+    micBtn.classList.remove('listening');
+    isListening = false;
+    /* Auto-send after speech */
+    sendMessage();
+  };
+
+  recognition.onerror = function() {
+    micBtn.classList.remove('listening');
+    isListening = false;
+  };
+
+  recognition.onend = function() {
+    micBtn.classList.remove('listening');
+    isListening = false;
+  };
+
+  recognition.start();
+}
 
 /* --- Region Data --- */
 var REGIONS = [
