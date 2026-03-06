@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Act 60 Puerto Rico — Ask La Voz</title>
+<title>La Voz PR — Puerto Rico. Act 60. 78 Municipalities. One Voice.</title>
 <meta name="description" content="Puerto Rico's Act 60 tax incentives explained by La Voz. 0% capital gains. 4% corporate tax. US passport intact. Ask La Voz everything.">
-<meta property="og:title" content="Act 60 Puerto Rico — Ask La Voz">
+<meta property="og:title" content="La Voz PR — Ask La Voz About Puerto Rico">
 <meta property="og:description" content="0% capital gains. 4% corporate tax. US passport intact. The most powerful tax incentive in America. La Voz knows everything.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,18 +47,13 @@ body{
 }
 
 /* ===== AMBIENT BACKGROUNDS ===== */
-.bg-noise{
-  position:fixed;inset:0;opacity:.025;pointer-events:none;z-index:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
+.bg-noise{position:fixed;inset:0;opacity:.025;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .bg-glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%}
 .bg-glow--gold{width:900px;height:900px;top:-400px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,215,0,.06) 0%,transparent 70%)}
 .bg-glow--teal{width:600px;height:600px;bottom:-200px;right:-150px;background:radial-gradient(circle,rgba(0,217,165,.04) 0%,transparent 70%)}
 
 /* ===== LAYOUT ===== */
 .container{max-width:1100px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
-
-/* ===== UTILITY ===== */
 .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .teal-text{background:var(--gradient-teal);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
@@ -66,17 +61,8 @@ body{
 .en,.es{display:none}
 .en.show,.es.show{display:inline}
 
-/* ============================================
-   NAV
-   ============================================ */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:14px 0;
-  background:rgba(7,7,12,.92);
-  backdrop-filter:blur(28px);
-  -webkit-backdrop-filter:blur(28px);
-  border-bottom:1px solid var(--border);
-}
+/* ===== NAV ===== */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 0;background:rgba(7,7,12,.92);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--border)}
 nav .container{display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;text-decoration:none}
 .nav-logo img{height:38px;width:auto;object-fit:contain}
@@ -84,116 +70,119 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .lang-toggle{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
 .lang-btn{padding:5px 11px;font-size:.68rem;font-weight:700;letter-spacing:1px;background:transparent;color:var(--dim);border:none;cursor:pointer;transition:all .2s;font-family:'Outfit',sans-serif}
 .lang-btn.active{background:rgba(255,215,0,.1);color:var(--gold)}
-.nav-cta{
-  padding:9px 22px;
-  background:var(--gradient);
-  color:var(--dark);
-  font-family:'Bebas Neue',sans-serif;
-  font-size:.85rem;
-  letter-spacing:2px;
-  border-radius:var(--radius-pill);
-  text-decoration:none;
-  transition:all .3s;
-  white-space:nowrap;
-  border:none;
-  cursor:pointer;
-}
+.nav-cta{padding:9px 22px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;border-radius:var(--radius-pill);text-decoration:none;transition:all .3s;white-space:nowrap;border:none;cursor:pointer}
 .nav-cta:hover{transform:scale(1.04);box-shadow:0 4px 24px rgba(255,215,0,.25)}
 
-/* ============================================
-   HERO
-   ============================================ */
+/* ===== HERO ===== */
 .hero{padding:120px 0 40px;text-align:center;position:relative}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:6px 18px;
-  background:rgba(0,217,165,.07);
-  border:1px solid rgba(0,217,165,.15);
-  border-radius:var(--radius-pill);
-  font-size:.68rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);
-  margin-bottom:28px;
-}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(0,217,165,.07);border:1px solid rgba(0,217,165,.15);border-radius:var(--radius-pill);font-size:.68rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin-bottom:28px}
 .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,9vw,7rem);line-height:.88;letter-spacing:3px;margin-bottom:20px}
 .hero-sub{font-size:1.05rem;color:var(--dim);max-width:560px;margin:0 auto 36px;line-height:1.75;font-weight:300}
 
 /* THREE NUMBERS */
-.three-numbers{
-  display:flex;justify-content:center;gap:0;margin-bottom:40px;position:relative;
-}
-.three-numbers::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(255,215,0,.04),rgba(0,217,165,.03));
-  border:1px solid var(--border-gold);
-  border-radius:var(--radius-lg);
-}
+.three-numbers{display:flex;justify-content:center;gap:0;margin-bottom:40px;position:relative}
+.three-numbers::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,.04),rgba(0,217,165,.03));border:1px solid var(--border-gold);border-radius:var(--radius-lg)}
 .num-block{flex:1;padding:36px 24px;text-align:center;position:relative}
-.num-block:not(:last-child)::after{
-  content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border-gold);
-}
-.num-value{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(3rem,8vw,5.5rem);
-  line-height:.85;letter-spacing:2px;margin-bottom:8px;
-}
+.num-block:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border-gold)}
+.num-value{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,5.5rem);line-height:.85;letter-spacing:2px;margin-bottom:8px}
 .num-label{font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);line-height:1.4}
-.num-block:nth-child(1) .num-value,
-.num-block:nth-child(2) .num-value{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.num-block:nth-child(1) .num-value,.num-block:nth-child(2) .num-value{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .num-block:nth-child(3) .num-value{color:var(--teal)}
 
-/* ============================================
-   ASK LA VOZ BUTTON (BIG CTA)
-   ============================================ */
-.hero-cta{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:18px 48px;
-  background:var(--gradient);
-  color:var(--dark);
-  font-family:'Bebas Neue',sans-serif;
-  font-size:1.3rem;
-  letter-spacing:3px;
-  border-radius:var(--radius-pill);
-  border:none;
-  cursor:pointer;
-  transition:all .3s;
-  text-decoration:none;
-  position:relative;
-  overflow:hidden;
-}
-.hero-cta::before{
-  content:'';position:absolute;inset:-2px;
-  background:linear-gradient(135deg,#FFD700,#FF6B35,#FFD700);
-  border-radius:var(--radius-pill);
-  z-index:-1;
-  animation:shimmer 3s ease-in-out infinite;
-}
+/* CTAs */
+.hero-cta-group{display:flex;flex-direction:column;align-items:center;gap:14px}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;padding:18px 48px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;border-radius:var(--radius-pill);border:none;cursor:pointer;transition:all .3s;text-decoration:none;position:relative;overflow:hidden}
+.hero-cta::before{content:'';position:absolute;inset:-2px;background:linear-gradient(135deg,#FFD700,#FF6B35,#FFD700);border-radius:var(--radius-pill);z-index:-1;animation:shimmer 3s ease-in-out infinite}
 @keyframes shimmer{0%,100%{opacity:.6}50%{opacity:1}}
 .hero-cta:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(255,215,0,.3)}
-.hero-cta-group{display:flex;flex-direction:column;align-items:center;gap:14px}
-.hero-ruta{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:12px 32px;
-  background:transparent;
-  border:1px solid rgba(0,217,165,.25);
-  color:var(--teal);
-  font-family:'Bebas Neue',sans-serif;
-  font-size:1rem;
-  letter-spacing:2.5px;
-  border-radius:var(--radius-pill);
-  cursor:pointer;
-  transition:all .3s;
-  text-decoration:none;
-}
+.hero-ruta{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;background:transparent;border:1px solid rgba(0,217,165,.25);color:var(--teal);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2.5px;border-radius:var(--radius-pill);cursor:pointer;transition:all .3s;text-decoration:none}
 .hero-ruta:hover{border-color:rgba(0,217,165,.5);background:rgba(0,217,165,.06);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,217,165,.15)}
-.hero-ruta-sub{font-size:.6rem;color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;margin-top:-4px}
+.hero-ruta-sub{font-size:.72rem;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;margin-top:-4px;font-weight:600}
+
+/* ============================================
+   CHAT UI
+   ============================================ */
+.chat-section{margin-top:48px;width:100%;max-width:640px}
+.chat-label{font-size:.65rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;text-align:center}
+.chat-box{
+  background:var(--card);
+  border:1px solid var(--border-gold);
+  border-radius:20px;
+  overflow:hidden;
+}
+.chat-messages{
+  max-height:360px;
+  overflow-y:auto;
+  padding:20px 20px 12px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(255,215,0,.15) transparent;
+}
+.chat-messages::-webkit-scrollbar{width:4px}
+.chat-messages::-webkit-scrollbar-track{background:transparent}
+.chat-messages::-webkit-scrollbar-thumb{background:rgba(255,215,0,.15);border-radius:4px}
+
+.chat-msg{max-width:88%;animation:msgIn .3s ease both}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.chat-msg.user{align-self:flex-end}
+.chat-msg.bot{align-self:flex-start}
+.chat-msg-bubble{padding:12px 16px;border-radius:16px;font-size:.88rem;line-height:1.6}
+.chat-msg.user .chat-msg-bubble{background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,107,53,.08));border:1px solid rgba(255,215,0,.15);color:var(--text);border-bottom-right-radius:4px}
+.chat-msg.bot .chat-msg-bubble{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:var(--text);border-bottom-left-radius:4px}
+.chat-msg-name{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;padding:0 4px}
+.chat-msg.user .chat-msg-name{color:var(--gold);text-align:right}
+.chat-msg.bot .chat-msg-name{color:var(--teal)}
+
+/* Voice button */
+.chat-voice-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:8px;padding:5px 14px;
+  background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.15);
+  border-radius:var(--radius-pill);
+  font-size:.62rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--gold);cursor:pointer;transition:all .25s;
+  font-family:'Outfit',sans-serif;
+}
+.chat-voice-btn:hover{background:rgba(255,215,0,.15);transform:scale(1.03)}
+.chat-voice-btn.playing{background:rgba(255,215,0,.18);color:#fff;border-color:var(--gold)}
+.chat-voice-btn.loading{opacity:.6;pointer-events:none}
+
+/* Typing indicator */
+.typing-dots{display:flex;gap:4px;padding:12px 16px}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:typePulse 1.2s ease-in-out infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes typePulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+
+/* Input bar */
+.chat-input-bar{
+  display:flex;gap:0;
+  border-top:1px solid var(--border);
+  background:rgba(0,0,0,.2);
+}
+.chat-input{
+  flex:1;padding:16px 20px;
+  background:transparent;border:none;outline:none;
+  color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;
+}
+.chat-input::placeholder{color:var(--dim2)}
+.chat-send{
+  padding:16px 24px;
+  background:var(--gradient);border:none;
+  color:var(--dark);font-family:'Bebas Neue',sans-serif;
+  font-size:.9rem;letter-spacing:2px;cursor:pointer;
+  transition:all .2s;
+}
+.chat-send:hover{opacity:.9}
+.chat-send:disabled{opacity:.4;cursor:not-allowed}
 
 /* REGION CARDS */
 .region-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
-.region-card{
-  background:var(--card);border:1px solid var(--border);border-radius:16px;
-  padding:20px 16px;cursor:pointer;transition:all .3s;text-align:left;position:relative;overflow:hidden;
-}
+.region-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 16px;cursor:pointer;transition:all .3s;text-align:left;position:relative;overflow:hidden}
 .region-card:hover{border-color:var(--border-gold);transform:translateY(-2px)}
 .region-card.open{border-color:rgba(0,217,165,.2)}
 .region-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s}
@@ -212,16 +201,8 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .region-towns-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
 .region-town{padding:8px 6px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);border-radius:8px;text-align:center;font-size:.68rem;color:var(--text);text-decoration:none;transition:all .25s;display:block}
 .region-town:hover{border-color:var(--border-gold);color:var(--gold);transform:translateY(-1px)}
-@media(max-width:768px){
-  .region-grid{grid-template-columns:1fr 1fr}
-  .region-towns-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:480px){
-  .region-grid{grid-template-columns:1fr}
-  .region-towns-grid{grid-template-columns:1fr 1fr}
-}
 
-/* MUNICIPALITY A-Z GRID */
+/* A-Z GRID */
 .muni-explorer{margin-top:48px;width:100%;max-width:900px}
 .muni-letter-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:20px}
 .muni-letter-btn{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:.95rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
@@ -234,37 +215,10 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .muni-group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
 .muni-card-link{padding:12px 8px;background:var(--card);border:1px solid rgba(255,255,255,.05);border-radius:12px;text-align:center;font-size:.75rem;color:var(--text);transition:all .3s;text-decoration:none;display:block}
 .muni-card-link:hover{border-color:var(--border-gold);color:var(--gold);transform:translateY(-2px)}
-@media(max-width:768px){
-  .muni-group-grid{grid-template-columns:repeat(3,1fr)}
-  .muni-card-link{font-size:.68rem;padding:9px 4px;border-radius:10px}
-}
-@media(max-width:480px){
-  .muni-group-grid{grid-template-columns:repeat(3,1fr)}
-  .muni-card-link{font-size:.6rem;padding:7px 3px}
-}
 
-/* ============================================
-   DISCLAIMER MODAL
-   ============================================ */
-.disc-modal-overlay{
-  position:fixed;inset:0;
-  background:rgba(7,7,12,.96);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  z-index:9999;
-  display:flex;align-items:center;justify-content:center;
-  padding:20px;
-}
-.disc-modal{
-  background:var(--card);
-  border:1px solid rgba(255,107,53,.25);
-  border-radius:var(--radius-lg);
-  max-width:600px;width:100%;
-  padding:40px 36px;
-  position:relative;
-  max-height:90vh;overflow-y:auto;
-  z-index:10000;
-}
+/* DISCLAIMER MODAL */
+.disc-modal-overlay{position:fixed;inset:0;background:rgba(7,7,12,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
+.disc-modal{background:var(--card);border:1px solid rgba(255,107,53,.25);border-radius:var(--radius-lg);max-width:600px;width:100%;padding:40px 36px;position:relative;max-height:90vh;overflow-y:auto;z-index:10000}
 .disc-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:24px 24px 0 0}
 .disc-modal-icon{font-size:2.5rem;text-align:center;margin-bottom:12px}
 .disc-modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:2px;text-align:center;margin-bottom:6px;color:var(--text)}
@@ -273,267 +227,49 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .disc-modal-body p{margin-bottom:10px}
 .disc-modal-body p:last-child{margin-bottom:0}
 .disc-modal-body strong{color:rgba(232,232,236,.7)}
-.disc-modal-agree{
-  width:100%;padding:14px;
-  background:var(--gradient);color:var(--dark);
-  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;
-  border-radius:var(--radius-pill);border:none;cursor:pointer;
-  transition:all .3s;margin-bottom:10px;
-}
+.disc-modal-agree{width:100%;padding:14px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;border-radius:var(--radius-pill);border:none;cursor:pointer;transition:all .3s;margin-bottom:10px}
 .disc-modal-agree:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,215,0,.25)}
-.disc-modal-leave{
-  width:100%;padding:12px;
-  background:transparent;border:1px solid rgba(255,255,255,.08);
-  color:var(--dim);font-family:'Outfit',sans-serif;font-size:.78rem;
-  border-radius:var(--radius-pill);cursor:pointer;
-  transition:all .3s;text-decoration:none;display:block;text-align:center;
-}
+.disc-modal-leave{width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.08);color:var(--dim);font-family:'Outfit',sans-serif;font-size:.78rem;border-radius:var(--radius-pill);cursor:pointer;transition:all .3s;text-decoration:none;display:block;text-align:center}
 .disc-modal-leave:hover{border-color:rgba(255,107,53,.3);color:var(--orange)}
-
-/* ============================================
-   VOICE SECTION (HIDDEN UNTIL ACCEPTED)
-   ============================================ */
-.voice-section{
-  display:none;
-  padding:0 0 40px;
-  text-align:center;
-}
-.voice-section.active{display:block}
-.voice-wrapper{
-  max-width:480px;
-  margin:0 auto;
-  position:relative;
-}
-.voice-glow{
-  position:absolute;
-  width:400px;height:400px;
-  top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  background:radial-gradient(circle,rgba(255,215,0,.08) 0%,transparent 70%);
-  border-radius:50%;
-  pointer-events:none;
-  animation:breathe 4s ease-in-out infinite;
-}
-@keyframes breathe{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
-.voice-label{
-  font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-  color:var(--teal);margin-bottom:16px;
-}
-.voice-disclaimer-bar{
-  margin-top:20px;
-  padding:10px 16px;
-  background:rgba(255,107,53,.06);
-  border:1px solid rgba(255,107,53,.12);
-  border-radius:12px;
-  font-size:.65rem;color:var(--dim2);line-height:1.5;
-}
-
-/* Chrome detection banner */
-.safari-banner{
-  display:none;
-  margin:0 auto 16px;
-  max-width:480px;
-  padding:10px 16px;
-  background:rgba(255,107,53,.08);
-  border:1px solid rgba(255,107,53,.2);
-  border-radius:12px;
-  font-size:.75rem;color:var(--orange);text-align:center;
-}
-
-/* ============================================
-   CONTENT SECTIONS (BELOW VOICE)
-   ============================================ */
-.content-sections{display:none}
-.content-sections.active{display:block}
-
-.section-label{font-size:.65rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
-.section-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,5vw,3.2rem);letter-spacing:3px;margin-bottom:16px}
-.section-sub{color:var(--dim);font-size:.95rem;line-height:1.7;max-width:580px;margin:0 auto}
-
-/* WHO IS THIS FOR */
-.for-section{padding:80px 0;border-top:1px solid var(--border)}
-.for-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:40px}
-.for-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-card);
-  padding:32px 24px;position:relative;overflow:hidden;transition:all .35s;
-}
-.for-card:hover{border-color:var(--border-gold);transform:translateY(-4px)}
-.for-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gradient);opacity:0;transition:opacity .35s}
-.for-card:hover::before{opacity:1}
-.for-icon{font-size:2rem;margin-bottom:14px}
-.for-type{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:1.5px;margin-bottom:8px;color:var(--text)}
-.for-benefit{font-size:.78rem;color:var(--dim);line-height:1.6;margin-bottom:16px}
-.for-tag{
-  display:inline-block;font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  padding:4px 12px;border-radius:var(--radius-pill);
-  background:rgba(255,215,0,.08);color:var(--gold);border:1px solid var(--border-gold);
-}
-
-/* BREAKDOWN */
-.breakdown-section{padding:80px 0;border-top:1px solid var(--border)}
-.breakdown-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px}
-.breakdown-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-card);
-  padding:36px 28px;position:relative;overflow:hidden;text-align:left;
-}
-.breakdown-card.gold-accent{border-color:var(--border-gold)}
-.breakdown-card.teal-accent{border-color:rgba(0,217,165,.15)}
-.breakdown-card.gold-accent::before,
-.breakdown-card.teal-accent::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
-.breakdown-card.gold-accent::before{background:var(--gradient)}
-.breakdown-card.teal-accent::before{background:var(--gradient-teal)}
-.bd-label{font-size:.6rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
-.bd-label.gold{color:var(--gold)}
-.bd-label.teal{color:var(--teal)}
-.bd-title{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;margin-bottom:6px}
-.bd-former{font-size:.7rem;color:var(--dim);margin-bottom:20px;letter-spacing:.5px}
-.bd-items{list-style:none}
-.bd-items li{
-  font-size:.84rem;color:var(--dim);padding:8px 0;
-  border-bottom:1px solid rgba(255,255,255,.04);
-  display:flex;align-items:flex-start;gap:10px;line-height:1.5;
-}
-.bd-items li:last-child{border-bottom:none}
-.bd-items li::before{content:'\2192';color:var(--gold);font-size:.75rem;margin-top:2px;flex-shrink:0}
-.teal-accent .bd-items li::before{color:var(--teal)}
-
-/* MUNICIPALITIES */
-.muni-section{padding:80px 0;border-top:1px solid var(--border)}
-.muni-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:40px}
-.muni-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:24px;transition:all .3s;
-}
-.muni-card:hover{border-color:var(--border-gold);transform:translateY(-3px)}
-.muni-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-.muni-name{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1.5px}
-.muni-vibe{
-  font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  padding:3px 10px;border-radius:var(--radius-pill);
-  background:rgba(255,215,0,.07);color:var(--gold);border:1px solid var(--border-gold);
-  white-space:nowrap;
-}
-.muni-desc{font-size:.8rem;color:var(--dim);line-height:1.55;margin-bottom:12px}
-.muni-price{font-size:.68rem;color:var(--teal);font-weight:600;letter-spacing:.5px}
-
-/* PROCESS */
-.process-section{padding:80px 0;border-top:1px solid var(--border)}
-.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:40px;position:relative}
-.process-grid::before{
-  content:'';position:absolute;top:28px;left:12%;right:12%;height:1px;
-  background:linear-gradient(90deg,var(--gold),var(--orange),var(--teal));opacity:.2;
-}
-.step-card{
-  background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);
-  padding:28px 20px;text-align:center;position:relative;
-}
-.step-num{
-  width:48px;height:48px;border-radius:50%;
-  background:var(--gradient);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--dark);
-  margin:0 auto 16px;position:relative;z-index:1;
-}
-.step-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:1.5px;margin-bottom:8px}
-.step-desc{font-size:.76rem;color:var(--dim);line-height:1.55}
-
-/* PARTNER CTA */
-.partner-section{padding:80px 0;border-top:1px solid var(--border)}
-.partner-card{
-  background:linear-gradient(135deg,rgba(255,215,0,.05),rgba(0,217,165,.04));
-  border:1px solid var(--border-gold);border-radius:28px;
-  padding:60px 40px;text-align:center;position:relative;overflow:hidden;
-}
-.partner-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--orange),var(--teal))}
-.partner-card h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:3px;margin-bottom:16px}
-.partner-card p{color:var(--dim);font-size:.95rem;max-width:520px;margin:0 auto 32px;line-height:1.7}
-.btn-grid{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
-.btn-primary{
-  padding:15px 38px;background:var(--gradient);color:var(--dark);
-  font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;
-  border-radius:var(--radius-pill);text-decoration:none;transition:all .3s;
-  display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;
-}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,215,0,.25)}
-.btn-secondary{
-  padding:15px 38px;background:transparent;border:1px solid rgba(255,255,255,.1);
-  color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;
-  border-radius:var(--radius-pill);text-decoration:none;transition:all .3s;
-  display:inline-flex;align-items:center;gap:8px;
-}
-.btn-secondary:hover{border-color:var(--border-gold);color:var(--gold)}
-
-/* DISCLAIMER SECTION */
-.disclaimer-section{
-  background:rgba(255,107,53,.04);
-  border-top:1px solid rgba(255,107,53,.15);
-  border-bottom:1px solid rgba(255,107,53,.15);
-  padding:48px 0;
-}
-.disc-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.disc-icon{font-size:1.6rem}
-.disc-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;color:var(--orange)}
-.disc-body p{
-  font-size:.78rem;color:var(--dim);line-height:1.7;
-  margin-bottom:14px;padding-bottom:14px;
-  border-bottom:1px solid rgba(255,255,255,.04);
-}
-.disc-body p:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.disc-body strong{color:rgba(232,232,236,.6)}
-.disc-summary{
-  background:rgba(255,107,53,.06);
-  border:1px solid rgba(255,107,53,.12);
-  border-radius:12px;
-  padding:16px 20px !important;
-  border-bottom:none !important;
-}
-.disc-summary strong{color:var(--orange)}
-
-/* PERSISTENT BAR */
-.disc-bar{background:rgba(255,107,53,.07);border-top:1px solid rgba(255,107,53,.12);padding:10px 0;text-align:center}
-.disc-bar p{font-size:.65rem;color:var(--dim2);line-height:1.5;max-width:900px;margin:0 auto}
 
 /* FOOTER */
 .footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
 .footer-logo{margin-bottom:8px}
 .footer-logo img{height:48px;width:auto;opacity:.9}
-.footer-sub{font-size:.65rem;color:var(--dim);margin-top:4px}
-.footer-links{margin-top:14px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
-.footer-links a{font-size:.68rem;color:var(--dim);text-decoration:none;transition:color .3s}
-.footer-links a:hover{color:var(--gold)}
 .footer-legal{margin-top:14px;font-size:.67rem;color:var(--dim2)}
 .footer-legal-links{margin-top:8px;font-size:.67rem}
 .footer-legal-links a{color:var(--dim2);text-decoration:none;transition:color .3s}
 .footer-legal-links a:hover{color:var(--gold)}
 .footer-legal-links .sep{color:var(--dim2);margin:0 8px}
 
-/* ===== ANIMATIONS ===== */
+/* ANIMATIONS */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 .fade-up{animation:fadeInUp .7s ease-out both}
 .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
 
-/* ===== RESPONSIVE ===== */
+/* RESPONSIVE */
 @media(max-width:768px){
   .three-numbers{flex-direction:column;gap:0}
   .num-block:not(:last-child)::after{right:10%;left:10%;top:auto;bottom:0;width:auto;height:1px}
-  .for-grid{grid-template-columns:1fr}
-  .breakdown-grid{grid-template-columns:1fr}
-  .process-grid{grid-template-columns:1fr 1fr}
-  .process-grid::before{display:none}
-  .muni-grid{grid-template-columns:1fr}
-  .partner-card{padding:40px 24px}
   .hero{padding:100px 0 30px}
+  .region-grid{grid-template-columns:1fr 1fr}
+  .region-towns-grid{grid-template-columns:repeat(2,1fr)}
+  .muni-group-grid{grid-template-columns:repeat(3,1fr)}
+  .muni-card-link{font-size:.68rem;padding:9px 4px;border-radius:10px}
   .disc-modal{padding:32px 24px}
+  .chat-messages{max-height:280px}
 }
 @media(max-width:480px){
-  .process-grid{grid-template-columns:1fr}
   .three-numbers::before{border-radius:18px}
+  .region-grid{grid-template-columns:1fr}
+  .muni-group-grid{grid-template-columns:repeat(3,1fr)}
+  .muni-card-link{font-size:.6rem;padding:7px 3px}
 }
 </style>
 </head>
 <body>
 
-<!-- ===== DISCLAIMER MODAL — FIRST VISIT ===== -->
+<!-- ===== DISCLAIMER MODAL ===== -->
 <div class="disc-modal-overlay" id="discModal" style="display:none">
   <div class="disc-modal">
     <div class="disc-modal-icon">&#9888;&#65039;</div>
@@ -551,10 +287,9 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
     </div>
     <div class="disc-modal-body">
       <p><span class="en show"><strong>For educational purposes only.</strong> All information on this platform — including from La Voz AI — is general information, not legal, tax, or financial advice.</span><span class="es"><strong>Solo con fines educativos.</strong> Toda la informaci&oacute;n en esta plataforma — incluyendo de La Voz IA — es informaci&oacute;n general, no asesoramiento legal, tributario ni financiero.</span></p>
-      <p><span class="en show"><strong>We are not lawyers or tax advisors.</strong> La Voz PR and GoStar Digital LLC are not law firms, tax advisory firms, or financial advisors. We do not establish professional relationships of any kind.</span><span class="es"><strong>No somos abogados ni asesores tributarios.</strong> La Voz PR y GoStar Digital LLC no son firmas de abogados, asesores tributarios ni asesores financieros. No establecemos relaciones profesionales de ning&uacute;n tipo.</span></p>
-      <p><span class="en show"><strong>Always consult a qualified professional.</strong> Act 60 is complex legislation. Your situation is unique. Before making any relocation, tax, or financial decision, consult a licensed Puerto Rico attorney and certified CPA.</span><span class="es"><strong>Consulte siempre a un profesional calificado.</strong> La Ley 60 es legislaci&oacute;n compleja. Su situaci&oacute;n es &uacute;nica. Antes de tomar cualquier decisi&oacute;n de reubicaci&oacute;n, tributaria o financiera, consulte a un abogado licenciado de Puerto Rico y un CPA certificado.</span></p>
-      <p><span class="en show"><strong>AI limitations.</strong> La Voz is powered by AI and can make errors. Do not rely solely on AI responses for any decision.</span><span class="es"><strong>Limitaciones de IA.</strong> La Voz es impulsada por IA y puede cometer errores. No dependa &uacute;nicamente de las respuestas de IA para ninguna decisi&oacute;n.</span></p>
-      <p><span class="en show"><strong>Laws change.</strong> Act 60 and its requirements may change at any time. Always verify current law.</span><span class="es"><strong>Las leyes cambian.</strong> La Ley 60 y sus requisitos pueden cambiar en cualquier momento. Verifique siempre la ley vigente.</span></p>
+      <p><span class="en show"><strong>We are not lawyers or tax advisors.</strong> La Voz PR and GoStar Digital LLC are not law firms, tax advisory firms, or financial advisors.</span><span class="es"><strong>No somos abogados ni asesores tributarios.</strong> La Voz PR y GoStar Digital LLC no son firmas de abogados ni asesores financieros.</span></p>
+      <p><span class="en show"><strong>Always consult a qualified professional.</strong> Act 60 is complex legislation. Consult a licensed Puerto Rico attorney and certified CPA.</span><span class="es"><strong>Consulte siempre a un profesional calificado.</strong> La Ley 60 es legislaci&oacute;n compleja. Consulte a un abogado licenciado y CPA certificado.</span></p>
+      <p><span class="en show"><strong>AI limitations.</strong> La Voz is powered by AI and can make errors.</span><span class="es"><strong>Limitaciones de IA.</strong> La Voz es impulsada por IA y puede cometer errores.</span></p>
     </div>
     <button class="disc-modal-agree" onclick="(function(){try{sessionStorage.setItem('lavozpr_disc','1')}catch(e){}document.getElementById('discModal').style.display='none';document.body.style.overflow='';window.location.href='act60-voice.html'})()">
       <span class="en show">I UNDERSTAND — CONTINUE TO LA VOZ PR<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">For Educational Purposes Only</span></span><span class="es">ENTIENDO — CONTINUAR A LA VOZ PR<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">Solo con Fines Educativos</span></span>
@@ -626,11 +361,30 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
       <a href="laruta.html" class="hero-ruta">
         &#128506; <span class="en show">EXPLORE LA RUTA — THIS IS PUERTO RICO!</span><span class="es">EXPLORA LA RUTA — &iexcl;ESTO ES PUERTO RICO!</span>
       </a>
-      <div class="hero-ruta-sub"><span class="en show">Free voice-guided tour of Puerto Rico</span><span class="es">Recorrido de voz gratis por Puerto Rico</span></div>
+      <div class="hero-ruta-sub"><span class="en show">3 minutes free — voice-guided tour of Puerto Rico</span><span class="es">3 minutos gratis — recorrido de voz por Puerto Rico</span></div>
 
-      <!-- MUNICIPALITY A-Z EXPLORER -->
+      <!-- ===== CHAT UI ===== -->
+      <div class="chat-section">
+        <div class="chat-label"><span class="en show">&#128172; ASK LA VOZ ANYTHING</span><span class="es">&#128172; PREGUNTA LO QUE QUIERAS</span></div>
+        <div class="chat-box">
+          <div class="chat-messages" id="chatMessages">
+            <div class="chat-msg bot">
+              <div class="chat-msg-name">La Voz</div>
+              <div class="chat-msg-bubble">
+                <span class="en show">Welcome to Puerto Rico! I'm La Voz. Ask me about Act 60, any of the 78 municipalities, where to eat, where to live, or anything about this island. What do you want to know?</span>
+                <span class="es">&iexcl;Bienvenido a Puerto Rico! Soy La Voz. Preg&uacute;ntame sobre la Ley 60, cualquiera de los 78 municipios, d&oacute;nde comer, d&oacute;nde vivir, o cualquier cosa sobre esta isla. &iquest;Qu&eacute; quieres saber?</span>
+              </div>
+            </div>
+          </div>
+          <div class="chat-input-bar">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Ask La Voz anything..." autocomplete="off">
+            <button class="chat-send" id="chatSend" onclick="sendMessage()"><span class="en show">SEND</span><span class="es">ENVIAR</span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MUNICIPALITY EXPLORER -->
       <div class="muni-explorer">
-
         <!-- 6 REGION CARDS -->
         <div style="font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px"><span class="en show">Explore Puerto Rico by Region</span><span class="es">Explora Puerto Rico por Regi&oacute;n</span></div>
         <div class="region-grid" id="regionGrid"></div>
@@ -644,11 +398,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
     </div>
   </div>
 </section>
-
-
-
-
-
 
 <!-- ===== FOOTER ===== -->
 <footer class="footer">
@@ -665,9 +414,12 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 
 <!-- ===== JAVASCRIPT ===== -->
 <script>
-/* --- Language Toggle --- */
 var lang = 'en';
+var API_BASE = 'https://lavozpr-api.onrender.com';
+var chatHistory = [];
+var currentAudio = null;
 
+/* --- Language Toggle --- */
 function setLang(l) {
   lang = l;
   var allBtns = document.querySelectorAll('.lang-btn');
@@ -678,45 +430,184 @@ function setLang(l) {
       allBtns[i].classList.add('active');
     }
   }
-  var enEls = document.querySelectorAll('.en');
-  var esEls = document.querySelectorAll('.es');
-  for (var a = 0; a < enEls.length; a++) {
-    if (l === 'en') { enEls[a].classList.add('show'); } else { enEls[a].classList.remove('show'); }
-  }
-  for (var b = 0; b < esEls.length; b++) {
-    if (l === 'es') { esEls[b].classList.add('show'); } else { esEls[b].classList.remove('show'); }
-  }
+  document.querySelectorAll('.en').forEach(function(e){ e.classList.toggle('show', l === 'en'); });
+  document.querySelectorAll('.es').forEach(function(e){ e.classList.toggle('show', l === 'es'); });
+  /* Update placeholder */
+  var inp = document.getElementById('chatInput');
+  if (inp) inp.placeholder = l === 'en' ? 'Ask La Voz anything...' : 'Pregunta lo que quieras...';
   if (typeof renderRegions === 'function') renderRegions();
 }
 
-/* --- Initialize language --- */
-/* setLang called after all data is loaded — see bottom */
+/* --- Chat: Send Message --- */
+function sendMessage() {
+  var input = document.getElementById('chatInput');
+  var text = input.value.trim();
+  if (!text) return;
+
+  /* Add user message */
+  addMessage('user', text);
+  input.value = '';
+  chatHistory.push({ role: 'user', content: text });
+
+  /* Show typing */
+  var typingEl = showTyping();
+
+  /* Disable send */
+  document.getElementById('chatSend').disabled = true;
+
+  /* Get municipality from URL if present */
+  var urlParams = new URLSearchParams(window.location.search);
+  var muni = urlParams.get('muni') || null;
+
+  /* Call backend */
+  fetch(API_BASE + '/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ messages: chatHistory, municipality: muni })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    removeTyping(typingEl);
+    if (data.reply) {
+      addMessage('bot', data.reply, true);
+      chatHistory.push({ role: 'assistant', content: data.reply });
+    } else {
+      addMessage('bot', lang === 'en' ? 'Sorry, I had trouble with that. Try again.' : 'Disculpa, tuve un problema. Intenta de nuevo.');
+    }
+    document.getElementById('chatSend').disabled = false;
+  })
+  .catch(function(err) {
+    removeTyping(typingEl);
+    addMessage('bot', lang === 'en' ? 'Connection error. Please try again.' : 'Error de conexi\u00f3n. Intenta de nuevo.');
+    document.getElementById('chatSend').disabled = false;
+  });
+}
+
+/* --- Chat: Add Message Bubble --- */
+function addMessage(role, text, showVoice) {
+  var container = document.getElementById('chatMessages');
+  var msg = document.createElement('div');
+  msg.className = 'chat-msg ' + role;
+
+  var name = document.createElement('div');
+  name.className = 'chat-msg-name';
+  name.textContent = role === 'user' ? (lang === 'en' ? 'You' : 'T\u00fa') : 'La Voz';
+
+  var bubble = document.createElement('div');
+  bubble.className = 'chat-msg-bubble';
+  bubble.textContent = text;
+
+  msg.appendChild(name);
+  msg.appendChild(bubble);
+
+  /* Voice button on bot messages */
+  if (showVoice && role === 'bot') {
+    var voiceBtn = document.createElement('button');
+    voiceBtn.className = 'chat-voice-btn';
+    voiceBtn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
+    voiceBtn.onclick = function() { playVoice(text, voiceBtn); };
+    msg.appendChild(voiceBtn);
+  }
+
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+
+/* --- Chat: Typing Indicator --- */
+function showTyping() {
+  var container = document.getElementById('chatMessages');
+  var msg = document.createElement('div');
+  msg.className = 'chat-msg bot';
+  msg.innerHTML = '<div class="chat-msg-name">La Voz</div><div class="typing-dots"><span></span><span></span><span></span></div>';
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+  return msg;
+}
+
+function removeTyping(el) {
+  if (el && el.parentNode) el.parentNode.removeChild(el);
+}
+
+/* --- Voice: Play TTS --- */
+function playVoice(text, btn) {
+  /* Stop current audio if playing */
+  if (currentAudio) {
+    currentAudio.pause();
+    currentAudio = null;
+    document.querySelectorAll('.chat-voice-btn.playing').forEach(function(b){ b.classList.remove('playing'); });
+  }
+
+  btn.classList.add('loading');
+  btn.innerHTML = '\u23F3 ' + (lang === 'en' ? 'LOADING...' : 'CARGANDO...');
+
+  fetch(API_BASE + '/api/tts', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text: text })
+  })
+  .then(function(res) {
+    if (!res.ok) throw new Error('TTS error');
+    return res.blob();
+  })
+  .then(function(blob) {
+    var url = URL.createObjectURL(blob);
+    var audio = new Audio(url);
+    currentAudio = audio;
+
+    btn.classList.remove('loading');
+    btn.classList.add('playing');
+    btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'PLAYING...' : 'REPRODUCIENDO...');
+
+    audio.play();
+    audio.onended = function() {
+      btn.classList.remove('playing');
+      btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
+      currentAudio = null;
+      URL.revokeObjectURL(url);
+    };
+  })
+  .catch(function(err) {
+    btn.classList.remove('loading');
+    btn.innerHTML = '\u274C ' + (lang === 'en' ? 'ERROR' : 'ERROR');
+    setTimeout(function() {
+      btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
+    }, 2000);
+  });
+}
+
+/* --- Enter key to send --- */
+document.getElementById('chatInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
+});
 
 /* --- Region Data --- */
 var REGIONS = [
   { id:'north', emoji:'\u{1F30A}', nameEN:'North Coast', nameES:'Costa Norte', count:18,
-    vibeEN:'San Juan, Dorado, Arecibo — the Atlantic coast powerhouse.',
-    vibeES:'San Juan, Dorado, Arecibo — la potencia de la costa atl\u00e1ntica.',
+    vibeEN:'San Juan, Dorado, Arecibo \u2014 the Atlantic coast powerhouse.',
+    vibeES:'San Juan, Dorado, Arecibo \u2014 la potencia de la costa atl\u00e1ntica.',
     towns:['Arecibo','Barceloneta','Bayamon','Camuy','Carolina','Catano','Dorado','Florida','Guaynabo','Hatillo','Loiza','Manati','San Juan','Toa Alta','Toa Baja','Trujillo Alto','Vega Alta','Vega Baja']},
   { id:'south', emoji:'\u2600\uFE0F', nameEN:'South Coast', nameES:'Costa Sur', count:11,
-    vibeEN:'Ponce, Coamo, Guayama — Caribbean sun and southern pride.',
-    vibeES:'Ponce, Coamo, Guayama — sol caribe\u00f1o y orgullo sure\u00f1o.',
+    vibeEN:'Ponce, Coamo, Guayama \u2014 Caribbean sun and southern pride.',
+    vibeES:'Ponce, Coamo, Guayama \u2014 sol caribe\u00f1o y orgullo sure\u00f1o.',
     towns:['Arroyo','Coamo','Guayama','Guayanilla','Juana Diaz','Patillas','Penuelas','Ponce','Salinas','Santa Isabel','Villalba']},
   { id:'west', emoji:'\u{1F3C4}', nameEN:'West Coast', nameES:'Costa Oeste', count:19,
-    vibeEN:'Rinc\u00f3n, Cabo Rojo, Aguadilla — surf, sunsets, and salt flats.',
-    vibeES:'Rinc\u00f3n, Cabo Rojo, Aguadilla — surf, atardeceres y salinas.',
+    vibeEN:'Rinc\u00f3n, Cabo Rojo, Aguadilla \u2014 surf, sunsets, and salt flats.',
+    vibeES:'Rinc\u00f3n, Cabo Rojo, Aguadilla \u2014 surf, atardeceres y salinas.',
     towns:['Aguada','Aguadilla','Cabo Rojo','Guanica','Hormigueros','Isabela','Lajas','Lares','Las Marias','Maricao','Mayaguez','Moca','Quebradillas','Rincon','Sabana Grande','San German','San Sebastian','Yauco']},
   { id:'east', emoji:'\u{1F334}', nameEN:'East Coast', nameES:'Costa Este', count:14,
-    vibeEN:'El Yunque, Fajardo, Luquillo — rainforest meets Caribbean blue.',
-    vibeES:'El Yunque, Fajardo, Luquillo — bosque tropical y azul caribe\u00f1o.',
+    vibeEN:'El Yunque, Fajardo, Luquillo \u2014 rainforest meets Caribbean blue.',
+    vibeES:'El Yunque, Fajardo, Luquillo \u2014 bosque tropical y azul caribe\u00f1o.',
     towns:['Caguas','Canovanas','Ceiba','Fajardo','Gurabo','Humacao','Juncos','Las Piedras','Luquillo','Maunabo','Naguabo','Rio Grande','San Lorenzo','Yabucoa']},
   { id:'central', emoji:'\u26F0\uFE0F', nameEN:'Central Mountains', nameES:'La Monta\u00f1a', count:14,
-    vibeEN:'Jayuya, Utuado, Adjuntas — coffee, caves, and the heart of the island.',
-    vibeES:'Jayuya, Utuado, Adjuntas — caf\u00e9, cuevas y el coraz\u00f3n de la isla.',
+    vibeEN:'Jayuya, Utuado, Adjuntas \u2014 coffee, caves, and the heart of the island.',
+    vibeES:'Jayuya, Utuado, Adjuntas \u2014 caf\u00e9, cuevas y el coraz\u00f3n de la isla.',
     towns:['Adjuntas','Aguas Buenas','Aibonito','Barranquitas','Cayey','Ciales','Cidra','Comerio','Corozal','Jayuya','Morovis','Naranjito','Orocovis','Utuado']},
   { id:'islands', emoji:'\u{1F3DD}\uFE0F', nameEN:'Offshore Islands', nameES:'Las Islas', count:2,
-    vibeEN:'Vieques & Culebra — bioluminescent bays and untouched beaches.',
-    vibeES:'Vieques y Culebra — bah\u00edas bioluminiscentes y playas intactas.',
+    vibeEN:'Vieques & Culebra \u2014 bioluminescent bays and untouched beaches.',
+    vibeES:'Vieques y Culebra \u2014 bah\u00edas bioluminiscentes y playas intactas.',
     towns:['Culebra','Vieques']}
 ];
 
@@ -791,8 +682,6 @@ function filterByLetter(l){
 
 buildMuniNav();
 renderMuniGroups(null);
-
-/* Start collapsed — only letter nav visible, no towns until tapped */
 document.getElementById('muniGrid').style.display = 'none';
 
 /* --- Initialize language (must be last) --- */
