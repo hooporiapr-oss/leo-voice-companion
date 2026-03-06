@@ -60,6 +60,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-we
   padding:24px 20px 16px;
   display:flex;flex-direction:column;gap:24px;
   scrollbar-width:none;
+  background:#F0EFEB;
 }
 .chat-area::-webkit-scrollbar{display:none}
 
@@ -82,6 +83,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-we
   background:var(--card);border:1px solid var(--border);
   border-radius:var(--radius) var(--radius) 4px var(--radius);
   padding:14px 18px;text-align:right;box-shadow:var(--shadow);
+}
+.msg.bot .msg-bubble{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius) var(--radius) var(--radius) 4px;
+  padding:14px 18px;box-shadow:var(--shadow);
 }
 
 .typing-wrap{display:flex;gap:12px;animation:msgIn .35s ease both}
