@@ -217,45 +217,47 @@ function addMessage(role,text){var c=document.getElementById('chatMessages'),msg
 function showTyping(){var c=document.getElementById('chatMessages'),msg=document.createElement('div');msg.className='chat-msg bot';msg.innerHTML='<div class="chat-msg-name">La Voz</div><div class="typing-dots"><span></span><span></span><span></span></div>';c.appendChild(msg);c.scrollTop=c.scrollHeight;return msg;}
 function removeTyping(el){if(el&&el.parentNode)el.parentNode.removeChild(el);}
 document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
-var recognition=null,isListening=false;
-/* --- Smart Corrections Dictionary --- */
-var MIC_FIX={en:{"x 60":"Act 60","x60":"Act 60","act60":"Act 60","axe 60":"Act 60","ask 60":"Act 60","acts 60":"Act 60","act sixty":"Act 60","law 60":"Act 60","louisa":"Loíza","loisa":"Loíza","loysa":"Loíza","by a month":"Bayamón","byamon":"Bayamón","do rod o":"Dorado","dorito":"Dorado","durado":"Dorado","rain cone":"Rincón","ponsay":"Ponce","cobble rojo":"Cabo Rojo","kaguas":"Caguas","far hard oh":"Fajardo","wine ah bo":"Guaynabo","why nabo":"Guaynabo","agua dia":"Aguadilla","agua diya":"Aguadilla","who macau":"Humacao","maya guess":"Mayagüez","my august":"Mayagüez","are a see bo":"Arecibo","isabella":"Isabela","vee ek es":"Vieques","bee ek es":"Vieques","cool a bra":"Culebra","hi you ya":"Jayuya","oo too ah doe":"Utuado","san one":"San Juan","look eel yo":"Luquillo","kai yay":"Cayey","one eek a":"Guánica","eye bonito":"Aibonito","can of honest":"Canóvanas","cat on yo":"Cataño","see all es":"Ciales","why am a":"Guayama","who knows":"Juncos","manatee":"Manatí","mocha":"Moca","pen well us":"Peñuelas","kay bra d us":"Quebradillas","real grande":"Río Grande","toe a baja":"Toa Baja","true he yo":"Trujillo Alto","you co":"Yauco","hey body":"Hey Bori","hey bore e":"Hey Bori","la roots a":"La Ruta","he borrow":"jíbaro"},es:{"ley sesenta":"Ley 60","acto 60":"Act 60","loisa":"Loíza","bayamon":"Bayamón","mayaguez":"Mayagüez","rincon":"Rincón","rio grande":"Río Grande","san german":"San Germán","san sebastian":"San Sebastián","canovanas":"Canóvanas","catano":"Cataño","comerio":"Comerío","guanica":"Guánica","manati":"Manatí","penuelas":"Peñuelas"}};
-function applyCorrections(text){var lower=text.toLowerCase(),fixes=MIC_FIX[lang]||MIC_FIX.en,result=text;for(var wrong in fixes){if(lower.indexOf(wrong)!==-1){var re=new RegExp(wrong,'gi');result=result.replace(re,fixes[wrong]);lower=result.toLowerCase();}}return result;}
+var isRecording=false,mediaRecorder=null,audioChunks=[];
 function toggleMic(){
-  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){alert(lang==='en'?'Speech recognition not supported in this browser.':'Reconocimiento de voz no disponible en este navegador.');return;}
   var mic=document.getElementById('chatMic'),input=document.getElementById('chatInput');
-  if(isListening&&recognition){recognition.stop();return;}
-  recognition=new SR();
-  recognition.lang=lang==='es'?'es-PR':'en-US';
-  recognition.interimResults=true;
-  recognition.maxAlternatives=3;
-  recognition.continuous=false;
-  mic.classList.add('listening');
-  input.placeholder=lang==='en'?'Listening...':'Escuchando...';
-  isListening=true;
-  recognition.onresult=function(e){
-    var transcript='',isFinal=false;
-    for(var i=e.resultIndex;i<e.results.length;i++){
-      transcript=e.results[i][0].transcript;
-      if(e.results[i].isFinal){isFinal=true;break;}
-    }
-    /* Show live transcript in input */
-    input.value=transcript;
-    if(isFinal){
-      var confidence=e.results[e.results.length-1][0].confidence||0;
-      var corrected=applyCorrections(transcript);
-      input.value=corrected;
+  if(isRecording&&mediaRecorder){mediaRecorder.stop();return;}
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    audioChunks=[];
+    mediaRecorder=new MediaRecorder(stream,{mimeType:MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'audio/mp4'});
+    mediaRecorder.ondataavailable=function(e){if(e.data.size>0)audioChunks.push(e.data);};
+    mediaRecorder.onstop=function(){
+      stream.getTracks().forEach(function(t){t.stop();});
       mic.classList.remove('listening');
-      input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';
-      isListening=false;
-      /* High confidence: auto-send. Low confidence: let user review */
-      if(confidence>=0.7){sendMessage();}
-    }
-  };
-  recognition.onerror=function(){mic.classList.remove('listening');input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';isListening=false;};
-  recognition.onend=function(){mic.classList.remove('listening');input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';isListening=false;};
-  recognition.start();
+      isRecording=false;
+      if(audioChunks.length===0){input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';return;}
+      var blob=new Blob(audioChunks,{type:mediaRecorder.mimeType});
+      input.placeholder=lang==='en'?'Transcribing...':'Transcribiendo...';
+      input.value='';
+      var formData=new FormData();
+      formData.append('audio',blob,'audio.webm');
+      formData.append('lang',lang);
+      fetch(API_BASE+'/api/transcribe',{method:'POST',body:formData})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';
+        if(d.text&&d.text.trim()){
+          input.value=d.text.trim();
+          sendMessage();
+        }
+      })
+      .catch(function(){
+        input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';
+        input.value='';
+      });
+    };
+    mediaRecorder.start();
+    mic.classList.add('listening');
+    input.placeholder=lang==='en'?'Listening... tap mic to stop':'Escuchando... toca el mic para parar';
+    isRecording=true;
+    setTimeout(function(){if(isRecording&&mediaRecorder&&mediaRecorder.state==='recording'){mediaRecorder.stop();}},30000);
+  }).catch(function(){
+    alert(lang==='en'?'Microphone access denied. Please allow mic access in your browser settings.':'Acceso al micrófono denegado. Permite el acceso al micrófono en la configuración de tu navegador.');
+  });
 }
 var REGIONS=[{id:'north',emoji:'\u{1F30A}',nameEN:'North Coast',nameES:'Costa Norte',count:18,vibeEN:'San Juan, Dorado, Arecibo \u2014 the Atlantic coast powerhouse.',vibeES:'San Juan, Dorado, Arecibo \u2014 la potencia de la costa atl\u00e1ntica.',towns:['Arecibo','Barceloneta','Bayamon','Camuy','Carolina','Catano','Dorado','Florida','Guaynabo','Hatillo','Loiza','Manati','San Juan','Toa Alta','Toa Baja','Trujillo Alto','Vega Alta','Vega Baja']},{id:'south',emoji:'\u2600\uFE0F',nameEN:'South Coast',nameES:'Costa Sur',count:11,vibeEN:'Ponce, Coamo, Guayama \u2014 Caribbean sun and southern pride.',vibeES:'Ponce, Coamo, Guayama \u2014 sol caribe\u00f1o y orgullo sure\u00f1o.',towns:['Arroyo','Coamo','Guayama','Guayanilla','Juana Diaz','Patillas','Penuelas','Ponce','Salinas','Santa Isabel','Villalba']},{id:'west',emoji:'\u{1F3C4}',nameEN:'West Coast',nameES:'Costa Oeste',count:19,vibeEN:'Rinc\u00f3n, Cabo Rojo, Aguadilla \u2014 surf, sunsets, and salt flats.',vibeES:'Rinc\u00f3n, Cabo Rojo, Aguadilla \u2014 surf, atardeceres y salinas.',towns:['Aguada','Aguadilla','Cabo Rojo','Guanica','Hormigueros','Isabela','Lajas','Lares','Las Marias','Maricao','Mayaguez','Moca','Quebradillas','Rincon','Sabana Grande','San German','San Sebastian','Yauco']},{id:'east',emoji:'\u{1F334}',nameEN:'East Coast',nameES:'Costa Este',count:14,vibeEN:'El Yunque, Fajardo, Luquillo \u2014 rainforest meets Caribbean blue.',vibeES:'El Yunque, Fajardo, Luquillo \u2014 bosque tropical y azul caribe\u00f1o.',towns:['Caguas','Canovanas','Ceiba','Fajardo','Gurabo','Humacao','Juncos','Las Piedras','Luquillo','Maunabo','Naguabo','Rio Grande','San Lorenzo','Yabucoa']},{id:'central',emoji:'\u26F0\uFE0F',nameEN:'Central Mountains',nameES:'La Monta\u00f1a',count:14,vibeEN:'Jayuya, Utuado, Adjuntas \u2014 coffee, caves, and the heart of the island.',vibeES:'Jayuya, Utuado, Adjuntas \u2014 caf\u00e9, cuevas y el coraz\u00f3n de la isla.',towns:['Adjuntas','Aguas Buenas','Aibonito','Barranquitas','Cayey','Ciales','Cidra','Comerio','Corozal','Jayuya','Morovis','Naranjito','Orocovis','Utuado']},{id:'islands',emoji:'\u{1F3DD}\uFE0F',nameEN:'Offshore Islands',nameES:'Las Islas',count:2,vibeEN:'Vieques & Culebra \u2014 bioluminescent bays and untouched beaches.',vibeES:'Vieques y Culebra \u2014 bah\u00edas bioluminiscentes y playas intactas.',towns:['Culebra','Vieques']}];
 function renderRegions(){var grid=document.getElementById('regionGrid'),isEN=lang==='en';grid.innerHTML=REGIONS.map(function(r){var towns=r.towns.map(function(t){return '<a href="laruta.html?muni='+encodeURIComponent(t)+'" class="region-town">'+t+'</a>';}).join('');return '<div class="region-card" onclick="toggleRegion(this)"><div class="region-top"><span class="region-emoji">'+r.emoji+'</span><span class="region-count">'+r.count+' '+(isEN?'towns':'pueblos')+'</span></div><div class="region-name">'+(isEN?r.nameEN:r.nameES)+'</div><div class="region-vibe">'+(isEN?r.vibeEN:r.vibeES)+'</div><span class="region-arrow">\u25BC</span><div class="region-towns"><div class="region-towns-grid">'+towns+'</div></div></div>';}).join('');}
