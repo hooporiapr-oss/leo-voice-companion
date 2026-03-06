@@ -144,39 +144,62 @@ function removeTyping(el){if(el&&el.parentNode)el.parentNode.removeChild(el);}
 
 var recognition=null,isListening=false;
 /* --- Smart Corrections Dictionary --- */
-var MIC_FIX={en:{"x 60":"Act 60","x60":"Act 60","act60":"Act 60","axe 60":"Act 60","ask 60":"Act 60","acts 60":"Act 60","act sixty":"Act 60","law 60":"Act 60","louisa":"Loíza","loisa":"Loíza","loysa":"Loíza","by a month":"Bayamón","byamon":"Bayamón","do rod o":"Dorado","dorito":"Dorado","durado":"Dorado","rain cone":"Rincón","ponsay":"Ponce","cobble rojo":"Cabo Rojo","kaguas":"Caguas","far hard oh":"Fajardo","wine ah bo":"Guaynabo","why nabo":"Guaynabo","agua dia":"Aguadilla","agua diya":"Aguadilla","who macau":"Humacao","maya guess":"Mayagüez","my august":"Mayagüez","are a see bo":"Arecibo","isabella":"Isabela","vee ek es":"Vieques","bee ek es":"Vieques","cool a bra":"Culebra","hi you ya":"Jayuya","oo too ah doe":"Utuado","san one":"San Juan","look eel yo":"Luquillo","kai yay":"Cayey","one eek a":"Guánica","eye bonito":"Aibonito","can of honest":"Canóvanas","cat on yo":"Cataño","see all es":"Ciales","why am a":"Guayama","who knows":"Juncos","manatee":"Manatí","mocha":"Moca","pen well us":"Peñuelas","kay bra d us":"Quebradillas","real grande":"Río Grande","toe a baja":"Toa Baja","true he yo":"Trujillo Alto","you co":"Yauco","hey body":"Hey Bori","hey bore e":"Hey Bori","la roots a":"La Ruta","he borrow":"jíbaro"},es:{"ley sesenta":"Ley 60","acto 60":"Act 60","loisa":"Loíza","bayamon":"Bayamón","mayaguez":"Mayagüez","rincon":"Rincón","rio grande":"Río Grande","san german":"San Germán","san sebastian":"San Sebastián","canovanas":"Canóvanas","catano":"Cataño","comerio":"Comerío","guanica":"Guánica","manati":"Manatí","penuelas":"Peñuelas"}};
+var MIC_FIX={en:{"x 60":"Act 60","x60":"Act 60","act60":"Act 60","axe 60":"Act 60","ask 60":"Act 60","acts 60":"Act 60","act sixty":"Act 60","law 60":"Act 60","louisa":"Loíza","loisa":"Loíza","loysa":"Loíza","by a month":"Bayamón","byamon":"Bayamón","do rod o":"Dorado","dorito":"Dorado","durado":"Dorado","rain cone":"Rincón","ponsay":"Ponce","cobble rojo":"Cabo Rojo","kaguas":"Caguas","far hard oh":"Fajardo","wine ah bo":"Guaynabo","why nabo":"Guaynabo","agua dia":"Aguadilla","agua diya":"Aguadilla","who macau":"Humacao","maya guess":"Mayagüez","my august":"Mayagüez","are a see bo":"Arecibo","isabella":"Isabela","vee ek es":"Vieques","bee ek es":"Vieques","cool a bra":"Culebra","hi you ya":"Jayuya","oo too ah doe":"Utuado","san one":"San Juan","look eel yo":"Luquillo","kai yay":"Cayey","one eek a":"Guánica","eye bonito":"Aibonito","can of honest":"Canóvanas","cat on yo":"Cataño","see all es":"Ciales","why am a":"Guayama","who knows":"Juncos","manatee":"Manatí","mocha":"Moca","pen well us":"Peñuelas","kay bra d us":"Quebradillas","real grande":"Río Grande","toe a baja":"Toa Baja","true he yo":"Trujillo Alto","you co":"Yauco","hey body":"Hey Bori","hey bore e":"Hey Bori","la roots a":"La Ruta","he borrow":"jíbaro"},es:{"ley sesenta":"Ley 60","acto 60":"Act 60","loisa":"Loíza","bayamon":"Bayamón","mayaguez":"Mayagüez","rincon":"Rincón","rio grande":"Río Grande","san german":"San Germán","san sebastian":"San Sebastián","canovanas":"Canóvanas","catano":"Cataño","comerio":"Comerío","guanica":"Guánica","manati":"Manatí","penuelas":"Peñuelas","penuela":"Peñuelas","juana diaz":"Juana Díaz","las marias":"Las Marías","santa isabela":"Santa Isabel","sabana grande":"Sabana Grande","trujillo alto":"Trujillo Alto","toa alta":"Toa Alta","toa baja":"Toa Baja","vega alta":"Vega Alta","vega baja":"Vega Baja","aguas buenas":"Aguas Buenas","cabo rojo":"Cabo Rojo","las piedras":"Las Piedras","ghetto":"quiero","os":"oeste","este":"este","quero":"quiero"}};
 function applyCorrections(text){var lower=text.toLowerCase(),fixes=MIC_FIX[lang]||MIC_FIX.en,result=text;for(var wrong in fixes){if(lower.indexOf(wrong)!==-1){var re=new RegExp(wrong,'gi');result=result.replace(re,fixes[wrong]);lower=result.toLowerCase();}}return result;}
+/* --- Pick best Spanish locale for this device --- */
+function getSpanishLocale(){
+  var locales=['es-PR','es-US','es-419','es-MX','es'];
+  if(window.speechSynthesis&&window.speechSynthesis.getVoices){
+    var voices=window.speechSynthesis.getVoices();
+    for(var i=0;i<locales.length;i++){
+      for(var j=0;j<voices.length;j++){
+        if(voices[j].lang&&voices[j].lang.replace('_','-').toLowerCase()===locales[i].toLowerCase())return locales[i];
+      }
+    }
+  }
+  return 'es-US';
+}
 function toggleMic(){
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR){alert(lang==='en'?'Speech recognition not supported in this browser.':'Reconocimiento de voz no disponible en este navegador.');return;}
   var mic=document.getElementById('chatMic'),input=document.getElementById('chatInput');
   if(isListening&&recognition){recognition.stop();return;}
   recognition=new SR();
-  recognition.lang=lang==='es'?'es-PR':'en-US';
+  recognition.lang=lang==='es'?getSpanishLocale():'en-US';
   recognition.interimResults=true;
-  recognition.maxAlternatives=3;
+  recognition.maxAlternatives=5;
   recognition.continuous=false;
   mic.classList.add('listening');
   input.placeholder=lang==='en'?'Listening...':'Escuchando...';
   isListening=true;
   recognition.onresult=function(e){
-    var transcript='',isFinal=false;
+    var best='',bestConf=0,isFinal=false;
     for(var i=e.resultIndex;i<e.results.length;i++){
-      transcript=e.results[i][0].transcript;
-      if(e.results[i].isFinal){isFinal=true;break;}
+      for(var a=0;a<e.results[i].length;a++){
+        if(e.results[i][a].confidence>bestConf){
+          bestConf=e.results[i][a].confidence;
+          best=e.results[i][a].transcript;
+        }
+      }
+      if(e.results[i].isFinal)isFinal=true;
     }
-    input.value=transcript;
+    if(!best)best=e.results[e.resultIndex][0].transcript;
+    input.value=best;
     if(isFinal){
-      var confidence=e.results[e.results.length-1][0].confidence||0;
-      var corrected=applyCorrections(transcript);
+      var corrected=applyCorrections(best);
       input.value=corrected;
       mic.classList.remove('listening');
       input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';
       isListening=false;
-      if(confidence>=0.7){sendMessage();}
+      var threshold=lang==='es'?0.5:0.7;
+      if(bestConf>=threshold){sendMessage();}
     }
   };
-  recognition.onerror=function(){mic.classList.remove('listening');input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';isListening=false;};
+  recognition.onerror=function(e){
+    mic.classList.remove('listening');
+    input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';
+    isListening=false;
+  };
   recognition.onend=function(){mic.classList.remove('listening');input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';isListening=false;};
   recognition.start();
 }
