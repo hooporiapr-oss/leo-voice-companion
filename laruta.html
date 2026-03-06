@@ -55,9 +55,6 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
 .typing-dots span:nth-child(2){animation-delay:.2s}
 .typing-dots span:nth-child(3){animation-delay:.4s}
 @keyframes typePulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
-.starter-prompts{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
-.starter-chip{padding:8px 16px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:50px;font-size:.72rem;color:rgba(255,255,255,.7);cursor:pointer;transition:all .25s;backdrop-filter:blur(12px);text-align:center}
-.starter-chip:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
 .chat-input-bar{display:flex;align-items:center;gap:0;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);border-radius:20px;backdrop-filter:blur(16px);overflow:hidden;flex-shrink:0}
 .chat-mic{padding:14px 14px;background:transparent;border:none;font-size:1.3rem;cursor:pointer;opacity:.5;transition:all .2s;flex-shrink:0}
 .chat-mic:hover{opacity:.8}
@@ -92,7 +89,6 @@ body{font-family:'Outfit',sans-serif;background:#000;color:var(--text);-webkit-f
   </div>
   <div class="chat-wrap">
     <div class="chat-messages" id="chatMessages"></div>
-    <div class="starter-prompts" id="starterPrompts"></div>
     <div class="chat-input-bar">
       <button class="chat-mic" id="chatMic" onclick="toggleMic()">&#127908;</button>
       <input type="text" class="chat-input" id="chatInput" placeholder="Ask La Voz anything..." autocomplete="off">
@@ -113,33 +109,16 @@ function initPage(){
     var chip=document.getElementById('muniChip');chip.textContent='\u{1F4CD} '+muniParam;chip.classList.add('show');
     wEN="Welcome! I'm La Voz. You've selected "+muniParam+", Puerto Rico. I know this town inside and out \u2014 the history, the food, the beaches, the culture, everything. What do you want to know about "+muniParam+"?";
     wES="\u00a1Bienvenido! Soy La Voz. Seleccionaste "+muniParam+", Puerto Rico. Conozco este pueblo a fondo \u2014 la historia, la comida, las playas, la cultura, todo. \u00bfQu\u00e9 quieres saber sobre "+muniParam+"?";
-    buildMuniStarters(muniParam);
   }else{
     wEN="Welcome to La Ruta! I'm La Voz \u2014 your guide to all 78 municipalities of Puerto Rico. Pick a town or ask me anything about this island. History, food, beaches, culture, Act 60, where to live \u2014 I know it all. What do you want to explore?";
     wES="\u00a1Bienvenido a La Ruta! Soy La Voz \u2014 tu gu\u00eda de los 78 municipios de Puerto Rico. Elige un pueblo o preg\u00fantame lo que quieras. Historia, comida, playas, cultura, Ley 60, d\u00f3nde vivir \u2014 lo s\u00e9 todo. \u00bfQu\u00e9 quieres explorar?";
-    buildGeneralStarters();
   }
   addMessage('bot',lang==='es'?wES:wEN);
 }
 
-function buildMuniStarters(muni){
-  var c=document.getElementById('starterPrompts'),isEN=lang==='en';
-  var p=isEN?['Best food in '+muni,'History of '+muni,'Beaches near '+muni,'Where to stay in '+muni,'Act 60 in '+muni]:['Mejor comida en '+muni,'Historia de '+muni,'Playas cerca de '+muni,'D\u00f3nde hospedarse en '+muni,'Ley 60 en '+muni];
-  c.innerHTML=p.map(function(t){return '<button class="starter-chip" onclick="sendStarter(\''+t.replace(/'/g,"\\'")+'\')">' +t+'</button>';}).join('');
-}
-
-function buildGeneralStarters(){
-  var c=document.getElementById('starterPrompts'),isEN=lang==='en';
-  var p=isEN?['Tell me about Act 60','Best beaches in Puerto Rico','Where should I live?','Tell me about Dorado','Best food on the island','Tell me about San Juan']:['Cu\u00e9ntame sobre Ley 60','Mejores playas de Puerto Rico','\u00bfD\u00f3nde debo vivir?','Cu\u00e9ntame sobre Dorado','Mejor comida de la isla','Cu\u00e9ntame sobre San Juan'];
-  c.innerHTML=p.map(function(t){return '<button class="starter-chip" onclick="sendStarter(\''+t.replace(/'/g,"\\'")+'\')">' +t+'</button>';}).join('');
-}
-
-function sendStarter(t){document.getElementById('chatInput').value=t;document.getElementById('starterPrompts').style.display='none';sendMessage();}
-
 function sendMessage(){
   var input=document.getElementById('chatInput'),text=input.value.trim();if(!text)return;
   addMessage('user',text);input.value='';chatHistory.push({role:'user',content:text});
-  document.getElementById('starterPrompts').style.display='none';
   var typing=showTyping();document.getElementById('chatSend').disabled=true;
   fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory,municipality:muniParam})})
   .then(function(r){return r.json();})
