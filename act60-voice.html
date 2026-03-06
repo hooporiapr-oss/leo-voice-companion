@@ -189,6 +189,7 @@ function setLang(l){
   document.querySelectorAll('.en').forEach(function(e){e.classList.toggle('show',l==='en');});
   document.querySelectorAll('.es').forEach(function(e){e.classList.toggle('show',l==='es');});
   document.getElementById('chatInput').placeholder=l==='en'?'Ask about Act 60...':'Pregunta sobre Ley 60...';
+  if(chatHistory.length===0){document.getElementById('chatMessages').innerHTML='';initPage();}
 }
 
 function shareThis(){if(navigator.share){navigator.share({title:'Ask La Voz About Act 60',url:window.location.href});}else{navigator.clipboard.writeText(window.location.href);alert(lang==='en'?'Link copied!':'\u00a1Enlace copiado!');}}
