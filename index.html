@@ -18,13 +18,13 @@
   --radius:20px;--radius-sm:12px;--radius-pill:50px;
 }
 html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
 .en,.es{display:none}.en.show,.es.show{display:inline}
 
 /* HERO */
-.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/002.png') center/cover no-repeat}
-.hero-bg::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.35)}
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 24px 60px;overflow:hidden;z-index:1}
+.hero-bg{position:absolute;inset:0;background:url('https://raw.githubusercontent.com/hooporiapr-oss/leo-voice-companion/main/002.png') center/cover no-repeat;z-index:0}
+.hero-bg::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.35);z-index:0}
 .hero-content{position:relative;z-index:2;max-width:640px}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(26,122,106,.08);border:1px solid rgba(26,122,106,.15);border-radius:var(--radius-pill);font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--teal);margin-bottom:24px}
 .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease-in-out infinite}
@@ -266,7 +266,8 @@ function addChatMsg(role,text){var c=document.getElementById('chatMessages'),msg
 function showTyping(){var c=document.getElementById('chatMessages'),w=document.createElement('div');w.className='typing-wrap';var av=document.createElement('div');av.className='chat-msg-avatar';av.style.background='var(--teal-light)';av.style.color='var(--teal)';av.textContent='LV';var d=document.createElement('div');d.className='typing-dots';d.innerHTML='<span></span><span></span><span></span>';w.appendChild(av);w.appendChild(d);c.appendChild(w);c.scrollTop=c.scrollHeight;return w;}
 function removeTyping(el){if(el&&el.parentNode)el.parentNode.removeChild(el);}
 
-document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+var chatInputEl=document.getElementById('chatInput');
+if(chatInputEl){chatInputEl.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});}
 
 var isRecording=false,mediaRecorder=null,audioChunks=[];
 function toggleMic(){var mic=document.getElementById('chatMic'),input=document.getElementById('chatInput');if(isRecording&&mediaRecorder){mediaRecorder.stop();return;}navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){audioChunks=[];mediaRecorder=new MediaRecorder(stream,{mimeType:MediaRecorder.isTypeSupported('audio/webm')?'audio/webm':'audio/mp4'});mediaRecorder.ondataavailable=function(e){if(e.data.size>0)audioChunks.push(e.data);};mediaRecorder.onstop=function(){stream.getTracks().forEach(function(t){t.stop();});mic.classList.remove('listening');isRecording=false;if(audioChunks.length===0)return;var blob=new Blob(audioChunks,{type:mediaRecorder.mimeType});input.placeholder=lang==='en'?'Transcribing...':'Transcribiendo...';input.value='';var fd=new FormData();fd.append('audio',blob,'audio.webm');fd.append('lang',lang);fetch(API_BASE+'/api/transcribe',{method:'POST',body:fd}).then(function(r){return r.json();}).then(function(d){input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';if(d.text&&d.text.trim()){input.value=d.text.trim();sendMessage();}}).catch(function(){input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';});};mediaRecorder.start();mic.classList.add('listening');input.placeholder=lang==='en'?'Listening... tap to stop':'Escuchando... toca para parar';isRecording=true;setTimeout(function(){if(isRecording&&mediaRecorder&&mediaRecorder.state==='recording')mediaRecorder.stop();},30000);}).catch(function(){alert(lang==='en'?'Microphone access denied.':'Acceso al micr\u00f3fono denegado.');});}
