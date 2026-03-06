@@ -11,57 +11,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* ===== RESET ===== */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-
-/* ===== DESIGN TOKENS ===== */
-:root{
-  --dark:#07070c;
-  --card:#0f0f18;
-  --card2:#13131e;
-  --gold:#FFD700;
-  --orange:#FF6B35;
-  --teal:#00D9A5;
-  --text:#e8e8ec;
-  --dim:#6a6a7a;
-  --dim2:#4a4a5a;
-  --gradient:linear-gradient(135deg,#FFD700,#FF6B35);
-  --gradient-teal:linear-gradient(135deg,#00D9A5,#00b88a);
-  --border:rgba(255,255,255,.06);
-  --border-gold:rgba(255,215,0,.15);
-  --radius-lg:24px;
-  --radius-md:18px;
-  --radius-card:22px;
-  --radius-pill:50px;
-}
-
-/* ===== BASE ===== */
+:root{--dark:#07070c;--card:#0f0f18;--card2:#13131e;--gold:#FFD700;--orange:#FF6B35;--teal:#00D9A5;--text:#e8e8ec;--dim:#6a6a7a;--dim2:#4a4a5a;--gradient:linear-gradient(135deg,#FFD700,#FF6B35);--gradient-teal:linear-gradient(135deg,#00D9A5,#00b88a);--border:rgba(255,255,255,.06);--border-gold:rgba(255,215,0,.15);--radius-lg:24px;--radius-md:18px;--radius-card:22px;--radius-pill:50px}
 html{scroll-behavior:smooth}
-body{
-  font-family:'Outfit',sans-serif;
-  background:var(--dark);
-  color:var(--text);
-  overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-}
-
-/* ===== AMBIENT BACKGROUNDS ===== */
+body{font-family:'Outfit',sans-serif;background:var(--dark);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
 .bg-noise{position:fixed;inset:0;opacity:.025;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 .bg-glow{position:fixed;pointer-events:none;z-index:0;border-radius:50%}
 .bg-glow--gold{width:900px;height:900px;top:-400px;left:50%;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,215,0,.06) 0%,transparent 70%)}
 .bg-glow--teal{width:600px;height:600px;bottom:-200px;right:-150px;background:radial-gradient(circle,rgba(0,217,165,.04) 0%,transparent 70%)}
-
-/* ===== LAYOUT ===== */
 .container{max-width:1100px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
 .gradient-text{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.teal-text{background:var(--gradient-teal);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-
-/* ===== BILINGUAL ===== */
-.en,.es{display:none}
-.en.show,.es.show{display:inline}
-
-/* ===== NAV ===== */
+.en,.es{display:none}.en.show,.es.show{display:inline}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 0;background:rgba(7,7,12,.92);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border-bottom:1px solid var(--border)}
 nav .container{display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;text-decoration:none}
@@ -72,16 +32,12 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .lang-btn.active{background:rgba(255,215,0,.1);color:var(--gold)}
 .nav-cta{padding:9px 22px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;border-radius:var(--radius-pill);text-decoration:none;transition:all .3s;white-space:nowrap;border:none;cursor:pointer}
 .nav-cta:hover{transform:scale(1.04);box-shadow:0 4px 24px rgba(255,215,0,.25)}
-
-/* ===== HERO ===== */
 .hero{padding:120px 0 40px;text-align:center;position:relative}
 .hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(0,217,165,.07);border:1px solid rgba(0,217,165,.15);border-radius:var(--radius-pill);font-size:.68rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin-bottom:28px}
 .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,9vw,7rem);line-height:.88;letter-spacing:3px;margin-bottom:20px}
 .hero-sub{font-size:1.05rem;color:var(--dim);max-width:560px;margin:0 auto 36px;line-height:1.75;font-weight:300}
-
-/* THREE NUMBERS */
 .three-numbers{display:flex;justify-content:center;gap:0;margin-bottom:40px;position:relative}
 .three-numbers::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,215,0,.04),rgba(0,217,165,.03));border:1px solid var(--border-gold);border-radius:var(--radius-lg)}
 .num-block{flex:1;padding:36px 24px;text-align:center;position:relative}
@@ -90,124 +46,50 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .num-label{font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim);line-height:1.4}
 .num-block:nth-child(1) .num-value,.num-block:nth-child(2) .num-value{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .num-block:nth-child(3) .num-value{color:var(--teal)}
-
-/* CTAs */
 .hero-cta-group{display:flex;flex-direction:column;align-items:center;gap:14px}
 .hero-cta{display:inline-flex;align-items:center;gap:10px;padding:18px 48px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;border-radius:var(--radius-pill);border:none;cursor:pointer;transition:all .3s;text-decoration:none;position:relative;overflow:hidden}
 .hero-cta::before{content:'';position:absolute;inset:-2px;background:linear-gradient(135deg,#FFD700,#FF6B35,#FFD700);border-radius:var(--radius-pill);z-index:-1;animation:shimmer 3s ease-in-out infinite}
 @keyframes shimmer{0%,100%{opacity:.6}50%{opacity:1}}
 .hero-cta:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(255,215,0,.3)}
 .hero-ruta{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;background:transparent;border:1px solid rgba(0,217,165,.25);color:var(--teal);font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2.5px;border-radius:var(--radius-pill);cursor:pointer;transition:all .3s;text-decoration:none}
-.hero-ruta:hover{border-color:rgba(0,217,165,.5);background:rgba(0,217,165,.06);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,217,165,.15)}
+.hero-ruta:hover{border-color:rgba(0,217,165,.5);background:rgba(0,217,165,.06);transform:translateY(-2px)}
 .hero-ruta-sub{font-size:.72rem;color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;margin-top:-4px;font-weight:600}
-
-/* ============================================
-   CHAT UI
-   ============================================ */
 .chat-section{margin-top:48px;width:100%;max-width:640px}
 .chat-start-wrap{text-align:center;margin-bottom:20px}
-.chat-start-btn{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:16px 44px;
-  background:var(--gradient);color:var(--dark);
-  font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;
-  border-radius:var(--radius-pill);border:none;cursor:pointer;
-  transition:all .3s;position:relative;overflow:hidden;
-  animation:startPulse 2.5s ease-in-out infinite;
-}
+.chat-start-btn{display:inline-flex;align-items:center;gap:10px;padding:16px 44px;background:var(--gradient);color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;border-radius:var(--radius-pill);border:none;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;animation:startPulse 2.5s ease-in-out infinite}
 .chat-start-btn:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(255,215,0,.3)}
 @keyframes startPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,215,0,.3)}50%{box-shadow:0 0 24px 8px rgba(255,215,0,.15)}}
 .chat-hidden{display:none}
 .chat-label{font-size:.65rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);margin-bottom:14px;text-align:center}
-.chat-box{
-  background:var(--card);
-  border:1px solid var(--border-gold);
-  border-radius:20px;
-  overflow:hidden;
-}
-.chat-messages{
-  max-height:360px;
-  overflow-y:auto;
-  padding:20px 20px 12px;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
-  scrollbar-width:thin;
-  scrollbar-color:rgba(255,215,0,.15) transparent;
-}
+.chat-box{background:var(--card);border:1px solid var(--border-gold);border-radius:20px;overflow:hidden}
+.chat-messages{max-height:360px;overflow-y:auto;padding:20px 20px 12px;display:flex;flex-direction:column;gap:14px;scrollbar-width:thin;scrollbar-color:rgba(255,215,0,.15) transparent}
 .chat-messages::-webkit-scrollbar{width:4px}
-.chat-messages::-webkit-scrollbar-track{background:transparent}
 .chat-messages::-webkit-scrollbar-thumb{background:rgba(255,215,0,.15);border-radius:4px}
-
 .chat-msg{max-width:88%;animation:msgIn .3s ease both}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .chat-msg.user{align-self:flex-end}
 .chat-msg.bot{align-self:flex-start}
-.chat-msg-bubble{padding:12px 16px;border-radius:16px;font-size:.88rem;line-height:1.6}
+.chat-msg-bubble{padding:12px 16px;border-radius:16px;font-size:.88rem;line-height:1.6;white-space:pre-wrap}
 .chat-msg.user .chat-msg-bubble{background:linear-gradient(135deg,rgba(255,215,0,.12),rgba(255,107,53,.08));border:1px solid rgba(255,215,0,.15);color:var(--text);border-bottom-right-radius:4px}
 .chat-msg.bot .chat-msg-bubble{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:var(--text);border-bottom-left-radius:4px}
 .chat-msg-name{font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;padding:0 4px}
 .chat-msg.user .chat-msg-name{color:var(--gold);text-align:right}
 .chat-msg.bot .chat-msg-name{color:var(--teal)}
-
-/* Voice button */
-.chat-voice-btn{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  margin-top:10px;padding:10px 20px;
-  background:var(--gradient);
-  border:none;border-radius:var(--radius-pill);
-  font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--dark);cursor:pointer;transition:all .25s;
-  font-family:'Bebas Neue',sans-serif;width:100%;
-}
-.chat-voice-btn:hover{background:rgba(255,215,0,.15);transform:scale(1.03)}
-.chat-voice-btn.playing{background:rgba(255,215,0,.18);color:#fff;border-color:var(--gold)}
-.chat-voice-btn.loading{opacity:.6;pointer-events:none}
-
-/* Typing indicator */
 .typing-dots{display:flex;gap:4px;padding:12px 16px}
 .typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--dim);animation:typePulse 1.2s ease-in-out infinite}
 .typing-dots span:nth-child(2){animation-delay:.2s}
 .typing-dots span:nth-child(3){animation-delay:.4s}
 @keyframes typePulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
-
-/* Input bar */
-.chat-input-bar{
-  display:flex;gap:0;
-  border-top:1px solid var(--border);
-  background:rgba(0,0,0,.2);
-  align-items:center;
-}
-.chat-mic{
-  padding:14px 16px;
-  background:transparent;border:none;
-  font-size:1.3rem;cursor:pointer;
-  transition:all .2s;opacity:.5;
-  flex-shrink:0;
-}
+.chat-input-bar{display:flex;gap:0;border-top:1px solid var(--border);background:rgba(0,0,0,.2);align-items:center}
+.chat-mic{padding:14px 16px;background:transparent;border:none;font-size:1.3rem;cursor:pointer;transition:all .2s;opacity:.5;flex-shrink:0}
 .chat-mic:hover{opacity:.8}
-.chat-mic.listening{
-  opacity:1;
-  animation:micPulse 1s ease-in-out infinite;
-}
+.chat-mic.listening{opacity:1;animation:micPulse 1s ease-in-out infinite}
 @keyframes micPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
-.chat-input{
-  flex:1;padding:16px 20px;
-  background:transparent;border:none;outline:none;
-  color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem;
-}
+.chat-input{flex:1;padding:16px 20px;background:transparent;border:none;outline:none;color:var(--text);font-family:'Outfit',sans-serif;font-size:.9rem}
 .chat-input::placeholder{color:var(--dim2)}
-.chat-send{
-  padding:16px 24px;
-  background:var(--gradient);border:none;
-  color:var(--dark);font-family:'Bebas Neue',sans-serif;
-  font-size:.9rem;letter-spacing:2px;cursor:pointer;
-  transition:all .2s;
-}
+.chat-send{padding:16px 24px;background:var(--gradient);border:none;color:var(--dark);font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;cursor:pointer;transition:all .2s}
 .chat-send:hover{opacity:.9}
 .chat-send:disabled{opacity:.4;cursor:not-allowed}
-
-/* REGION CARDS */
 .region-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%}
 .region-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 16px;cursor:pointer;transition:all .3s;text-align:left;position:relative;overflow:hidden}
 .region-card:hover{border-color:var(--border-gold);transform:translateY(-2px)}
@@ -228,8 +110,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .region-towns-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
 .region-town{padding:8px 6px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.04);border-radius:8px;text-align:center;font-size:.68rem;color:var(--text);text-decoration:none;transition:all .25s;display:block}
 .region-town:hover{border-color:var(--border-gold);color:var(--gold);transform:translateY(-1px)}
-
-/* A-Z GRID */
 .muni-explorer{margin-top:48px;width:100%;max-width:900px}
 .muni-letter-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:20px}
 .muni-letter-btn{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:var(--text);font-family:'Bebas Neue',sans-serif;font-size:.95rem;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center}
@@ -242,8 +122,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .muni-group-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
 .muni-card-link{padding:12px 8px;background:var(--card);border:1px solid rgba(255,255,255,.05);border-radius:12px;text-align:center;font-size:.75rem;color:var(--text);transition:all .3s;text-decoration:none;display:block}
 .muni-card-link:hover{border-color:var(--border-gold);color:var(--gold);transform:translateY(-2px)}
-
-/* DISCLAIMER MODAL */
 .disc-modal-overlay{position:fixed;inset:0;background:rgba(7,7,12,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px}
 .disc-modal{background:var(--card);border:1px solid rgba(255,107,53,.25);border-radius:var(--radius-lg);max-width:600px;width:100%;padding:40px 36px;position:relative;max-height:90vh;overflow-y:auto;z-index:10000}
 .disc-modal::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:24px 24px 0 0}
@@ -258,8 +136,6 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .disc-modal-agree:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,215,0,.25)}
 .disc-modal-leave{width:100%;padding:12px;background:transparent;border:1px solid rgba(255,255,255,.08);color:var(--dim);font-family:'Outfit',sans-serif;font-size:.78rem;border-radius:var(--radius-pill);cursor:pointer;transition:all .3s;text-decoration:none;display:block;text-align:center}
 .disc-modal-leave:hover{border-color:rgba(255,107,53,.3);color:var(--orange)}
-
-/* FOOTER */
 .footer{padding:40px 0;text-align:center;border-top:1px solid var(--border)}
 .footer-logo{margin-bottom:8px}
 .footer-logo img{height:48px;width:auto;opacity:.9}
@@ -268,541 +144,93 @@ nav .container{display:flex;align-items:center;justify-content:space-between}
 .footer-legal-links a{color:var(--dim2);text-decoration:none;transition:color .3s}
 .footer-legal-links a:hover{color:var(--gold)}
 .footer-legal-links .sep{color:var(--dim2);margin:0 8px}
-
-/* ANIMATIONS */
 @keyframes fadeInUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
 .fade-up{animation:fadeInUp .7s ease-out both}
 .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
-
-/* RESPONSIVE */
-@media(max-width:768px){
-  .three-numbers{flex-direction:column;gap:0}
-  .num-block:not(:last-child)::after{right:10%;left:10%;top:auto;bottom:0;width:auto;height:1px}
-  .hero{padding:100px 0 30px}
-  .region-grid{grid-template-columns:1fr 1fr}
-  .region-towns-grid{grid-template-columns:repeat(2,1fr)}
-  .muni-group-grid{grid-template-columns:repeat(3,1fr)}
-  .muni-card-link{font-size:.68rem;padding:9px 4px;border-radius:10px}
-  .disc-modal{padding:32px 24px}
-  .chat-messages{max-height:280px}
-}
-@media(max-width:480px){
-  .three-numbers::before{border-radius:18px}
-  .region-grid{grid-template-columns:1fr}
-  .muni-group-grid{grid-template-columns:repeat(3,1fr)}
-  .muni-card-link{font-size:.6rem;padding:7px 3px}
-}
+@media(max-width:768px){.three-numbers{flex-direction:column;gap:0}.num-block:not(:last-child)::after{right:10%;left:10%;top:auto;bottom:0;width:auto;height:1px}.hero{padding:100px 0 30px}.region-grid{grid-template-columns:1fr 1fr}.muni-group-grid{grid-template-columns:repeat(3,1fr)}.muni-card-link{font-size:.68rem;padding:9px 4px}.disc-modal{padding:32px 24px}.chat-messages{max-height:280px}}
+@media(max-width:480px){.three-numbers::before{border-radius:18px}.region-grid{grid-template-columns:1fr}.muni-group-grid{grid-template-columns:repeat(3,1fr)}.muni-card-link{font-size:.6rem;padding:7px 3px}}
 </style>
 </head>
 <body>
-
-<!-- ===== DISCLAIMER MODAL ===== -->
 <div class="disc-modal-overlay" id="discModal" style="display:none">
   <div class="disc-modal">
     <div class="disc-modal-icon">&#9888;&#65039;</div>
-    <div style="text-align:center;margin-bottom:14px">
-      <div class="lang-toggle" style="display:inline-flex">
-        <button class="lang-btn active" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" onclick="setLang('es')">ES</button>
-      </div>
-    </div>
-    <div class="disc-modal-title">
-      <span class="en show">Before You Continue</span><span class="es">Antes de Continuar</span>
-    </div>
-    <div class="disc-modal-sub">
-      <span class="en show">Important Legal Notice</span><span class="es">Aviso Legal Importante</span>
-    </div>
+    <div style="text-align:center;margin-bottom:14px"><div class="lang-toggle" style="display:inline-flex"><button class="lang-btn active" onclick="setLang('en')">EN</button><button class="lang-btn" onclick="setLang('es')">ES</button></div></div>
+    <div class="disc-modal-title"><span class="en show">Before You Continue</span><span class="es">Antes de Continuar</span></div>
+    <div class="disc-modal-sub"><span class="en show">Important Legal Notice</span><span class="es">Aviso Legal Importante</span></div>
     <div class="disc-modal-body">
-      <p><span class="en show"><strong>For educational purposes only.</strong> All information on this platform — including from La Voz AI — is general information, not legal, tax, or financial advice.</span><span class="es"><strong>Solo con fines educativos.</strong> Toda la informaci&oacute;n en esta plataforma — incluyendo de La Voz IA — es informaci&oacute;n general, no asesoramiento legal, tributario ni financiero.</span></p>
+      <p><span class="en show"><strong>For educational purposes only.</strong> All information on this platform — including from La Voz AI — is general information, not legal, tax, or financial advice.</span><span class="es"><strong>Solo con fines educativos.</strong> Toda la informaci&oacute;n en esta plataforma es informaci&oacute;n general, no asesoramiento legal, tributario ni financiero.</span></p>
       <p><span class="en show"><strong>We are not lawyers or tax advisors.</strong> La Voz PR and GoStar Digital LLC are not law firms, tax advisory firms, or financial advisors.</span><span class="es"><strong>No somos abogados ni asesores tributarios.</strong> La Voz PR y GoStar Digital LLC no son firmas de abogados ni asesores financieros.</span></p>
       <p><span class="en show"><strong>Always consult a qualified professional.</strong> Act 60 is complex legislation. Consult a licensed Puerto Rico attorney and certified CPA.</span><span class="es"><strong>Consulte siempre a un profesional calificado.</strong> La Ley 60 es legislaci&oacute;n compleja. Consulte a un abogado licenciado y CPA certificado.</span></p>
       <p><span class="en show"><strong>AI limitations.</strong> La Voz is powered by AI and can make errors.</span><span class="es"><strong>Limitaciones de IA.</strong> La Voz es impulsada por IA y puede cometer errores.</span></p>
     </div>
-    <button class="disc-modal-agree" onclick="(function(){try{sessionStorage.setItem('lavozpr_disc','1')}catch(e){}document.getElementById('discModal').style.display='none';document.body.style.overflow='';window.location.href='act60-voice.html'})()">
-      <span class="en show">I UNDERSTAND — CONTINUE TO LA VOZ PR<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">For Educational Purposes Only</span></span><span class="es">ENTIENDO — CONTINUAR A LA VOZ PR<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">Solo con Fines Educativos</span></span>
-    </button>
-    <a href="index.html" class="disc-modal-leave">
-      <span class="en show">Take me back — I need professional advice first</span><span class="es">Regresar — necesito consejo profesional primero</span>
-    </a>
+    <button class="disc-modal-agree" onclick="(function(){try{sessionStorage.setItem('lavozpr_disc','1')}catch(e){}document.getElementById('discModal').style.display='none';document.body.style.overflow='';window.location.href='act60-voice.html'})()"><span class="en show">I UNDERSTAND — CONTINUE<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">For Educational Purposes Only</span></span><span class="es">ENTIENDO — CONTINUAR<br><span style="font-family:'Outfit',sans-serif;font-size:.55rem;letter-spacing:1px;font-weight:400;opacity:.7">Solo con Fines Educativos</span></span></button>
+    <a href="index.html" class="disc-modal-leave"><span class="en show">Take me back — I need professional advice first</span><span class="es">Regresar — necesito consejo profesional primero</span></a>
   </div>
 </div>
-
-<!-- ===== AMBIENT ===== -->
 <div class="bg-noise"></div>
 <div class="bg-glow bg-glow--gold"></div>
 <div class="bg-glow bg-glow--teal"></div>
-
-<!-- ===== NAV ===== -->
-<nav>
-  <div class="container">
-    <a href="index.html" class="nav-logo">
-      <img src="act60-logo.png" alt="Act 60 — La Voz PR">
-    </a>
-    <div class="nav-right">
-      <div class="lang-toggle">
-        <button class="lang-btn active" onclick="setLang('en')">EN</button>
-        <button class="lang-btn" onclick="setLang('es')">ES</button>
-      </div>
-      <a href="laruta.html" class="nav-cta"><span class="en show">ASK LA VOZ</span><span class="es">PREGUNTA</span></a>
-    </div>
+<nav><div class="container"><a href="index.html" class="nav-logo"><img src="act60-logo.png" alt="Act 60 — La Voz PR"></a><div class="nav-right"><div class="lang-toggle"><button class="lang-btn active" onclick="setLang('en')">EN</button><button class="lang-btn" onclick="setLang('es')">ES</button></div><a href="laruta.html" class="nav-cta"><span class="en show">ASK LA VOZ</span><span class="es">PREGUNTA</span></a></div></div></nav>
+<section class="hero"><div class="container">
+  <div class="hero-badge fade-up"><span class="dot"></span> <span class="en show">PUERTO RICO ACT 60 TAX INCENTIVES</span><span class="es">INCENTIVOS DE LA LEY 60 DE PUERTO RICO</span></div>
+  <h1 class="fade-up d1"><span class="en show">THE MOST POWERFUL<br><span class="gradient-text">TAX INCENTIVE</span><br>IN AMERICA.</span><span class="es">EL INCENTIVO CONTRIBUTIVO<br><span class="gradient-text">M&Aacute;S PODEROSO</span><br>DE AM&Eacute;RICA.</span></h1>
+  <p class="hero-sub fade-up d2"><span class="en show">Zero percent capital gains. Four percent corporate tax. Full US citizenship. One island that changes everything. La Voz knows Act 60 inside and out — ask anything.</span><span class="es">Cero por ciento en ganancias de capital. Cuatro por ciento de impuesto corporativo. Ciudadan&iacute;a americana completa. Una isla que lo cambia todo. La Voz conoce la Ley 60 a fondo — pregunta lo que quieras.</span></p>
+  <div class="three-numbers fade-up d3">
+    <div class="num-block"><div class="num-value">0%</div><div class="num-label"><span class="en show">Capital Gains Tax<br>on PR-sourced income</span><span class="es">Impuesto sobre<br>Ganancias de Capital</span></div></div>
+    <div class="num-block"><div class="num-value">4%</div><div class="num-label"><span class="en show">Corporate Tax Rate<br>for export services</span><span class="es">Tasa Corporativa<br>para servicios de exportaci&oacute;n</span></div></div>
+    <div class="num-block"><div class="num-value" style="font-size:clamp(1.8rem,4vw,3rem);padding-top:10px">&#127477;&#127479;<br>&#127482;&#127480;</div><div class="num-label"><span class="en show">US Citizenship<br>fully intact</span><span class="es">Ciudadan&iacute;a Americana<br>completamente intacta</span></div></div>
   </div>
-</nav>
-
-<!-- ===== HERO ===== -->
-<section class="hero">
-  <div class="container">
-    <div class="hero-badge fade-up">
-      <span class="dot"></span>
-      <span class="en show">PUERTO RICO ACT 60 TAX INCENTIVES</span><span class="es">INCENTIVOS DE LA LEY 60 DE PUERTO RICO</span>
-    </div>
-    <h1 class="fade-up d1">
-      <span class="en show">THE MOST POWERFUL<br><span class="gradient-text">TAX INCENTIVE</span><br>IN AMERICA.</span>
-      <span class="es">EL INCENTIVO CONTRIBUTIVO<br><span class="gradient-text">M&Aacute;S PODEROSO</span><br>DE AM&Eacute;RICA.</span>
-    </h1>
-    <p class="hero-sub fade-up d2">
-      <span class="en show">Zero percent capital gains. Four percent corporate tax. Full US citizenship. One island that changes everything. La Voz knows Act 60 inside and out — ask anything.</span>
-      <span class="es">Cero por ciento en ganancias de capital. Cuatro por ciento de impuesto corporativo. Ciudadan&iacute;a americana completa. Una isla que lo cambia todo. La Voz conoce la Ley 60 a fondo — pregunta lo que quieras.</span>
-    </p>
-
-    <!-- THREE NUMBERS -->
-    <div class="three-numbers fade-up d3">
-      <div class="num-block">
-        <div class="num-value">0%</div>
-        <div class="num-label"><span class="en show">Capital Gains Tax<br>on PR-sourced income</span><span class="es">Impuesto sobre<br>Ganancias de Capital</span></div>
-      </div>
-      <div class="num-block">
-        <div class="num-value">4%</div>
-        <div class="num-label"><span class="en show">Corporate Tax Rate<br>for export services</span><span class="es">Tasa Corporativa<br>para servicios de exportaci&oacute;n</span></div>
-      </div>
-      <div class="num-block">
-        <div class="num-value" style="font-size:clamp(1.8rem,4vw,3rem);padding-top:10px">&#127477;&#127479;<br>&#127482;&#127480;</div>
-        <div class="num-label"><span class="en show">US Citizenship<br>fully intact</span><span class="es">Ciudadan&iacute;a Americana<br>completamente intacta</span></div>
-      </div>
-    </div>
-
-    <!-- BIG CTAs -->
-    <div class="hero-cta-group fade-up d4">
-      <a href="act60-voice.html" class="hero-cta">
-        &#127908; <span class="en show">ASK LA VOZ ABOUT ACT 60</span><span class="es">PREGUNTA A LA VOZ SOBRE LEY 60</span>
-      </a>
-      <a href="laruta.html" class="hero-ruta">
-        &#128506; <span class="en show">EXPLORE LA RUTA — THIS IS PUERTO RICO!</span><span class="es">EXPLORA LA RUTA — &iexcl;ESTO ES PUERTO RICO!</span>
-      </a>
-      <div class="hero-ruta-sub"><span class="en show">Voice-guided tour of all 78 municipalities</span><span class="es">Recorrido de voz por los 78 municipios</span></div>
-
-      <!-- ===== CHAT UI ===== -->
-      <div class="chat-section">
-        <div class="chat-start-wrap" id="chatStartWrap">
-          <button class="chat-start-btn" onclick="startLaVoz()">
-            &#127908; <span class="en show">START LA VOZ</span><span class="es">INICIAR LA VOZ</span>
-          </button>
-        </div>
-        <div class="chat-hidden" id="chatContainer">
-          <div class="chat-label"><span class="en show">&#128172; ASK LA VOZ ANYTHING</span><span class="es">&#128172; PREGUNTA LO QUE QUIERAS</span></div>
-          <div class="chat-box">
-          <div class="chat-messages" id="chatMessages">
-            <!-- Welcome message will be added by JS in startLaVoz() -->
-          </div>
+  <div class="hero-cta-group fade-up d4">
+    <a href="act60-voice.html" class="hero-cta">&#127908; <span class="en show">ASK LA VOZ ABOUT ACT 60</span><span class="es">PREGUNTA A LA VOZ SOBRE LEY 60</span></a>
+    <a href="laruta.html" class="hero-ruta">&#128506; <span class="en show">EXPLORE LA RUTA — THIS IS PUERTO RICO!</span><span class="es">EXPLORA LA RUTA — &iexcl;ESTO ES PUERTO RICO!</span></a>
+    <div class="hero-ruta-sub"><span class="en show">AI-guided tour of all 78 municipalities</span><span class="es">Recorrido AI por los 78 municipios</span></div>
+    <div class="chat-section">
+      <div class="chat-start-wrap" id="chatStartWrap"><button class="chat-start-btn" onclick="startLaVoz()">&#127908; <span class="en show">START LA VOZ</span><span class="es">INICIAR LA VOZ</span></button></div>
+      <div class="chat-hidden" id="chatContainer">
+        <div class="chat-label"><span class="en show">&#128172; ASK LA VOZ ANYTHING</span><span class="es">&#128172; PREGUNTA LO QUE QUIERAS</span></div>
+        <div class="chat-box">
+          <div class="chat-messages" id="chatMessages"></div>
           <div class="chat-input-bar">
             <button class="chat-mic" id="chatMic" onclick="toggleMic()">&#127908;</button>
             <input type="text" class="chat-input" id="chatInput" placeholder="Ask La Voz anything..." autocomplete="off">
             <button class="chat-send" id="chatSend" onclick="sendMessage()"><span class="en show">SEND</span><span class="es">ENVIAR</span></button>
           </div>
         </div>
-        </div><!-- end chatContainer -->
       </div>
-
-      <!-- MUNICIPALITY EXPLORER -->
-      <div class="muni-explorer">
-        <!-- 6 REGION CARDS -->
-        <div style="font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px"><span class="en show">Explore Puerto Rico by Region</span><span class="es">Explora Puerto Rico por Regi&oacute;n</span></div>
-        <div class="region-grid" id="regionGrid"></div>
-
-        <!-- A-Z SECONDARY -->
-        <div style="margin-top:36px;font-size:.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim2);margin-bottom:10px"><span class="en show">Or browse A–Z</span><span class="es">O busca por letra</span></div>
-        <div class="muni-letter-nav" id="muniLetterNav"></div>
-        <div id="muniGrid"></div>
-      </div>
-
+    </div>
+    <div class="muni-explorer">
+      <div style="font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:14px"><span class="en show">Explore Puerto Rico by Region</span><span class="es">Explora Puerto Rico por Regi&oacute;n</span></div>
+      <div class="region-grid" id="regionGrid"></div>
+      <div style="margin-top:36px;font-size:.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--dim2);margin-bottom:10px"><span class="en show">Or browse A–Z</span><span class="es">O busca por letra</span></div>
+      <div class="muni-letter-nav" id="muniLetterNav"></div>
+      <div id="muniGrid"></div>
     </div>
   </div>
-</section>
-
-<!-- ===== FOOTER ===== -->
-<footer class="footer">
-  <div class="footer-logo">
-    <img src="act60-logo.png" alt="Act 60 — La Voz PR">
-  </div>
-  <div class="footer-legal">Copyright &copy; 2026. GoStar Digital LLC. All Rights Reserved.</div>
-  <div class="footer-legal-links">
-    <a href="disclaimer.html"><span class="en show">Disclaimer</span><span class="es">Aviso Legal</span></a>
-    <span class="sep">|</span>
-    <a href="terms.html"><span class="en show">Terms</span><span class="es">T&eacute;rminos</span></a>
-  </div>
-</footer>
-
-<!-- ===== JAVASCRIPT ===== -->
+</div></section>
+<footer class="footer"><div class="footer-logo"><img src="act60-logo.png" alt="Act 60 — La Voz PR"></div><div class="footer-legal">Copyright &copy; 2026. GoStar Digital LLC. All Rights Reserved.</div><div class="footer-legal-links"><a href="disclaimer.html"><span class="en show">Disclaimer</span><span class="es">Aviso Legal</span></a><span class="sep">|</span><a href="terms.html"><span class="en show">Terms</span><span class="es">T&eacute;rminos</span></a></div></footer>
 <script>
-var lang = 'en';
-var API_BASE = 'https://lavozpr-api.onrender.com';
-var chatHistory = [];
-var currentAudio = null;
-
-/* --- Language Toggle --- */
-function setLang(l) {
-  lang = l;
-  var allBtns = document.querySelectorAll('.lang-btn');
-  for (var i = 0; i < allBtns.length; i++) {
-    allBtns[i].classList.remove('active');
-    if ((l === 'en' && allBtns[i].textContent.trim() === 'EN') ||
-        (l === 'es' && allBtns[i].textContent.trim() === 'ES')) {
-      allBtns[i].classList.add('active');
-    }
-  }
-  document.querySelectorAll('.en').forEach(function(e){ e.classList.toggle('show', l === 'en'); });
-  document.querySelectorAll('.es').forEach(function(e){ e.classList.toggle('show', l === 'es'); });
-  /* Update placeholder */
-  var inp = document.getElementById('chatInput');
-  if (inp) inp.placeholder = l === 'en' ? 'Ask La Voz anything...' : 'Pregunta lo que quieras...';
-  if (typeof renderRegions === 'function') renderRegions();
-}
-
-/* --- Chat: Send Message --- */
-function sendMessage() {
-  var input = document.getElementById('chatInput');
-  var text = input.value.trim();
-  if (!text) return;
-
-  /* Add user message */
-  addMessage('user', text);
-  input.value = '';
-  chatHistory.push({ role: 'user', content: text });
-
-  /* Show typing */
-  var typingEl = showTyping();
-
-  /* Disable send */
-  document.getElementById('chatSend').disabled = true;
-
-  /* Get municipality from URL if present */
-  var urlParams = new URLSearchParams(window.location.search);
-  var muni = urlParams.get('muni') || null;
-
-  /* Call backend */
-  fetch(API_BASE + '/api/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ messages: chatHistory, municipality: muni })
-  })
-  .then(function(res) { return res.json(); })
-  .then(function(data) {
-    removeTyping(typingEl);
-    console.log('API response:', JSON.stringify(data));
-    var replyText = data.reply || (data.content && data.content[0] && data.content[0].text) || null;
-    if (replyText) {
-      addMessage('bot', replyText, true);
-      chatHistory.push({ role: 'assistant', content: replyText });
-    } else {
-      addMessage('bot', lang === 'en' ? 'Sorry, I had trouble with that. Try again.' : 'Disculpa, tuve un problema. Intenta de nuevo.', true);
-    }
-    document.getElementById('chatSend').disabled = false;
-  })
-  .catch(function(err) {
-    removeTyping(typingEl);
-    addMessage('bot', lang === 'en' ? 'Connection error. Please try again.' : 'Error de conexi\u00f3n. Intenta de nuevo.');
-    document.getElementById('chatSend').disabled = false;
-  });
-}
-
-/* --- Chat: Add Message Bubble --- */
-function addMessage(role, text, showVoice) {
-  var container = document.getElementById('chatMessages');
-  var msg = document.createElement('div');
-  msg.className = 'chat-msg ' + role;
-
-  var name = document.createElement('div');
-  name.className = 'chat-msg-name';
-  name.textContent = role === 'user' ? (lang === 'en' ? 'You' : 'T\u00fa') : 'La Voz';
-
-  var bubble = document.createElement('div');
-  bubble.className = 'chat-msg-bubble';
-  bubble.textContent = text;
-
-  msg.appendChild(name);
-  msg.appendChild(bubble);
-
-  /* Voice button on bot messages */
-  if (showVoice && role === 'bot') {
-    var voiceBtn = document.createElement('button');
-    voiceBtn.className = 'chat-voice-btn';
-    voiceBtn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
-    voiceBtn.onclick = function() { playVoice(text, voiceBtn); };
-    msg.appendChild(voiceBtn);
-  }
-
-  container.appendChild(msg);
-  container.scrollTop = container.scrollHeight;
-}
-
-/* --- Chat: Typing Indicator --- */
-function showTyping() {
-  var container = document.getElementById('chatMessages');
-  var msg = document.createElement('div');
-  msg.className = 'chat-msg bot';
-  msg.innerHTML = '<div class="chat-msg-name">La Voz</div><div class="typing-dots"><span></span><span></span><span></span></div>';
-  container.appendChild(msg);
-  container.scrollTop = container.scrollHeight;
-  return msg;
-}
-
-function removeTyping(el) {
-  if (el && el.parentNode) el.parentNode.removeChild(el);
-}
-
-/* --- Voice: Play TTS --- */
-function playVoice(text, btn) {
-  /* Stop current audio if playing */
-  if (currentAudio) {
-    currentAudio.pause();
-    currentAudio = null;
-    document.querySelectorAll('.chat-voice-btn.playing').forEach(function(b){ b.classList.remove('playing'); });
-  }
-
-  btn.classList.add('loading');
-  btn.innerHTML = '\u23F3 ' + (lang === 'en' ? 'LOADING...' : 'CARGANDO...');
-
-  fetch(API_BASE + '/api/tts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: text })
-  })
-  .then(function(res) {
-    if (!res.ok) throw new Error('TTS error');
-    return res.blob();
-  })
-  .then(function(blob) {
-    var url = URL.createObjectURL(blob);
-    var audio = new Audio(url);
-    currentAudio = audio;
-
-    btn.classList.remove('loading');
-    btn.classList.add('playing');
-    btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'PLAYING...' : 'REPRODUCIENDO...');
-
-    audio.play();
-    audio.onended = function() {
-      btn.classList.remove('playing');
-      btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
-      currentAudio = null;
-      URL.revokeObjectURL(url);
-    };
-  })
-  .catch(function(err) {
-    btn.classList.remove('loading');
-    btn.innerHTML = '\u274C ' + (lang === 'en' ? 'ERROR' : 'ERROR');
-    setTimeout(function() {
-      btn.innerHTML = '\u{1F50A} ' + (lang === 'en' ? 'LISTEN' : 'ESCUCHAR');
-    }, 2000);
-  });
-}
-
-/* --- Enter key to send --- */
-document.getElementById('chatInput').addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-});
-
-/* --- Speech Recognition (Mic Button) --- */
-var recognition = null;
-var isListening = false;
-
-function toggleMic() {
-  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert(lang === 'en' ? 'Speech recognition not supported in this browser.' : 'Reconocimiento de voz no disponible en este navegador.');
-    return;
-  }
-
-  var micBtn = document.getElementById('chatMic');
-
-  if (isListening && recognition) {
-    recognition.stop();
-    return;
-  }
-
-  recognition = new SpeechRecognition();
-  recognition.lang = lang === 'es' ? 'es-PR' : 'en-US';
-  recognition.interimResults = false;
-  recognition.maxAlternatives = 1;
-  recognition.continuous = false;
-
-  micBtn.classList.add('listening');
-  isListening = true;
-
-  recognition.onresult = function(event) {
-    var transcript = event.results[0][0].transcript;
-    document.getElementById('chatInput').value = transcript;
-    micBtn.classList.remove('listening');
-    isListening = false;
-    /* Auto-send after speech */
-    sendMessage();
-  };
-
-  recognition.onerror = function() {
-    micBtn.classList.remove('listening');
-    isListening = false;
-  };
-
-  recognition.onend = function() {
-    micBtn.classList.remove('listening');
-    isListening = false;
-  };
-
-  recognition.start();
-}
-
-/* --- Region Data --- */
-var REGIONS = [
-  { id:'north', emoji:'\u{1F30A}', nameEN:'North Coast', nameES:'Costa Norte', count:18,
-    vibeEN:'San Juan, Dorado, Arecibo \u2014 the Atlantic coast powerhouse.',
-    vibeES:'San Juan, Dorado, Arecibo \u2014 la potencia de la costa atl\u00e1ntica.',
-    towns:['Arecibo','Barceloneta','Bayamon','Camuy','Carolina','Catano','Dorado','Florida','Guaynabo','Hatillo','Loiza','Manati','San Juan','Toa Alta','Toa Baja','Trujillo Alto','Vega Alta','Vega Baja']},
-  { id:'south', emoji:'\u2600\uFE0F', nameEN:'South Coast', nameES:'Costa Sur', count:11,
-    vibeEN:'Ponce, Coamo, Guayama \u2014 Caribbean sun and southern pride.',
-    vibeES:'Ponce, Coamo, Guayama \u2014 sol caribe\u00f1o y orgullo sure\u00f1o.',
-    towns:['Arroyo','Coamo','Guayama','Guayanilla','Juana Diaz','Patillas','Penuelas','Ponce','Salinas','Santa Isabel','Villalba']},
-  { id:'west', emoji:'\u{1F3C4}', nameEN:'West Coast', nameES:'Costa Oeste', count:19,
-    vibeEN:'Rinc\u00f3n, Cabo Rojo, Aguadilla \u2014 surf, sunsets, and salt flats.',
-    vibeES:'Rinc\u00f3n, Cabo Rojo, Aguadilla \u2014 surf, atardeceres y salinas.',
-    towns:['Aguada','Aguadilla','Cabo Rojo','Guanica','Hormigueros','Isabela','Lajas','Lares','Las Marias','Maricao','Mayaguez','Moca','Quebradillas','Rincon','Sabana Grande','San German','San Sebastian','Yauco']},
-  { id:'east', emoji:'\u{1F334}', nameEN:'East Coast', nameES:'Costa Este', count:14,
-    vibeEN:'El Yunque, Fajardo, Luquillo \u2014 rainforest meets Caribbean blue.',
-    vibeES:'El Yunque, Fajardo, Luquillo \u2014 bosque tropical y azul caribe\u00f1o.',
-    towns:['Caguas','Canovanas','Ceiba','Fajardo','Gurabo','Humacao','Juncos','Las Piedras','Luquillo','Maunabo','Naguabo','Rio Grande','San Lorenzo','Yabucoa']},
-  { id:'central', emoji:'\u26F0\uFE0F', nameEN:'Central Mountains', nameES:'La Monta\u00f1a', count:14,
-    vibeEN:'Jayuya, Utuado, Adjuntas \u2014 coffee, caves, and the heart of the island.',
-    vibeES:'Jayuya, Utuado, Adjuntas \u2014 caf\u00e9, cuevas y el coraz\u00f3n de la isla.',
-    towns:['Adjuntas','Aguas Buenas','Aibonito','Barranquitas','Cayey','Ciales','Cidra','Comerio','Corozal','Jayuya','Morovis','Naranjito','Orocovis','Utuado']},
-  { id:'islands', emoji:'\u{1F3DD}\uFE0F', nameEN:'Offshore Islands', nameES:'Las Islas', count:2,
-    vibeEN:'Vieques & Culebra \u2014 bioluminescent bays and untouched beaches.',
-    vibeES:'Vieques y Culebra \u2014 bah\u00edas bioluminiscentes y playas intactas.',
-    towns:['Culebra','Vieques']}
-];
-
-function renderRegions() {
-  var grid = document.getElementById('regionGrid');
-  var isEN = lang === 'en';
-  grid.innerHTML = REGIONS.map(function(r) {
-    var towns = r.towns.map(function(t) {
-      return '<a href="laruta.html?muni=' + encodeURIComponent(t) + '" class="region-town">' + t + '</a>';
-    }).join('');
-    return '<div class="region-card" onclick="toggleRegion(this)">' +
-      '<div class="region-top"><span class="region-emoji">' + r.emoji + '</span><span class="region-count">' + r.count + ' ' + (isEN ? 'towns' : 'pueblos') + '</span></div>' +
-      '<div class="region-name">' + (isEN ? r.nameEN : r.nameES) + '</div>' +
-      '<div class="region-vibe">' + (isEN ? r.vibeEN : r.vibeES) + '</div>' +
-      '<span class="region-arrow">\u25BC</span>' +
-      '<div class="region-towns"><div class="region-towns-grid">' + towns + '</div></div>' +
-    '</div>';
-  }).join('');
-}
-
-function toggleRegion(card) {
-  if (event.target.closest('.region-town')) return;
-  var wasOpen = card.classList.contains('open');
-  document.querySelectorAll('.region-card').forEach(function(c){ c.classList.remove('open'); });
-  if (!wasOpen) card.classList.add('open');
-}
-
+var lang='en',API_BASE='https://lavozpr-api.onrender.com',chatHistory=[];
+function setLang(l){lang=l;var a=document.querySelectorAll('.lang-btn');for(var i=0;i<a.length;i++){a[i].classList.remove('active');if((l==='en'&&a[i].textContent.trim()==='EN')||(l==='es'&&a[i].textContent.trim()==='ES')){a[i].classList.add('active');}}document.querySelectorAll('.en').forEach(function(e){e.classList.toggle('show',l==='en');});document.querySelectorAll('.es').forEach(function(e){e.classList.toggle('show',l==='es');});var inp=document.getElementById('chatInput');if(inp)inp.placeholder=l==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';if(typeof renderRegions==='function')renderRegions();}
+function sendMessage(){var input=document.getElementById('chatInput'),text=input.value.trim();if(!text)return;addMessage('user',text);input.value='';chatHistory.push({role:'user',content:text});var typing=showTyping();document.getElementById('chatSend').disabled=true;var urlP=new URLSearchParams(window.location.search),muni=urlP.get('muni')||null;fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory,municipality:muni})}).then(function(r){return r.json();}).then(function(d){removeTyping(typing);var reply=d.reply||(d.content&&d.content[0]&&d.content[0].text)||null;if(reply){addMessage('bot',reply);chatHistory.push({role:'assistant',content:reply});}else{addMessage('bot',lang==='en'?'Sorry, I had trouble with that. Try again.':'Disculpa, tuve un problema. Intenta de nuevo.');}document.getElementById('chatSend').disabled=false;}).catch(function(){removeTyping(typing);addMessage('bot',lang==='en'?'Connection error. Please try again.':'Error de conexi\u00f3n. Intenta de nuevo.');document.getElementById('chatSend').disabled=false;});}
+function addMessage(role,text){var c=document.getElementById('chatMessages'),msg=document.createElement('div');msg.className='chat-msg '+role;var name=document.createElement('div');name.className='chat-msg-name';name.textContent=role==='user'?(lang==='en'?'You':'T\u00fa'):'La Voz';var bubble=document.createElement('div');bubble.className='chat-msg-bubble';bubble.textContent=text;msg.appendChild(name);msg.appendChild(bubble);c.appendChild(msg);c.scrollTop=c.scrollHeight;}
+function showTyping(){var c=document.getElementById('chatMessages'),msg=document.createElement('div');msg.className='chat-msg bot';msg.innerHTML='<div class="chat-msg-name">La Voz</div><div class="typing-dots"><span></span><span></span><span></span></div>';c.appendChild(msg);c.scrollTop=c.scrollHeight;return msg;}
+function removeTyping(el){if(el&&el.parentNode)el.parentNode.removeChild(el);}
+document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+var recognition=null,isListening=false;
+function toggleMic(){var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert(lang==='en'?'Speech recognition not supported.':'Reconocimiento de voz no disponible.');return;}var mic=document.getElementById('chatMic');if(isListening&&recognition){recognition.stop();return;}recognition=new SR();recognition.lang=lang==='es'?'es-PR':'en-US';recognition.interimResults=false;recognition.maxAlternatives=1;recognition.continuous=false;mic.classList.add('listening');isListening=true;recognition.onresult=function(e){var t=e.results[0][0].transcript;document.getElementById('chatInput').value=t;mic.classList.remove('listening');isListening=false;sendMessage();};recognition.onerror=function(){mic.classList.remove('listening');isListening=false;};recognition.onend=function(){mic.classList.remove('listening');isListening=false;};recognition.start();}
+var REGIONS=[{id:'north',emoji:'\u{1F30A}',nameEN:'North Coast',nameES:'Costa Norte',count:18,vibeEN:'San Juan, Dorado, Arecibo \u2014 the Atlantic coast powerhouse.',vibeES:'San Juan, Dorado, Arecibo \u2014 la potencia de la costa atl\u00e1ntica.',towns:['Arecibo','Barceloneta','Bayamon','Camuy','Carolina','Catano','Dorado','Florida','Guaynabo','Hatillo','Loiza','Manati','San Juan','Toa Alta','Toa Baja','Trujillo Alto','Vega Alta','Vega Baja']},{id:'south',emoji:'\u2600\uFE0F',nameEN:'South Coast',nameES:'Costa Sur',count:11,vibeEN:'Ponce, Coamo, Guayama \u2014 Caribbean sun and southern pride.',vibeES:'Ponce, Coamo, Guayama \u2014 sol caribe\u00f1o y orgullo sure\u00f1o.',towns:['Arroyo','Coamo','Guayama','Guayanilla','Juana Diaz','Patillas','Penuelas','Ponce','Salinas','Santa Isabel','Villalba']},{id:'west',emoji:'\u{1F3C4}',nameEN:'West Coast',nameES:'Costa Oeste',count:19,vibeEN:'Rinc\u00f3n, Cabo Rojo, Aguadilla \u2014 surf, sunsets, and salt flats.',vibeES:'Rinc\u00f3n, Cabo Rojo, Aguadilla \u2014 surf, atardeceres y salinas.',towns:['Aguada','Aguadilla','Cabo Rojo','Guanica','Hormigueros','Isabela','Lajas','Lares','Las Marias','Maricao','Mayaguez','Moca','Quebradillas','Rincon','Sabana Grande','San German','San Sebastian','Yauco']},{id:'east',emoji:'\u{1F334}',nameEN:'East Coast',nameES:'Costa Este',count:14,vibeEN:'El Yunque, Fajardo, Luquillo \u2014 rainforest meets Caribbean blue.',vibeES:'El Yunque, Fajardo, Luquillo \u2014 bosque tropical y azul caribe\u00f1o.',towns:['Caguas','Canovanas','Ceiba','Fajardo','Gurabo','Humacao','Juncos','Las Piedras','Luquillo','Maunabo','Naguabo','Rio Grande','San Lorenzo','Yabucoa']},{id:'central',emoji:'\u26F0\uFE0F',nameEN:'Central Mountains',nameES:'La Monta\u00f1a',count:14,vibeEN:'Jayuya, Utuado, Adjuntas \u2014 coffee, caves, and the heart of the island.',vibeES:'Jayuya, Utuado, Adjuntas \u2014 caf\u00e9, cuevas y el coraz\u00f3n de la isla.',towns:['Adjuntas','Aguas Buenas','Aibonito','Barranquitas','Cayey','Ciales','Cidra','Comerio','Corozal','Jayuya','Morovis','Naranjito','Orocovis','Utuado']},{id:'islands',emoji:'\u{1F3DD}\uFE0F',nameEN:'Offshore Islands',nameES:'Las Islas',count:2,vibeEN:'Vieques & Culebra \u2014 bioluminescent bays and untouched beaches.',vibeES:'Vieques y Culebra \u2014 bah\u00edas bioluminiscentes y playas intactas.',towns:['Culebra','Vieques']}];
+function renderRegions(){var grid=document.getElementById('regionGrid'),isEN=lang==='en';grid.innerHTML=REGIONS.map(function(r){var towns=r.towns.map(function(t){return '<a href="laruta.html?muni='+encodeURIComponent(t)+'" class="region-town">'+t+'</a>';}).join('');return '<div class="region-card" onclick="toggleRegion(this)"><div class="region-top"><span class="region-emoji">'+r.emoji+'</span><span class="region-count">'+r.count+' '+(isEN?'towns':'pueblos')+'</span></div><div class="region-name">'+(isEN?r.nameEN:r.nameES)+'</div><div class="region-vibe">'+(isEN?r.vibeEN:r.vibeES)+'</div><span class="region-arrow">\u25BC</span><div class="region-towns"><div class="region-towns-grid">'+towns+'</div></div></div>';}).join('');}
+function toggleRegion(card){if(event.target.closest('.region-town'))return;var wasOpen=card.classList.contains('open');document.querySelectorAll('.region-card').forEach(function(c){c.classList.remove('open');});if(!wasOpen)card.classList.add('open');}
 renderRegions();
-
-/* --- Municipality A-Z Grid --- */
 var MUNIS=["Adjuntas","Aguada","Aguadilla","Aguas Buenas","Aibonito","Arecibo","Arroyo","Barceloneta","Barranquitas","Bayamon","Cabo Rojo","Caguas","Camuy","Canovanas","Carolina","Catano","Cayey","Ceiba","Ciales","Cidra","Coamo","Comerio","Corozal","Culebra","Dorado","Fajardo","Florida","Guanica","Guayama","Guayanilla","Guaynabo","Gurabo","Hatillo","Hormigueros","Humacao","Isabela","Jayuya","Juana Diaz","Juncos","Lajas","Lares","Las Marias","Las Piedras","Loiza","Luquillo","Manati","Maricao","Maunabo","Mayaguez","Moca","Morovis","Naguabo","Naranjito","Orocovis","Patillas","Penuelas","Ponce","Quebradillas","Rincon","Rio Grande","Sabana Grande","Salinas","San German","San Juan","San Lorenzo","San Sebastian","Santa Isabel","Toa Alta","Toa Baja","Trujillo Alto","Utuado","Vega Alta","Vega Baja","Vieques","Villalba","Yabucoa","Yauco"];
 var activeLetter=null;
-
-function buildMuniNav(){
-  var letters='ABCDEFGHIJLMNOPQRSTUVWY'.split('');
-  var ml={};MUNIS.forEach(function(m){ml[m[0]]=true;});
-  var nav=document.getElementById('muniLetterNav');
-  if(!nav)return;
-  nav.innerHTML=letters.map(function(l){
-    var has=ml[l];
-    return '<button class="muni-letter-btn'+(has?'':' empty')+'" data-letter="'+l+'" onclick="filterByLetter(\''+l+'\')">'+l+'</button>';
-  }).join('');
-}
-
-function renderMuniGroups(fl){
-  var grid=document.getElementById('muniGrid');
-  if(!grid)return;
-  var g={};MUNIS.forEach(function(m){var l=m[0];if(!g[l])g[l]=[];g[l].push(m);});
-  var letters=Object.keys(g).sort();
-  grid.innerHTML=letters.map(function(l){
-    if(fl&&l!==fl)return '';
-    var cards=g[l].map(function(m){
-      return '<a href="laruta.html?muni='+encodeURIComponent(m)+'" class="muni-card-link">'+m+'</a>';
-    }).join('');
-    return '<div class="muni-group'+(fl===l?' active':'')+'" data-letter="'+l+'"><div class="muni-group-label">'+l+'</div><div class="muni-group-grid">'+cards+'</div></div>';
-  }).join('');
-}
-
-function filterByLetter(l){
-  var grid = document.getElementById('muniGrid');
-  if(activeLetter===l){
-    activeLetter=null;
-    document.querySelectorAll('.muni-letter-btn').forEach(function(b){b.classList.remove('active');});
-    grid.style.display = 'none';
-    return;
-  }
-  activeLetter=l;
-  grid.style.display = 'block';
-  document.querySelectorAll('.muni-letter-btn').forEach(function(b){b.classList.toggle('active',b.dataset.letter===l);});
-  renderMuniGroups(l);
-}
-
-buildMuniNav();
-renderMuniGroups(null);
-document.getElementById('muniGrid').style.display = 'none';
-
-/* --- Initialize language (must be last) --- */
+function buildMuniNav(){var letters='ABCDEFGHIJLMNOPQRSTUVWY'.split('');var ml={};MUNIS.forEach(function(m){ml[m[0]]=true;});var nav=document.getElementById('muniLetterNav');if(!nav)return;nav.innerHTML=letters.map(function(l){var has=ml[l];return '<button class="muni-letter-btn'+(has?'':' empty')+'" data-letter="'+l+'" onclick="filterByLetter(\''+l+'\')">'+l+'</button>';}).join('');}
+function renderMuniGroups(fl){var grid=document.getElementById('muniGrid');if(!grid)return;var g={};MUNIS.forEach(function(m){var l=m[0];if(!g[l])g[l]=[];g[l].push(m);});var letters=Object.keys(g).sort();grid.innerHTML=letters.map(function(l){if(fl&&l!==fl)return '';var cards=g[l].map(function(m){return '<a href="laruta.html?muni='+encodeURIComponent(m)+'" class="muni-card-link">'+m+'</a>';}).join('');return '<div class="muni-group'+(fl===l?' active':'')+'" data-letter="'+l+'"><div class="muni-group-label">'+l+'</div><div class="muni-group-grid">'+cards+'</div></div>';}).join('');}
+function filterByLetter(l){var grid=document.getElementById('muniGrid');if(activeLetter===l){activeLetter=null;document.querySelectorAll('.muni-letter-btn').forEach(function(b){b.classList.remove('active');});grid.style.display='none';return;}activeLetter=l;grid.style.display='block';document.querySelectorAll('.muni-letter-btn').forEach(function(b){b.classList.toggle('active',b.dataset.letter===l);});renderMuniGroups(l);}
+buildMuniNav();renderMuniGroups(null);document.getElementById('muniGrid').style.display='none';
 setLang('en');
-
-/* --- Start La Voz: button tap reveals chat + adds welcome with LISTEN --- */
-function startLaVoz() {
-  document.getElementById('chatStartWrap').style.display = 'none';
-  document.getElementById('chatContainer').classList.remove('chat-hidden');
-  document.getElementById('chatInput').focus();
-
-  var welcomeEN = "Welcome to La Voz PR \u2014 Puerto Rico's voice guide. I'm La Voz. You can ask me anything about this island \u2014 Act 60 tax incentives, any of the 78 municipalities, where to eat, where to live, the best beaches, the real culture. Just type your question below and I'll answer. And if you want to hear my voice on any response, tap the Listen button. What do you want to know?";
-  var welcomeES = "Bienvenido a La Voz PR \u2014 la gu\u00eda de voz de Puerto Rico. Soy La Voz. Puedes preguntarme lo que quieras sobre esta isla \u2014 incentivos de la Ley 60, cualquiera de los 78 municipios, d\u00f3nde comer, d\u00f3nde vivir, las mejores playas, la cultura real. Escribe tu pregunta abajo y te respondo. Y si quieres escuchar mi voz, toca el bot\u00f3n Escuchar. \u00bfQu\u00e9 quieres saber?";
-  var welcomeText = lang === 'es' ? welcomeES : welcomeEN;
-
-  /* Add welcome message WITH listen button via JS */
-  addMessage('bot', welcomeText, true);
-
-  /* Auto-play welcome voice */
-  fetch(API_BASE + '/api/tts', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: welcomeText })
-  })
-  .then(function(res) {
-    if (!res.ok) throw new Error('TTS error');
-    return res.blob();
-  })
-  .then(function(blob) {
-    var url = URL.createObjectURL(blob);
-    var audio = new Audio(url);
-    currentAudio = audio;
-    audio.play();
-    audio.onended = function() {
-      currentAudio = null;
-      URL.revokeObjectURL(url);
-    };
-  })
-  .catch(function() {});
-}
+function startLaVoz(){document.getElementById('chatStartWrap').style.display='none';document.getElementById('chatContainer').classList.remove('chat-hidden');document.getElementById('chatInput').focus();var wEN="Welcome to La Voz PR \u2014 Puerto Rico's guide. I'm La Voz. You can ask me anything about this island \u2014 Act 60 tax incentives, any of the 78 municipalities, where to eat, where to live, the best beaches, the real culture. Just type your question below and I'll answer. What do you want to know?";var wES="Bienvenido a La Voz PR \u2014 la gu\u00eda de Puerto Rico. Soy La Voz. Puedes preguntarme lo que quieras sobre esta isla \u2014 incentivos de la Ley 60, cualquiera de los 78 municipios, d\u00f3nde comer, d\u00f3nde vivir, las mejores playas, la cultura real. Escribe tu pregunta abajo y te respondo. \u00bfQu\u00e9 quieres saber?";addMessage('bot',lang==='es'?wES:wEN);}
 </script>
-
 </body>
 </html>
