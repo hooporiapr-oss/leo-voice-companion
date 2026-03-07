@@ -209,15 +209,6 @@ function sendMessage(){
 }
 
 var currentAudio=null;
-var audioCache={};
-var cacheId=0;
-
-function prefetchAudio(text,id){
-  fetch(API_BASE+'/api/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
-  .then(function(r){if(!r.ok)throw new Error('TTS error');return r.blob();})
-  .then(function(blob){audioCache[id]=URL.createObjectURL(blob);})
-  .catch(function(){audioCache[id]='error';});
-}
 
 function addMessage(role,text,showListen){
   var c=document.getElementById('chatMessages');
@@ -230,44 +221,35 @@ function addMessage(role,text,showListen){
   var bubble=document.createElement('div');bubble.className='msg-bubble';bubble.textContent=text;
   content.appendChild(name);content.appendChild(bubble);
   if(showListen&&role==='bot'){
-    var id=++cacheId;
-    prefetchAudio(text,id);
     var btn=document.createElement('button');btn.className='listen-btn';
     btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');
-    btn.onclick=function(){playVoice(id,text,btn);};
+    btn.onclick=function(){playVoice(text,btn);};
     content.appendChild(btn);
   }
   msg.appendChild(avatar);msg.appendChild(content);
   c.appendChild(msg);c.scrollTop=c.scrollHeight;
 }
 
-function playVoice(id,text,btn){
+function playVoice(text,btn){
   if(currentAudio){currentAudio.pause();currentAudio=null;document.querySelectorAll('.listen-btn.playing').forEach(function(b){b.classList.remove('playing');b.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');});}
-  if(audioCache[id]&&audioCache[id]!=='error'){
-    var audio=new Audio(audioCache[id]);currentAudio=audio;
-    btn.classList.add('playing');
-    btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
-    audio.play();
-    audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
-  }else if(audioCache[id]==='error'){
-    btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);
-  }else{
-    btn.classList.add('loading');btn.innerHTML='&#9203; '+(lang==='en'?'Loading...':'Cargando...');
-    var check=setInterval(function(){
-      if(audioCache[id]&&audioCache[id]!=='error'){
-        clearInterval(check);
-        var audio=new Audio(audioCache[id]);currentAudio=audio;
-        btn.classList.remove('loading');btn.classList.add('playing');
-        btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
-        audio.play();
-        audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
-      }else if(audioCache[id]==='error'){
-        clearInterval(check);
-        btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);
-      }
-    },200);
-    setTimeout(function(){clearInterval(check);if(btn.classList.contains('loading')){btn.classList.remove('loading');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');}},30000);
-  }
+  btn.classList.add('loading');btn.innerHTML='&#9203; '+(lang==='en'?'Loading...':'Cargando...');
+  fetch(API_BASE+'/api/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
+  .then(function(r){if(!r.ok)throw new Error('TTS error');return r.blob();})
+  .then(function(blob){
+    var url=URL.createObjectURL(blob);
+    var audio=new Audio();
+    currentAudio=audio;
+    audio.oncanplaythrough=function(){
+      btn.classList.remove('loading');btn.classList.add('playing');
+      btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
+      audio.play();
+    };
+    audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;URL.revokeObjectURL(url);};
+    audio.onerror=function(){btn.classList.remove('loading');btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
+    audio.src=url;
+    audio.load();
+  })
+  .catch(function(e){console.error('TTS error:',e);btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);});
 }
 
 function showTyping(){
