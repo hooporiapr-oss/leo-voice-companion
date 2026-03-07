@@ -237,19 +237,14 @@ function playVoice(text,btn){
   .then(function(r){if(!r.ok)throw new Error('TTS error');return r.blob();})
   .then(function(blob){
     var url=URL.createObjectURL(blob);
-    var audio=new Audio();
+    var audio=new Audio(url);
     currentAudio=audio;
-    audio.oncanplaythrough=function(){
-      btn.classList.remove('loading');btn.classList.add('playing');
-      btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
-      audio.play();
-    };
+    btn.classList.remove('loading');btn.classList.add('playing');
+    btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
+    audio.play();
     audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;URL.revokeObjectURL(url);};
-    audio.onerror=function(){btn.classList.remove('loading');btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
-    audio.src=url;
-    audio.load();
   })
-  .catch(function(e){console.error('TTS error:',e);btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);});
+  .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);});
 }
 
 function showTyping(){
