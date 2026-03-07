@@ -209,6 +209,15 @@ function sendMessage(){
 }
 
 var currentAudio=null;
+var audioCache={};
+var cacheId=0;
+
+function prefetchAudio(text,id){
+  fetch(API_BASE+'/api/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
+  .then(function(r){if(!r.ok)throw new Error('TTS error');return r.blob();})
+  .then(function(blob){audioCache[id]=URL.createObjectURL(blob);})
+  .catch(function(){audioCache[id]='error';});
+}
 
 function addMessage(role,text,showListen){
   var c=document.getElementById('chatMessages');
@@ -221,68 +230,44 @@ function addMessage(role,text,showListen){
   var bubble=document.createElement('div');bubble.className='msg-bubble';bubble.textContent=text;
   content.appendChild(name);content.appendChild(bubble);
   if(showListen&&role==='bot'){
+    var id=++cacheId;
+    prefetchAudio(text,id);
     var btn=document.createElement('button');btn.className='listen-btn';
     btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');
-    btn.onclick=function(){playVoice(text,btn);};
+    btn.onclick=function(){playVoice(id,text,btn);};
     content.appendChild(btn);
   }
   msg.appendChild(avatar);msg.appendChild(content);
   c.appendChild(msg);c.scrollTop=c.scrollHeight;
 }
 
-function playVoice(text,btn){
+function playVoice(id,text,btn){
   if(currentAudio){currentAudio.pause();currentAudio=null;document.querySelectorAll('.listen-btn.playing').forEach(function(b){b.classList.remove('playing');b.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');});}
-  btn.classList.add('loading');btn.innerHTML='&#9203; '+(lang==='en'?'Loading...':'Cargando...');
-  fetch(API_BASE+'/api/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
-  .then(function(r){
-    if(!r.ok)throw new Error('TTS error');
-    var mediaSource=null;
-    // Try MediaSource streaming for instant playback
-    if(window.MediaSource&&MediaSource.isTypeSupported('audio/mpeg')){
-      mediaSource=new MediaSource();
-      var audio=new Audio();
-      audio.src=URL.createObjectURL(mediaSource);
-      currentAudio=audio;
-      mediaSource.addEventListener('sourceopen',function(){
-        var sourceBuffer=mediaSource.addSourceBuffer('audio/mpeg');
-        var reader=r.body.getReader();
-        var started=false;
-        function pump(){
-          reader.read().then(function(result){
-            if(result.done){
-              if(mediaSource.readyState==='open')mediaSource.endOfStream();
-              return;
-            }
-            if(sourceBuffer.updating){
-              sourceBuffer.addEventListener('updateend',function once(){sourceBuffer.removeEventListener('updateend',once);try{sourceBuffer.appendBuffer(result.value);}catch(e){}pump();});
-            }else{
-              try{sourceBuffer.appendBuffer(result.value);}catch(e){}
-              pump();
-            }
-            if(!started){
-              started=true;
-              btn.classList.remove('loading');btn.classList.add('playing');
-              btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
-              audio.play().catch(function(){});
-            }
-          });
-        }
-        pump();
-      });
-      audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
-      audio.onerror=function(){btn.classList.remove('loading');btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
-    }else{
-      // Fallback for Safari — use blob method but with faster handling
-      return r.blob().then(function(blob){
-        var url=URL.createObjectURL(blob);var audio=new Audio(url);currentAudio=audio;
+  if(audioCache[id]&&audioCache[id]!=='error'){
+    var audio=new Audio(audioCache[id]);currentAudio=audio;
+    btn.classList.add('playing');
+    btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
+    audio.play();
+    audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
+  }else if(audioCache[id]==='error'){
+    btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);
+  }else{
+    btn.classList.add('loading');btn.innerHTML='&#9203; '+(lang==='en'?'Loading...':'Cargando...');
+    var check=setInterval(function(){
+      if(audioCache[id]&&audioCache[id]!=='error'){
+        clearInterval(check);
+        var audio=new Audio(audioCache[id]);currentAudio=audio;
         btn.classList.remove('loading');btn.classList.add('playing');
         btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
         audio.play();
-        audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;URL.revokeObjectURL(url);};
-      });
-    }
-  })
-  .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);});
+        audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
+      }else if(audioCache[id]==='error'){
+        clearInterval(check);
+        btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);
+      }
+    },200);
+    setTimeout(function(){clearInterval(check);if(btn.classList.contains('loading')){btn.classList.remove('loading');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');}},30000);
+  }
 }
 
 function showTyping(){
