@@ -47,10 +47,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-we
 .top-center{display:flex;flex-direction:column;align-items:center}
 .top-title{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:700;color:var(--text);letter-spacing:-.02em}
 .top-sub{font-size:.65rem;color:var(--teal);font-weight:600;letter-spacing:.5px;text-transform:uppercase}
-.lang-toggle{display:flex;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
-.lang-btn{padding:5px 10px;font-size:.7rem;font-weight:600;letter-spacing:.5px;background:transparent;color:var(--text3);border:none;cursor:pointer;transition:all .2s}
-.lang-btn.active{background:var(--accent-light);color:var(--accent)}
-.en,.es{display:none}.en.show,.es.show{display:inline}
+
 
 .muni-chip{display:none;margin:0 auto;padding:6px 16px;background:var(--accent-light);border:1px solid rgba(196,93,44,.15);border-radius:var(--radius-pill);font-size:.72rem;font-weight:600;color:var(--accent);text-align:center}
 .muni-chip.show{display:inline-block}
@@ -148,18 +145,15 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-we
 <div class="app">
   <div class="chat-bg"></div>
   <div class="top-bar">
-    <a href="index.html" class="back-link">&#8592; <span class="en show">Home</span><span class="es">Inicio</span></a>
+    <a href="index.html" class="back-link">&#8592; Home</a>
     <div class="top-center">
       <div class="top-title">La Ruta™</div>
-      <div class="top-sub"><span class="en show">Talk with us from La Cordillera</span><span class="es">Habla con nosotros desde La Cordillera</span></div>
+      <div class="top-sub">Talk with us from La Cordillera</div>
     </div>
-    <div class="lang-toggle">
-      <button class="lang-btn active" id="btnEN" onclick="setLang('en')">EN</button>
-      <button class="lang-btn" id="btnES" onclick="setLang('es')">ES</button>
-    </div>
+    <div style="width:50px"></div>
   </div>
   <div class="safari-tip" id="safariTip">
-    <span class="en show">📱 For the best experience on mobile, use Safari</span><span class="es">📱 Para la mejor experiencia en m&oacute;vil, usa Safari</span>
+    📱 Best experience on mobile Safari
     <button onclick="document.getElementById('safariTip').style.display='none'" style="background:none;border:none;color:inherit;font-size:1rem;cursor:pointer;padding:0 0 0 8px;opacity:.6">&times;</button>
   </div>
   <div style="text-align:center;padding:12px 0 0"><div class="muni-chip" id="muniChip"></div></div>
@@ -176,36 +170,34 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);-we
   </div>
 </div>
 <script>
-var lang='en',API_BASE='https://lavozpr-api.onrender.com',chatHistory=[],muniParam=null;
+var API_BASE='https://lavozpr-api.onrender.com',chatHistory=[],muniParam=null;
 var urlParams=new URLSearchParams(window.location.search);muniParam=urlParams.get('muni');
 
 function initPage(){
-  var wEN,wES;
+  var w;
   if(muniParam){
     var chip=document.getElementById('muniChip');chip.textContent=muniParam+', Puerto Rico';chip.classList.add('show');
-    wEN="Welcome! I'm La Voz. You've selected "+muniParam+", Puerto Rico. I know this town inside and out \u2014 the history, the food, the beaches, the culture, everything. What do you want to know about "+muniParam+"?";
-    wES="\u00a1Bienvenido! Soy La Voz. Seleccionaste "+muniParam+", Puerto Rico. Conozco este pueblo a fondo \u2014 la historia, la comida, las playas, la cultura, todo. \u00bfQu\u00e9 quieres saber sobre "+muniParam+"?";
+    w="Wepa! Welcome to La Ruta\u2122! I'm La Voz \u2014 tu gu\u00eda for "+muniParam+", Puerto Rico. I know this pueblo inside and out \u2014 la historia, the food, las playas, the culture, todo. What do you want to know about "+muniParam+"?";
   }else{
-    wEN="Welcome to La Ruta\u2122! I'm La Voz \u2014 your guide to all 78 municipalities of Puerto Rico. Ask me anything about this island. History, food, beaches, culture, where to live \u2014 I know it all. What do you want to explore?";
-    wES="\u00a1Bienvenido a La Ruta\u2122! Soy La Voz \u2014 tu gu\u00eda de los 78 municipios de Puerto Rico. Preg\u00fantame lo que quieras. Historia, comida, playas, cultura, d\u00f3nde vivir \u2014 lo s\u00e9 todo. \u00bfQu\u00e9 quieres explorar?";
+    w="Wepa! Welcome to La Ruta\u2122! I'm La Voz \u2014 tu gu\u00eda to all 78 municipios of Puerto Rico. Ask me anything about esta isla \u2014 history, comida, beaches, cultura, where to live \u2014 lo s\u00e9 todo. What do you want to explore?";
   }
-  addMessage('bot',lang==='es'?wES:wEN);
+  addMessage('bot',w);
 }
 
 function sendMessage(){
   var input=document.getElementById('chatInput'),text=input.value.trim();if(!text)return;
   addMessage('user',text);input.value='';chatHistory.push({role:'user',content:text});
   var typing=showTyping();document.getElementById('chatSend').disabled=true;
-  fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory,municipality:muniParam,lang:lang})})
+  fetch(API_BASE+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:chatHistory,municipality:muniParam})})
   .then(function(r){return r.json();})
   .then(function(d){
     removeTyping(typing);
     var reply=d.reply||(d.content&&d.content[0]&&d.content[0].text)||null;
     if(reply){addMessage('bot',reply,true);chatHistory.push({role:'assistant',content:reply});}
-    else{addMessage('bot',lang==='en'?'Sorry, I had trouble with that. Try again.':'Disculpa, tuve un problema. Intenta de nuevo.');}
+    else{addMessage('bot','Ay bendito, I had trouble with that. Try again!');}
     document.getElementById('chatSend').disabled=false;
   })
-  .catch(function(){removeTyping(typing);addMessage('bot',lang==='en'?'Connection error. Please try again.':'Error de conexi\u00f3n. Intenta de nuevo.');document.getElementById('chatSend').disabled=false;});
+  .catch(function(){removeTyping(typing);addMessage('bot','Connection error. Intenta de nuevo!');document.getElementById('chatSend').disabled=false;});
 }
 
 var currentAudio=null;
@@ -214,15 +206,15 @@ function addMessage(role,text,showListen){
   var c=document.getElementById('chatMessages');
   var msg=document.createElement('div');msg.className='msg '+role;
   var avatar=document.createElement('div');avatar.className='msg-avatar';
-  avatar.textContent=role==='user'?(lang==='en'?'Y':'T'):'LV';
+  avatar.textContent=role==='user'?('Y'):'LV';
   var content=document.createElement('div');content.className='msg-content';
   var name=document.createElement('div');name.className='msg-name';
-  name.textContent=role==='user'?(lang==='en'?'You':'T\u00fa'):'La Voz';
+  name.textContent=role==='user'?('You'):'La Voz';
   var bubble=document.createElement('div');bubble.className='msg-bubble';bubble.textContent=text;
   content.appendChild(name);content.appendChild(bubble);
   if(showListen&&role==='bot'){
     var btn=document.createElement('button');btn.className='listen-btn';
-    btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');
+    btn.innerHTML='&#128264; '+('Listen / Escuchar');
     btn.onclick=function(){playVoice(text,btn);};
     content.appendChild(btn);
   }
@@ -231,7 +223,7 @@ function addMessage(role,text,showListen){
 }
 
 function playVoice(text,btn){
-  if(currentAudio){currentAudio.pause();currentAudio=null;document.querySelectorAll('.listen-btn.playing').forEach(function(b){b.classList.remove('playing');b.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');});}
+  if(currentAudio){currentAudio.pause();currentAudio=null;document.querySelectorAll('.listen-btn.playing').forEach(function(b){b.classList.remove('playing');b.innerHTML='&#128264; '+('Listen / Escuchar');});}
   
   // Warm up audio at tap time for Safari
   var audio=new Audio();
@@ -240,7 +232,7 @@ function playVoice(text,btn){
   try{var ctx=new(window.AudioContext||window.webkitAudioContext)();ctx.resume();var src=ctx.createMediaElementSource(audio);src.connect(ctx.destination);}catch(e){}
   currentAudio=audio;
   
-  btn.classList.add('loading');btn.innerHTML='&#9203; '+(lang==='en'?'Loading...':'Cargando...');
+  btn.classList.add('loading');btn.innerHTML='&#9203; '+('Loading...');
   fetch(API_BASE+'/api/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
   .then(function(r){if(!r.ok)throw new Error('TTS error');return r.blob();})
   .then(function(blob){
@@ -248,14 +240,14 @@ function playVoice(text,btn){
     audio.src=url;
     audio.onloadeddata=function(){
       btn.classList.remove('loading');btn.classList.add('playing');
-      btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
+      btn.innerHTML='&#128264; '+('Playing...');
       audio.play();
     };
-    audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;URL.revokeObjectURL(url);};
-    audio.onerror=function(){btn.classList.remove('loading');btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
+    audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+('Listen / Escuchar');currentAudio=null;URL.revokeObjectURL(url);};
+    audio.onerror=function(){btn.classList.remove('loading');btn.classList.remove('playing');btn.innerHTML='&#128264; '+('Listen / Escuchar');currentAudio=null;};
     audio.load();
   })
-  .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);currentAudio=null;});
+  .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+('Listen / Escuchar');},2000);currentAudio=null;});
 }
 
 function showTyping(){
@@ -281,33 +273,25 @@ function toggleMic(){
     mediaRecorder.onstop=function(){
       stream.getTracks().forEach(function(t){t.stop();});
       mic.classList.remove('listening');isRecording=false;
-      if(audioChunks.length===0){input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';return;}
+      if(audioChunks.length===0){input.placeholder='Ask La Voz anything...';return;}
       var blob=new Blob(audioChunks,{type:mediaRecorder.mimeType});
-      input.placeholder=lang==='en'?'Transcribing...':'Transcribiendo...';input.value='';
-      var fd=new FormData();fd.append('audio',blob,'audio.webm');fd.append('lang',lang);
+      input.placeholder='Transcribing...';input.value='';
+      var fd=new FormData();fd.append('audio',blob,'audio.webm');
       fetch(API_BASE+'/api/transcribe',{method:'POST',body:fd})
       .then(function(r){return r.json();})
-      .then(function(d){input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';if(d.text&&d.text.trim()){input.value=d.text.trim();sendMessage();}})
-      .catch(function(){input.placeholder=lang==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';input.value='';});
+      .then(function(d){input.placeholder='Ask La Voz anything...';if(d.text&&d.text.trim()){input.value=d.text.trim();sendMessage();}})
+      .catch(function(){input.placeholder='Ask La Voz anything...';input.value='';});
     };
     mediaRecorder.start();mic.classList.add('listening');
-    input.placeholder=lang==='en'?'Listening... tap mic to stop':'Escuchando... toca el mic para parar';
+    input.placeholder='Listening... tap to stop';
     isRecording=true;
     setTimeout(function(){if(isRecording&&mediaRecorder&&mediaRecorder.state==='recording'){mediaRecorder.stop();}},30000);
-  }).catch(function(){alert(lang==='en'?'Microphone access denied.':'Acceso al micr\u00f3fono denegado.');});
+  }).catch(function(){alert('Microphone access denied.');});
 }
 
 document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
 
-function setLang(l){
-  lang=l;document.getElementById('btnEN').classList.toggle('active',l==='en');document.getElementById('btnES').classList.toggle('active',l==='es');
-  document.querySelectorAll('.en').forEach(function(e){e.classList.toggle('show',l==='en');});
-  document.querySelectorAll('.es').forEach(function(e){e.classList.toggle('show',l==='es');});
-  document.getElementById('chatInput').placeholder=l==='en'?'Ask La Voz anything...':'Pregunta lo que quieras...';
-  if(chatHistory.length===0){document.getElementById('chatMessages').innerHTML='';initPage();}
-}
-
-setLang('en');
+initPage();
 </script>
 </body>
 </html>
