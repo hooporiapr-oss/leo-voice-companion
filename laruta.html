@@ -232,23 +232,30 @@ function addMessage(role,text,showListen){
 
 function playVoice(text,btn){
   if(currentAudio){currentAudio.pause();currentAudio=null;document.querySelectorAll('.listen-btn.playing').forEach(function(b){b.classList.remove('playing');b.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');});}
+  
+  // Warm up audio at tap time for Safari
+  var audio=new Audio();
+  audio.setAttribute('playsinline','');
+  // Create silent audio context to unlock Safari audio
+  try{var ctx=new(window.AudioContext||window.webkitAudioContext)();ctx.resume();var src=ctx.createMediaElementSource(audio);src.connect(ctx.destination);}catch(e){}
+  currentAudio=audio;
+  
   btn.classList.add('loading');btn.innerHTML='&#9203; '+(lang==='en'?'Loading...':'Cargando...');
   fetch(API_BASE+'/api/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
   .then(function(r){if(!r.ok)throw new Error('TTS error');return r.blob();})
   .then(function(blob){
     var url=URL.createObjectURL(blob);
-    var audio=new Audio(url);
-    currentAudio=audio;
-    btn.classList.remove('loading');btn.classList.add('playing');
-    btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
-    function resetBtn(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;}
-    audio.onended=resetBtn;
-    audio.onerror=resetBtn;
-    audio.play();
-    var ck=setInterval(function(){if(!audio||audio.paused||audio.ended){clearInterval(ck);resetBtn();}},1000);
-    setTimeout(function(){clearInterval(ck);if(btn.classList.contains('playing'))resetBtn();},120000);
+    audio.src=url;
+    audio.onloadeddata=function(){
+      btn.classList.remove('loading');btn.classList.add('playing');
+      btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
+      audio.play();
+    };
+    audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;URL.revokeObjectURL(url);};
+    audio.onerror=function(){btn.classList.remove('loading');btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;};
+    audio.load();
   })
-  .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);});
+  .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);currentAudio=null;});
 }
 
 function showTyping(){
