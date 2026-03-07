@@ -241,8 +241,12 @@ function playVoice(text,btn){
     currentAudio=audio;
     btn.classList.remove('loading');btn.classList.add('playing');
     btn.innerHTML='&#128264; '+(lang==='en'?'Playing...':'Reproduciendo...');
+    function resetBtn(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;}
+    audio.onended=resetBtn;
+    audio.onerror=resetBtn;
     audio.play();
-    audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');currentAudio=null;URL.revokeObjectURL(url);};
+    var ck=setInterval(function(){if(!audio||audio.paused||audio.ended){clearInterval(ck);resetBtn();}},1000);
+    setTimeout(function(){clearInterval(ck);if(btn.classList.contains('playing'))resetBtn();},120000);
   })
   .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; '+(lang==='en'?'Listen':'Escuchar');},2000);});
 }
