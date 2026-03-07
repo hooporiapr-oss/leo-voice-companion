@@ -200,7 +200,9 @@ function sendMessage(){
   .catch(function(){removeTyping(typing);addMessage('bot','Connection error. Intenta de nuevo!');document.getElementById('chatSend').disabled=false;});
 }
 
-var currentAudio=null;
+var currentAudio=document.createElement('audio');
+currentAudio.volume=1.0;
+var currentBtn=null;
 
 function addMessage(role,text,showListen){
   var c=document.getElementById('chatMessages');
@@ -214,7 +216,7 @@ function addMessage(role,text,showListen){
   content.appendChild(name);content.appendChild(bubble);
   if(showListen&&role==='bot'){
     var btn=document.createElement('button');btn.className='listen-btn';
-    btn.innerHTML='&#128264; '+('Listen / Escuchar');
+    btn.innerHTML='&#128264; Listen / Escuchar';
     btn.onclick=function(){playVoice(text,btn);};
     content.appendChild(btn);
   }
@@ -223,25 +225,25 @@ function addMessage(role,text,showListen){
 }
 
 function playVoice(text,btn){
-  if(currentAudio){currentAudio.pause();currentAudio=null;}
-  document.querySelectorAll('.listen-btn.playing').forEach(function(b){b.classList.remove('playing');b.innerHTML='&#128264; Listen / Escuchar';});
+  currentAudio.pause();
+  currentAudio.removeAttribute('src');
+  if(currentBtn){currentBtn.classList.remove('playing','loading');currentBtn.innerHTML='&#128264; Listen / Escuchar';}
+  currentBtn=btn;
   btn.classList.add('loading');btn.innerHTML='&#9203; Loading...';
   fetch(API_BASE+'/api/tts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:text})})
   .then(function(r){if(!r.ok)throw new Error('TTS error');return r.blob();})
   .then(function(blob){
     var url=URL.createObjectURL(blob);
-    var audio=new Audio(url);
-    audio.volume=1.0;
-    audio.oncanplay=function(){audio.volume=1.0;};
-    audio.ontimeupdate=function(){if(audio.volume<1.0)audio.volume=1.0;};
-    currentAudio=audio;
+    currentAudio.src=url;
+    currentAudio.volume=1.0;
+    currentAudio.load();
     btn.classList.remove('loading');btn.classList.add('playing');
     btn.innerHTML='&#128264; Playing...';
-    audio.play();
-    audio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; Listen / Escuchar';currentAudio=null;URL.revokeObjectURL(url);};
-    audio.onerror=function(){btn.classList.remove('loading');btn.classList.remove('playing');btn.innerHTML='&#128264; Listen / Escuchar';currentAudio=null;};
+    currentAudio.play();
+    currentAudio.onended=function(){btn.classList.remove('playing');btn.innerHTML='&#128264; Listen / Escuchar';currentBtn=null;URL.revokeObjectURL(url);};
+    currentAudio.onerror=function(){btn.classList.remove('loading','playing');btn.innerHTML='&#128264; Listen / Escuchar';currentBtn=null;};
   })
-  .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; Listen / Escuchar';},2000);currentAudio=null;});
+  .catch(function(){btn.classList.remove('loading');btn.innerHTML='&#10060; Error';setTimeout(function(){btn.innerHTML='&#128264; Listen / Escuchar';},2000);currentBtn=null;});
 }
 
 function showTyping(){
